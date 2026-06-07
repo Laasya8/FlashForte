@@ -65,7 +65,7 @@ function PortalVideo({ children }) {
 
   return (
     <div 
-      className="relative flex items-center justify-center aspect-square mx-auto my-0 md:my-4 w-full max-w-[clamp(340px,85vw,600px)] lg:max-w-none lg:w-[120%]"
+      className="relative flex items-center justify-center aspect-square mx-auto my-0 md:my-4 w-full max-w-[clamp(340px,85vw,600px)] lg:max-w-none lg:w-full"
     >
       {/* Outer Glow effects blending into background */}
       <div
@@ -123,61 +123,65 @@ function PortalVideo({ children }) {
 export function HeroPage() {
   return (
     <div
-      className="relative w-full flex flex-col min-h-screen"
+      className="relative w-full max-w-[100vw] overflow-x-hidden flex flex-col min-h-[100dvh]"
       style={{
-        background:
-          "radial-gradient(ellipse 120% 60% at 50% 0%, #0B1120 0%, #050816 45%, #030712 100%)",
         fontFamily: "'Inter', sans-serif",
       }}
     >
+      <div 
+        className="fixed inset-0 overflow-hidden pointer-events-none -z-10" 
+        style={{
+          background: "radial-gradient(ellipse 120% 60% at 50% 0%, #0B1120 0%, #050816 45%, #030712 100%)",
+        }} 
+      />
       <StarField />
 
-      {/* Planet upper-right decoration */}
-      <div
-        style={{
-          position: "absolute",
-          top: "-30px",
-          right: "-60px",
-          width: "210px",
-          height: "210px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle at 35% 35%, #0B1120 0%, #050816 50%, #030712 100%)",
-          boxShadow: "0 0 50px rgba(143,107,255,0.15)", // Subtle purple glow
-          opacity: 0.6,
-          pointerEvents: "none",
-        }}
-      />
-      {/* Small planet left */}
-      <div
-        style={{
-          position: "absolute",
-          top: "35%",
-          left: "-20px",
-          width: "70px",
-          height: "70px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle at 40% 40%, #0B1120 0%, #030712 100%)",
-          boxShadow: "0 0 20px rgba(66,183,255,0.1)", // Subtle blue glow
-          opacity: 0.4,
-          pointerEvents: "none",
-        }}
-      />
-      
-      {/* Additional ambient depth layer */}
-      <div 
-        style={{
-          position: "absolute",
-          bottom: "-10%",
-          left: "20%",
-          width: "60vw",
-          height: "40vh",
-          background: "radial-gradient(ellipse at center, rgba(143,107,255,0.03) 0%, transparent 70%)",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
+      {/* Background decorations wrapper to prevent overflow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Planet upper-right decoration */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-30px",
+            right: "-60px",
+            width: "160px",
+            height: "160px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle at 35% 35%, #0B1120 0%, #050816 50%, #030712 100%)",
+            boxShadow: "0 0 50px rgba(143,107,255,0.15)", // Subtle purple glow
+            opacity: 0.6,
+          }}
+        />
+        {/* Small planet left */}
+        <div
+          style={{
+            position: "absolute",
+            top: "35%",
+            left: "-20px",
+            width: "70px",
+            height: "70px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle at 40% 40%, #0B1120 0%, #030712 100%)",
+            boxShadow: "0 0 20px rgba(66,183,255,0.1)", // Subtle blue glow
+            opacity: 0.4,
+          }}
+        />
+        
+        {/* Additional ambient depth layer */}
+        <div 
+          style={{
+            position: "absolute",
+            bottom: "-10%",
+            left: "20%",
+            width: "60vw",
+            height: "40vh",
+            background: "radial-gradient(ellipse at center, rgba(143,107,255,0.03) 0%, transparent 70%)",
+            zIndex: 0,
+          }}
+        />
+      </div>
 
 
       {/* ── Hero Body ───────────────────────────────────────── */}

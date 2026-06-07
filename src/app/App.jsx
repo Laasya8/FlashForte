@@ -9,9 +9,9 @@ import { Navbar } from "./components/Navbar.jsx";
 
 export default function App() {
   return (
-    <div className="min-h-screen w-full bg-[#050816] flex flex-col">
+    <div className="min-h-[100dvh] w-full max-w-[100vw] overflow-x-hidden bg-[#050816] flex flex-col relative">
       <Navbar />
-      <div className="flex-1 w-full relative">
+      <div className="flex-1 w-full max-w-[100vw] overflow-x-hidden relative">
         <Routes>
           <Route path="/" element={<HeroPage />} />
           <Route path="/registration-test" element={<RegistrationTestPage />} />

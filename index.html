@@ -5,14 +5,33 @@
 
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/csilogo.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>FlashForte 2k26</title>
   <meta name="description"
     content="This web application offers a responsive hero page design optimized for mobile users, enhancing user engagement and experience for businesses and brands." />
   <meta name="robots" content="noindex, nofollow" />
   <style>
+    html,
     body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      min-height: 100dvh;
+    }
+
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+    
+    #root {
+      width: 100%;
+      max-width: 100vw;
       overflow-x: hidden;
     }
   </style>
