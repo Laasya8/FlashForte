@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 
 export function RegistrationFormEmbed() {
   const [loadCount, setLoadCount] = useState(0);
@@ -78,20 +78,29 @@ export function RegistrationFormEmbed() {
           width: "100%",
           borderRadius: "8px",
           background: "transparent",
+          position: "relative",
         }}
       >
+        {loadCount === 0 && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-10" style={{ minHeight: "100vh" }}>
+            <Loader2 className="w-12 h-12 text-[#42B7FF] animate-spin mb-4" />
+            <p className="text-[#C8D3F5] font-medium animate-pulse" style={{ fontFamily: "'Orbitron', 'Inter', sans-serif" }}>
+              Loading Form...
+            </p>
+          </div>
+        )}
         {/* Replace the src with your actual Google Form Embed URL */}
         <iframe
           onLoad={handleIframeLoad}
           src="https://docs.google.com/forms/d/e/1FAIpQLSc1XjIFlHs-UnHzQ4pf_Gt98oJmY_hg3mdTZAYGPaVnOJ2_CQ/viewform?embedded=true"
           width="100%"
-          height="4500"
+          height="100%"
           frameBorder="0"
           marginHeight="0"
           marginWidth="0"
           title="Registration Form"
-          scrolling="no"
-          style={{ border: "none", display: "block" }}
+          scrolling="auto"
+          style={{ border: "none", display: "block", minHeight: "100vh" }}
         >
           Loading…
         </iframe>

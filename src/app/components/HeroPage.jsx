@@ -59,12 +59,12 @@ function PortalVideo({ children }) {
 
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.playbackRate = 0.5;
+      videoRef.current.playbackRate = 0.6;
     }
   }, []);
 
   return (
-    <div 
+    <div
       className="relative flex items-center justify-center aspect-square mx-auto my-0 md:my-4 w-full max-w-[clamp(340px,85vw,600px)] lg:max-w-none lg:w-full"
     >
       {/* Outer Glow effects blending into background */}
@@ -92,7 +92,7 @@ function PortalVideo({ children }) {
       />
       <video
         ref={videoRef}
-        src="/Portal Animation.mp4"
+        src="/Portal Animation.webm"
         autoPlay
         muted
         loop
@@ -110,7 +110,7 @@ function PortalVideo({ children }) {
         }}
       />
       {/* Overlay container so you can put a logo in the portal later */}
-      <div 
+      <div
         className="relative z-10 flex items-center justify-center"
         style={{ width: "100%", height: "100%" }}
       >
@@ -128,11 +128,11 @@ export function HeroPage() {
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      <div 
-        className="fixed inset-0 overflow-hidden pointer-events-none -z-10" 
+      <div
+        className="fixed inset-0 overflow-hidden pointer-events-none -z-10"
         style={{
           background: "radial-gradient(ellipse 120% 60% at 50% 0%, #0B1120 0%, #050816 45%, #030712 100%)",
-        }} 
+        }}
       />
       <StarField />
 
@@ -168,9 +168,9 @@ export function HeroPage() {
             opacity: 0.4,
           }}
         />
-        
+
         {/* Additional ambient depth layer */}
-        <div 
+        <div
           style={{
             position: "absolute",
             bottom: "-10%",
@@ -186,10 +186,10 @@ export function HeroPage() {
 
       {/* ── Hero Body ───────────────────────────────────────── */}
       <div className="relative z-10 flex flex-col lg:flex-row lg:justify-between items-center lg:items-start px-5 pt-4 md:pt-8 lg:pt-6 pb-12 lg:pb-24 w-full max-w-[1400px] mx-auto">
-        
+
         {/* LEFT COLUMN */}
         <div className="contents lg:flex lg:flex-col lg:items-start lg:w-[40%] lg:max-w-[560px] text-center lg:text-left lg:pl-12">
-          
+
           {/* Center label */}
           <div
             className="order-1 flex items-center gap-1 mb-3"
