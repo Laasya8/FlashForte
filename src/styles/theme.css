@@ -179,3 +179,83 @@
     line-height: 1.5;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   Phase 2: Ambient Continuous Animations — FlashForte Hero
+   All loops use GPU-friendly properties only.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Title pulsating glow — alternates between deep purple and cyan shadows */
+@keyframes titleGlowPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 20px rgba(143, 107, 255, 0.35),
+      0 0 50px rgba(143, 107, 255, 0.15),
+      0 0 80px rgba(143, 107, 255, 0.05);
+  }
+  50% {
+    text-shadow:
+      0 0 20px rgba(63, 224, 255, 0.35),
+      0 0 50px rgba(63, 224, 255, 0.15),
+      0 0 80px rgba(63, 224, 255, 0.05);
+  }
+}
+
+/* CTA button gradient pan — 200% background slides horizontally */
+@keyframes ctaGradientPan {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Date/Time card ambient levitation — barely perceptible vertical float */
+@keyframes cardLevitate {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Divider line expand from center */
+@keyframes dividerLineExpand {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* Utility classes for ambient loops */
+.animate-title-glow {
+  animation: titleGlowPulse 6s ease-in-out infinite;
+}
+
+.animate-cta-gradient {
+  background: linear-gradient(90deg, #8F6BFF 0%, #42B7FF 25%, #3FE0FF 50%, #42B7FF 75%, #8F6BFF 100%);
+  background-size: 200% 100%;
+  animation: ctaGradientPan 8s linear infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.animate-cta-gradient:hover {
+  transform: scale(1.02);
+  box-shadow:
+    0 4px 50px rgba(66, 183, 255, 0.5),
+    0 0 60px rgba(143, 107, 255, 0.35),
+    inset 0 0 20px rgba(143, 107, 255, 0.6);
+}
+
+.animate-card-levitate {
+  animation: cardLevitate 8s ease-in-out infinite;
+}

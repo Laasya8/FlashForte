@@ -1,19 +1,45 @@
 import { Menu, ChevronRight, X } from "lucide-react";
 import { Link } from "react-router";
 import { useState } from "react";
+import { motion } from "framer-motion";
+
+/* ═══════════════════════════════════════════════════════════
+   Phase 3: Navbar Dropdown — T=1.8s
+   As the left-side components settle, the nav frames the
+   page. Drops from translateY: -100% over 1.2s with the
+   custom cubic-bezier(0.16, 1, 0.3, 1) "buttery" curve.
+   ═══════════════════════════════════════════════════════════ */
+const BUTTERY_EASE = [0.16, 1, 0.3, 1];
+
+const navbarVariants = {
+  hidden: { opacity: 0, y: "-100%" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1.2,
+      ease: BUTTERY_EASE,
+      delay: 1.8, // Phase 3 starts at T=1.8s
+    },
+  },
+};
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-      <nav
-        className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-4 w-full transition-all duration-300"
+      <motion.nav
+        className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-4 w-full"
         style={{ 
           background: "rgba(5, 8, 22, 0.75)",
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
           borderBottom: "1px solid rgba(166, 120, 255, 0.15)",
+          willChange: "transform, opacity",
         }}
+        variants={navbarVariants}
+        initial="hidden"
+        animate="visible"
       >
         {/* Left logos */}
         <div className="flex items-center gap-4">
@@ -106,6 +132,6 @@ export function Navbar() {
           <Link to="/design-a-thon" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#FFFFFF] transition-colors" style={{ textDecoration: "none" }}>Design-A-Thon</Link>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }
