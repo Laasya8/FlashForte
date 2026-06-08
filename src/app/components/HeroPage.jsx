@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { motion } from "framer-motion";
 
 /* ═══════════════════════════════════════════════════════════
-   StarField — static background stars (unchanged)
+   StarField — static background stars
    ═══════════════════════════════════════════════════════════ */
 function StarField() {
   const stableStars = [
@@ -58,7 +58,7 @@ function StarField() {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PortalVideo — right-column portal (unchanged internals)
+   PortalVideo — right-column portal
    ═══════════════════════════════════════════════════════════ */
 function PortalVideo({ children }) {
   const videoRef = useRef(null);
@@ -306,7 +306,7 @@ export function HeroPage() {
             T=0.5s start, 0.25s stagger, 1.2s per element
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
         <motion.div
-          className="contents lg:flex lg:flex-col lg:items-start lg:w-[40%] lg:max-w-[560px] text-center lg:text-left lg:pl-12"
+          className="contents lg:flex lg:flex-col lg:items-center lg:w-[40%] lg:max-w-[560px] text-center lg:pl-12"
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
@@ -315,7 +315,7 @@ export function HeroPage() {
 
           {/* ─── 1. Top Badge: CSI VNRVJIET — slideFromRight ─── */}
           <motion.div
-            className="order-1 flex items-center gap-1 mb-3"
+            className="order-1 flex justify-center items-center gap-1 mb-3 w-full"
             style={{ fontSize: "10px", color: "#C8D3F5" }}
             variants={slideFromRight}
           >
@@ -355,15 +355,11 @@ export function HeroPage() {
 
           {/* ─── 3. 2K26 Divider — lines expand, text fades ─── */}
           <motion.div
-            className="order-3 flex justify-center lg:justify-start w-full"
+            className="order-3 flex justify-center w-full"
             style={{
               fontFamily: "'Orbitron', 'Inter', sans-serif",
               fontSize: "clamp(26px, 5vw, 48px)",
               fontWeight: 900,
-              background: "linear-gradient(90deg, #8F6BFF 0%, #42B7FF 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
               letterSpacing: "0.12em",
               marginTop: "0px",
               marginBottom: "16px",
@@ -396,7 +392,17 @@ export function HeroPage() {
             </div>
 
             {/* 2K26 text */}
-            <motion.span variants={fadeIn}>2K26</motion.span>
+            <motion.span 
+              variants={fadeIn}
+              style={{
+                background: "linear-gradient(90deg, #8F6BFF 0%, #42B7FF 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              2K26
+            </motion.span>
 
             {/* Cyan line and circle on right — scaleX entrance */}
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
@@ -424,7 +430,7 @@ export function HeroPage() {
 
           {/* ─── 4. Tagline — slideUp ─── */}
           <motion.p
-            className="order-5 lg:text-left w-full mt-4 mb-2 lg:mt-6 lg:mb-4"
+            className="order-5 w-full mt-4 mb-2 lg:mt-6 lg:mb-4"
             style={{
               color: "#FFFFFF",
               fontSize: "clamp(20px, 4vw, 32px)",
@@ -449,7 +455,7 @@ export function HeroPage() {
 
           {/* ─── 5. Description Text — slideUp ─── */}
           <motion.p
-            className="order-6 lg:text-left w-full mx-auto lg:mx-0 mb-6 lg:mb-8"
+            className="order-6 w-full mx-auto mb-6 lg:mb-8"
             style={{
               color: "#C8D3F5",
               fontSize: "clamp(14px, 2vw, 17px)",
@@ -467,7 +473,7 @@ export function HeroPage() {
 
           {/* ─── 6. CTA Button — scaleUp entrance → gradient pan loop ─── */}
           <motion.div
-            className="order-7 lg:w-fit mb-6 lg:mb-8"
+            className="order-7 flex justify-center w-full mb-6 lg:mb-8"
             variants={scaleUp}
           >
             <Link
@@ -502,7 +508,7 @@ export function HeroPage() {
 
           {/* ─── 7. Date/Time Card — scaleUp entrance → levitation loop ─── */}
           <motion.div
-            className="order-8 flex w-full mx-auto lg:mx-0 lg:max-w-md justify-center lg:justify-start mt-2"
+            className="order-8 flex w-full mx-auto lg:max-w-md justify-center mt-2"
             variants={scaleUp}
           >
             <div
