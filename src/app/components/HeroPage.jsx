@@ -1,8 +1,11 @@
 import { MapPin, Wifi, Calendar } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import { Navbar } from "./Navbar.jsx";
+import { motion } from "framer-motion";
 
+/* ═══════════════════════════════════════════════════════════
+   StarField — static background stars (unchanged)
+   ═══════════════════════════════════════════════════════════ */
 function StarField() {
   const stableStars = [
     { id: 0, x: 5, y: 8, size: 1.2, opacity: 0.4 }, { id: 1, x: 15, y: 3, size: 0.8, opacity: 0.6 },
@@ -54,6 +57,9 @@ function StarField() {
   );
 }
 
+/* ═══════════════════════════════════════════════════════════
+   PortalVideo — right-column portal (unchanged internals)
+   ═══════════════════════════════════════════════════════════ */
 function PortalVideo({ children }) {
   const videoRef = useRef(null);
 
@@ -120,7 +126,115 @@ function PortalVideo({ children }) {
   );
 }
 
+/* ═══════════════════════════════════════════════════════════
+   Global Easing & Timing Constants
+   ═══════════════════════════════════════════════════════════ */
+const BUTTERY_EASE = [0.16, 1, 0.3, 1];
+const PHASE3_DURATION = 1.2; // "Buttery" prolonged fade duration
+
+/* ═══════════════════════════════════════════════════════════
+   Phase 1: Portal Fade-In — T=0s, 1.5s duration
+   Anchors the layout by appearing first.
+   ═══════════════════════════════════════════════════════════ */
+const portalVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 1.5,
+      ease: BUTTERY_EASE,
+      delay: 0, // T=0s — the very first thing
+    },
+  },
+};
+
+/* ═══════════════════════════════════════════════════════════
+   Phase 2: Left Column Stagger — T=0.5s
+   Begins while portal is still fading in, drawing the eye
+   to event details. Parent orchestrator with 0.25s stagger.
+   ═══════════════════════════════════════════════════════════ */
+const staggerContainer = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.25,  // breathing room between children
+      delayChildren: 0.5,     // Phase 2 starts at T=0.5s
+    },
+  },
+};
+
+// Badge & Title: slide-in from right (x: 20 → 0)
+const slideFromRight = {
+  hidden: { opacity: 0, x: 20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: PHASE3_DURATION,
+      ease: BUTTERY_EASE,
+    },
+  },
+};
+
+// Description + Tagline: slide-up (y: 20 → 0)
+const slideUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: PHASE3_DURATION,
+      ease: BUTTERY_EASE,
+    },
+  },
+};
+
+// CTA & Card: scale-up (0.95 → 1.0)
+const scaleUp = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: PHASE3_DURATION,
+      ease: BUTTERY_EASE,
+    },
+  },
+};
+
+// 2K26 divider: container fade-in
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: PHASE3_DURATION,
+      ease: BUTTERY_EASE,
+    },
+  },
+};
+
+// Divider lines: scaleX expansion
+const dividerLineVariant = {
+  hidden: { opacity: 0, scaleX: 0 },
+  visible: {
+    opacity: 1,
+    scaleX: 1,
+    transition: {
+      duration: PHASE3_DURATION,
+      ease: BUTTERY_EASE,
+    },
+  },
+};
+
+/* ═══════════════════════════════════════════════════════════
+   HeroPage Component
+   ═══════════════════════════════════════════════════════════ */
 export function HeroPage() {
+  // Ambient loop activation: fires once all Phase 3 children finish
+  const [entranceComplete, setEntranceComplete] = useState(false);
+
   return (
     <div
       className="relative w-full max-w-[100vw] overflow-x-hidden flex flex-col min-h-[100dvh]"
@@ -187,13 +301,23 @@ export function HeroPage() {
       {/* ── Hero Body ───────────────────────────────────────── */}
       <div className="relative z-10 flex flex-col lg:flex-row lg:justify-between items-center lg:items-start px-5 pt-4 md:pt-8 lg:pt-6 pb-12 lg:pb-24 w-full max-w-[1400px] mx-auto">
 
-        {/* LEFT COLUMN */}
-        <div className="contents lg:flex lg:flex-col lg:items-start lg:w-[40%] lg:max-w-[560px] text-center lg:text-left lg:pl-12">
+        {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            LEFT COLUMN — Phase 2: Staggered Content Reveal
+            T=0.5s start, 0.25s stagger, 1.2s per element
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+        <motion.div
+          className="contents lg:flex lg:flex-col lg:items-start lg:w-[40%] lg:max-w-[560px] text-center lg:text-left lg:pl-12"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          onAnimationComplete={() => setEntranceComplete(true)}
+        >
 
-          {/* Center label */}
-          <div
+          {/* ─── 1. Top Badge: CSI VNRVJIET — slideFromRight ─── */}
+          <motion.div
             className="order-1 flex items-center gap-1 mb-3"
             style={{ fontSize: "10px", color: "#C8D3F5" }}
+            variants={slideFromRight}
           >
             <div
               style={{
@@ -209,11 +333,11 @@ export function HeroPage() {
             <span style={{ whiteSpace: "nowrap", fontWeight: 600, letterSpacing: "0.02em", fontSize: "clamp(10px, 2vw, 12px)" }}>
               Computer Society of India, VNRVJIET
             </span>
-          </div>
+          </motion.div>
 
-          {/* FLASHFORTE */}
-          <h1
-            className="order-2"
+          {/* ─── 2. FLASHFORTE Title — slideFromRight ─── */}
+          <motion.h1
+            className={`order-2 ${entranceComplete ? "animate-title-glow" : ""}`}
             style={{
               fontFamily: "'Orbitron', 'Inter', sans-serif",
               fontSize: "clamp(38px, 7vw, 65px)",
@@ -224,12 +348,13 @@ export function HeroPage() {
               margin: 0,
               lineHeight: 1.05,
             }}
+            variants={slideFromRight}
           >
             FLASHFORTE
-          </h1>
+          </motion.h1>
 
-          {/* 2K26 */}
-          <div
+          {/* ─── 3. 2K26 Divider — lines expand, text fades ─── */}
+          <motion.div
             className="order-3 flex justify-center lg:justify-start w-full"
             style={{
               fontFamily: "'Orbitron', 'Inter', sans-serif",
@@ -245,17 +370,20 @@ export function HeroPage() {
               alignItems: "center",
               gap: "clamp(8px, 2vw, 16px)",
             }}
+            variants={fadeIn}
           >
-            {/* Violet line and circle on left */}
+            {/* Violet line and circle on left — scaleX entrance */}
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <div
+              <motion.div
                 style={{
                   width: "clamp(20px, 4vw, 50px)",
                   height: "2px",
                   background: "linear-gradient(90deg, transparent 0%, #8F6BFF 100%)",
+                  transformOrigin: "right center",
                 }}
+                variants={dividerLineVariant}
               />
-              <div
+              <motion.div
                 style={{
                   width: "clamp(6px, 1.5vw, 10px)",
                   height: "clamp(6px, 1.5vw, 10px)",
@@ -263,15 +391,16 @@ export function HeroPage() {
                   background: "#8F6BFF",
                   boxShadow: "0 0 8px rgba(143, 107, 255, 0.6)",
                 }}
+                variants={fadeIn}
               />
             </div>
 
             {/* 2K26 text */}
-            <span>2K26</span>
+            <motion.span variants={fadeIn}>2K26</motion.span>
 
-            {/* Cyan line and circle on right */}
+            {/* Cyan line and circle on right — scaleX entrance */}
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <div
+              <motion.div
                 style={{
                   width: "clamp(6px, 1.5vw, 10px)",
                   height: "clamp(6px, 1.5vw, 10px)",
@@ -279,19 +408,22 @@ export function HeroPage() {
                   background: "#3FE0FF",
                   boxShadow: "0 0 8px rgba(63, 224, 255, 0.6)",
                 }}
+                variants={fadeIn}
               />
-              <div
+              <motion.div
                 style={{
                   width: "clamp(20px, 4vw, 50px)",
                   height: "2px",
                   background: "linear-gradient(90deg, #3FE0FF 0%, transparent 100%)",
+                  transformOrigin: "left center",
                 }}
+                variants={dividerLineVariant}
               />
             </div>
-          </div>
+          </motion.div>
 
-          {/* Tagline */}
-          <p
+          {/* ─── 4. Tagline — slideUp ─── */}
+          <motion.p
             className="order-5 lg:text-left w-full mt-4 mb-2 lg:mt-6 lg:mb-4"
             style={{
               color: "#FFFFFF",
@@ -300,6 +432,7 @@ export function HeroPage() {
               lineHeight: 1.3,
               letterSpacing: "0.01em",
             }}
+            variants={slideUp}
           >
             One Event.{" "}
             <span
@@ -312,10 +445,10 @@ export function HeroPage() {
             >
               Many Realities.
             </span>
-          </p>
+          </motion.p>
 
-          {/* Description */}
-          <p
+          {/* ─── 5. Description Text — slideUp ─── */}
+          <motion.p
             className="order-6 lg:text-left w-full mx-auto lg:mx-0 mb-6 lg:mb-8"
             style={{
               color: "#C8D3F5",
@@ -323,54 +456,57 @@ export function HeroPage() {
               lineHeight: 1.6,
               maxWidth: "480px",
             }}
+            variants={slideUp}
           >
             Step into a universe of ideas, innovation,
             <br />
             games, voices, and designs.
             <br />
             Where imagination meets impact.
-          </p>
+          </motion.p>
 
-          {/* Primary CTA */}
-          <Link
-            to="/registration-test"
+          {/* ─── 6. CTA Button — scaleUp entrance → gradient pan loop ─── */}
+          <motion.div
             className="order-7 lg:w-fit mb-6 lg:mb-8"
-            style={{
-              background: "linear-gradient(90deg, #8F6BFF 0%, #42B7FF 50%, #3FE0FF 100%)",
-              color: "#FFFFFF",
-              border: "none",
-              borderRadius: "50px",
-              padding: "16px 40px",
-              fontSize: "clamp(15px, 2vw, 17px)",
-              fontWeight: 700,
-              width: "100%",
-              maxWidth: "320px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "8px",
-              cursor: "pointer",
-              boxShadow: "0 4px 30px rgba(66,183,255,0.3), inset 0 0 15px rgba(143,107,255,0.5)",
-              letterSpacing: "0.02em",
-              transition: "all 0.3s ease",
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.filter = "brightness(1.1)";
-              e.currentTarget.style.boxShadow = "0 4px 40px rgba(66,183,255,0.5), inset 0 0 20px rgba(143,107,255,0.6)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.filter = "brightness(1)";
-              e.currentTarget.style.boxShadow = "0 4px 30px rgba(66,183,255,0.3), inset 0 0 15px rgba(143,107,255,0.5)";
-            }}
+            variants={scaleUp}
           >
-            <span style={{ fontSize: "12px" }}>✦</span> Enter the Multiverse{" "}
-            <span>→</span>
-          </Link>
+            <Link
+              to="/registration-test"
+              className={entranceComplete ? "animate-cta-gradient" : ""}
+              style={{
+                background: entranceComplete
+                  ? undefined // CSS class takes over for gradient pan
+                  : "linear-gradient(90deg, #8F6BFF 0%, #42B7FF 50%, #3FE0FF 100%)",
+                color: "#FFFFFF",
+                border: "none",
+                borderRadius: "50px",
+                padding: "16px 40px",
+                fontSize: "clamp(15px, 2vw, 17px)",
+                fontWeight: 700,
+                width: "100%",
+                maxWidth: "320px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                cursor: "pointer",
+                boxShadow: "0 4px 30px rgba(66,183,255,0.3), inset 0 0 15px rgba(143,107,255,0.5)",
+                letterSpacing: "0.02em",
+                textDecoration: "none",
+              }}
+            >
+              <span style={{ fontSize: "12px" }}>✦</span> Enter the Multiverse{" "}
+              <span>→</span>
+            </Link>
+          </motion.div>
 
-          {/* Event Details */}
-          <div className="order-8 flex w-full mx-auto lg:mx-0 lg:max-w-md justify-center lg:justify-start mt-2">
+          {/* ─── 7. Date/Time Card — scaleUp entrance → levitation loop ─── */}
+          <motion.div
+            className="order-8 flex w-full mx-auto lg:mx-0 lg:max-w-md justify-center lg:justify-start mt-2"
+            variants={scaleUp}
+          >
             <div
-              className="w-full lg:w-fit mt-2 lg:mt-0"
+              className={`w-full lg:w-fit mt-2 lg:mt-0 ${entranceComplete ? "animate-card-levitate" : ""}`}
               style={{
                 background: "rgba(5, 8, 22, 0.6)",
                 border: "1px solid rgba(143, 107, 255, 0.3)",
@@ -429,13 +565,22 @@ export function HeroPage() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* RIGHT COLUMN */}
-        <div className="order-4 lg:order-none lg:w-[55%] flex justify-center lg:justify-end -mt-2 -mb-2 lg:-mt-16 lg:mb-0 w-full relative lg:translate-x-12 lg:-translate-y-8">
+        {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            RIGHT COLUMN — Phase 1: Portal Fade-In
+            T=0s, 1.5s duration — anchors the layout first
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+        <motion.div
+          className="order-4 lg:order-none lg:w-[55%] flex justify-center lg:justify-end -mt-2 -mb-2 lg:-mt-16 lg:mb-0 w-full relative lg:translate-x-12 lg:-translate-y-8"
+          variants={portalVariants}
+          initial="hidden"
+          animate="visible"
+          style={{ willChange: "opacity" }}
+        >
           <PortalVideo className="w-[115%] lg:w-[130%]" />
-        </div>
+        </motion.div>
 
       </div>
     </div>
