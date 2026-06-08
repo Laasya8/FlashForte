@@ -75,25 +75,15 @@ function PortalVideo({ children }) {
     >
       {/* Outer Glow effects blending into background */}
       <div
+        className="absolute rounded-full blur-[40px] mix-blend-screen z-0 inset-[-15%]"
         style={{
-          position: "absolute",
-          inset: "-15%",
-          borderRadius: "50%",
           background: "radial-gradient(circle at center, rgba(78, 187, 255, 0.12) 0%, rgba(166, 120, 255, 0.08) 40%, transparent 70%)",
-          filter: "blur(40px)",
-          mixBlendMode: "screen",
-          zIndex: 0,
         }}
       />
       <div
+        className="absolute inset-0 rounded-full blur-[20px] mix-blend-screen z-0"
         style={{
-          position: "absolute",
-          inset: "0%",
-          borderRadius: "50%",
           background: "radial-gradient(circle at center, rgba(166, 120, 255, 0.15) 0%, transparent 60%)",
-          filter: "blur(20px)",
-          mixBlendMode: "screen",
-          zIndex: 0,
         }}
       />
       <video
@@ -103,23 +93,14 @@ function PortalVideo({ children }) {
         muted
         loop
         playsInline
+        className="absolute inset-0 z-0 w-full h-full object-cover drop-shadow-[0_0_30px_rgba(181,141,255,0.4)]"
         style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
           WebkitMaskImage: "radial-gradient(circle at center, black 50%, transparent 75%)",
           maskImage: "radial-gradient(circle at center, black 50%, transparent 75%)",
-          filter: "drop-shadow(0 0 30px rgba(181, 141, 255, 0.4))",
         }}
       />
       {/* Overlay container so you can put a logo in the portal later */}
-      <div
-        className="relative z-10 flex items-center justify-center"
-        style={{ width: "100%", height: "100%" }}
-      >
+      <div className="relative z-10 flex items-center justify-center w-full h-full">
         {children}
       </div>
     </div>
@@ -236,18 +217,8 @@ export function HeroPage() {
   const [entranceComplete, setEntranceComplete] = useState(false);
 
   return (
-    <div
-      className="relative w-full max-w-[100vw] overflow-x-hidden flex flex-col min-h-[100dvh]"
-      style={{
-        fontFamily: "'Inter', sans-serif",
-      }}
-    >
-      <div
-        className="fixed inset-0 overflow-hidden pointer-events-none -z-10"
-        style={{
-          background: "radial-gradient(ellipse 120% 60% at 50% 0%, #0B1120 0%, #050816 45%, #030712 100%)",
-        }}
-      />
+    <div className="relative w-full max-w-[100vw] overflow-x-hidden flex flex-col min-h-[100dvh] font-inter">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-space-radial" />
       <StarField />
 
       {/* Background decorations wrapper to prevent overflow */}
@@ -315,39 +286,18 @@ export function HeroPage() {
 
           {/* ─── 1. Top Badge: CSI VNRVJIET — slideFromRight ─── */}
           <motion.div
-            className="order-1 flex justify-center items-center gap-1 mb-3 w-full"
-            style={{ fontSize: "10px", color: "#C8D3F5" }}
+            className="order-1 flex justify-center items-center gap-1 mb-3 w-full text-[10px] text-[#C8D3F5]"
             variants={slideFromRight}
           >
-            <div
-              style={{
-                width: "12px",
-                height: "12px",
-                borderRadius: "50%",
-                background: "radial-gradient(circle, #3FE0FF 0%, #050816 100%)",
-                border: "1px solid #3FE0FF",
-                boxShadow: "0 0 4px rgba(63,224,255,0.4)",
-                flexShrink: 0,
-              }}
-            />
-            <span style={{ whiteSpace: "nowrap", fontWeight: 600, letterSpacing: "0.02em", fontSize: "clamp(10px, 2vw, 12px)" }}>
+            <div className="w-[12px] h-[12px] rounded-full border border-[#3FE0FF] shrink-0 shadow-[0_0_4px_rgba(63,224,255,0.4)]" style={{ background: "radial-gradient(circle, #3FE0FF 0%, #050816 100%)" }} />
+            <span className="whitespace-nowrap font-semibold tracking-[0.02em] text-[clamp(10px,2vw,12px)]">
               Computer Society of India, VNRVJIET
             </span>
           </motion.div>
 
           {/* ─── 2. FLASHFORTE Title — slideFromRight ─── */}
           <motion.h1
-            className={`order-2 ${entranceComplete ? "animate-title-glow" : ""}`}
-            style={{
-              fontFamily: "'Orbitron', 'Inter', sans-serif",
-              fontSize: "clamp(38px, 7vw, 65px)",
-              fontWeight: 900,
-              color: "#F8FAFC",
-              letterSpacing: "0.06em",
-              textShadow: "0 0 20px rgba(66,183,255,0.4), 0 0 50px rgba(143,107,255,0.3)",
-              margin: 0,
-              lineHeight: 1.05,
-            }}
+            className={`order-2 font-orbitron text-[clamp(38px,7vw,65px)] font-black text-[#F8FAFC] tracking-[0.06em] text-glow m-0 leading-[1.05] ${entranceComplete ? "animate-title-glow" : ""}`}
             variants={slideFromRight}
           >
             FLASHFORTE
@@ -355,17 +305,7 @@ export function HeroPage() {
 
           {/* ─── 3. 2K26 Divider — lines expand, text fades ─── */}
           <motion.div
-            className="order-3 flex justify-center w-full"
-            style={{
-              fontFamily: "'Orbitron', 'Inter', sans-serif",
-              fontSize: "clamp(26px, 5vw, 48px)",
-              fontWeight: 900,
-              letterSpacing: "0.12em",
-              marginTop: "0px",
-              marginBottom: "16px",
-              alignItems: "center",
-              gap: "clamp(8px, 2vw, 16px)",
-            }}
+            className="order-3 flex justify-center items-center gap-[clamp(8px,2vw,16px)] w-full font-orbitron text-[clamp(26px,5vw,48px)] font-black tracking-[0.12em] mt-0 mb-4"
             variants={fadeIn}
           >
             {/* Violet line and circle on left — scaleX entrance */}
@@ -430,38 +370,18 @@ export function HeroPage() {
 
           {/* ─── 4. Tagline — slideUp ─── */}
           <motion.p
-            className="order-5 w-full mt-4 mb-2 lg:mt-6 lg:mb-4"
-            style={{
-              color: "#FFFFFF",
-              fontSize: "clamp(20px, 4vw, 32px)",
-              fontWeight: 800,
-              lineHeight: 1.3,
-              letterSpacing: "0.01em",
-            }}
+            className="order-5 w-full mt-4 mb-2 lg:mt-6 lg:mb-4 text-[#FFFFFF] text-[clamp(20px,4vw,32px)] font-extrabold leading-[1.3] tracking-[0.01em]"
             variants={slideUp}
           >
             One Event.{" "}
-            <span
-              style={{
-                background: "linear-gradient(90deg, #8F6BFF, #3FE0FF)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
+            <span className="bg-gradient-to-r from-[#8F6BFF] to-[#3FE0FF] bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
               Many Realities.
             </span>
           </motion.p>
 
           {/* ─── 5. Description Text — slideUp ─── */}
           <motion.p
-            className="order-6 w-full mx-auto mb-6 lg:mb-8"
-            style={{
-              color: "#C8D3F5",
-              fontSize: "clamp(14px, 2vw, 17px)",
-              lineHeight: 1.6,
-              maxWidth: "480px",
-            }}
+            className="order-6 w-full mx-auto mb-6 lg:mb-8 text-[#C8D3F5] text-[clamp(14px,2vw,17px)] leading-[1.6] max-w-[480px]"
             variants={slideUp}
           >
             Step into a universe of ideas, innovation,
@@ -478,30 +398,14 @@ export function HeroPage() {
           >
             <Link
               to="/registration-test"
-              className={entranceComplete ? "animate-cta-gradient" : ""}
+              className={`flex items-center justify-center gap-2 w-full max-w-[320px] px-10 py-4 rounded-[50px] border-none text-[#FFFFFF] text-[clamp(15px,2vw,17px)] font-bold tracking-[0.02em] cursor-pointer no-underline shadow-[0_4px_30px_rgba(66,183,255,0.3),inset_0_0_15px_rgba(143,107,255,0.5)] ${entranceComplete ? "animate-cta-gradient" : ""}`}
               style={{
                 background: entranceComplete
                   ? undefined // CSS class takes over for gradient pan
                   : "linear-gradient(90deg, #8F6BFF 0%, #42B7FF 50%, #3FE0FF 100%)",
-                color: "#FFFFFF",
-                border: "none",
-                borderRadius: "50px",
-                padding: "16px 40px",
-                fontSize: "clamp(15px, 2vw, 17px)",
-                fontWeight: 700,
-                width: "100%",
-                maxWidth: "320px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "8px",
-                cursor: "pointer",
-                boxShadow: "0 4px 30px rgba(66,183,255,0.3), inset 0 0 15px rgba(143,107,255,0.5)",
-                letterSpacing: "0.02em",
-                textDecoration: "none",
               }}
             >
-              <span style={{ fontSize: "12px" }}>✦</span> Enter the Multiverse{" "}
+              <span className="text-[12px]">✦</span> Enter the Multiverse{" "}
               <span>→</span>
             </Link>
           </motion.div>
@@ -511,40 +415,30 @@ export function HeroPage() {
             className="order-8 flex w-full mx-auto lg:max-w-md justify-center mt-2"
             variants={scaleUp}
           >
-            <div
-              className={`w-full lg:w-fit mt-2 lg:mt-0 ${entranceComplete ? "animate-card-levitate" : ""}`}
-              style={{
-                background: "rgba(5, 8, 22, 0.6)",
-                border: "1px solid rgba(143, 107, 255, 0.3)",
-                borderRadius: "16px",
-                padding: "20px 24px",
-                boxShadow: "0 0 30px rgba(143, 107, 255, 0.05)",
-                backdropFilter: "blur(12px)",
-              }}
-            >
+            <div className={`w-full lg:w-fit mt-2 lg:mt-0 glass-card px-6 py-5 rounded-[16px] ${entranceComplete ? "animate-card-levitate" : ""}`}>
               <div className="flex items-center gap-4">
                 {/* Date block */}
                 <div className="flex items-start gap-3 flex-1">
-                  <Calendar size={16} color="#8F6BFF" style={{ marginTop: "3px", flexShrink: 0 }} />
+                  <Calendar size={16} color="#8F6BFF" className="mt-[3px] shrink-0" />
                   <div>
-                    <div style={{ color: "#C8D3F5", fontSize: "10px", marginBottom: "4px" }}>
+                    <div className="text-[#C8D3F5] text-[10px] mb-1">
                       June 2026
                     </div>
                     <div className="flex items-end gap-3">
                       <div>
-                        <div style={{ color: "#F8FAFC", fontSize: "24px", fontWeight: 800, lineHeight: 1 }}>
+                        <div className="text-[#F8FAFC] text-[24px] font-extrabold leading-none">
                           26
                         </div>
-                        <div style={{ color: "#CBD5E1", fontSize: "10px", letterSpacing: "0.05em" }}>
+                        <div className="text-[#CBD5E1] text-[10px] tracking-[0.05em]">
                           FRI
                         </div>
                       </div>
-                      <div style={{ color: "#CBD5E1", fontSize: "14px", marginBottom: "6px" }}>–</div>
+                      <div className="text-[#CBD5E1] text-[14px] mb-[6px]">–</div>
                       <div>
-                        <div style={{ color: "#F8FAFC", fontSize: "24px", fontWeight: 800, lineHeight: 1 }}>
+                        <div className="text-[#F8FAFC] text-[24px] font-extrabold leading-none">
                           27
                         </div>
-                        <div style={{ color: "#CBD5E1", fontSize: "10px", letterSpacing: "0.05em" }}>
+                        <div className="text-[#CBD5E1] text-[10px] tracking-[0.05em]">
                           SAT
                         </div>
                       </div>
@@ -553,21 +447,15 @@ export function HeroPage() {
                 </div>
 
                 {/* Divider */}
-                <div
-                  style={{
-                    width: "1px",
-                    height: "52px",
-                    background: "rgba(63,224,255,0.3)",
-                    flexShrink: 0,
-                  }}
-                />
+                <div className="w-[1px] h-[52px] bg-[rgba(63,224,255,0.3)] shrink-0" />
 
                 {/* Mode + Location */}
                 <div className="flex flex-col gap-3 flex-1">
                   <div className="flex items-center gap-2">
                     <Wifi size={14} color="#3FE0FF" />
-                    <span style={{ color: "#F8FAFC", fontSize: "12px", whiteSpace: "nowrap" }}>Online</span>
+                    <span className="text-[#F8FAFC] text-[12px] whitespace-nowrap">Online</span>
                   </div>
+
                 </div>
               </div>
             </div>

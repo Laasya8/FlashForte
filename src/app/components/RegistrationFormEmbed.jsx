@@ -18,23 +18,9 @@ export function RegistrationFormEmbed() {
 
   if (isSubmitted) {
     return (
-      <div 
-        className="w-full mx-auto flex flex-col items-center justify-center p-8 md:p-16 text-center"
-        style={{
-          maxWidth: "800px",
-          background: "rgba(5, 8, 22, 0.6)",
-          border: "1px solid rgba(143, 107, 255, 0.3)",
-          borderRadius: "16px",
-          boxShadow: "0 0 30px rgba(143, 107, 255, 0.05)",
-          backdropFilter: "blur(12px)",
-          marginTop: "40px",
-        }}
-      >
+      <div className="w-full mx-auto flex flex-col items-center justify-center p-8 md:p-16 text-center max-w-[800px] glass-card mt-10">
         <CheckCircle2 size={64} color="#42B7FF" className="mb-6" />
-        <h2 
-          className="text-2xl md:text-3xl font-bold text-[#F8FAFC] mb-4" 
-          style={{ fontFamily: "'Orbitron', 'Inter', sans-serif" }}
-        >
+        <h2 className="text-2xl md:text-3xl font-bold text-[#F8FAFC] mb-4 font-orbitron">
           Registration Complete!
         </h2>
         <p className="text-[#C8D3F5] mb-8 max-w-md">
@@ -42,18 +28,7 @@ export function RegistrationFormEmbed() {
         </p>
         <Link
           to="/"
-          style={{
-            background: "linear-gradient(90deg, #8F6BFF 0%, #42B7FF 50%, #3FE0FF 100%)",
-            color: "#F8FAFC",
-            border: "none",
-            borderRadius: "50px",
-            padding: "12px 32px",
-            fontWeight: 700,
-            textDecoration: "none",
-            display: "inline-block",
-            boxShadow: "0 4px 24px rgba(66,183,255,0.4)",
-            transition: "transform 0.2s ease",
-          }}
+          className="bg-gradient-to-r from-[#8F6BFF] via-[#42B7FF] to-[#3FE0FF] text-[#F8FAFC] border-none rounded-[50px] px-8 py-3 font-bold no-underline inline-block shadow-[0_4px_24px_rgba(66,183,255,0.4)] transition-transform duration-200 hover:scale-105"
         >
           Return to Home
         </Link>
@@ -62,29 +37,12 @@ export function RegistrationFormEmbed() {
   }
 
   return (
-    <div 
-      className="w-full mx-auto"
-      style={{
-        maxWidth: "800px",
-        background: "rgba(5, 8, 22, 0.6)",
-        border: "1px solid rgba(143, 107, 255, 0.3)",
-        borderRadius: "16px",
-        boxShadow: "0 0 30px rgba(143, 107, 255, 0.05)",
-        backdropFilter: "blur(12px)",
-      }}
-    >
-      <div 
-        style={{
-          width: "100%",
-          borderRadius: "8px",
-          background: "transparent",
-          position: "relative",
-        }}
-      >
+    <div className="w-full mx-auto max-w-[800px] glass-card">
+      <div className="w-full rounded-lg bg-transparent relative">
         {loadCount === 0 && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-10" style={{ minHeight: "100vh" }}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 min-h-screen">
             <Loader2 className="w-12 h-12 text-[#42B7FF] animate-spin mb-4" />
-            <p className="text-[#C8D3F5] font-medium animate-pulse" style={{ fontFamily: "'Orbitron', 'Inter', sans-serif" }}>
+            <p className="text-[#C8D3F5] font-medium animate-pulse font-orbitron">
               Loading Form...
             </p>
           </div>
@@ -100,7 +58,7 @@ export function RegistrationFormEmbed() {
           marginWidth="0"
           title="Registration Form"
           scrolling="auto"
-          style={{ border: "none", display: "block", minHeight: "100vh" }}
+          className="border-none block min-h-screen"
         >
           Loading…
         </iframe>

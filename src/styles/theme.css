@@ -259,3 +259,56 @@
 .animate-card-levitate {
   animation: cardLevitate 8s ease-in-out infinite;
 }
+
+@layer components {
+  .bg-space-radial {
+    background: radial-gradient(ellipse 120% 60% at 50% 0%, #0B1120 0%, #050816 45%, #030712 100%);
+  }
+
+  .font-orbitron {
+    font-family: 'Orbitron', 'Inter', sans-serif;
+  }
+
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(66,183,255,0.4), 0 0 50px rgba(143,107,255,0.3);
+  }
+
+  .glass-nav {
+    background: rgba(5, 8, 22, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(166, 120, 255, 0.15);
+  }
+
+  .glass-menu {
+    background: rgba(5, 8, 22, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(166, 120, 255, 0.15);
+  }
+
+  .glass-card {
+    background: rgba(5, 8, 22, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(143, 107, 255, 0.3);
+    box-shadow: 0 0 30px rgba(143, 107, 255, 0.05);
+  }
+
+  .btn-outline-glow {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(63,224,255,0.6);
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-glow:hover {
+    background: rgba(66,183,255,0.1);
+    box-shadow: 0 0 15px rgba(66,183,255,0.4);
+  }
+}
+
