@@ -1,6 +1,6 @@
 # FlashForte 2K26
 
-![FlashForte Hero Banner](public/csilogo.png)
+<img src="public/csilogo.png" alt="FlashForte Logo" width="200" height="200">
 
 Welcome to the official web portal for **FlashForte 2K26** — a premier multi-disciplinary tech event hosted by **CSI-VNRVJIET**. Step into the multiverse and experience a fusion of technology, design, and innovation.
 
