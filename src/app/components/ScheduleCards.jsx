@@ -73,21 +73,21 @@ export function ScheduleCards() {
         {SCHEDULE_DATA.map((day) => (
           <motion.div
             key={day.day}
-            className="glass-card flex-1 w-full shrink-0 flex flex-col overflow-hidden rounded-[20px] border border-[#A855F7]/20"
+            className="bg-[#050816]/40 border border-white/5 flex-1 w-full shrink-0 flex flex-col overflow-hidden rounded-[24px]"
             variants={cardVariants}
             whileHover={{
               y: -6,
-              boxShadow: "0 8px 40px rgba(143, 107, 255, 0.2), 0 0 60px rgba(143, 107, 255, 0.08)",
-              borderColor: "rgba(143, 107, 255, 0.5)",
+              boxShadow: "0 8px 40px rgba(6, 182, 212, 0.15), 0 0 60px rgba(6, 182, 212, 0.05)",
+              borderColor: "rgba(255, 255, 255, 0.15)",
             }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             {/* Card header */}
             <div
-              className="px-6 py-5 border-b border-[#A855F7]/15"
+              className="px-6 py-5 border-b border-white/5"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(143, 107, 255, 0.15) 0%, rgba(0, 168, 232, 0.08) 100%)",
+                  "linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, transparent 100%)",
               }}
             >
               <div className="flex items-center justify-between">
@@ -98,9 +98,9 @@ export function ScheduleCards() {
                   <span className="text-[#C8D3F5] text-[13px] mt-1 block">{day.date}</span>
                 </div>
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#A855F7]/15 border border-[#A855F7]/30"
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#06B6D4]/15 border border-[#06B6D4]/30"
                 >
-                  <Clock size={18} color="#A855F7" />
+                  <Clock size={18} color="#06B6D4" />
                 </div>
               </div>
             </div>
