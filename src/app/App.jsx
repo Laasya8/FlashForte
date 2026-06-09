@@ -18,6 +18,7 @@ export default function App() {
           <Route path="/ideathon" element={<IdeaThonPage />} />
           <Route path="/game-a-thon" element={<GameAThonPage />} />
           <Route path="/speak-a-thon" element={<SpeakAThonPage />} />
+          <Route path="/speakathon" element={<SpeakAThonPage />} />
           <Route path="/design-a-thon" element={<DesignAThonPage />} />
         </Routes>
       </div>
