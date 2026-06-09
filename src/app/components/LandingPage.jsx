@@ -17,7 +17,6 @@ export function LandingPage() {
       
       {/* Background decorations - migrated to CSS classes */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="bg-planet-top-right" />
         <div className="bg-planet-left" />
         <div className="bg-ambient-depth" />
       </div>

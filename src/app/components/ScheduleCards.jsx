@@ -51,7 +51,7 @@ export function ScheduleCards() {
         className="text-center mb-12"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
         <h2 className="font-orbitron text-[clamp(24px,4vw,36px)] font-black uppercase tracking-[0.05em] text-[#F8FAFC] text-glow">
@@ -68,7 +68,7 @@ export function ScheduleCards() {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, amount: 0.2 }}
       >
         {SCHEDULE_DATA.map((day) => (
           <motion.div

@@ -138,7 +138,7 @@ function MobileImageGallery({ activeEvent }) {
               key={index}
               animate={{ rotateY, scale, opacity, zIndex }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="gallery-carousel-item snap-center shrink-0 w-[240px] aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group preserve-3d will-change-transform will-change-opacity"
+              className="gallery-carousel-item snap-center shrink-0 w-[240px] aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group preserve-3d"
             >
               <div className="absolute inset-0 flex items-center justify-center opacity-20 transition-opacity">
                 <activeEvent.icon size={48} color={activeEvent.color} />
@@ -222,7 +222,7 @@ export function PreviousYearHighlights() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="text-center mb-12 lg:mb-16"
       >
@@ -269,7 +269,7 @@ export function PreviousYearHighlights() {
                 <motion.div 
                   key={event.id}
                   onClick={() => handleTabClick(index)}
-                  className={`nav-carousel-item relative shrink-0 lg:w-full cursor-pointer group preserve-3d will-change-transform will-change-opacity ${isMobile ? "snap-center w-[240px]" : "w-[260px]"}`}
+                  className={`nav-carousel-item relative shrink-0 lg:w-full cursor-pointer group preserve-3d ${isMobile ? "snap-center w-[240px]" : "w-[260px]"}`}
                   animate={isMobile ? { rotateY, scale, opacity, zIndex } : { rotateY: 0, scale: 1, opacity: 1, zIndex: 1 }}
                   transition={{ duration: 0.4 }}
                 >

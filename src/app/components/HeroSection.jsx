@@ -157,7 +157,8 @@ export function HeroSection() {
         </motion.div>
 
         <motion.h1
-          className={`order-2 font-orbitron text-[clamp(38px,7vw,65px)] font-black text-[#F8FAFC] tracking-[0.06em] text-glow m-0 leading-[1.05] ${entranceComplete ? "animate-title-glow" : ""}`}
+          className="order-2 font-orbitron text-[clamp(38px,7vw,65px)] font-black text-[#F8FAFC] tracking-[0.06em] text-glow m-0 leading-[1.05] animate-title-glow"
+          style={{ animationPlayState: entranceComplete ? 'running' : 'paused' }}
           variants={animTitle}
         >
           FLASHFORTE
@@ -171,7 +172,11 @@ export function HeroSection() {
             <motion.div className="divider-circle-left" variants={animYear} />
           </div>
 
-          <motion.span variants={animYear} className="text-transparent bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] animate-text-gradient">
+          <motion.span 
+            variants={animYear} 
+            className="text-transparent bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] animate-text-gradient"
+            style={{ animationPlayState: entranceComplete ? 'running' : 'paused' }}
+          >
             2K26
           </motion.span>
 
@@ -188,7 +193,10 @@ export function HeroSection() {
             variants={animBlock}
           >
             One Event.{" "}
-            <span className="text-transparent bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] animate-text-gradient">
+            <span 
+              className="text-transparent bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] animate-text-gradient"
+              style={{ animationPlayState: entranceComplete ? 'running' : 'paused' }}
+            >
               Many Realities.
             </span>
           </motion.p>
@@ -209,7 +217,8 @@ export function HeroSection() {
           <motion.div variants={animBtn} className="w-full max-w-[320px] relative z-10">
             <Link
               to="/registration-test"
-              className="flex items-center justify-center gap-2 w-full px-10 py-4 rounded-[50px] border-none text-[#FFFFFF] text-[clamp(15px,2vw,17px)] font-bold tracking-[0.02em] cursor-pointer no-underline shadow-[0_4px_30px_rgba(0,119,182,0.3),inset_0_0_15px_rgba(143,107,255,0.5)] animate-cta-gradient [text-shadow:0_1px_2px_rgba(0,0,0,0.8)]"
+              className="flex items-center justify-center gap-2 w-full px-10 py-4 rounded-[50px] border-none text-[#FFFFFF] text-[clamp(15px,2vw,17px)] font-bold tracking-[0.02em] cursor-pointer no-underline shadow-[0_4px_30px_rgba(0,119,182,0.3),inset_0_0_15px_rgba(143,107,255,0.5)] [text-shadow:0_1px_2px_rgba(0,0,0,0.8)] animate-cta-gradient"
+              style={{ animationPlayState: entranceComplete ? 'running' : 'paused' }}
             >
               <span className="text-[12px]">✦</span> Enter the Multiverse <span className="text-[12px]">✦</span>
             </Link>
@@ -238,7 +247,8 @@ export function HeroSection() {
       >
         {/* Unified Date/Venue + Timer Container */}
         <div
-          className={`glass-timer-card flex flex-col items-center gap-4 lg:gap-8 px-8 py-5 lg:px-16 lg:py-8 ${entranceComplete ? "animate-card-levitate" : ""}`}
+          className="glass-timer-card flex flex-col items-center gap-4 lg:gap-8 px-8 py-5 lg:px-16 lg:py-8 animate-card-levitate"
+          style={{ animationPlayState: entranceComplete ? 'running' : 'paused' }}
         >
           {/* Date & Venue Ribbon */}
           <div className="flex items-center gap-2 sm:gap-5 lg:gap-10">
