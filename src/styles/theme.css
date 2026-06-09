@@ -284,6 +284,12 @@
     border-bottom: 1px solid rgba(166, 120, 255, 0.15);
   }
 
+  @media (max-width: 768px) {
+    .glass-nav {
+      background: rgba(5, 8, 22, 0.92);
+    }
+  }
+
   .glass-menu {
     background: rgba(5, 8, 22, 0.95);
     backdrop-filter: blur(20px);

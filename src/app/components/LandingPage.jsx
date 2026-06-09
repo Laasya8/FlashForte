@@ -3,6 +3,8 @@ import { HeroSection } from "./HeroSection.jsx";
 import { ChooseYourReality } from "./ChooseYourReality.jsx";
 import { RealitiesArchive } from "./RealitiesArchive.jsx";
 import { PreviousYearHighlights } from "./PreviousYearHighlights.jsx";
+import { ScheduleCards } from "./ScheduleCards.jsx";
+import { Footer } from "./Footer.jsx";
 
 export function LandingPage() {
   return (
@@ -27,6 +29,8 @@ export function LandingPage() {
       <ChooseYourReality />
       <RealitiesArchive />
       <PreviousYearHighlights />
+      <ScheduleCards />
+      <Footer />
     </div>
   );
 }
