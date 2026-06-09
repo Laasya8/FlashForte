@@ -1,4 +1,5 @@
 import { MapPin, Wifi, Calendar } from "lucide-react";
+import { CountdownTimer } from "./CountdownTimer.jsx";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
@@ -271,35 +272,43 @@ export function HeroSection() {
           className="order-8 flex w-full mx-auto lg:max-w-md justify-center mt-2"
           variants={scaleUp}
         >
-          <div className={`w-full lg:w-fit mt-2 lg:mt-0 glass-card px-6 py-5 rounded-[16px] ${entranceComplete ? "animate-card-levitate" : ""}`}>
-            <div className="flex items-center gap-4">
-              <div className="flex items-start gap-3 flex-1">
-                <Calendar size={16} color="#8F6BFF" className="mt-[3px] shrink-0" />
-                <div>
-                  <div className="text-[#C8D3F5] text-[10px] mb-1">June 2026</div>
-                  <div className="flex items-end gap-3">
-                    <div>
-                      <div className="text-[#F8FAFC] text-[24px] font-extrabold leading-none">26</div>
-                      <div className="text-[#CBD5E1] text-[10px] tracking-[0.05em]">FRI</div>
-                    </div>
-                    <div className="text-[#CBD5E1] text-[14px] mb-[6px]">–</div>
-                    <div>
-                      <div className="text-[#F8FAFC] text-[24px] font-extrabold leading-none">27</div>
-                      <div className="text-[#CBD5E1] text-[10px] tracking-[0.05em]">SAT</div>
-                    </div>
-                  </div>
-                </div>
+          {/* Unified Date/Venue + Timer Container */}
+          <div
+            className={`flex flex-col items-center gap-5 ${entranceComplete ? "animate-card-levitate" : ""}`}
+            style={{
+              background: "rgba(10, 10, 15, 0.4)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+              borderRadius: "24px",
+              border: "1px solid rgba(255, 255, 255, 0.05)",
+              boxShadow: "0 4px 24px rgba(63, 224, 255, 0.08), 0 0 40px rgba(143, 107, 255, 0.04)",
+              padding: "2rem 3rem",
+            }}
+          >
+            {/* Date & Venue Ribbon */}
+            <div className="inline-flex items-center gap-4">
+              {/* Left: Date */}
+              <div className="flex items-center gap-2">
+                <Calendar size={15} color="#8F6BFF" className="shrink-0" />
+                <span className="text-[#FFFFFF] text-[13px] font-medium whitespace-nowrap tracking-[0.01em]">
+                  June 26 – 27, 2026
+                </span>
               </div>
 
-              <div className="w-[1px] h-[52px] bg-[rgba(63,224,255,0.3)] shrink-0" />
+              {/* Center Divider */}
+              <div className="w-[1px] h-[18px] shrink-0" style={{ background: "rgba(255, 255, 255, 0.15)" }} />
 
-              <div className="flex flex-col gap-3 flex-1">
-                <div className="flex items-center gap-2">
-                  <Wifi size={14} color="#3FE0FF" />
-                  <span className="text-[#F8FAFC] text-[12px] whitespace-nowrap">Online</span>
-                </div>
+              {/* Right: Venue */}
+              <div className="flex items-center gap-2">
+                <Wifi size={14} color="#3FE0FF" className="shrink-0" />
+                <span className="text-[#FFFFFF] text-[13px] font-medium whitespace-nowrap tracking-[0.01em]">
+                  Online
+                </span>
               </div>
             </div>
+
+            {/* Countdown Timer */}
+            <CountdownTimer />
           </div>
         </motion.div>
       </motion.div>

@@ -221,7 +221,7 @@ export function PreviousYearHighlights() {
   };
 
   return (
-    <section className="relative z-10 w-full px-5 py-16 lg:py-24 max-w-[1400px] mx-auto">
+    <section className="relative z-10 w-full px-5 pt-16 pb-12 lg:pt-24 lg:pb-16 max-w-[1400px] mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
