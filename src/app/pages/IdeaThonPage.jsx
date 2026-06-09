@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-
+import { ChevronUp, ChevronDown } from "lucide-react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { Footer } from "../components/Footer.jsx";
 /* ─────────────────────────────────────────────
    IDEATHON PAGE — FlashForte 2K26
    Hero mirrors HeroSection.jsx layout exactly:
@@ -35,12 +37,48 @@ const DOMAINS = [
 ];
 
 const DOMAIN_ICONS = [
-  <svg key="ai"     width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/></svg>,
-  <svg key="sec"    width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4"><path d="M12 2l8 4v6c0 5-4 9-8 10C8 21 4 17 4 12V6l8-4z"/></svg>,
-  <svg key="sus"    width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4"><path d="M2 20s4-8 10-8 10 8 10 8"/><path d="M12 12V4"/><path d="M8 8l4-4 4 4"/></svg>,
-  <svg key="health" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4"><path d="M12 21C12 21 4 13.5 4 8a4 4 0 018-1.5A4 4 0 0120 8c0 5.5-8 13-8 13z"/></svg>,
-  <svg key="ed"     width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4"><path d="M12 3L2 8l10 5 10-5-10-5z"/><path d="M2 8v8l10 5 10-5V8"/></svg>,
-  <svg key="fin"    width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4"><rect x="2" y="6" width="20" height="14" rx="1"/><path d="M16 14a2 2 0 100-4 2 2 0 000 4z"/><path d="M6 10h4M6 14h2"/></svg>,
+  /* Sustainability & Environment — leaf/sun */
+  <svg key="sus" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4">
+    <path d="M12 22V12"/>
+    <path d="M12 12C12 12 7 10 5 6c4 0 7 2 7 6z"/>
+    <path d="M12 12C12 12 17 10 19 6c-4 0-7 2-7 6z"/>
+    <circle cx="12" cy="4" r="2"/>
+  </svg>,
+
+  /* Smart Logistics — truck/route */
+  <svg key="log" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4">
+    <rect x="1" y="8" width="13" height="9" rx="1"/>
+    <path d="M14 10h4l3 4v3h-7V10z"/>
+    <circle cx="5.5" cy="19" r="1.5"/>
+    <circle cx="18.5" cy="19" r="1.5"/>
+  </svg>,
+
+  /* Digital Governance — building/landmark */
+  <svg key="gov" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4">
+    <path d="M3 21h18M3 10h18M5 10V21M19 10V21M12 3L3 10h18L12 3z"/>
+    <rect x="9" y="14" width="6" height="7"/>
+  </svg>,
+
+  /* Disaster Management — alert/shield-warning */
+  <svg key="dis" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4">
+    <path d="M12 2l8 4v6c0 5-4 9-8 10C8 21 4 17 4 12V6l8-4z"/>
+    <path d="M12 9v4M12 17h.01"/>
+  </svg>,
+
+  /* Gaming for Impact — gamepad */
+  <svg key="game" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4">
+    <rect x="2" y="7" width="20" height="12" rx="3"/>
+    <path d="M8 11v4M6 13h4"/>
+    <circle cx="16" cy="11" r="1" fill="#c9a84c"/>
+    <circle cx="18" cy="13" r="1" fill="#c9a84c"/>
+  </svg>,
+
+  /* Digital Trust & Integrity — lock/verified */
+  <svg key="trust" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" strokeWidth="1.4">
+    <rect x="5" y="11" width="14" height="10" rx="1"/>
+    <path d="M8 11V7a4 4 0 018 0v4"/>
+    <path d="M12 15v2"/>
+  </svg>,
 ];
 
 /* ── Intersection Observer hook ── */
@@ -98,7 +136,7 @@ function SectionHeading({ label, title }) {
         color: "#f5e6c0",
         letterSpacing: "0.05em",
         margin: 0,
-        textShadow: "0 0 30px rgba(201,168,76,0.25)",
+        textShadow: "0 0 30px rgba(201,168,76,0.35), 0 2px 8px rgba(0,0,0,0.6)",
       }}>
         {title}
       </h2>
@@ -153,35 +191,233 @@ function PortalVideo({ className = "" }) {
   );
 }
 
+/* ── TiltedCard Component ── */
+const springValues = {
+  damping: 30,
+  stiffness: 100,
+  mass: 2
+};
+
+function TiltedCard({
+  imageSrc,
+  altText = 'Tilted card image',
+  captionText = '',
+  containerHeight = '300px',
+  containerWidth = '100%',
+  imageHeight = '300px',
+  imageWidth = '300px',
+  scaleOnHover = 1.1,
+  rotateAmplitude = 14,
+  showMobileWarning = true,
+  showTooltip = true,
+  overlayContent = null,
+  displayOverlayContent = false
+}) {
+  const ref = useRef(null);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(useMotionValue(0), springValues);
+  const rotateY = useSpring(useMotionValue(0), springValues);
+  const scale = useSpring(1, springValues);
+  const opacity = useSpring(0);
+  const rotateFigcaption = useSpring(0, {
+    stiffness: 350,
+    damping: 30,
+    mass: 1
+  });
+
+  const [lastY, setLastY] = useState(0);
+
+  function handleMouse(e) {
+    if (!ref.current) return;
+
+    const rect = ref.current.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left - rect.width / 2;
+    const offsetY = e.clientY - rect.top - rect.height / 2;
+
+    const rotationX = (offsetY / (rect.height / 2)) * -rotateAmplitude;
+    const rotationY = (offsetX / (rect.width / 2)) * rotateAmplitude;
+
+    rotateX.set(rotationX);
+    rotateY.set(rotationY);
+
+    x.set(e.clientX - rect.left);
+    y.set(e.clientY - rect.top);
+
+    const velocityY = offsetY - lastY;
+    rotateFigcaption.set(-velocityY * 0.6);
+    setLastY(offsetY);
+  }
+
+  function handleMouseEnter() {
+    scale.set(scaleOnHover);
+    opacity.set(1);
+  }
+
+  function handleMouseLeave() {
+    opacity.set(0);
+    scale.set(1);
+    rotateX.set(0);
+    rotateY.set(0);
+    rotateFigcaption.set(0);
+  }
+
+  return (
+    <figure
+      ref={ref}
+      className="tilted-card-figure"
+      style={{
+        height: containerHeight,
+        width: containerWidth
+      }}
+      onMouseMove={handleMouse}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {showMobileWarning && (
+        <div className="tilted-card-mobile-alert">This effect is not optimized for mobile. Check on desktop.</div>
+      )}
+
+      <motion.div
+        className="tilted-card-inner"
+        style={{
+          width: imageWidth,
+          height: imageHeight,
+          rotateX,
+          rotateY,
+          scale
+        }}
+      >
+        {imageSrc && (
+          <motion.img
+            src={imageSrc}
+            alt={altText}
+            className="tilted-card-img"
+            style={{
+              width: imageWidth,
+              height: imageHeight
+            }}
+          />
+        )}
+
+        {displayOverlayContent && overlayContent && (
+          <motion.div className="tilted-card-overlay">{overlayContent}</motion.div>
+        )}
+      </motion.div>
+
+      {showTooltip && (
+        <motion.figcaption
+          className="tilted-card-caption"
+          style={{
+            x,
+            y,
+            opacity,
+            rotate: rotateFigcaption
+          }}
+        >
+          {captionText}
+        </motion.figcaption>
+      )}
+    </figure>
+  );
+}
+
+/* ── Golden Click Burst Effect ── */
+function ClickBurst() {
+  const [bursts, setBursts] = useState([]);
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      const newBurst = { id: Date.now() + Math.random(), x: e.clientX, y: e.clientY };
+      setBursts((prev) => [...prev, newBurst]);
+      setTimeout(() => {
+        setBursts((prev) => prev.filter((b) => b.id !== newBurst.id));
+      }, 500);
+    };
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
+  }, []);
+
+  return (
+    <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 99999 }}>
+      {bursts.map((burst) => (
+        <div key={burst.id} className="click-burst" style={{ left: burst.x, top: burst.y }}>
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="burst-particle" style={{ "--i": i }} />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function IdeaThonPage() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     document.body.classList.add("ideathon-page-active");
     return () => document.body.classList.remove("ideathon-page-active");
   }, []);
+
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+
+    const borderLine = footer.querySelector("div");
+    const heading = footer.querySelector("h2");
+    const subtext = footer.querySelector("p");
+
+    // Store originals
+    const origBorder = borderLine?.style.background;
+    const origColor = heading?.style.color;
+    const origShadow = heading?.style.textShadow;
+    const origPColor = subtext?.style.color;
+
+    // Apply golden
+    if (borderLine) borderLine.style.background = "linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.5) 30%, rgba(232,201,106,0.5) 70%, transparent 100%)";
+    if (heading) { heading.style.color = "#c9a84c"; heading.style.textShadow = "0 0 30px rgba(201,168,76,0.4), 0 0 60px rgba(201,168,76,0.15)"; }
+    if (subtext) subtext.style.color = "rgba(245,230,192,0.75)";
+
+    return () => {
+      // Restore originals on unmount
+      if (borderLine) borderLine.style.background = origBorder || "";
+      if (heading) { heading.style.color = origColor || ""; heading.style.textShadow = origShadow || ""; }
+      if (subtext) subtext.style.color = origPColor || "";
+    };
+  }, []);
+
+  const scrollToNextOrTop = () => {
+    if (scrollY > 300) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: window.innerHeight * 0.8, behavior: "smooth" });
+    }
+  };
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap');
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         /* ── Navbar tint on this page ── */
         body.ideathon-page-active .glass-nav {
           background: #0a0c0e !important;
           border-bottom: 1px solid rgba(201,168,76,0.14) !important;
-          padding: 0.75rem 2rem !important;
-          min-height: 4rem !important;
         }
-        body.ideathon-page-active .glass-nav > div:last-child {
-          margin-right: 0 !important;
+
+        body.ideathon-page-active a[href="/"] {
+          color: #7E89A8 !important;
         }
-        body.ideathon-page-active a[href="/registration-test"] {
-          min-width: 140px !important;
-          padding: 0.75rem 1.25rem !important;
-          display: inline-flex !important;
-          align-items: center !important;
-          justify-content: center !important;
+        body.ideathon-page-active a[href="/"]:hover {
+          color: #ffffff !important;
         }
         body.ideathon-page-active a[href="/"] > div,
         body.ideathon-page-active a[href="/"]::after {
@@ -211,6 +447,32 @@ export function IdeaThonPage() {
           min-height: 100vh;
           font-family: 'Rajdhani', sans-serif;
           overflow-x: hidden;
+        }
+
+        /* ── click burst animations ── */
+        .click-burst {
+          position: absolute;
+          width: 0; height: 0;
+        }
+        .burst-particle {
+          position: absolute;
+          width: 2.5px; height: 8px;
+          background: #c9a84c;
+          border-radius: 2px;
+          left: -1.25px; top: -4px;
+          animation: burst-anim 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes burst-anim {
+          0% {
+            transform: rotate(calc(var(--i) * 30deg)) translateY(-8px) scaleY(0.5);
+            opacity: 1;
+            box-shadow: 0 0 8px rgba(201,168,76,0.8);
+          }
+          100% {
+            transform: rotate(calc(var(--i) * 30deg)) translateY(-26px) scaleY(1);
+            opacity: 0;
+            box-shadow: 0 0 16px rgba(201,168,76,0);
+          }
         }
 
         /* scanlines */
@@ -291,23 +553,29 @@ export function IdeaThonPage() {
         /* ── domain cards ── */
         .domain-card {
           background: #0f1114;
-          border: 1px solid rgba(201,168,76,0.15);
+          border: 1px solid rgba(201,168,76,0.35);
           padding: 1.6rem 1.4rem;
           position: relative; overflow: hidden;
-          transition: all 0.3s ease;
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
           clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+          filter: drop-shadow(0 0 8px rgba(201,168,76,0.15));
         }
         .domain-card::after {
           content: ''; position: absolute; top: 0; right: 0;
           width: 12px; height: 12px;
-          border-left: 1px solid rgba(201,168,76,0.3);
-          border-bottom: 1px solid rgba(201,168,76,0.3);
+          border-left: 1px solid rgba(201,168,76,0.35);
+          border-bottom: 1px solid rgba(201,168,76,0.35);
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .domain-card:hover {
-          border-color: rgba(201,168,76,0.4);
-          background: #131619;
-          box-shadow: 0 0 24px rgba(201,168,76,0.08), inset 0 0 24px rgba(201,168,76,0.03);
-          transform: translateY(-3px);
+          border-color: rgba(201,168,76,0.9);
+          background: #121518;
+          filter: drop-shadow(0 0 20px rgba(201,168,76,0.6));
+          transform: translateY(-5px);
+        }
+        .domain-card:hover::after {
+          border-left-color: rgba(201,168,76,0.9);
+          border-bottom-color: rgba(201,168,76,0.9);
         }
         .domain-card:hover .domain-icon-box {
           box-shadow: 0 0 16px rgba(201,168,76,0.3);
@@ -327,7 +595,7 @@ export function IdeaThonPage() {
           background: #0f1114;
           border: 1px dashed rgba(201,168,76,0.18);
           display: flex; align-items: center; justify-content: center;
-          color: rgba(201,168,76,0.25);
+          color: rgba(201,168,76,0.75);
           font-family: 'Rajdhani', sans-serif;
           font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
           transition: border-color 0.3s ease;
@@ -344,17 +612,17 @@ export function IdeaThonPage() {
         .divider::after {
           content: '◈'; position: absolute;
           left: 50%; top: 50%; transform: translate(-50%, -50%);
-          color: rgba(201,168,76,0.4); font-size: 0.6rem;
+          color: rgba(201,168,76,0.85); font-size: 0.6rem;
           background: #0a0c0e; padding: 0 0.4rem;
         }
 
         .cyber-tag {
           display: inline-flex; align-items: center; gap: 0.4rem;
           padding: 0.25rem 0.75rem;
-          border: 1px solid rgba(201,168,76,0.3);
+          border: 1px solid rgba(201,168,76,0.5);
           font-family: 'Rajdhani', sans-serif;
           font-size: 0.7rem; letter-spacing: 0.18em;
-          color: rgba(201,168,76,0.7); text-transform: uppercase;
+          color: rgba(201,168,76,0.95); text-transform: uppercase;
           clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
         }
 
@@ -374,7 +642,89 @@ export function IdeaThonPage() {
           .domains-grid { grid-template-columns: 1fr !important; }
           .gallery-grid { grid-template-columns: 1fr !important; }
         }
+        /* ── TiltedCard Styles ── */
+        .tilted-card-figure {
+          position: relative;
+          width: 100%; height: 100%;
+          perspective: 800px;
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+        }
+        .tilted-card-mobile-alert {
+          position: absolute; top: 1rem;
+          text-align: center; font-size: 0.875rem;
+          display: none;
+        }
+        @media (max-width: 640px) {
+          .tilted-card-mobile-alert { display: block; }
+          .tilted-card-caption { display: none; }
+        }
+        .tilted-card-inner {
+          position: relative;
+          transform-style: preserve-3d;
+        }
+        .tilted-card-img {
+          position: absolute; top: 0; left: 0;
+          object-fit: cover; border-radius: 15px;
+          will-change: transform; transform: translateZ(0);
+        }
+        .tilted-card-overlay {
+          position: absolute; top: 0; left: 0;
+          width: 100%; height: 100%; z-index: 2;
+          will-change: transform; transform: translateZ(30px);
+        }
+        .tilted-card-caption {
+          pointer-events: none;
+          position: absolute; left: 0; top: 0;
+          border-radius: 6px;
+          background-color: #c9a84c;
+          padding: 12px 20px;
+          font-size: 13px;
+          color: #0a0c0e;
+          font-family: 'Orbitron', sans-serif;
+          font-weight: bold;
+          letter-spacing: 0.15em;
+          opacity: 0; z-index: 3;
+        }
+
+        /* ── Global Text Readability Boost ── */
+        .ideathon-page p,
+        .ideathon-page span,
+        .ideathon-page li {
+          color: rgba(245,230,192,0.95);
+        }
+        .ideathon-page h1, .ideathon-page h2,
+        .ideathon-page h3, .ideathon-page h4 {
+          color: #f5e6c0;
+          text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+        }
+        .round-card p,
+        .domain-card p {
+          font-size: 1rem !important;
+          line-height: 1.8 !important;
+          color: rgba(245,230,192,0.95) !important;
+          font-weight: 500 !important;
+        }
+        .round-card h3,
+        .domain-card h4 {
+          color: #f5e6c0 !important;
+          text-shadow: 0 0 20px rgba(201,168,76,0.2) !important;
+        }
+
+        /* ── Golden Footer Overrides (Ideathon only) ── */
+        body.ideathon-page-active footer > div:first-child {
+          background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.5) 30%, rgba(232,201,106,0.5) 70%, transparent 100%) !important;
+        }
+        body.ideathon-page-active footer h2 {
+          color: #c9a84c !important;
+          text-shadow: 0 0 30px rgba(201,168,76,0.4), 0 0 60px rgba(201,168,76,0.15) !important;
+        }
+        body.ideathon-page-active footer p {
+          color: rgba(245,230,192,0.85) !important;
+        }
       `}</style>
+
+      <ClickBurst />
 
       <div className="ideathon-page">
 
@@ -414,6 +764,7 @@ export function IdeaThonPage() {
                 alignItems: "flex-start",
                 width: "40%", maxWidth: 560,
                 paddingLeft: "3rem",
+                transform: "translateY(-30px)",
               }}
             >
               {/* eyebrow badge */}
@@ -446,7 +797,7 @@ export function IdeaThonPage() {
                 <p style={{
                   fontFamily: "'Rajdhani', sans-serif",
                   fontSize: "0.75rem", letterSpacing: "0.38em",
-                  color: "rgba(201,168,76,0.6)",
+                  color: "rgba(201,168,76,0.9)",
                   textTransform: "uppercase",
                   marginBottom: "1.4rem", fontWeight: 400,
                 }}>
@@ -457,7 +808,7 @@ export function IdeaThonPage() {
               {/* description */}
               <FadeSection delay={180}>
                 <p style={{
-                  color: "rgba(245,230,192,0.55)",
+                  color: "rgba(245,230,192,0.85)",
                   fontSize: "clamp(0.9rem, 1.5vw, 1.05rem)",
                   lineHeight: 1.75, maxWidth: 460,
                   marginBottom: "2.4rem",
@@ -492,8 +843,22 @@ export function IdeaThonPage() {
                 position: "relative",
               }}
             >
-              {/* TODO: portal video — same component as HeroSection, gold-graded */}
-              <PortalVideo className="w-[115%] lg:w-[130%]" />
+              {/* portal video wrapped in TiltedCard to add hover & tooltip (tilt disabled) */}
+              <div className="w-[115%] lg:w-[130%] aspect-square relative">
+                <TiltedCard
+                  containerHeight="100%"
+                  containerWidth="100%"
+                  imageHeight="100%"
+                  imageWidth="100%"
+                  rotateAmplitude={0}
+                  scaleOnHover={1}
+                  showMobileWarning={false}
+                  showTooltip={true}
+                  captionText="IDEATHON"
+                  displayOverlayContent={true}
+                  overlayContent={<PortalVideo className="w-full h-full" />}
+                />
+              </div>
             </div>
 
           </div>
@@ -517,7 +882,7 @@ export function IdeaThonPage() {
                 <div className="round-card">
                   <div style={{
                     fontFamily: "'Orbitron', sans-serif", fontSize: "5rem", fontWeight: 900,
-                    color: "rgba(201,168,76,0.06)", position: "absolute",
+                    color: "rgba(201,168,76,0.2)", position: "absolute",
                     top: "0.8rem", right: "1.2rem", lineHeight: 1, userSelect: "none",
                   }}>01</div>
                   <div style={{ color: "#c9a84c", marginBottom: "1rem" }}>
@@ -525,14 +890,14 @@ export function IdeaThonPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                     </svg>
                   </div>
-                  <p style={{ fontFamily: "'Rajdhani'", fontSize: "0.68rem", letterSpacing: "0.25em", color: "rgba(201,168,76,0.5)", textTransform: "uppercase", marginBottom: "0.4rem" }}>Round One</p>
+                  <p style={{ fontFamily: "'Rajdhani'", fontSize: "0.78rem", letterSpacing: "0.25em", color: "#c9a84c", textTransform: "uppercase", marginBottom: "0.4rem", fontWeight: 600 }}>Round One</p>
                   <h3 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "1.2rem", fontWeight: 700, color: "#f5e6c0", marginBottom: "0.9rem", letterSpacing: "0.06em" }}>PPT SUBMISSION</h3>
-                  <p style={{ color: "rgba(245,230,192,0.5)", fontSize: "0.98rem", lineHeight: 1.75, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
+                  <p style={{ color: "rgba(245,230,192,0.85)", fontSize: "0.98rem", lineHeight: 1.75, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
                     Present your idea as a structured deck. Cover the problem, your solution, market scope, and a rough implementation plan. Selected teams advance to Round 2.
                   </p>
                   <div style={{ marginTop: "1.4rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                     <div style={{ width: 24, height: 1, background: "#c9a84c" }} />
-                    <span style={{ fontFamily: "'Rajdhani'", fontSize: "0.7rem", letterSpacing: "0.2em", color: "rgba(201,168,76,0.6)", textTransform: "uppercase" }}>Online Submission</span>
+                    <span style={{ fontFamily: "'Rajdhani'", fontSize: "0.85rem", letterSpacing: "0.2em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700 }}>Online Submission</span>
                   </div>
                 </div>
               </FadeSection>
@@ -549,7 +914,7 @@ export function IdeaThonPage() {
                 <div className="round-card">
                   <div style={{
                     fontFamily: "'Orbitron', sans-serif", fontSize: "5rem", fontWeight: 900,
-                    color: "rgba(201,168,76,0.06)", position: "absolute",
+                    color: "rgba(201,168,76,0.2)", position: "absolute",
                     top: "0.8rem", right: "1.2rem", lineHeight: 1, userSelect: "none",
                   }}>02</div>
                   <div style={{ color: "#c9a84c", marginBottom: "1rem" }}>
@@ -557,14 +922,14 @@ export function IdeaThonPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
                     </svg>
                   </div>
-                  <p style={{ fontFamily: "'Rajdhani'", fontSize: "0.68rem", letterSpacing: "0.25em", color: "rgba(201,168,76,0.5)", textTransform: "uppercase", marginBottom: "0.4rem" }}>Round Two</p>
+                  <p style={{ fontFamily: "'Rajdhani'", fontSize: "0.78rem", letterSpacing: "0.25em", color: "#c9a84c", textTransform: "uppercase", marginBottom: "0.4rem", fontWeight: 600 }}>Round Two</p>
                   <h3 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "1.2rem", fontWeight: 700, color: "#f5e6c0", marginBottom: "0.9rem", letterSpacing: "0.06em" }}>IDEA PRESENTATION</h3>
-                  <p style={{ color: "rgba(245,230,192,0.5)", fontSize: "0.98rem", lineHeight: 1.75, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
+                  <p style={{ color: "rgba(245,230,192,0.85)", fontSize: "0.98rem", lineHeight: 1.75, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
                     Take the stage. Present your solution live to a panel of industry judges. Defend your idea, answer questions, and demonstrate its real-world potential.
                   </p>
                   <div style={{ marginTop: "1.4rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                     <div style={{ width: 24, height: 1, background: "#c9a84c" }} />
-                    <span style={{ fontFamily: "'Rajdhani'", fontSize: "0.7rem", letterSpacing: "0.2em", color: "rgba(201,168,76,0.6)", textTransform: "uppercase" }}>Live Judging</span>
+                    <span style={{ fontFamily: "'Rajdhani'", fontSize: "0.8rem", letterSpacing: "0.2em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 600 }}>Live Judging</span>
                   </div>
                 </div>
               </FadeSection>
@@ -594,7 +959,7 @@ export function IdeaThonPage() {
                       fontFamily: "'Orbitron', sans-serif", fontSize: "0.82rem", fontWeight: 700,
                       color: "#f5e6c0", marginBottom: "0.55rem", letterSpacing: "0.06em", textTransform: "uppercase",
                     }}>{domain.name}</h4>
-                    <p style={{ color: "rgba(245,230,192,0.45)", fontSize: "0.9rem", lineHeight: 1.65, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
+                    <p style={{ color: "rgba(245,230,192,0.85)", fontSize: "0.9rem", lineHeight: 1.65, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
                       {domain.desc}
                     </p>
                   </div>
@@ -648,6 +1013,125 @@ export function IdeaThonPage() {
 
           </div>
         </section>
+
+        <div className="divider" />
+
+        {/* ════════════════════════
+            CTA SECTION — BOTTOM
+        ════════════════════════ */}
+        <section style={{ padding: "6rem 1.5rem 8rem" }}>
+          <FadeSection>
+            <div style={{
+              maxWidth: 780,
+              margin: "0 auto",
+              background: "linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(10,12,14,0.9) 50%, rgba(201,168,76,0.06) 100%)",
+              border: "1px solid rgba(201,168,76,0.2)",
+              borderRadius: "1.5rem",
+              padding: "4rem 3rem",
+              textAlign: "center",
+              position: "relative",
+              overflow: "hidden",
+              boxShadow: "0 0 80px rgba(201,168,76,0.06), inset 0 0 60px rgba(201,168,76,0.03)",
+            }}>
+              {/* top glow orb */}
+              <div style={{
+                position: "absolute", top: "-40px", left: "50%",
+                transform: "translateX(-50%)",
+                width: 80, height: 80,
+                borderRadius: "50%",
+                background: "rgba(201,168,76,0.08)",
+                border: "1px solid rgba(201,168,76,0.25)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "2rem",
+              }}>💡</div>
+
+              {/* corner accents */}
+              <div style={{ position:"absolute", top:16, left:16, width:20, height:20, borderTop:"2px solid rgba(201,168,76,0.4)", borderLeft:"2px solid rgba(201,168,76,0.4)", borderRadius:"2px 0 0 0" }} />
+              <div style={{ position:"absolute", top:16, right:16, width:20, height:20, borderTop:"2px solid rgba(201,168,76,0.4)", borderRight:"2px solid rgba(201,168,76,0.4)", borderRadius:"0 2px 0 0" }} />
+              <div style={{ position:"absolute", bottom:16, left:16, width:20, height:20, borderBottom:"2px solid rgba(201,168,76,0.4)", borderLeft:"2px solid rgba(201,168,76,0.4)", borderRadius:"0 0 0 2px" }} />
+              <div style={{ position:"absolute", bottom:16, right:16, width:20, height:20, borderBottom:"2px solid rgba(201,168,76,0.4)", borderRight:"2px solid rgba(201,168,76,0.4)", borderRadius:"0 0 2px 0" }} />
+
+              <h2 style={{
+                fontFamily: "'Orbitron', sans-serif",
+                fontSize: "clamp(2rem, 5vw, 3.2rem)",
+                fontWeight: 900,
+                color: "#f5e6c0",
+                letterSpacing: "0.06em",
+                lineHeight: 1.15,
+                marginTop: "1.5rem",
+                marginBottom: "1rem",
+                textShadow: "0 0 40px rgba(201,168,76,0.3)",
+              }}>
+                Ready to <span style={{ color: "#c9a84c" }}>Ideate?</span>
+              </h2>
+
+              <p style={{
+                color: "rgba(245,230,192,0.85)",
+                fontSize: "clamp(0.95rem, 1.8vw, 1.1rem)",
+                lineHeight: 1.75,
+                maxWidth: 520,
+                margin: "0 auto 2.5rem",
+                fontFamily: "'Rajdhani', sans-serif",
+                fontWeight: 400,
+                letterSpacing: "0.02em",
+              }}>
+                Seats are limited. The stage is live on <strong style={{ color: "#c9a84c" }}>FlashForte 2K26</strong>. Lock in your idea and let the best innovator win.
+              </p>
+
+              <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+                <button className="btn-gold" style={{ fontSize: "1rem", padding: "0.85rem 2rem" }}>
+                  ✦ Register Now →
+                </button>
+                <button className="btn-outline" style={{ fontSize: "1rem", padding: "0.85rem 2rem" }}>
+                  Submit Your Idea
+                </button>
+              </div>
+            </div>
+          </FadeSection>
+        </section>
+
+        {/* Floating Scroll Indicator */}
+
+        <button
+          onClick={scrollToNextOrTop}
+          style={{
+            position: "fixed",
+            bottom: "2rem",
+            right: "2rem",
+            width: "3.5rem",
+            height: "3.5rem",
+            borderRadius: "50%",
+            background: "#000000",
+            border: "1px solid rgba(201,168,76,0.3)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#c9a84c",
+            cursor: "pointer",
+            zIndex: 50,
+            boxShadow: "0 4px 16px rgba(0,0,0,0.6), inset 0 0 10px rgba(201,168,76,0.1)",
+            transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+            transform: scrollY > 0 ? "scale(1)" : "scale(0.95)",
+            opacity: 0.9,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.1) translateY(-4px)";
+            e.currentTarget.style.borderColor = "rgba(201,168,76,0.6)";
+            e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.8), inset 0 0 15px rgba(201,168,76,0.2)";
+            e.currentTarget.style.opacity = "1";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = scrollY > 0 ? "scale(1)" : "scale(0.95)";
+            e.currentTarget.style.borderColor = "rgba(201,168,76,0.3)";
+            e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.6), inset 0 0 10px rgba(201,168,76,0.1)";
+            e.currentTarget.style.opacity = "0.9";
+          }}
+          title={scrollY > 300 ? "Scroll to Top" : "Scroll Down"}
+        >
+          {scrollY > 300 ? <ChevronUp size={28} strokeWidth={3} /> : <ChevronDown size={28} strokeWidth={3} />}
+        </button>
+
+        <Footer />
 
       </div>
     </>
