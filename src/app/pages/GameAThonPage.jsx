@@ -15,7 +15,7 @@ import {
   Zap,
   Trophy,
 } from "lucide-react";
-import { StarField } from "../components/HeroSection.jsx";
+import { StarField } from "../components/StarField.jsx";
 
 /* ═══════════════════════════════════════════════════════════
    Shared Motion Constants
@@ -180,7 +180,7 @@ function PortalVideo({ className = "" }) {
             zIndex: 2,
             mixBlendMode: "color",
             background:
-              "conic-gradient(from 200deg at 45% 45%, #6366f1 0deg, #8b5cf6 60deg, #a855f7 100deg, #3b82f6 160deg, #6366f1 220deg, #8b5cf6 280deg, #3b82f6 360deg)",
+              "conic-gradient(from 200deg at 45% 45%, #6366f1 0deg, #8b5cf6 60deg, #3B82F6 100deg, #3b82f6 160deg, #6366f1 220deg, #8b5cf6 280deg, #3b82f6 360deg)",
             opacity: 0.92,
           }}
         />
@@ -216,7 +216,7 @@ function PortalVideo({ className = "" }) {
 /* ═══════════════════════════════════════════════════════════
    GameArenaCard
    ═══════════════════════════════════════════════════════════ */
-function GameArenaCard({ icon: Icon, title, description, accentColor = "#8F6BFF", delay = 0 }) {
+function GameArenaCard({ icon: Icon, title, description, accentColor = "#A855F7", delay = 0 }) {
   return (
     <ScrollReveal variants={scaleUp} delay={delay}>
       <div
@@ -301,7 +301,7 @@ function SkillCard({ icon: Icon, title, delay = 0 }) {
           card.style.borderColor = "rgba(143,107,255,0.5)";
           const ring = card.querySelector(".skill-icon-ring");
           if (ring) {
-            ring.style.boxShadow = "0 0 24px rgba(143,107,255,0.5), 0 0 8px rgba(66,183,255,0.3)";
+            ring.style.boxShadow = "0 0 24px rgba(143,107,255,0.5), 0 0 8px rgba(0, 119, 182,0.3)";
             ring.style.background = "rgba(143,107,255,0.22)";
             ring.style.borderColor = "rgba(143,107,255,0.55)";
           }
@@ -323,7 +323,7 @@ function SkillCard({ icon: Icon, title, delay = 0 }) {
           className="skill-icon-ring w-11 h-11 rounded-full flex items-center justify-center bg-[rgba(143,107,255,0.12)] border border-[rgba(143,107,255,0.25)] shadow-[0_0_12px_rgba(143,107,255,0.12)]"
           style={{ transition: "box-shadow 0.4s ease, background 0.4s ease, border-color 0.4s ease" }}
         >
-          <Icon size={20} color="#8F6BFF" />
+          <Icon size={20} color="#A855F7" />
         </div>
         <span className="text-[#C8D3F5] text-[13px] font-semibold tracking-[0.03em]">
           {title}
@@ -387,28 +387,28 @@ const ARENA_CARDS = [
     title: "Memory Challenge",
     description:
       "Push your recall to the limit. Sequences, patterns, and grids designed to train short-term and spatial memory under competitive pressure.",
-    accentColor: "#8F6BFF",
+    accentColor: "#A855F7",
   },
   {
     icon: Users,
     title: "Team Collaboration",
     description:
       "Real-time co-op missions where communication and coordination matter as much as individual skill. Win together or fall apart.",
-    accentColor: "#42B7FF",
+    accentColor: "#A855F7",
   },
   {
     icon: Sword,
     title: "Strategy & Logic",
     description:
       "Puzzle-solving, route planning, and decision trees that reward structured thinking. Fast reflexes help, but brains win.",
-    accentColor: "#42B7FF",
+    accentColor: "#A855F7",
   },
   {
     icon: Zap,
     title: "Gaming Skills",
     description:
       "Speed, accuracy, and adaptability tested across multiple mini-game formats — from typing races to drawing sprints.",
-    accentColor: "#8F6BFF",
+    accentColor: "#A855F7",
   },
 ];
 
@@ -487,7 +487,7 @@ export function GameAThonPage() {
             variants={slideUp}
           >
             Compete. Collaborate.{" "}
-            <span className="bg-gradient-to-r from-[#8F6BFF] to-[#42B7FF] bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
+            <span className="bg-gradient-to-r from-[#A855F7] to-[#3B82F6] bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
               Conquer.
             </span>
           </motion.p>
@@ -508,7 +508,7 @@ export function GameAThonPage() {
           >
             <button
               onClick={() => scrollToSection("gaming-skills")}
-              className={`flex items-center justify-center gap-2 px-7 py-3 rounded-[50px] border-none text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer shadow-[0_4px_30px_rgba(66,183,255,0.3),inset_0_0_15px_rgba(143,107,255,0.5)] ${entranceComplete ? "animate-cta-gradient" : "bg-cta-initial"}`}
+              className={`flex items-center justify-center gap-2 px-7 py-3 rounded-[50px] border-none text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer shadow-[0_4px_30px_rgba(0, 119, 182,0.3),inset_0_0_15px_rgba(143,107,255,0.5)] ${entranceComplete ? "animate-cta-gradient" : "bg-cta-initial"}`}
             >
               <Zap size={14} /> Start Gaming
             </button>
@@ -557,7 +557,7 @@ export function GameAThonPage() {
               boxShadow: [
                 "0 0 0 1px rgba(143,107,255,0.10)",
                 "0 12px 48px rgba(143,107,255,0.14)",
-                "0 2px 8px rgba(66,183,255,0.06)",
+                "0 2px 8px rgba(0, 119, 182,0.06)",
                 "inset 0 1px 0 rgba(143,107,255,0.16)",
               ].join(", "),
             }}
@@ -579,7 +579,7 @@ export function GameAThonPage() {
                 width: "180px",
                 height: "180px",
                 background:
-                  "radial-gradient(circle at 100% 100%, rgba(66,183,255,0.12) 0%, transparent 70%)",
+                  "radial-gradient(circle at 100% 100%, rgba(0, 119, 182,0.12) 0%, transparent 70%)",
                 borderRadius: "100% 0 0 0",
               }}
             />
@@ -590,7 +590,7 @@ export function GameAThonPage() {
                 width: "55%",
                 height: "1px",
                 background:
-                  "linear-gradient(90deg, transparent, rgba(143,107,255,0.75), rgba(66,183,255,0.55), transparent)",
+                  "linear-gradient(90deg, transparent, rgba(143,107,255,0.75), rgba(0, 119, 182,0.55), transparent)",
               }}
             />
 
@@ -605,7 +605,7 @@ export function GameAThonPage() {
                 top: "-12px",
                 left: "clamp(12px, 4vw, 40px)",
                 background:
-                  "linear-gradient(135deg, rgba(143,107,255,0.13) 0%, rgba(66,183,255,0.07) 100%)",
+                  "linear-gradient(135deg, rgba(143,107,255,0.13) 0%, rgba(0, 119, 182,0.07) 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -631,7 +631,7 @@ export function GameAThonPage() {
                 It's about how fast you{" "}
                 <span
                   style={{
-                    background: "linear-gradient(90deg, #8F6BFF, #42B7FF)",
+                    background: "linear-gradient(90deg, #A855F7, #3B82F6)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -657,7 +657,7 @@ export function GameAThonPage() {
                     fontSize: "32px",
                     fontWeight: 700,
                     lineHeight: 1,
-                    background: "linear-gradient(135deg, #8F6BFF 0%, #42B7FF 100%)",
+                    background: "linear-gradient(135deg, #A855F7 0%, #3B82F6 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -673,7 +673,7 @@ export function GameAThonPage() {
                     height: "1px",
                     width: "64px",
                     background:
-                      "linear-gradient(90deg, rgba(66,183,255,0.55), transparent)",
+                      "linear-gradient(90deg, rgba(0, 119, 182,0.55), transparent)",
                   }}
                 />
               </div>
@@ -801,14 +801,14 @@ export function GameAThonPage() {
           <div className="relative max-w-[900px] mx-auto rounded-[28px] overflow-hidden px-8 py-14 md:px-16 md:py-20 text-center">
             <div className="absolute inset-0 bg-gradient-to-br from-[#1a0d35] via-[#0d0826] to-[#050816]" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(143,107,255,0.25)_0%,transparent_70%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_100%,rgba(66,183,255,0.12)_0%,transparent_65%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_100%,rgba(0, 119, 182,0.12)_0%,transparent_65%)]" />
             <div className="absolute inset-0 rounded-[28px] border border-[rgba(143,107,255,0.3)] pointer-events-none" />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[40%] h-[2px] bg-gradient-to-r from-transparent via-[#8F6BFF] to-transparent" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[40%] h-[2px] bg-gradient-to-r from-transparent via-[#A855F7] to-transparent" />
 
             <div className="relative z-10">
               <div className="flex justify-center mb-5">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center bg-[rgba(143,107,255,0.15)] border border-[rgba(143,107,255,0.35)] shadow-[0_0_20px_rgba(143,107,255,0.25)]">
-                  <Gamepad2 size={26} color="#8F6BFF" />
+                  <Gamepad2 size={26} color="#A855F7" />
                 </div>
               </div>
 
@@ -825,7 +825,7 @@ export function GameAThonPage() {
               <div className="flex flex-wrap justify-center gap-3">
                 <Link
                   to="/registration-test"
-                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-[50px] text-[#FFFFFF] text-[clamp(14px,1.8vw,16px)] font-bold tracking-[0.02em] cursor-pointer no-underline animate-cta-gradient shadow-[0_4px_30px_rgba(66,183,255,0.3),inset_0_0_15px_rgba(143,107,255,0.5)]"
+                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-[50px] text-[#FFFFFF] text-[clamp(14px,1.8vw,16px)] font-bold tracking-[0.02em] cursor-pointer no-underline animate-cta-gradient shadow-[0_4px_30px_rgba(0, 119, 182,0.3),inset_0_0_15px_rgba(143,107,255,0.5)]"
                 >
                   <span className="text-[11px]">✦</span> Register Now{" "}
                   <ChevronRight size={14} />

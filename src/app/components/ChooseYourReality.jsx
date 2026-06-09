@@ -98,7 +98,7 @@ export function ChooseYourReality() {
                 </div>
 
                 <div className="flex flex-col text-left z-10 flex-1 justify-center">
-                  <h3 className="font-orbitron text-[22px] sm:text-[26px] font-bold text-white mb-2 tracking-[0.02em]">
+                  <h3 className="font-orbitron font-black uppercase tracking-[0.05em] text-[22px] sm:text-[26px] text-[#F8FAFC] text-glow mb-2">
                     {event.title}
                   </h3>
                   <p className="text-[#94A3B8] text-[14px] sm:text-[15px] mb-4 leading-[1.6]">

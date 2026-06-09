@@ -54,7 +54,7 @@ export function ScheduleCards() {
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
-        <h2 className="font-orbitron text-[clamp(24px,4vw,36px)] font-bold text-[#F8FAFC] text-glow">
+        <h2 className="font-orbitron text-[clamp(24px,4vw,36px)] font-black uppercase tracking-[0.05em] text-[#F8FAFC] text-glow">
           The Multiverse Awaits
         </h2>
         <p className="text-[#C8D3F5] text-[clamp(13px,2vw,15px)] mt-2 max-w-md mx-auto">
@@ -73,7 +73,7 @@ export function ScheduleCards() {
         {SCHEDULE_DATA.map((day) => (
           <motion.div
             key={day.day}
-            className="glass-card flex-1 w-full shrink-0 flex flex-col overflow-hidden rounded-[20px] border border-[#8F6BFF]/20"
+            className="glass-card flex-1 w-full shrink-0 flex flex-col overflow-hidden rounded-[20px] border border-[#A855F7]/20"
             variants={cardVariants}
             whileHover={{
               y: -6,
@@ -84,23 +84,23 @@ export function ScheduleCards() {
           >
             {/* Card header */}
             <div
-              className="px-6 py-5 border-b border-[#8F6BFF]/15"
+              className="px-6 py-5 border-b border-[#A855F7]/15"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(143, 107, 255, 0.15) 0%, rgba(63, 224, 255, 0.08) 100%)",
+                  "linear-gradient(135deg, rgba(143, 107, 255, 0.15) 0%, rgba(0, 168, 232, 0.08) 100%)",
               }}
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-orbitron text-[clamp(16px,3vw,20px)] font-bold text-[#F8FAFC] m-0 leading-tight">
+                  <h3 className="font-orbitron text-[clamp(16px,3vw,20px)] font-black uppercase tracking-[0.05em] text-[#F8FAFC] text-glow m-0 leading-tight">
                     {day.day}
                   </h3>
                   <span className="text-[#C8D3F5] text-[13px] mt-1 block">{day.date}</span>
                 </div>
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#8F6BFF]/15 border border-[#8F6BFF]/30"
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#A855F7]/15 border border-[#A855F7]/30"
                 >
-                  <Clock size={18} color="#8F6BFF" />
+                  <Clock size={18} color="#A855F7" />
                 </div>
               </div>
             </div>

@@ -4,59 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 
-/* ═══════════════════════════════════════════════════════════
-   StarField — static background stars
-   ═══════════════════════════════════════════════════════════ */
-export function StarField() {
-  const stableStars = [
-    { id: 0, x: 5, y: 8, size: 1.2, opacity: 0.4 }, { id: 1, x: 15, y: 3, size: 0.8, opacity: 0.6 },
-    { id: 2, x: 25, y: 12, size: 1.5, opacity: 0.3 }, { id: 3, x: 38, y: 5, size: 0.6, opacity: 0.5 },
-    { id: 4, x: 55, y: 9, size: 1.0, opacity: 0.4 }, { id: 5, x: 68, y: 4, size: 1.3, opacity: 0.7 },
-    { id: 6, x: 80, y: 11, size: 0.7, opacity: 0.3 }, { id: 7, x: 92, y: 6, size: 1.1, opacity: 0.5 },
-    { id: 8, x: 10, y: 20, size: 0.9, opacity: 0.4 }, { id: 9, x: 30, y: 25, size: 1.4, opacity: 0.3 },
-    { id: 10, x: 48, y: 18, size: 0.6, opacity: 0.6 }, { id: 11, x: 72, y: 22, size: 1.2, opacity: 0.4 },
-    { id: 12, x: 88, y: 17, size: 0.8, opacity: 0.5 }, { id: 13, x: 3, y: 35, size: 1.0, opacity: 0.3 },
-    { id: 14, x: 20, y: 40, size: 0.7, opacity: 0.7 }, { id: 15, x: 42, y: 32, size: 1.5, opacity: 0.4 },
-    { id: 16, x: 62, y: 38, size: 0.9, opacity: 0.3 }, { id: 17, x: 78, y: 30, size: 1.1, opacity: 0.5 },
-    { id: 18, x: 95, y: 42, size: 0.6, opacity: 0.4 }, { id: 19, x: 8, y: 55, size: 1.3, opacity: 0.3 },
-    { id: 20, x: 35, y: 50, size: 0.8, opacity: 0.6 }, { id: 21, x: 58, y: 48, size: 1.0, opacity: 0.4 },
-    { id: 22, x: 82, y: 52, size: 0.7, opacity: 0.5 }, { id: 23, x: 12, y: 65, size: 1.2, opacity: 0.3 },
-    { id: 24, x: 28, y: 70, size: 0.9, opacity: 0.4 }, { id: 25, x: 50, y: 62, size: 1.5, opacity: 0.3 },
-    { id: 26, x: 70, y: 68, size: 0.6, opacity: 0.7 }, { id: 27, x: 90, y: 60, size: 1.1, opacity: 0.4 },
-    { id: 28, x: 6, y: 80, size: 0.8, opacity: 0.5 }, { id: 29, x: 22, y: 85, size: 1.3, opacity: 0.3 },
-    { id: 30, x: 45, y: 78, size: 0.7, opacity: 0.6 }, { id: 31, x: 65, y: 82, size: 1.0, opacity: 0.4 },
-    { id: 32, x: 85, y: 75, size: 1.2, opacity: 0.3 }, { id: 33, x: 15, y: 92, size: 0.9, opacity: 0.5 },
-    { id: 34, x: 40, y: 95, size: 0.6, opacity: 0.4 }, { id: 35, x: 60, y: 90, size: 1.4, opacity: 0.3 },
-    { id: 36, x: 75, y: 88, size: 0.8, opacity: 0.6 }, { id: 37, x: 96, y: 85, size: 1.1, opacity: 0.4 },
-  ];
-
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-5]">
-      {stableStars.map((star) => (
-        <div
-          key={star.id}
-          style={{
-            position: "absolute",
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            borderRadius: "50%",
-            background: "white",
-            opacity: star.opacity,
-            animation: `pulse ${2 + star.id % 3}s infinite alternate`
-          }}
-        />
-      ))}
-      <style>{`
-        @keyframes pulse {
-          0% { opacity: 0.2; transform: scale(0.8); }
-          100% { opacity: 0.8; transform: scale(1.2); }
-        }
-      `}</style>
-    </div>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════════
    PortalVideo — right-column portal
@@ -143,21 +90,67 @@ export function HeroSection() {
 
   return (
     <div className="relative z-10 flex flex-col w-full max-w-[1400px] mx-auto px-5 pt-4 md:pt-8 lg:pt-6 pb-8 lg:pb-6 min-h-[calc(100dvh-80px)] lg:min-h-0">
+      <svg width="0" height="0" className="absolute">
+        <defs>
+          <linearGradient id="hero-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#1D4ED8" />
+            <stop offset="100%" stopColor="#06B6D4" />
+          </linearGradient>
+        </defs>
+      </svg>
+      
+
       <div className="flex flex-col lg:flex-row lg:justify-between items-center lg:items-start w-full">
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           LEFT COLUMN — Phase 2: Staggered Content Reveal
           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <motion.div
-        className="contents lg:flex lg:flex-col lg:items-center lg:w-[40%] lg:max-w-[560px] text-center lg:pl-12"
+        className="contents lg:relative lg:flex lg:flex-col lg:items-center lg:w-[40%] lg:max-w-[560px] text-center lg:pl-12"
         initial="hidden"
         animate="visible"
         onAnimationComplete={() => setEntranceComplete(true)}
       >
+        {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            Ambient Particle System (Responsive Outer Edge bounds)
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+        <div className="order-0 absolute inset-0 pointer-events-none z-[0] lg:z-[-1] opacity-100">
+          {/* Purple Orb - Upper Left on Mobile / Mid Left (Close) on Desktop */}
+          <motion.div
+            className="absolute top-[10%] left-[10%] lg:top-[70%] lg:left-[10%] rounded-full bg-[#FFFFFF]"
+            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #3B82F6, 0 0 30px 8px #3B82F6" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, x: [0, 20, 0, -20, 0], y: [0, -15, 0, 15, 0] }}
+            transition={{ opacity: { duration: 2, delay: 0.2 }, default: { duration: 25, repeat: Infinity, ease: "linear" } }}
+          />
+          {/* Gold Orb - Upper Right on Mobile / Top Right on Desktop */}
+          <motion.div
+            className="absolute top-[18%] right-[10%] lg:top-[35%] lg:right-[10%] rounded-full bg-[#FFFFFF]"
+            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #EAB308, 0 0 30px 8px #EAB308" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, x: [0, -25, 0, 25, 0], y: [0, 20, 0, -20, 0] }}
+            transition={{ opacity: { duration: 2, delay: 0.4 }, default: { duration: 28, repeat: Infinity, ease: "linear" } }}
+          />
+          {/* Green Orb - Lower Left on Mobile / Bottom Right on Desktop */}
+          <motion.div
+            className="absolute bottom-[42%] left-[10%] lg:bottom-[20%] lg:left-auto lg:right-[15%] rounded-full bg-[#FFFFFF]"
+            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #22C55E, 0 0 30px 8px #22C55E" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, x: [0, 15, 0, -15, 0], y: [0, 25, 0, -25, 0] }}
+            transition={{ opacity: { duration: 2, delay: 0.6 }, default: { duration: 30, repeat: Infinity, ease: "linear" } }}
+          />
+          {/* Orange Orb - Lower Right on Mobile / Mid Left (Far) on Desktop */}
+          <motion.div
+            className="absolute bottom-[40%] right-[10%] lg:bottom-auto lg:top-[40%] lg:right-auto lg:left-[5%] rounded-full bg-[#FFFFFF]"
+            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #F97316, 0 0 30px 8px #F97316" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, x: [0, -20, 0, 20, 0], y: [0, -20, 0, 20, 0] }}
+            transition={{ opacity: { duration: 2, delay: 0.8 }, default: { duration: 26, repeat: Infinity, ease: "linear" } }}
+          />
+        </div>
         <motion.div
-          className="order-1 flex justify-center items-center gap-1 mb-3 w-full text-[10px] text-[#C8D3F5]"
+          className="order-1 flex justify-center items-center gap-1 mb-3 lg:mt-4 w-full text-[10px] text-[#C8D3F5]"
           variants={animCSI}
         >
-          <div className="w-[12px] h-[12px] rounded-full border border-[#3FE0FF] shrink-0 shadow-[0_0_4px_rgba(63,224,255,0.4)] bg-badge-gradient" />
           <span className="whitespace-nowrap font-semibold tracking-[0.02em] text-[clamp(10px,2vw,12px)]">
             Computer Society of India, VNRVJIET
           </span>
@@ -178,7 +171,7 @@ export function HeroSection() {
             <motion.div className="divider-circle-left" variants={animYear} />
           </div>
 
-          <motion.span variants={animYear} className="text-2k26-gradient">
+          <motion.span variants={animYear} className="text-transparent bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] animate-text-gradient">
             2K26
           </motion.span>
 
@@ -188,39 +181,40 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        <motion.p
-          className="order-5 w-full mt-4 mb-2 lg:mt-16 lg:mb-8 text-[#FFFFFF] text-[clamp(20px,4vw,32px)] font-extrabold leading-[1.3] tracking-[0.01em]"
-          variants={animBlock}
-        >
-          One Event.{" "}
-          <span className="bg-gradient-to-r from-[#8F6BFF] to-[#3FE0FF] bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
-            Many Realities.
-          </span>
-        </motion.p>
+        <div className="order-5 relative w-full flex flex-col items-center">
 
-        <motion.p
-          className="order-6 w-full mx-auto mb-8 lg:mb-16 text-[#C8D3F5] text-[clamp(14px,2vw,17px)] leading-[1.6] max-w-[480px]"
-          variants={animBlock}
-        >
-          Step into a universe of ideas, innovation,
-          <br />
-          games, voices, and designs.
-          <br />
-          Where imagination meets impact.
-        </motion.p>
-
-        <motion.div
-          className="order-7 flex justify-center w-full mb-8 lg:mb-8"
-          variants={animBtn}
-        >
-          <Link
-            to="/registration-test"
-            className={`flex items-center justify-center gap-2 w-full max-w-[320px] px-10 py-4 rounded-[50px] border-none text-[#FFFFFF] text-[clamp(15px,2vw,17px)] font-bold tracking-[0.02em] cursor-pointer no-underline shadow-[0_4px_30px_rgba(66,183,255,0.3),inset_0_0_15px_rgba(143,107,255,0.5)] ${entranceComplete ? "animate-cta-gradient" : "bg-cta-initial"}`}
+          <motion.p
+            className="w-full mt-4 mb-2 lg:mt-16 lg:mb-8 font-orbitron font-black text-[#F8FAFC] text-[clamp(20px,4vw,32px)] tracking-[0.05em] text-glow leading-[1.3] relative z-10"
+            variants={animBlock}
           >
-            <span className="text-[12px]">✦</span> Enter the Multiverse{" "}
-            <span>→</span>
-          </Link>
-        </motion.div>
+            One Event.{" "}
+            <span className="text-transparent bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] animate-text-gradient">
+              Many Realities.
+            </span>
+          </motion.p>
+
+          <motion.p
+            className="w-full mx-auto mb-8 lg:mb-16 text-[#C8D3F5] text-[clamp(14px,2vw,17px)] leading-[1.6] max-w-[480px] relative z-10"
+            variants={animBlock}
+          >
+            Step into a universe of ideas, innovation,
+            <br />
+            games, voices, and designs.
+            <br />
+            Where imagination meets impact.
+          </motion.p>
+        </div>
+
+        <div className="order-7 relative w-full flex justify-center mb-8 lg:mb-8">
+          <motion.div variants={animBtn} className="w-full max-w-[320px] relative z-10">
+            <Link
+              to="/registration-test"
+              className="flex items-center justify-center gap-2 w-full px-10 py-4 rounded-[50px] border-none text-[#FFFFFF] text-[clamp(15px,2vw,17px)] font-bold tracking-[0.02em] cursor-pointer no-underline shadow-[0_4px_30px_rgba(0,119,182,0.3),inset_0_0_15px_rgba(143,107,255,0.5)] animate-cta-gradient [text-shadow:0_1px_2px_rgba(0,0,0,0.8)]"
+            >
+              <span className="text-[12px]">✦</span> Enter the Multiverse <span className="text-[12px]">✦</span>
+            </Link>
+          </motion.div>
+        </div>
       </motion.div>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -251,15 +245,15 @@ export function HeroSection() {
             {/* Left: Date */}
             <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
               <div className="flex flex-col text-right">
-                <span className="text-[#FFFFFF] text-[12px] sm:text-[14px] lg:text-[18px] font-semibold whitespace-nowrap tracking-[0.02em] leading-tight">
+                <span className="font-orbitron text-glow text-[#F8FAFC] text-[12px] sm:text-[14px] lg:text-[18px] font-black uppercase whitespace-nowrap tracking-[0.05em] leading-tight">
                   June 26 – 27, 2026
                 </span>
-                <span className="text-[#8F6BFF] text-[9px] sm:text-[11px] lg:text-[13px] font-semibold uppercase whitespace-nowrap tracking-[0.06em] leading-tight mt-[4px]">
+                <span className="text-2k26-gradient text-[9px] sm:text-[11px] lg:text-[13px] font-semibold uppercase whitespace-nowrap tracking-[0.06em] leading-tight mt-[4px]">
                   Friday & Saturday
                 </span>
               </div>
-              <div className="flex items-center justify-center w-7 h-7 sm:w-9 sm:h-9 lg:w-12 lg:h-12 rounded-full bg-[#8F6BFF]/10 border border-[#8F6BFF]/30 shrink-0">
-                <Calendar size={12} className="sm:w-[14px] sm:h-[14px] lg:w-[18px] lg:h-[18px]" color="#8F6BFF" />
+              <div className="flex items-center justify-center w-7 h-7 sm:w-9 sm:h-9 lg:w-12 lg:h-12 rounded-full bg-gradient-to-br from-[#60A5FA]/20 to-[#22D3EE]/20 border border-[#22D3EE]/40 shrink-0">
+                <Calendar size={12} className="sm:w-[14px] sm:h-[14px] lg:w-[18px] lg:h-[18px]" color="#ffffffff" />
               </div>
             </div>
 
@@ -268,14 +262,14 @@ export function HeroSection() {
 
             {/* Right: Venue */}
             <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
-              <div className="flex items-center justify-center w-7 h-7 sm:w-9 sm:h-9 lg:w-12 lg:h-12 rounded-full bg-[#3FE0FF]/10 border border-[#3FE0FF]/30 shrink-0">
-                <Wifi size={12} className="sm:w-[14px] sm:h-[14px] lg:w-[18px] lg:h-[18px]" color="#3FE0FF" />
+              <div className="flex items-center justify-center w-7 h-7 sm:w-9 sm:h-9 lg:w-12 lg:h-12 rounded-full bg-gradient-to-br from-[#60A5FA]/20 to-[#22D3EE]/20 border border-[#22D3EE]/40 shrink-0">
+                <Wifi size={12} className="sm:w-[14px] sm:h-[14px] lg:w-[18px] lg:h-[18px]" color="#ffffffff" />
               </div>
               <div className="flex flex-col text-left">
-                <span className="text-[#FFFFFF] text-[12px] sm:text-[14px] lg:text-[18px] font-semibold whitespace-nowrap tracking-[0.02em] leading-tight">
+                <span className="font-orbitron text-glow text-[#F8FAFC] text-[12px] sm:text-[14px] lg:text-[18px] font-black uppercase whitespace-nowrap tracking-[0.05em] leading-tight">
                   Online
                 </span>
-                <span className="text-[#3FE0FF] text-[9px] sm:text-[11px] lg:text-[13px] font-semibold uppercase whitespace-nowrap tracking-[0.06em] leading-tight mt-[4px]">
+                <span className="text-2k26-gradient text-[9px] sm:text-[11px] lg:text-[13px] font-semibold uppercase whitespace-nowrap tracking-[0.06em] leading-tight mt-[4px]">
                   Virtual Event
                 </span>
               </div>

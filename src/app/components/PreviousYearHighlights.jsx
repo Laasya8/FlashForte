@@ -328,7 +328,7 @@ export function PreviousYearHighlights() {
               <div className="flex justify-between items-start mb-6 lg:mb-8 border-b border-white/10 pb-4 lg:pb-6">
                 <div className="flex items-center gap-3 lg:gap-4">
                   <activeEvent.icon size={isMobile ? 24 : 32} color={activeEvent.color} style={{ filter: `drop-shadow(0 0 10px ${activeEvent.color}80)` }} />
-                  <h3 className="font-orbitron font-bold text-[20px] sm:text-[24px] lg:text-[28px] text-white tracking-wide">
+                  <h3 className="font-orbitron font-black uppercase tracking-[0.05em] text-[20px] sm:text-[24px] lg:text-[28px] text-[#F8FAFC] text-glow">
                     {activeEvent.title} {activeEvent.year}
                   </h3>
                 </div>

@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router";
+import { ScrollToTop } from "./components/ScrollToTop.jsx";
 import { LandingPage } from "./components/LandingPage.jsx";
 import { RegistrationTestPage } from "./pages/RegistrationTestPage.jsx";
 import { IdeaThonPage } from "./pages/IdeaThonPage.jsx";
@@ -9,9 +10,12 @@ import { Navbar } from "./components/Navbar.jsx";
 
 export default function App() {
   return (
-    <div className="min-h-[100dvh] w-full max-w-[100vw] bg-[#050816] flex flex-col relative">
-      <Navbar />
-      <div className="flex-1 w-full max-w-[100vw] overflow-x-hidden relative">
+    <>
+      <div className="fixed inset-0 bg-[#050816] -z-50 pointer-events-none" />
+      <ScrollToTop />
+      <div className="min-h-[100dvh] w-full max-w-[100vw] flex flex-col relative">
+        <Navbar />
+        <div className="flex-1 w-full max-w-[100vw] overflow-x-hidden relative">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/registration-test" element={<RegistrationTestPage />} />
@@ -22,5 +26,6 @@ export default function App() {
         </Routes>
       </div>
     </div>
+    </>
   );
 }
