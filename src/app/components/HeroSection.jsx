@@ -116,8 +116,8 @@ export function HeroSection() {
         <div className="order-0 absolute inset-0 pointer-events-none z-[0] lg:z-[-1] opacity-100">
           {/* Purple Orb - Upper Left on Mobile / Mid Left (Close) on Desktop */}
           <motion.div
-            className="absolute top-[10%] left-[10%] lg:top-[70%] lg:left-[10%] rounded-full bg-[#FFFFFF]"
-            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #3B82F6, 0 0 30px 8px #3B82F6" }}
+            className="absolute top-[20%] left-[10%] lg:top-[70%] lg:left-[10%] rounded-full bg-[#FFFFFF]"
+            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #A855F7, 0 0 30px 8px #A855F7" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, x: [0, 20, 0, -20, 0], y: [0, -15, 0, 15, 0] }}
             transition={{ opacity: { duration: 2, delay: 0.2 }, default: { duration: 25, repeat: Infinity, ease: "linear" } }}

@@ -124,7 +124,7 @@ export function ScheduleCards() {
                     <Icon size={20} color={event.color} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[#F8FAFC] text-[15px] font-semibold leading-tight">
+                    <div className="font-orbitron font-black text-[#F8FAFC] text-[16px] sm:text-[18px] tracking-[0.06em] text-glow leading-tight animate-title-glow">
                       {event.name}
                     </div>
                     <div
