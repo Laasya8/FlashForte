@@ -92,6 +92,12 @@ export function Navbar() {
         <div className="flex items-center gap-2 md:gap-4">
           <Link
             to="/registration-test"
+            className="hidden md:flex btn-ghost-gateway no-underline"
+          >
+            Test Gateway
+          </Link>
+          <Link
+            to="/register"
             className="flex items-center gap-1 font-semibold rounded-full px-4 py-2 text-sm btn-outline-glow no-underline cursor-pointer"
           >
             Register <ChevronRight size={12} />
@@ -136,6 +142,13 @@ export function Navbar() {
               </Link>
             );
           })}
+          <Link
+            to="/registration-test"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="btn-ghost-gateway no-underline mt-2"
+          >
+            Test Gateway
+          </Link>
         </div>
       </div>
     </motion.nav>
