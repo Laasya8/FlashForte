@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* ═══════════════════════════════════════════════════════════
-   Registration Test Page — Headless Custom Form
+   Custom Registration Form — Headless Custom Form
    Sends JSON payload (with Base64 file) to Google Apps Script.
    Uses text/plain to bypass CORS preflight.
    ═══════════════════════════════════════════════════════════ */
@@ -81,7 +81,7 @@ function Spinner() {
 /* ══════════════════════════════════════════════════════════
    Main Component
    ══════════════════════════════════════════════════════════ */
-export function RegistrationTestPage() {
+export function CustomRegistrationForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [file, setFile] = useState(null);
@@ -217,20 +217,22 @@ export function RegistrationTestPage() {
      RENDER
      ═══════════════════════════════════════════════════════ */
   return (
-    <div className="reg-page">
+    <div className="w-full flex justify-center px-4 md:px-0">
       {/* Ambient background glows */}
-      <div className="reg-ambient reg-ambient--top-left" aria-hidden="true" />
-      <div className="reg-ambient reg-ambient--bottom-right" aria-hidden="true" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="reg-ambient reg-ambient--top-left" aria-hidden="true" />
+        <div className="reg-ambient reg-ambient--bottom-right" aria-hidden="true" />
+      </div>
 
       <motion.div
-        className="reg-card"
+        className="reg-card w-full"
         variants={cardVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Header */}
         <div className="reg-card__header">
-          <h1 className="reg-card__title">Initialize Protocol</h1>
+          <h2 className="reg-card__title">Initialize Protocol</h2>
           <p className="reg-card__subtitle">
             Register your entry into the multiverse
           </p>
@@ -250,9 +252,12 @@ export function RegistrationTestPage() {
               <CheckmarkAnimation />
               <h2 className="reg-success__title">Registration Confirmed.</h2>
               <p className="reg-success__subtitle">Transmission Complete.</p>
-              <Link to="/" className="reg-success__link">
-                Return to Home →
-              </Link>
+              <button 
+                onClick={() => setStatus('idle')}
+                className="reg-success__link bg-transparent border-none cursor-pointer p-0"
+              >
+                Register Another →
+              </button>
             </motion.div>
           ) : (
             /* ── Form ───────────────────────────────── */
