@@ -40,7 +40,7 @@ export function RegistrationFormEmbed() {
     <div className="w-full mx-auto max-w-[800px] glass-card">
       <div className="w-full rounded-lg bg-transparent relative">
         {loadCount === 0 && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 min-h-screen">
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
             <Loader2 className="w-12 h-12 text-[#3B82F6] animate-spin mb-4" />
             <p className="text-[#C8D3F5] font-medium animate-pulse font-orbitron">
               Loading Form...
@@ -52,13 +52,13 @@ export function RegistrationFormEmbed() {
           onLoad={handleIframeLoad}
           src="https://docs.google.com/forms/d/e/1FAIpQLSc1XjIFlHs-UnHzQ4pf_Gt98oJmY_hg3mdTZAYGPaVnOJ2_CQ/viewform?embedded=true"
           width="100%"
-          height="100%"
+          height="800"
           frameBorder="0"
           marginHeight="0"
           marginWidth="0"
           title="Registration Form"
           scrolling="auto"
-          className="border-none block min-h-screen"
+          className="border-none block w-full"
         >
           Loading…
         </iframe>
