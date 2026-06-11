@@ -14,6 +14,8 @@ export function CursorTrail({ colorRgb = [245, 197, 24] }) {
     setMounted(true);
   }, []);
 
+  const colorStr = colorRgb.join(",");
+
   useEffect(() => {
     if (!mounted) return;
     // Prevents the ribbon from running on mobile devices or devices without hover capabilities
@@ -47,13 +49,14 @@ export function CursorTrail({ colorRgb = [245, 197, 24] }) {
         isHiddenRef.current = false;
       }
 
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      // Use client coordinates directly since the canvas is portaled to body and perfectly fixed
+      const x = e.clientX;
+      const y = e.clientY;
+
+      mouseRef.current = { x, y };
       if (!activeRef.current) {
         activeRef.current = true;
-        pointsRef.current = Array.from({ length: TRAIL }, () => ({
-          x: e.clientX,
-          y: e.clientY,
-        }));
+        pointsRef.current = Array.from({ length: TRAIL }, () => ({ x, y }));
       }
     }
     window.addEventListener("mousemove", onMove);
@@ -80,7 +83,7 @@ export function CursorTrail({ colorRgb = [245, 197, 24] }) {
         return;
       }
 
-      const [baseR, baseG, baseB] = colorRgb;
+      const [baseR, baseG, baseB] = colorStr.split(",");
 
       // Render the ribbon geometry onto the HTML5 Canvas
       for (let i = 0; i < TRAIL - 1; i++) {
@@ -121,7 +124,7 @@ export function CursorTrail({ colorRgb = [245, 197, 24] }) {
       window.removeEventListener("resize", resize);
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };
-  }, [colorRgb, mounted]);
+  }, [colorStr, mounted]);
 
   if (!mounted) return null;
 
@@ -135,7 +138,7 @@ export function CursorTrail({ colorRgb = [245, 197, 24] }) {
         width: "100%",
         height: "100%",
         pointerEvents: "none", // Ensures you can click items underneath the canvas
-        zIndex: 99999,         // Sits completely on top of everything else
+        zIndex: 99999,          // Sits completely on top of everything else
       }}
     />,
     document.body

@@ -3,17 +3,21 @@ import { useEffect } from "react";
 export function UniversalLoader({ 
   titleStart = "IDEA", 
   titleEnd = "THON", 
-  colorHex = "#f5c518", 
+  colorHex = "#f5c518",
   colorRgb = "245,197,24" 
 }) {
   useEffect(() => {
-    // Disable scroll on mount
-    const originalStyle = window.getComputedStyle(document.body).overflow;
+    // Disable scroll on mount for both body and html to be safe
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     
     // Re-enable on unmount
     return () => {
-      document.body.style.overflow = originalStyle;
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
     };
   }, []);
   return (
