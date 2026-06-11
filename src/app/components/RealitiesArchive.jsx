@@ -61,7 +61,7 @@ export function RealitiesArchive() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="text-center mb-12 px-5"
       >
@@ -103,10 +103,10 @@ export function RealitiesArchive() {
                 key={poster.id}
                 initial={!isMobile ? { opacity: 0, scale: 0.9 } : false}
                 whileInView={!isMobile ? { opacity: 1, scale: 1 } : undefined}
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true, amount: 0.2 }}
                 animate={isMobile ? { rotateY, scale, opacity, zIndex } : { zIndex: 1, rotateY: 0, scale: 1, opacity: 1 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className={`archive-carousel-item shrink-0 lg:w-[320px] aspect-[1/1.4] rounded-[20px] relative group cursor-pointer preserve-3d will-change-transform will-change-opacity ${isMobile ? "snap-center w-[240px]" : "w-[280px]"}`}
+                className={`archive-carousel-item shrink-0 lg:w-[320px] aspect-[1/1.4] rounded-[20px] relative group cursor-pointer preserve-3d ${isMobile ? "snap-center w-[240px]" : "w-[280px]"}`}
               >
                 {/* Holographic Panel Background / Image Placeholder */}
                 <div 

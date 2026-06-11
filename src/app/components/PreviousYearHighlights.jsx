@@ -138,7 +138,7 @@ function MobileImageGallery({ activeEvent }) {
               key={index}
               animate={{ rotateY, scale, opacity, zIndex }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="gallery-carousel-item snap-center shrink-0 w-[240px] aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group preserve-3d will-change-transform will-change-opacity"
+              className="gallery-carousel-item snap-center shrink-0 w-[240px] aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group preserve-3d"
             >
               <div className="absolute inset-0 flex items-center justify-center opacity-20 transition-opacity">
                 <activeEvent.icon size={48} color={activeEvent.color} />
@@ -222,7 +222,7 @@ export function PreviousYearHighlights() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="text-center mb-12 lg:mb-16"
       >
@@ -269,7 +269,7 @@ export function PreviousYearHighlights() {
                 <motion.div 
                   key={event.id}
                   onClick={() => handleTabClick(index)}
-                  className={`nav-carousel-item relative shrink-0 lg:w-full cursor-pointer group preserve-3d will-change-transform will-change-opacity ${isMobile ? "snap-center w-[240px]" : "w-[260px]"}`}
+                  className={`nav-carousel-item relative shrink-0 lg:w-full cursor-pointer group preserve-3d ${isMobile ? "snap-center w-[240px]" : "w-[260px]"}`}
                   animate={isMobile ? { rotateY, scale, opacity, zIndex } : { rotateY: 0, scale: 1, opacity: 1, zIndex: 1 }}
                   transition={{ duration: 0.4 }}
                 >
@@ -328,7 +328,7 @@ export function PreviousYearHighlights() {
               <div className="flex justify-between items-start mb-6 lg:mb-8 border-b border-white/10 pb-4 lg:pb-6">
                 <div className="flex items-center gap-3 lg:gap-4">
                   <activeEvent.icon size={isMobile ? 24 : 32} color={activeEvent.color} style={{ filter: `drop-shadow(0 0 10px ${activeEvent.color}80)` }} />
-                  <h3 className="font-orbitron font-bold text-[20px] sm:text-[24px] lg:text-[28px] text-white tracking-wide">
+                  <h3 className="font-orbitron font-black uppercase tracking-[0.05em] text-[16px] sm:text-[24px] lg:text-[28px] text-[#F8FAFC] text-glow">
                     {activeEvent.title} {activeEvent.year}
                   </h3>
                 </div>

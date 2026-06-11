@@ -14,7 +14,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-
+import { StarField } from "../components/HeroSection.jsx";
 
 /* ═══════════════════════════════════════════════════════════
    Shared Motion Constants  (identical to GameAThonPage)
