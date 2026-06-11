@@ -11,10 +11,12 @@ import {
   PenTool,
   Wand2,
   Monitor,
-  Sparkles,
-  Zap,
+  Sparkles, 
+  Zap 
 } from "lucide-react";
 import { StarField } from "../components/StarField.jsx";
+import { CursorTrail } from "../components/CursorTrail.jsx";
+import { UniversalLoader } from "../components/UniversalLoader.jsx";
 
 /* ═══════════════════════════════════════════════════════════
    Shared Motion Constants  (identical to GameAThonPage)
@@ -450,9 +452,25 @@ const GALLERY_ITEMS = [
    ═══════════════════════════════════════════════════════════ */
 export function DesignAThonPage() {
   const [entranceComplete, setEntranceComplete] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <div className="relative w-full max-w-[100vw] overflow-x-hidden flex flex-col font-inter bg-[#050816]">
+      <CursorTrail colorRgb={[34, 197, 94]} />
+      {loading && (
+        <UniversalLoader
+          titleStart="DESIGN"
+          titleEnd="ATHON"
+          colorHex="#22C55E"
+          colorRgb="34,197,94"
+        />
+      )}
+      
       {/* Fixed backgrounds */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-space-radial" />
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
