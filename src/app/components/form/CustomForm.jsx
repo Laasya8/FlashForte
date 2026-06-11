@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FieldRenderer } from "./FieldRenderer";
 import { FileUpload } from "./FileUpload";
@@ -62,6 +62,26 @@ export function CustomForm({
   const [status, setStatus] = useState("idle"); // idle, loading, success, error
   const [errorMsg, setErrorMsg] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
+
+  // Simulated Progress Bar to prevent "frozen UI" perception during large file fetch() uploads
+  useEffect(() => {
+    let interval;
+    if (status === "loading") {
+      setUploadProgress(0);
+      interval = setInterval(() => {
+        setUploadProgress((prev) => {
+          if (prev >= 90) return prev; // Hold at 90% while waiting for Google's response
+          const increment = Math.max(1, Math.floor((90 - prev) / 10)); // Slows down as it approaches 90
+          return prev + increment;
+        });
+      }, 400);
+    } else if (status === "success") {
+      setUploadProgress(100);
+    } else {
+      setUploadProgress(0);
+    }
+    return () => clearInterval(interval);
+  }, [status]);
 
   const handleFieldChange = useCallback((name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -279,6 +299,7 @@ export function CustomForm({
                   acceptedMimeTypes={acceptedMimeTypes}
                   setErrorMsg={setErrorMsg}
                   isSubmitting={status === "loading"}
+                  uploadProgress={uploadProgress}
                 />
               )}
 

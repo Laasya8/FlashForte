@@ -27,7 +27,7 @@ const Spinner = () => (
   </svg>
 );
 
-export const FileUpload = memo(function FileUpload({ file, setFile, acceptedTypes, acceptedMimeTypes, setErrorMsg, isSubmitting }) {
+export const FileUpload = memo(function FileUpload({ file, setFile, acceptedTypes, acceptedMimeTypes, setErrorMsg, isSubmitting, uploadProgress }) {
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -92,8 +92,24 @@ export const FileUpload = memo(function FileUpload({ file, setFile, acceptedType
           if (!isSubmitting && (e.key === "Enter" || e.key === " ")) fileInputRef.current?.click();
         }}
         aria-label="Upload project file"
-        style={isSubmitting ? { opacity: 0.7, cursor: "not-allowed" } : {}}
+        style={isSubmitting ? { opacity: 0.7, cursor: "not-allowed", position: "relative", overflow: "hidden" } : { relative: "relative", overflow: "hidden" }}
       >
+        {/* Progress Bar Background */}
+        {isSubmitting && uploadProgress !== undefined && (
+          <div 
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              height: "4px",
+              backgroundColor: "#00d2c8",
+              width: `${uploadProgress}%`,
+              transition: "width 0.3s ease-out",
+              zIndex: 10
+            }}
+          />
+        )}
+
         <input
           ref={fileInputRef}
           type="file"
@@ -113,7 +129,7 @@ export const FileUpload = memo(function FileUpload({ file, setFile, acceptedType
         
         {isSubmitting ? (
           <span className="reg-dropzone__text" style={{ color: "#00d2c8", fontWeight: "600" }}>
-            Uploading...
+            {uploadProgress < 100 ? `Uploading... ${uploadProgress}%` : "Processing on server..."}
           </span>
         ) : file ? (
           <span className="reg-dropzone__filename">{file.name}</span>
@@ -125,7 +141,9 @@ export const FileUpload = memo(function FileUpload({ file, setFile, acceptedType
         
         <span className="reg-dropzone__hint">
           {isSubmitting 
-            ? "Please wait while your file securely transfers. Do not close this page."
+            ? uploadProgress < 100 
+              ? "Please keep this page open while your file securely transfers."
+              : "Upload complete! Awaiting server response..."
             : file 
               ? "Click to replace" 
               : (acceptedTypes 
