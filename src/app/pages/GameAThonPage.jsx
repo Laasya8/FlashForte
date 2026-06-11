@@ -16,13 +16,9 @@ import {
   Trophy,
 } from "lucide-react";
 import { StarField } from "../components/StarField.jsx";
+import ss1 from "../../images/Gameathon/Gameathon_ss1.png";
+import ss2 from "../../images/Gameathon/Gameathon_ss2.png";
 
-/* ═══════════════════════════════════════════════════════════
-   GalaxyBackground — full-page canvas galaxy, purple dominant.
-   position: absolute fills the entire scrollable page height.
-   Stars distributed across full document. Mouse repulsion
-   accounts for scroll position. No blue/cyan.
-   ═══════════════════════════════════════════════════════════ */
 function GalaxyBackground({
   density          = 0.8,
   glowIntensity    = 0.25,
@@ -46,12 +42,10 @@ function GalaxyBackground({
     let rot = 0;
     let raf;
 
-    /* star count scales with page area */
     const COUNT = Math.floor(480 * density);
 
     function mkStar() {
       const angle      = Math.random() * Math.PI * 2;
-      /* distribute across full page height */
       const maxR       = Math.hypot(W, H) * 0.55;
       const dist       = 10 + Math.random() * maxR;
       const size       = 0.4 + Math.random() * 1.7;
@@ -65,26 +59,22 @@ function GalaxyBackground({
     let stars = [];
 
     function resize() {
-      /* Use the canvas element's parent (page root div) full height */
       const parent = canvas.parentElement;
       W = canvas.width  = parent ? parent.offsetWidth  : window.innerWidth;
       H = canvas.height = parent ? parent.offsetHeight : document.documentElement.scrollHeight;
       canvas.style.width  = W + "px";
       canvas.style.height = H + "px";
-      /* galaxy center = horizontal centre, vertical centre of full document */
       cx = W / 2;
       cy = H / 2;
       stars = Array.from({ length: COUNT }, mkStar);
     }
     resize();
 
-    /* Resize observer on parent so we re-draw when content grows */
     const parent = canvas.parentElement;
     const ro = parent ? new ResizeObserver(resize) : null;
     ro?.observe(parent);
     window.addEventListener("resize", resize);
 
-    /* Mouse — translate clientY to document coords */
     function onMouseMove(e) {
       mouse.x = e.clientX;
       mouse.y = e.clientY + window.scrollY;
@@ -103,7 +93,6 @@ function GalaxyBackground({
         const worldX = cx + s.dist * Math.cos(s.angle + rot);
         const worldY = cy + s.dist * Math.sin(s.angle + rot) * 0.52;
 
-        /* mouse repulsion (document-space coords) */
         const dx  = worldX - mouse.x;
         const dy  = worldY - mouse.y;
         const d   = Math.sqrt(dx * dx + dy * dy) || 1;
@@ -121,11 +110,10 @@ function GalaxyBackground({
 
         const twinkle = 1 - twinkleIntensity + twinkleIntensity * Math.sin(t * s.twinkSpeed + s.twinkPhase);
         const alpha   = (0.35 + s.colorT * 0.55) * twinkle;
-        const hue     = hueShift + (s.colorT - 0.5) * 40;   // 260–300, never blue
+        const hue     = hueShift + (s.colorT - 0.5) * 40;
         const sat     = Math.round(55 + saturation * 40);
         const lit     = Math.round(72 + s.colorT * 20);
 
-        /* glow halo */
         if (glowIntensity > 0) {
           const gr = ctx.createRadialGradient(px, py, 0, px, py, s.size * 3.8);
           gr.addColorStop(0, `hsla(${hue},70%,75%,${alpha * glowIntensity * 1.8})`);
@@ -136,7 +124,6 @@ function GalaxyBackground({
           ctx.fill();
         }
 
-        /* star core */
         ctx.beginPath();
         ctx.arc(px, py, s.size, 0, Math.PI * 2);
         ctx.fillStyle = `hsla(${hue},${sat}%,${lit}%,${alpha})`;
@@ -175,16 +162,11 @@ function GalaxyBackground({
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   MagicBentoCard — spotlight + particle stars + border glow
-   + click ripple. Wraps any children. Pure DOM, no deps.
-   Props match the reference API surface used in the page.
-   ═══════════════════════════════════════════════════════════ */
 function MagicBentoCard({
   children,
   className = "",
   style     = {},
-  cardBackground    = "rgba(10, 8, 28, 0.82)",   // opaque base — blocks galaxy bleed
+  cardBackground    = "rgba(10, 8, 28, 0.82)",
   enableStars       = true,
   enableSpotlight   = true,
   enableBorderGlow  = true,
@@ -202,7 +184,6 @@ function MagicBentoCard({
   const rafRef     = useRef(null);
   const mouseRef   = useRef({ x: 0, y: 0, inside: false });
 
-  /* ── particle stars ── */
   useEffect(() => {
     if (!enableStars || disableAnimations) return;
     starsRef.current = Array.from({ length: particleCount }, (_, i) => ({
@@ -217,7 +198,6 @@ function MagicBentoCard({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enableStars, particleCount]);
 
-  /* ── pointer tracking ── */
   const onMouseMove = useCallback((e) => {
     const card = cardRef.current;
     if (!card) return;
@@ -246,7 +226,6 @@ function MagicBentoCard({
     if (glowRef.current)  glowRef.current.style.background  = "none";
   }, []);
 
-  /* ── click ripple ── */
   const onClick = useCallback((e) => {
     if (!clickEffect || disableAnimations) return;
     const card = cardRef.current;
@@ -269,7 +248,6 @@ function MagicBentoCard({
     setTimeout(() => rip.remove(), 600);
   }, [clickEffect, disableAnimations, glowColor]);
 
-  /* ── star canvas RAF ── */
   useEffect(() => {
     if (!enableStars || disableAnimations) return;
     const canvas = cardRef.current?.querySelector(".mb-stars");
@@ -307,7 +285,6 @@ function MagicBentoCard({
       onMouseLeave={onMouseLeave}
       onClick={onClick}
     >
-      {/* Particle star canvas */}
       {enableStars && !disableAnimations && (
         <canvas
           className="mb-stars"
@@ -316,7 +293,6 @@ function MagicBentoCard({
         />
       )}
 
-      {/* Spotlight layer */}
       {enableSpotlight && !disableAnimations && (
         <div
           ref={spotRef}
@@ -325,7 +301,6 @@ function MagicBentoCard({
         />
       )}
 
-      {/* Border glow layer — 1px mask trick */}
       {enableBorderGlow && !disableAnimations && (
         <div
           style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 3, borderRadius: "inherit", padding: "1px" }}
@@ -338,12 +313,10 @@ function MagicBentoCard({
         </div>
       )}
 
-      {/* Actual card content sits above all effects */}
       <div style={{ position: "relative", zIndex: 4, height: "100%" }}>
         {children}
       </div>
 
-      {/* Keyframes for ripple — injected once */}
       <style>{`
         @keyframes mbRipple {
           0%   { width:0;     height:0;     opacity:1; }
@@ -354,9 +327,6 @@ function MagicBentoCard({
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   Shared Motion Constants
-   ═══════════════════════════════════════════════════════════ */
 const BUTTERY_EASE = [0.16, 1, 0.3, 1];
 const PHASE_DURATION = 1.2;
 
@@ -394,25 +364,19 @@ const fadeIn = {
   },
 };
 
-/* ═══════════════════════════════════════════════════════════
-   scrollToSection — vertically centers the section in viewport
-   so the heading is prominent and no adjacent section bleeds in.
-   ═══════════════════════════════════════════════════════════ */
 function scrollToSection(id) {
   const el = document.getElementById(id);
   if (!el) return;
   const navbar      = document.querySelector("nav");
   const navH        = navbar ? navbar.offsetHeight : 72;
-  const usableH     = window.innerHeight - navH;          // viewport below navbar
+  const usableH     = window.innerHeight - navH;
   const elH         = el.offsetHeight;
   const elTop       = el.getBoundingClientRect().top + window.scrollY;
 
   let top;
   if (elH >= usableH) {
-    // Section taller than viewport — land heading just below navbar
     top = elTop - navH - 16;
   } else {
-    // Center the section in the usable viewport
     const offset = (usableH - elH) / 2;
     top = elTop - navH - offset;
   }
@@ -420,9 +384,6 @@ function scrollToSection(id) {
   window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ScrollReveal
-   ═══════════════════════════════════════════════════════════ */
 function ScrollReveal({ children, variants = fadeIn, className = "", delay = 0 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
@@ -450,10 +411,6 @@ function ScrollReveal({ children, variants = fadeIn, className = "", delay = 0 }
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   RibbonCursor — inline, no separate file
-   Only active on pointer (non-touch) devices.
-   ═══════════════════════════════════════════════════════════ */
 function RibbonCursor() {
   const canvasRef = useRef(null);
   const frameRef = useRef(null);
@@ -462,15 +419,14 @@ function RibbonCursor() {
   const activeRef = useRef(false);
 
   useEffect(() => {
-    // Disable on touch-primary devices
     if (window.matchMedia("(hover: none)").matches) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    const TRAIL = 28;        // number of trail points
-    const THICKNESS = 14;    // max ribbon width at head
+    const TRAIL = 28;
+    const THICKNESS = 14;
 
     function resize() {
       canvas.width = window.innerWidth;
@@ -479,7 +435,6 @@ function RibbonCursor() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Initialise points
     pointsRef.current = Array.from({ length: TRAIL }, () => ({
       x: -200,
       y: -200,
@@ -500,12 +455,10 @@ function RibbonCursor() {
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Lerp head toward cursor
       const head = pointsRef.current[0];
       head.x += (mouseRef.current.x - head.x) * 0.36;
       head.y += (mouseRef.current.y - head.y) * 0.36;
 
-      // Each subsequent point follows the one before
       for (let i = 1; i < TRAIL; i++) {
         const prev = pointsRef.current[i - 1];
         const cur = pointsRef.current[i];
@@ -513,13 +466,11 @@ function RibbonCursor() {
         cur.y += (prev.y - cur.y) * 0.42;
       }
 
-      // Draw ribbon segments
       for (let i = 0; i < TRAIL - 1; i++) {
-        const t = i / (TRAIL - 1); // 0 at head → 1 at tail
+        const t = i / (TRAIL - 1);
         const p1 = pointsRef.current[i];
         const p2 = pointsRef.current[i + 1];
 
-        // Perpendicular vector for ribbon width
         const dx = p2.x - p1.x;
         const dy = p2.y - p1.y;
         const len = Math.sqrt(dx * dx + dy * dy) || 1;
@@ -528,7 +479,6 @@ function RibbonCursor() {
 
         const alpha = (1 - t) * 0.55;
 
-        // Gradient from #A855F7 → #6B21A8 along tail
         const r = Math.round(168 - t * 55);
         const g = Math.round(85 - t * 52);
         const b = Math.round(247 - t * 115);
@@ -572,16 +522,12 @@ function RibbonCursor() {
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   PortalVideo — purple-only, enlarged ~20%
-   ═══════════════════════════════════════════════════════════ */
 function PortalVideo({ className = "" }) {
   const videoRef = useRef(null);
   useEffect(() => {
     if (videoRef.current) videoRef.current.playbackRate = 0.6;
   }, []);
 
-  // Mask: no hard geometric edge
   const MASK =
     "radial-gradient(circle at center, black 30%, rgba(0,0,0,0.85) 48%, rgba(0,0,0,0.40) 62%, transparent 75%)";
 
@@ -589,7 +535,6 @@ function PortalVideo({ className = "" }) {
     <div
       className={`relative flex items-center justify-center aspect-square mx-auto w-full max-w-[clamp(312px,90vw,576px)] lg:max-w-none lg:w-full ${className}`}
     >
-      {/* Ambient glow — pure purple, larger */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -601,7 +546,6 @@ function PortalVideo({ className = "" }) {
         }}
       />
 
-      {/* Masked portal wrapper */}
       <div
         className="absolute"
         style={{
@@ -611,7 +555,6 @@ function PortalVideo({ className = "" }) {
           WebkitMaskImage: MASK,
         }}
       >
-        {/* Video */}
         <video
           ref={videoRef}
           src="/Portal Animation.webm"
@@ -630,7 +573,6 @@ function PortalVideo({ className = "" }) {
           }}
         />
 
-        {/* Color: pure purple conic — no blue, no cyan */}
         <div
           style={{
             position: "absolute",
@@ -643,7 +585,6 @@ function PortalVideo({ className = "" }) {
           }}
         />
 
-        {/* Screen: inner luminous purple highlight */}
         <div
           style={{
             position: "absolute",
@@ -655,7 +596,6 @@ function PortalVideo({ className = "" }) {
           }}
         />
 
-        {/* Multiply: darken perimeter for natural blend */}
         <div
           style={{
             position: "absolute",
@@ -671,9 +611,6 @@ function PortalVideo({ className = "" }) {
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   GameArenaCard — Magic Bento enhanced
-   ═══════════════════════════════════════════════════════════ */
 function GameArenaCard({ icon: Icon, title, description, accentColor = "#A855F7", delay = 0 }) {
   return (
     <ScrollReveal variants={scaleUp} delay={delay}>
@@ -733,9 +670,6 @@ function GameArenaCard({ icon: Icon, title, description, accentColor = "#A855F7"
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   SkillCard — Magic Bento enhanced
-   ═══════════════════════════════════════════════════════════ */
 function SkillCard({ icon: Icon, title, delay = 0 }) {
   return (
     <ScrollReveal variants={scaleUp} delay={delay}>
@@ -785,357 +719,98 @@ function SkillCard({ icon: Icon, title, delay = 0 }) {
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   FoldingShowcase — 3D folding card carousel
-   AnimatePresence: current folds back-left, next folds forward.
-   4 cards · dot nav · drag · swipe · circular sequence.
-   No orbit, no ring, no thumbnails.
-   ═══════════════════════════════════════════════════════════ */
 const GALLERY_ITEMS = [
   {
-    label:  "Speed Typing Showdown",
-    sub:    "Live elimination round — fastest fingers win",
     accent: "#A855F7",
-    bg:     "linear-gradient(135deg, #1a0832 0%, #2d1060 45%, #0d0826 100%)",
-    icon:   Keyboard,
+    image:  ss1,
   },
   {
-    label:  "Team Strategy Round",
-    sub:    "Co-op missions under time pressure",
     accent: "#9333EA",
-    bg:     "linear-gradient(135deg, #0d1836 0%, #1a2860 45%, #050816 100%)",
-    icon:   Users,
-  },
-  {
-    label:  "Memory Grid Finals",
-    sub:    "Pattern recall vs the best minds on stage",
-    accent: "#7E22CE",
-    bg:     "linear-gradient(135deg, #1a0832 0%, #3a0d60 45%, #0d0520 100%)",
-    icon:   Brain,
-  },
-  {
-    label:  "Drawing Blitz Challenge",
-    sub:    "60-second sprints judged by the crowd",
-    accent: "#A855F7",
-    bg:     "linear-gradient(135deg, #0a1020 0%, #1a0d3a 45%, #050816 100%)",
-    icon:   Pencil,
+    image:  ss2,
   },
 ];
 
-/* AnimatePresence variants — fold-back exit, fold-forward enter */
-const FOLD_ENTER = (dir) => ({
-  opacity: 0,
-  rotateY: dir > 0 ? 40 : -40,
-  scale:   0.88,
-  x:       dir > 0 ? 90 : -90,
-  zIndex:  0,
-});
-const FOLD_CENTER = {
-  opacity: 1,
-  rotateY: 0,
-  scale:   1,
-  x:       0,
-  zIndex:  1,
-  transition: {
-    duration: 0.55,
-    ease:     [0.16, 1, 0.3, 1],
-  },
-};
-const FOLD_EXIT = (dir) => ({
-  opacity: 0,
-  rotateY: dir > 0 ? -42 : 42,
-  scale:   0.86,
-  x:       dir > 0 ? -80 : 80,
-  zIndex:  0,
-  transition: {
-    duration: 0.42,
-    ease:     [0.4, 0, 1, 1],
-  },
-});
-
-function FoldingShowcase() {
-  const COUNT = GALLERY_ITEMS.length;
-  const [index, setIndex] = useState(0);
-  const [dir,   setDir]   = useState(1);
-  const dragRef = useRef({ startX: 0, startY: 0, dragging: false });
-  const autoRef = useRef(null);
-
-  function goTo(next, direction) {
-    setDir(direction);
-    setIndex(((next % COUNT) + COUNT) % COUNT);
-  }
-  function goNext() { goTo(index + 1,  1); }
-  function goPrev() { goTo(index - 1, -1); }
-
-  /* auto-advance */
-  useEffect(() => {
-    autoRef.current = setInterval(goNext, 4500);
-    return () => clearInterval(autoRef.current);
-  });
-
-  /* pointer drag */
-  function onPointerDown(e) {
-    dragRef.current = { startX: e.clientX, startY: e.clientY, dragging: true };
-  }
-  function onPointerUp(e) {
-    if (!dragRef.current.dragging) return;
-    dragRef.current.dragging = false;
-    const dx = e.clientX - dragRef.current.startX;
-    const dy = Math.abs(e.clientY - dragRef.current.startY);
-    if (Math.abs(dx) > 44 && dy < 70) { dx < 0 ? goNext() : goPrev(); }
-  }
-  /* touch swipe */
-  function onTouchStart(e) {
-    dragRef.current = { startX: e.touches[0].clientX, startY: e.touches[0].clientY, dragging: true };
-  }
-  function onTouchEnd(e) {
-    if (!dragRef.current.dragging) return;
-    dragRef.current.dragging = false;
-    const dx = e.changedTouches[0].clientX - dragRef.current.startX;
-    const dy = Math.abs(e.changedTouches[0].clientY - dragRef.current.startY);
-    if (Math.abs(dx) > 44 && dy < 80) { dx < 0 ? goNext() : goPrev(); }
-  }
-
-  const item    = GALLERY_ITEMS[index];
-  const Icon    = item.icon;
-
+function TalentGallery() {
   return (
     <div
       style={{
-        width:             "100%",
-        maxWidth:          "640px",
-        userSelect:        "none",
-        WebkitUserSelect:  "none",
+        width: "100%",
+        maxWidth: "1100px",
       }}
+      className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
     >
-      {/* Perspective wrapper */}
-      <div
-        style={{
-          perspective:     "1200px",
-          perspectiveOrigin: "50% 50%",
-          position:        "relative",
-        }}
-        onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
-        {/* Outer glow halo — follows accent colour */}
+      {GALLERY_ITEMS.map((item, i) => (
         <div
-          key={`glow-${index}`}
+          key={i}
           style={{
-            position:     "absolute",
-            inset:        "-24px",
-            borderRadius: "32px",
-            background:   `radial-gradient(ellipse at 50% 65%, ${item.accent}30 0%, ${item.accent}0a 55%, transparent 75%)`,
-            filter:       "blur(22px)",
-            pointerEvents:"none",
-            transition:   "background 0.5s ease",
+            position: "relative",
+            borderRadius: "16px",
+            overflow: "hidden",
+            height: "clamp(220px, 40vw, 380px)",
+            boxShadow: [
+              `0 0 0 1px ${item.accent}44`,
+              `0 8px 40px ${item.accent}35`,
+              `0 28px 80px ${item.accent}1a`,
+              "0 4px 16px rgba(0,0,0,0.65)",
+            ].join(", "),
+            transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1)",
           }}
-        />
-
-        {/* Card stage — fixed height keeps layout stable during swap */}
-        <div style={{ position: "relative", height: "clamp(220px,40vw,340px)" }}>
-          <AnimatePresence initial={false} custom={dir}>
-            <motion.div
-              key={index}
-              custom={dir}
-              variants={{
-                enter: FOLD_ENTER,
-                center: FOLD_CENTER,
-                exit:  FOLD_EXIT,
-              }}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              style={{
-                position:       "absolute",
-                inset:          0,
-                borderRadius:   "16px",
-                overflow:       "hidden",
-                cursor:         "grab",
-                transformStyle: "preserve-3d",
-                boxShadow: [
-                  `0 0 0 1px ${item.accent}44`,
-                  `0 8px 40px ${item.accent}35`,
-                  `0 28px 80px ${item.accent}1a`,
-                  "0 4px 16px rgba(0,0,0,0.65)",
-                ].join(", "),
-              }}
-            >
-              {/* Background */}
-              <div style={{ position: "absolute", inset: 0, background: item.bg }} />
-
-              {/* Laptop chrome bar */}
-              <div style={{
-                position:     "absolute", top: 0, left: 0, right: 0,
-                height:       "clamp(26px,3.5vw,34px)",
-                background:   "rgba(5,8,22,0.88)",
-                borderBottom: `1px solid ${item.accent}22`,
-                display:      "flex", alignItems: "center",
-                padding:      "0 12px", gap: "6px",
-                backdropFilter: "blur(8px)",
-              }}>
-                {["#ff5f57","#febc2e","#28c840"].map(c => (
-                  <div key={c} style={{ width: 9, height: 9, borderRadius: "50%", background: c, opacity: 0.72 }} />
-                ))}
-                <div style={{
-                  marginLeft: "auto", marginRight: "auto",
-                  background:   `${item.accent}14`,
-                  border:       `1px solid ${item.accent}22`,
-                  borderRadius: "4px",
-                  padding:      "2px 18px",
-                  fontSize:     "9px",
-                  fontFamily:   "'Orbitron', monospace",
-                  color:        "#7E89A8",
-                  letterSpacing:"0.08em",
-                }}>
-                  gameathon.vnr.ac.in
-                </div>
-              </div>
-
-              {/* Grid texture */}
-              <div style={{
-                position: "absolute", inset: 0, opacity: 0.032,
-                backgroundImage: "linear-gradient(rgba(168,85,247,1) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,1) 1px,transparent 1px)",
-                backgroundSize:  "30px 30px",
-              }} />
-
-              {/* Scan lines */}
-              <div style={{
-                position: "absolute", inset: 0, pointerEvents: "none",
-                background: "repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(168,85,247,0.01) 3px,rgba(168,85,247,0.01) 4px)",
-              }} />
-
-              {/* Content */}
-              <div style={{
-                position:       "absolute", inset: 0,
-                display:        "flex", flexDirection: "column",
-                alignItems:     "center", justifyContent: "center",
-                gap:            "clamp(10px,2vw,18px)",
-                paddingTop:     "clamp(26px,4vw,38px)",
-              }}>
-                {/* Icon ring */}
-                <div style={{
-                  width:          "clamp(52px,7vw,72px)",
-                  height:         "clamp(52px,7vw,72px)",
-                  borderRadius:   "50%",
-                  display:        "flex", alignItems: "center", justifyContent: "center",
-                  background:     `radial-gradient(circle,${item.accent}2e 0%,${item.accent}0e 70%)`,
-                  border:         `1.5px solid ${item.accent}55`,
-                  boxShadow:      `0 0 28px ${item.accent}40,0 0 10px ${item.accent}25`,
-                }}>
-                  <Icon size={26} color={item.accent} />
-                </div>
-                {/* Text */}
-                <div style={{ textAlign: "center", padding: "0 clamp(16px,5%,40px)" }}>
-                  <p style={{
-                    fontFamily:    "'Orbitron',sans-serif",
-                    fontSize:      "clamp(13px,2.2vw,20px)",
-                    fontWeight:    800,
-                    color:         "#F8FAFC",
-                    margin:        0,
-                    letterSpacing: "0.04em",
-                    textShadow:    `0 0 32px ${item.accent}65`,
-                  }}>
-                    {item.label}
-                  </p>
-                  <p style={{
-                    fontSize:   "clamp(11px,1.4vw,14px)",
-                    color:      "#9BA5C8",
-                    margin:     "6px 0 0",
-                    lineHeight: 1.5,
-                  }}>
-                    {item.sub}
-                  </p>
-                </div>
-              </div>
-
-              {/* Bottom depth gradient */}
-              <div style={{
-                position:     "absolute", bottom: 0, left: 0, right: 0,
-                height:       "38%",
-                background:   "linear-gradient(to top,rgba(5,8,22,0.72) 0%,transparent 100%)",
-                pointerEvents:"none",
-              }} />
-
-              {/* Hover arrow zones */}
-              {[
-                { side: "left",  onClick: (e) => { e.stopPropagation(); goPrev(); }, label: "Previous", char: "‹",
-                  bg: "linear-gradient(90deg,rgba(5,8,22,0.42) 0%,transparent 100%)",
-                  justify: "flex-start", pad: "paddingLeft", padVal: "14px" },
-                { side: "right", onClick: (e) => { e.stopPropagation(); goNext(); }, label: "Next", char: "›",
-                  bg: "linear-gradient(270deg,rgba(5,8,22,0.42) 0%,transparent 100%)",
-                  justify: "flex-end",   pad: "paddingRight", padVal: "14px" },
-              ].map(({ side, onClick, label, char, bg, justify, pad, padVal }) => (
-                <button
-                  key={side}
-                  onClick={onClick}
-                  aria-label={label}
-                  style={{
-                    position:  "absolute", [side]: 0, top: 0, bottom: 0, width: "18%",
-                    background: bg, border: "none", cursor: "pointer",
-                    display: "flex", alignItems: "center", justifyContent: justify,
-                    [pad]: padVal,
-                    color:     `${item.accent}cc`,
-                    fontSize:  "clamp(20px,2.5vw,28px)", fontWeight: 700,
-                    opacity: 0, transition: "opacity 0.18s",
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.opacity = "1"}
-                  onMouseLeave={e => e.currentTarget.style.opacity = "0"}
-                >{char}</button>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-
-      {/* Dot navigation */}
-      <div style={{ display: "flex", justifyContent: "center", gap: "9px", marginTop: "22px" }}>
-        {GALLERY_ITEMS.map((g, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i, i > index ? 1 : -1)}
-            aria-label={`Slide ${i + 1}`}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "translateY(-6px) scale(1.015)";
+            e.currentTarget.style.boxShadow = [
+              `0 0 0 1px ${item.accent}66`,
+              `0 16px 56px ${item.accent}45`,
+              `0 32px 90px ${item.accent}26`,
+              "0 6px 20px rgba(0,0,0,0.70)",
+            ].join(", ");
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "";
+            e.currentTarget.style.boxShadow = [
+              `0 0 0 1px ${item.accent}44`,
+              `0 8px 40px ${item.accent}35`,
+              `0 28px 80px ${item.accent}1a`,
+              "0 4px 16px rgba(0,0,0,0.65)",
+            ].join(", ");
+          }}
+        >
+          <div
             style={{
-              width:        i === index ? "26px" : "8px",
-              height:       "8px",
-              borderRadius: "4px",
-              background:   i === index
-                ? `linear-gradient(90deg,${g.accent},#7E22CE)`
-                : "rgba(168,85,247,0.22)",
-              border:    "none",
-              cursor:    "pointer",
-              padding:   0,
-              transition:"all 0.38s cubic-bezier(0.16,1,0.3,1)",
-              boxShadow: i === index ? `0 0 12px ${g.accent}65` : "none",
+              position: "absolute",
+              inset: "-24px",
+              borderRadius: "32px",
+              background: `radial-gradient(ellipse at 50% 65%, ${item.accent}30 0%, ${item.accent}0a 55%, transparent 75%)`,
+              filter: "blur(22px)",
+              pointerEvents: "none",
+              zIndex: 0,
             }}
           />
-        ))}
-      </div>
-
-      {/* Hint */}
-      <p style={{
-        textAlign: "center", color: "#3E4A6A",
-        fontSize:  "10px", letterSpacing: "0.12em",
-        textTransform: "uppercase", marginTop: "12px",
-      }}>
-      </p>
+          <img
+            src={item.image}
+            alt={`GameAThon highlight ${i + 1}`}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+              borderRadius: "16px",
+              zIndex: 1,
+            }}
+            draggable={false}
+          />
+        </div>
+      ))}
     </div>
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   GameAThonLoader — portal-energy loading screen
-   Shown for ~1.8 s, then fades out before page renders.
-   Pure CSS + canvas particles, no extra deps.
-   ═══════════════════════════════════════════════════════════ */
 function GameAThonLoader({ onDone }) {
   const canvasRef  = useRef(null);
   const frameRef   = useRef(null);
   const [exit, setExit] = useState(false);
 
-  /* Particle canvas */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -1148,7 +823,6 @@ function GameAThonLoader({ onDone }) {
     resize();
     window.addEventListener("resize", resize);
 
-    /* Create 80 particles */
     const PURPLE_PALETTE = [
       "rgba(168,85,247,",
       "rgba(147,51,234,",
@@ -1175,10 +849,9 @@ function GameAThonLoader({ onDone }) {
 
       particles.forEach((p) => {
         p.angle += p.speed * 0.012;
-        /* subtle radial drift */
         const r  = p.dist + Math.sin(t * p.speed + p.angle) * 18;
         const px = cx + r * Math.cos(p.angle);
-        const py = cy + r * Math.sin(p.angle) * 0.45; // flatten to ellipse
+        const py = cy + r * Math.sin(p.angle) * 0.45;
         const a  = p.baseAlpha * (0.7 + 0.3 * Math.sin(t * 2 + p.angle));
 
         ctx.beginPath();
@@ -1197,7 +870,6 @@ function GameAThonLoader({ onDone }) {
     };
   }, []);
 
-  /* Timer: start exit fade at 1.55s, call onDone at 1.9s */
   useEffect(() => {
     const fadeTimer = setTimeout(() => setExit(true),  1550);
     const doneTimer = setTimeout(() => onDone?.(),     1900);
@@ -1221,13 +893,11 @@ function GameAThonLoader({ onDone }) {
         pointerEvents:   exit ? "none" : "all",
       }}
     >
-      {/* Particle canvas */}
       <canvas
         ref={canvasRef}
         style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
       />
 
-      {/* Portal ring glow */}
       <div
         style={{
           position:     "absolute",
@@ -1261,7 +931,6 @@ function GameAThonLoader({ onDone }) {
         }}
       />
 
-      {/* Centre energy dot */}
       <div
         style={{
           position:     "absolute",
@@ -1274,7 +943,6 @@ function GameAThonLoader({ onDone }) {
         }}
       />
 
-      {/* Text block */}
       <div style={{ position: "relative", textAlign: "center", zIndex: 2, marginTop: "0" }}>
         <h1
           style={{
@@ -1291,7 +959,6 @@ function GameAThonLoader({ onDone }) {
           GAME-A-THON
         </h1>
 
-        {/* Animated loading dots */}
         <div
           style={{
             marginTop:     "20px",
@@ -1329,7 +996,6 @@ function GameAThonLoader({ onDone }) {
           ))}
         </div>
 
-        {/* Thin progress bar */}
         <div
           style={{
             marginTop:    "28px",
@@ -1353,7 +1019,6 @@ function GameAThonLoader({ onDone }) {
         </div>
       </div>
 
-      {/* Keyframes injected once via a <style> tag */}
       <style>{`
         @keyframes gtPulse {
           0%,100% { opacity:0.7; transform:scale(1); }
@@ -1380,9 +1045,6 @@ function GameAThonLoader({ onDone }) {
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   SECTION DATA
-   ═══════════════════════════════════════════════════════════ */
 const ARENA_CARDS = [
   {
     icon: Brain,
@@ -1423,16 +1085,12 @@ const SKILL_CARDS = [
   { icon: MessageSquare, title: "Communication" },
 ];
 
-/* ═══════════════════════════════════════════════════════════
-   MAIN PAGE COMPONENT
-   ═══════════════════════════════════════════════════════════ */
 export function GameAThonPage() {
   const [entranceComplete, setEntranceComplete] = useState(false);
   const [loading, setLoading] = useState(true);
 
   return (
     <div className="relative w-full max-w-[100vw] overflow-x-hidden flex flex-col font-inter" style={{ background: "#050816", isolation: "isolate" }}>
-      {/* Galaxy — absolute, fills full scroll height, lowest layer */}
       <GalaxyBackground
         density={0.8}
         glowIntensity={0.25}
@@ -1445,19 +1103,15 @@ export function GameAThonPage() {
         speed={0.5}
       />
 
-      {/* Loading screen — fades out after ~1.9s */}
       {loading && <GameAThonLoader onDone={() => setLoading(false)} />}
-      {/* Ribbon cursor — auto-disables on touch */}
       <RibbonCursor />
 
-      {/* Fixed backgrounds */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-space-radial" />
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
         <div className="bg-planet-top-right" />
         <div className="bg-planet-left" />
         <div className="bg-ambient-depth" />
       </div>
-      {/* Purple ambient overlay — enhanced immersive depth */}
       <div
         className="fixed inset-0 pointer-events-none -z-10"
         style={{
@@ -1471,9 +1125,7 @@ export function GameAThonPage() {
       />
       <StarField />
 
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          SECTION 1 — HERO
-          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      {/* SECTION 1 — HERO */}
       <section
         id="hero"
         className="relative z-10 flex flex-col lg:flex-row lg:justify-between items-center lg:items-center px-5 pt-4 md:pt-6 lg:pt-6 pb-12 lg:pb-20 w-full max-w-[1400px] mx-auto gap-0 lg:gap-0"
@@ -1482,7 +1134,6 @@ export function GameAThonPage() {
           scrollMarginTop: "72px",
         }}
       >
-        {/* LEFT — Staggered content */}
         <motion.div
           className="flex flex-col items-center lg:items-start lg:w-[48%] lg:max-w-[580px] text-center lg:text-left lg:pl-8 w-full"
           variants={staggerContainer}
@@ -1497,7 +1148,6 @@ export function GameAThonPage() {
             GAME-A-THON
           </motion.h1>
 
-          {/* Portal — mobile only (+7%: was max-w-[360px] → max-w-[385px]) */}
           <motion.div
             className="lg:hidden w-full flex justify-center my-3"
             variants={fadeIn}
@@ -1505,7 +1155,6 @@ export function GameAThonPage() {
             <PortalVideo className="w-[86%] max-w-[385px]" />
           </motion.div>
 
-          {/* Subtitle */}
           <motion.p
             className="text-[#FFFFFF] text-[clamp(17px,3.2vw,26px)] font-extrabold leading-[1.35] tracking-[0.01em] mb-2 mt-0"
             variants={slideUp}
@@ -1525,7 +1174,6 @@ export function GameAThonPage() {
             electric arena.
           </motion.p>
 
-          {/* CTA buttons */}
           <motion.div
             className="flex flex-wrap justify-center lg:justify-start gap-3 w-full"
             variants={scaleUp}
@@ -1557,7 +1205,6 @@ export function GameAThonPage() {
           </motion.div>
         </motion.div>
 
-        {/* RIGHT — Portal desktop (+7%: was w-[132%] → w-[141%]) */}
         <motion.div
           className="hidden lg:flex lg:w-[48%] justify-end w-full relative lg:translate-x-4"
           variants={fadeIn}
@@ -1569,9 +1216,7 @@ export function GameAThonPage() {
         </motion.div>
       </section>
 
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          SECTION 2 — QUOTE CARD
-          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      {/* SECTION 2 — QUOTE CARD */}
       <section className="relative z-10 w-full max-w-[1400px] mx-auto px-5 pb-16 md:pb-24 flex justify-center">
         <ScrollReveal variants={scaleUp} className="w-full max-w-[760px]">
           <div
@@ -1590,7 +1235,6 @@ export function GameAThonPage() {
               ].join(", "),
             }}
           >
-            {/* Corner glows */}
             <div
               className="absolute top-0 left-0 pointer-events-none"
               style={{
@@ -1611,7 +1255,6 @@ export function GameAThonPage() {
                 borderRadius: "100% 0 0 0",
               }}
             />
-            {/* Top accent line */}
             <div
               className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
               style={{
@@ -1710,9 +1353,7 @@ export function GameAThonPage() {
         </ScrollReveal>
       </section>
 
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          SECTION 3 — GAMING ARENA
-          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      {/* SECTION 3 — GAMING ARENA */}
       <section
         id="gaming-arena"
         className="relative z-10 w-full max-w-[1400px] mx-auto px-5 pt-20 pb-20 md:pt-24 md:pb-28"
@@ -1740,9 +1381,7 @@ export function GameAThonPage() {
         </div>
       </section>
 
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          SECTION 4 — GAMING SKILLS & TOOLS
-          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      {/* SECTION 4 — GAMING SKILLS & TOOLS */}
       <section
         id="gaming-skills"
         className="relative z-10 w-full max-w-[1400px] mx-auto px-5 pt-20 pb-20 md:pt-24 md:pb-28"
@@ -1770,9 +1409,7 @@ export function GameAThonPage() {
         </div>
       </section>
 
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          SECTION 5 — LAST YEAR'S TALENT (Circular Gallery)
-          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      {/* SECTION 5 — LAST YEAR'S TALENT */}
       <section
         id="highlights"
         className="relative z-10 w-full max-w-[1400px] mx-auto px-5 pt-20 pb-20 md:pt-24 md:pb-28"
@@ -1794,14 +1431,12 @@ export function GameAThonPage() {
 
         <ScrollReveal variants={fadeIn}>
           <div className="flex justify-center">
-            <FoldingShowcase />
+            <TalentGallery />
           </div>
         </ScrollReveal>
       </section>
 
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          SECTION 6 — READY TO GAME
-          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      {/* SECTION 6 — READY TO GAME */}
       <section
         id="ready-to-game"
         className="relative z-10 w-full px-5 pb-24 md:pb-32"
@@ -1824,7 +1459,7 @@ export function GameAThonPage() {
 
               <h2 className="font-orbitron text-[clamp(26px,5vw,48px)] font-black text-[#F8FAFC] tracking-[0.05em] m-0 mb-4 leading-[1.1]">
                 Ready to{" "}
-                <span className="text-2k26-gradient">Game?</span>
+                <span style={{ color: "#A855F7" }}>Game?</span>
               </h2>
 
               <p className="text-[#C8D3F5] text-[clamp(13px,1.8vw,17px)] leading-[1.7] max-w-[460px] mx-auto mb-8">
@@ -1835,7 +1470,8 @@ export function GameAThonPage() {
               <div className="flex flex-wrap justify-center gap-3">
                 <Link
                   to="/registration-test"
-                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-[50px] text-[#FFFFFF] text-[clamp(14px,1.8vw,16px)] font-bold tracking-[0.02em] cursor-pointer no-underline animate-cta-gradient shadow-[0_4px_30px_rgba(168,85,247,0.38),inset_0_0_15px_rgba(168,85,247,0.5)]"
+                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-[50px] text-[#FFFFFF] text-[clamp(14px,1.8vw,16px)] font-bold tracking-[0.02em] cursor-pointer no-underline shadow-[0_4px_30px_rgba(168,85,247,0.38),inset_0_0_15px_rgba(168,85,247,0.5)]"
+                  style={{ background: "linear-gradient(135deg, #A855F7, #7C3AED)" }}
                 >
                   <span className="text-[11px]">✦</span> Register Now{" "}
                   <ChevronRight size={14} />
