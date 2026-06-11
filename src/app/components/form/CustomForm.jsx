@@ -96,10 +96,7 @@ export function CustomForm({
       }
     }
 
-    if (allowFileUpload && !file) {
-      setErrorMsg("Please upload a project file.");
-      return;
-    }
+    // File upload is now optional, so we remove the strict requirement check.
 
     setStatus("loading");
 
@@ -120,6 +117,11 @@ export function CustomForm({
 
       if (!response.ok) {
         throw new Error(`Server responded with status ${response.status}`);
+      }
+      
+      const responseData = await response.json().catch(() => ({}));
+      if (responseData.result === "error") {
+        throw new Error(responseData.message || "Server rejected submission");
       }
 
       setStatus("success");
@@ -194,6 +196,7 @@ export function CustomForm({
                   acceptedTypes={acceptedTypes}
                   acceptedMimeTypes={acceptedMimeTypes}
                   setErrorMsg={setErrorMsg}
+                  isSubmitting={status === "loading"}
                 />
               )}
 
@@ -206,13 +209,7 @@ export function CustomForm({
               </AnimatePresence>
 
               <button type="submit" className="reg-submit" disabled={status === "loading"}>
-                {status === "loading" ? (
-                  <>
-                    <Spinner /> Processing…
-                  </>
-                ) : (
-                  submitText
-                )}
+                {status === "loading" ? "Processing…" : submitText}
               </button>
             </motion.form>
           )}

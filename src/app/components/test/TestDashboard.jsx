@@ -69,24 +69,37 @@ export function TestDashboard() {
       const payload = generateDummyPayload(i);
       Object.assign(payload, fileData);
       
-      const reqPromise = fetch(appScriptUrl, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
-      })
+      // Simulate real-world natural spread and network variance (0 to ~15 seconds spread)
+      // This prevents the browser from instantly dumping 100MB+ into a single network frame,
+      // which is impossible in the real world since 50 people have 50 different IP addresses.
+      const delay = Math.floor(Math.random() * 5000) + (i * 200);
+
+      const reqPromise = new Promise(resolve => setTimeout(resolve, delay))
+        .then(() => {
+          addLog(`User ${i} clicked submit. Uploading...`, "info");
+          return fetch(appScriptUrl, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload),
+          });
+        })
         .then(async (res) => {
           // Attempt to parse JSON response to check for script-level errors
           try {
             const data = await res.json();
             if (data.result === "error") {
+               addLog(`User ${i} submission rejected: ${data.message}`, "error");
                return { index: i, success: false, error: data.message };
             }
           } catch(e) {
-            // Ignore parse errors on load test
+            addLog(`User ${i} failed: Invalid response (Google Rate Limit or Payload Block)`, "error");
+            return { index: i, success: false, error: "Invalid JSON response (possibly rate limited or payload too large)" };
           }
+          addLog(`User ${i} successfully registered!`, "success");
           return { index: i, success: true };
         })
         .catch((error) => {
+          addLog(`User ${i} encountered a network error: ${error.message}`, "error");
           return { index: i, success: false, error: error.message };
         });
 

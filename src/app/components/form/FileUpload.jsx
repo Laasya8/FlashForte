@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState } from "react";
+import React, { useRef, useCallback, useState, memo } from "react";
 
 function UploadIcon() {
   return (
@@ -20,25 +20,40 @@ function FileSuccessIcon() {
   );
 }
 
-export function FileUpload({ file, setFile, acceptedTypes, acceptedMimeTypes, setErrorMsg }) {
+const Spinner = () => (
+  <svg className="reg-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style={{ width: 48, height: 48, margin: "0 auto", color: "rgba(0,210,200,0.8)" }}>
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+);
+
+export const FileUpload = memo(function FileUpload({ file, setFile, acceptedTypes, acceptedMimeTypes, setErrorMsg, isSubmitting }) {
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleFileSelect = useCallback((selectedFile) => {
-    if (!selectedFile) return;
+    if (!selectedFile || isSubmitting) return;
+    
+    // 25MB limit
+    const MAX_FILE_SIZE = 25 * 1024 * 1024;
+    if (selectedFile.size > MAX_FILE_SIZE) {
+      setErrorMsg("File is too large. Maximum allowed file size is 25MB.");
+      return;
+    }
+
     if (acceptedMimeTypes && !acceptedMimeTypes.includes(selectedFile.type)) {
       setErrorMsg(`Invalid file type. Please upload ${acceptedTypes}.`);
       return;
     }
     setFile(selectedFile);
     setErrorMsg("");
-  }, [acceptedMimeTypes, acceptedTypes, setErrorMsg, setFile]);
+  }, [acceptedMimeTypes, acceptedTypes, setErrorMsg, setFile, isSubmitting]);
 
   const onDragOver = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragOver(true);
-  }, []);
+    if (!isSubmitting) setIsDragOver(true);
+  }, [isSubmitting]);
 
   const onDragLeave = useCallback((e) => {
     e.preventDefault();
@@ -50,29 +65,34 @@ export function FileUpload({ file, setFile, acceptedTypes, acceptedMimeTypes, se
     e.preventDefault();
     e.stopPropagation();
     setIsDragOver(false);
-    const droppedFile = e.dataTransfer?.files?.[0];
-    handleFileSelect(droppedFile);
-  }, [handleFileSelect]);
+    if (!isSubmitting) {
+      const droppedFile = e.dataTransfer?.files?.[0];
+      handleFileSelect(droppedFile);
+    }
+  }, [handleFileSelect, isSubmitting]);
 
   const onFileInputChange = useCallback((e) => {
-    handleFileSelect(e.target.files?.[0]);
-  }, [handleFileSelect]);
+    if (!isSubmitting) {
+      handleFileSelect(e.target.files?.[0]);
+    }
+  }, [handleFileSelect, isSubmitting]);
 
   return (
     <div className="reg-field">
-      <label className="reg-label">Project Upload</label>
+      <label className="reg-label">Project Upload (Optional)</label>
       <div
-        className={`reg-dropzone ${isDragOver ? "reg-dropzone--active" : ""} ${file ? "reg-dropzone--has-file" : ""}`}
+        className={`reg-dropzone ${isDragOver ? "reg-dropzone--active" : ""} ${file ? "reg-dropzone--has-file" : ""} ${isSubmitting ? "reg-dropzone--disabled" : ""}`}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
-        onClick={() => fileInputRef.current?.click()}
+        onClick={() => !isSubmitting && fileInputRef.current?.click()}
         role="button"
-        tabIndex={0}
+        tabIndex={isSubmitting ? -1 : 0}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") fileInputRef.current?.click();
+          if (!isSubmitting && (e.key === "Enter" || e.key === " ")) fileInputRef.current?.click();
         }}
         aria-label="Upload project file"
+        style={isSubmitting ? { opacity: 0.7, cursor: "not-allowed" } : {}}
       >
         <input
           ref={fileInputRef}
@@ -81,19 +101,36 @@ export function FileUpload({ file, setFile, acceptedTypes, acceptedMimeTypes, se
           onChange={onFileInputChange}
           className="reg-dropzone__input"
           tabIndex={-1}
+          disabled={isSubmitting}
         />
-        {file ? <FileSuccessIcon /> : <UploadIcon />}
-        {file ? (
+        {isSubmitting ? (
+          <Spinner />
+        ) : file ? (
+          <FileSuccessIcon />
+        ) : (
+          <UploadIcon />
+        )}
+        
+        {isSubmitting ? (
+          <span className="reg-dropzone__text">Uploading...</span>
+        ) : file ? (
           <span className="reg-dropzone__filename">{file.name}</span>
         ) : (
           <span className="reg-dropzone__text">
             Drag & Drop Project File or <span className="reg-dropzone__browse">Browse</span>
           </span>
         )}
+        
         <span className="reg-dropzone__hint">
-          {file ? "Click to replace" : (acceptedTypes ? acceptedTypes.replace(/\./g, '').replace(/,/g, ', ').toUpperCase() : "Any file type")}
+          {isSubmitting 
+            ? "Please wait while your file is securely transferred." 
+            : file 
+              ? "Click to replace" 
+              : (acceptedTypes 
+                  ? `${acceptedTypes.replace(/\./g, '').replace(/,/g, ', ').toUpperCase()} (Max: 25MB)` 
+                  : "Any file type (Max: 25MB)")}
         </span>
       </div>
     </div>
   );
-}
+});
