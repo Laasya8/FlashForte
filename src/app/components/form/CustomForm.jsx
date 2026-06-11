@@ -61,27 +61,8 @@ export function CustomForm({
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState("idle"); // idle, loading, success, error
   const [errorMsg, setErrorMsg] = useState("");
-  const [uploadProgress, setUploadProgress] = useState(0);
 
-  // Simulated Progress Bar to prevent "frozen UI" perception during large file fetch() uploads
-  useEffect(() => {
-    let interval;
-    if (status === "loading") {
-      setUploadProgress(0);
-      interval = setInterval(() => {
-        setUploadProgress((prev) => {
-          if (prev >= 90) return prev; // Hold at 90% while waiting for Google's response
-          const increment = Math.max(1, Math.floor((90 - prev) / 10)); // Slows down as it approaches 90
-          return prev + increment;
-        });
-      }, 400);
-    } else if (status === "success") {
-      setUploadProgress(100);
-    } else {
-      setUploadProgress(0);
-    }
-    return () => clearInterval(interval);
-  }, [status]);
+
 
   const handleFieldChange = useCallback((name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -120,7 +101,6 @@ export function CustomForm({
     // File upload is now optional, so we remove the strict requirement check.
 
     setStatus("loading");
-    setUploadProgress(0);
 
     try {
       const payload = { ...formData };
@@ -140,7 +120,7 @@ export function CustomForm({
       if (!response.ok) {
         throw new Error(`Server responded with status ${response.status}`);
       }
-      
+
       const responseData = await response.json().catch(() => ({}));
       if (responseData.result === "error") {
         throw new Error(responseData.message || "Server rejected submission");
@@ -188,7 +168,7 @@ export function CustomForm({
               <CheckmarkAnimation />
               <h2 className="reg-success__title">{successTitle}</h2>
               <p className="reg-success__subtitle">{successSubtitle}</p>
-              <button 
+              <button
                 onClick={() => {
                   setStatus('idle');
                   setFormData({});
@@ -219,7 +199,6 @@ export function CustomForm({
                   acceptedMimeTypes={acceptedMimeTypes}
                   setErrorMsg={setErrorMsg}
                   isSubmitting={status === "loading"}
-                  uploadProgress={uploadProgress}
                 />
               )}
 
