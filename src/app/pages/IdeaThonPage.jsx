@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { ChevronUp, ChevronDown, Lightbulb } from "lucide-react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Footer } from "../components/Footer.jsx";
 /* ─────────────────────────────────────────────
@@ -341,12 +341,277 @@ function ClickBurst() {
   );
 }
 
+/* ── RibbonCursor Component ── */
+function RibbonCursor() {
+  const canvasRef = useRef(null);
+  const frameRef = useRef(null);
+  const mouseRef = useRef({ x: -200, y: -200 });
+  const pointsRef = useRef([]);
+  const activeRef = useRef(false);
+  const isHiddenRef = useRef(false);
+
+  useEffect(() => {
+    // 1. Prevents the ribbon from running on mobile devices or devices without hover capabilities
+    if (window.matchMedia("(hover: none)").matches) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const TRAIL = 10;      // Number of tracking segments in the ribbon
+    const THICKNESS = 8;   // Max thickness of the ribbon head
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Initialize all trailing points off-screen
+    pointsRef.current = Array.from({ length: TRAIL }, () => ({
+      x: -200,
+      y: -200,
+    }));
+
+    // Updates the target mouse coordinates on move
+    function onMove(e) {
+      if (e.target && e.target.closest && e.target.closest('.tilted-card-figure')) {
+        isHiddenRef.current = true;
+      } else {
+        isHiddenRef.current = false;
+      }
+
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+      if (!activeRef.current) {
+        activeRef.current = true;
+        pointsRef.current = Array.from({ length: TRAIL }, () => ({
+          x: e.clientX,
+          y: e.clientY,
+        }));
+      }
+    }
+    window.addEventListener("mousemove", onMove);
+
+    // 2. The Animation Loop using RequestAnimationFrame
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Smoothly ease the head point toward the real mouse position
+      const head = pointsRef.current[0];
+      head.x += (mouseRef.current.x - head.x) * 0.36;
+      head.y += (mouseRef.current.y - head.y) * 0.36;
+
+      // Make every following point ease toward the point ahead of it (creates the physics lag trail)
+      for (let i = 1; i < TRAIL; i++) {
+        const prev = pointsRef.current[i - 1];
+        const cur = pointsRef.current[i];
+        cur.x += (prev.x - cur.x) * 0.42;
+        cur.y += (prev.y - cur.y) * 0.42;
+      }
+
+      if (isHiddenRef.current) {
+        frameRef.current = requestAnimationFrame(draw);
+        return;
+      }
+
+      // 3. Render the ribbon geometry onto the HTML5 Canvas
+      for (let i = 0; i < TRAIL - 1; i++) {
+        const t = i / (TRAIL - 1);
+        const p1 = pointsRef.current[i];
+        const p2 = pointsRef.current[i + 1];
+
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+        const len = Math.sqrt(dx * dx + dy * dy) || 1;
+        
+        // Calculate perpendicular vectors to give the line thickness
+        const nx = (-dy / len) * THICKNESS * (1 - t) * 0.5;
+        const ny = (dx / len) * THICKNESS * (1 - t) * 0.5;
+
+        const alpha = (1 - t) * 0.55; // Fades out toward the tail
+
+        // Gradient shifting from gold colors down the trail (e.g. 245, 197, 24 -> darker gold)
+        const r = Math.round(245 - t * 44);
+        const g = Math.round(197 - t * 29);
+        const b = Math.round(24 + t * 52);
+
+        // Draw the complex quad shape connecting point segments
+        ctx.beginPath();
+        ctx.moveTo(p1.x + nx, p1.y + ny);
+        ctx.lineTo(p1.x - nx, p1.y - ny);
+        ctx.lineTo(p2.x - nx * (1 - 1 / TRAIL), p2.y - ny * (1 - 1 / TRAIL));
+        ctx.lineTo(p2.x + nx * (1 - 1 / TRAIL), p2.y + ny * (1 - 1 / TRAIL));
+        ctx.closePath();
+
+        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+        ctx.fill();
+      }
+
+      frameRef.current = requestAnimationFrame(draw);
+    }
+
+    frameRef.current = requestAnimationFrame(draw);
+
+    // Cleanup listeners and animation frames when component unmounts
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("resize", resize);
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none", // Ensures you can click items underneath the canvas
+        zIndex: 9999,          // Sits completely on top of everything else
+      }}
+    />
+  );
+}
+
+/* ── Golden Particles Background ── */
+function GoldenParticles() {
+  const canvasRef = useRef(null);
+  const mouseRef = useRef({ x: -1000, y: -1000 });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    let animationFrameId;
+    let particles = [];
+    
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    };
+    
+    const initParticles = () => {
+      particles = [];
+      const numParticles = Math.floor((window.innerWidth / 8) * 0.7); // Reduced density by 30%
+      for (let i = 0; i < numParticles; i++) {
+        // Create varied particles for depth
+        const isForeground = Math.random() > 0.85;
+        const vx = (Math.random() - 0.5) * 0.3;
+        const vy = (Math.random() - 0.5) * 0.3 - (isForeground ? 0.4 : 0.15);
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: isForeground ? Math.random() * 4 + 2 : Math.random() * 2 + 1, // Larger
+          vx: vx,
+          vy: vy,
+          baseVx: vx,
+          baseVy: vy,
+          life: Math.random() * 100,
+          alpha: isForeground ? Math.random() * 0.6 + 0.4 : Math.random() * 0.7 + 0.2, // More visible
+          isForeground
+        });
+      }
+    };
+
+    const onMouseMove = (e) => {
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', onMouseMove);
+    resize();
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const mouse = mouseRef.current;
+      
+      particles.forEach(p => {
+        // Cursor sensitivity: gently repel particles
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < 150) {
+          const force = (150 - dist) / 150;
+          p.vx -= (dx / dist) * force * 0.6;
+          p.vy -= (dy / dist) * force * 0.6;
+        }
+        
+        // Return to base velocity slowly
+        p.vx += (p.baseVx - p.vx) * 0.02;
+        p.vy += (p.baseVy - p.vy) * 0.02;
+
+        p.x += p.vx;
+        p.y += p.vy;
+        
+        // Wrap around smoothly
+        if (p.x < -20) p.x = canvas.width + 20;
+        if (p.x > canvas.width + 20) p.x = -20;
+        if (p.y < -20) p.y = canvas.height + 20;
+        if (p.y > canvas.height + 20) p.y = -20;
+        
+        // Twinkle effect using sine wave
+        p.life += 0.02;
+        const currentAlpha = p.alpha * (0.6 + 0.4 * Math.sin(p.life));
+        
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        
+        if (p.isForeground) {
+          // Large, blurred glowing particles (Bokeh effect)
+          ctx.shadowBlur = p.radius * 2.5;
+          ctx.shadowColor = 'rgba(245, 160, 30, 0.5)';
+          ctx.fillStyle = `rgba(255, 210, 100, ${currentAlpha * 0.85})`;
+        } else {
+          // Smaller, sharper background dust
+          ctx.shadowBlur = p.radius * 1.2;
+          ctx.shadowColor = 'rgba(230, 140, 40, 0.3)';
+          ctx.fillStyle = `rgba(220, 160, 60, ${currentAlpha * 0.8})`;
+        }
+        
+        ctx.fill();
+      });
+      
+      animationFrameId = requestAnimationFrame(draw);
+    };
+    
+    draw();
+    
+    return () => {
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <canvas 
+      ref={canvasRef} 
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} 
+    />
+  );
+}
+
 export function IdeaThonPage() {
   const [scrollY, setScrollY] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 2200);
+    const t = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(t);
   }, []);
 
@@ -437,8 +702,8 @@ export function IdeaThonPage() {
           100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
         }
         .loader-screen {
-          animation: loader-fade-out 0.5s ease forwards;
-          animation-delay: 1.8s;
+          animation: loader-fade-out 0.4s ease forwards;
+          animation-delay: 1.2s;
           animation-fill-mode: forwards;
         }
 
@@ -526,6 +791,7 @@ export function IdeaThonPage() {
           letter-spacing: 0.12em; text-transform: uppercase;
           cursor: pointer;
           border-radius: 24px;
+          white-space: nowrap;
           transition: all 0.25s ease;
           box-shadow: 0 0 28px rgba(245,197,24,0.45), 0 0 110px rgba(245,197,24,0.22);
         }
@@ -535,14 +801,15 @@ export function IdeaThonPage() {
           transform: translateY(-2px);
         }
         .btn-outline {
-          background: transparent; color: #f5c518;
-          border: 1px solid rgba(245,197,24,0.5);
+          background: rgba(245,197,24,0.05); color: #ffda59;
+          border: 1.5px solid rgba(245,197,24,0.7);
           padding: 0.9rem 2rem;
           font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-          font-size: 0.72rem; font-weight: 600;
+          font-size: 0.75rem; font-weight: 700;
           letter-spacing: 0.12em; text-transform: uppercase;
           cursor: pointer;
-          border-radius: 20px;
+          border-radius: 24px;
+          white-space: nowrap;
           transition: all 0.25s ease;
         }
         .btn-outline:hover {
@@ -554,30 +821,29 @@ export function IdeaThonPage() {
 
         /* ── round cards ── */
         .round-card {
-          background: #0f1114;
-          border: 1px solid rgba(245,197,24,0.2);
-          border-top: 2px solid #f5c518;
-          padding: 2rem 1.8rem; flex: 1;
+          background: linear-gradient(145deg, rgba(245,197,24,0.03) 0%, rgba(10,12,14,0.95) 100%);
+          border: 1px solid rgba(245,197,24,0.15);
+          padding: 2.5rem 2.2rem; flex: 1;
           position: relative; overflow: hidden;
-          transition: all 0.3s ease;
-          border-radius: 24px;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          border-radius: 20px;
+          box-shadow: inset 0 0 12px rgba(255,255,255,0.02), 0 8px 24px rgba(0,0,0,0.4);
         }
         .round-card::before {
-          content: ''; position: absolute; inset: 0;
-          background: radial-gradient(ellipse at 20% 0%, rgba(245,197,24,0.06) 0%, transparent 60%);
-          pointer-events: none;
-        }
-        .round-card::after {
-          content: ''; position: absolute; top: 0; right: 0;
-          width: 16px; height: 16px;
-          border-left: 1px solid rgba(245,197,24,0.4);
-          border-bottom: 1px solid rgba(245,197,24,0.4);
-          pointer-events: none;
+          content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(245,197,24,0.4), transparent);
+          opacity: 0.5;
+          transition: opacity 0.4s ease;
         }
         .round-card:hover {
-          border-color: rgba(245,197,24,0.5);
-          box-shadow: 0 0 30px rgba(245,197,24,0.08), inset 0 0 30px rgba(245,197,24,0.03);
-          transform: translateY(-4px);
+          border-color: rgba(245,197,24,0.4);
+          background: linear-gradient(145deg, rgba(245,197,24,0.08) 0%, rgba(10,12,14,0.98) 100%);
+          box-shadow: 0 12px 40px -10px rgba(245,197,24,0.25), inset 0 0 20px rgba(245,197,24,0.05);
+          transform: translateY(-6px);
+        }
+        .round-card:hover::before {
+          opacity: 1;
+          background: linear-gradient(90deg, transparent, rgba(245,197,24,0.8), transparent);
         }
 
         /* ── domain cards ── */
@@ -707,7 +973,8 @@ export function IdeaThonPage() {
         .tilted-card-caption {
           pointer-events: none;
           position: absolute; left: 0; top: 0;
-          border-radius: 16px;
+          border-radius: 8px;
+          border: 1px solid rgba(0, 0, 0, 0.25);
           background-color: #f5c518;
           padding: 12px 20px;
           font-size: 13px;
@@ -769,6 +1036,7 @@ export function IdeaThonPage() {
       `}</style>
 
       <div style={{ position: "relative", background: "#09090b", minHeight: "100vh" }}>
+        <RibbonCursor />
         {loading && (
           <div className="loader-screen" style={{
             position: "fixed", inset: 0, zIndex: 9999,
@@ -884,7 +1152,7 @@ export function IdeaThonPage() {
           height: "100%", borderRadius: 999,
           background: "linear-gradient(90deg, #f5c518, #ffd700)",
           boxShadow: "0 0 8px rgba(245,197,24,0.7)",
-          animation: "loader-progress 1.9s ease-in-out forwards",
+          animation: "loader-progress 1.3s ease-in-out forwards",
         }} />
       </div>
     </div>
@@ -895,74 +1163,8 @@ export function IdeaThonPage() {
         {/* ── BACKGROUND LAYERS (fixed, behind everything) ── */}
         <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
 
-          {/* Layer 2: star field via box-shadow trick */}
-          <div style={{ position: "absolute", inset: 0 }}>
-            <style>{`
-              .stars-sm, .stars-md, .stars-lg {
-                position: absolute;
-                border-radius: 50%;
-                background: transparent;
-              }
-              .stars-sm {
-                width: 1px; height: 1px;
-                box-shadow:
-                  120px 80px rgba(255,255,255,0.95), 340px 200px rgba(255,255,255,0.85),
-                  560px 90px rgba(255,255,255,0.9), 780px 310px rgba(255,255,255,0.8),
-                  200px 450px rgba(255,255,255,0.9), 900px 150px rgba(255,255,255,0.85),
-                  1050px 380px rgba(255,255,255,0.8), 1200px 60px rgba(255,255,255,0.95),
-                  1350px 480px rgba(255,255,255,0.85), 70px 600px rgba(255,255,255,0.8),
-                  430px 700px rgba(255,255,255,0.9), 660px 520px rgba(255,255,255,0.8),
-                  820px 680px rgba(255,255,255,0.85), 1100px 550px rgba(255,255,255,0.9),
-                  1280px 720px rgba(255,255,255,0.8), 250px 180px rgba(255,255,255,0.85),
-                  480px 360px rgba(255,255,255,0.8), 1020px 240px rgba(255,255,255,0.9),
-                  1400px 300px rgba(255,255,255,0.8), 50px 400px rgba(255,255,255,0.85),
-                  730px 130px rgba(201,168,76,0.7), 960px 420px rgba(201,168,76,0.65),
-                  310px 560px rgba(201,168,76,0.6), 1180px 180px rgba(201,168,76,0.65),
-                  600px 250px rgba(255,255,255,0.85), 1300px 400px rgba(255,255,255,0.8),
-                  350px 500px rgba(201,168,76,0.6), 800px 50px rgba(255,255,255,0.9),
-                  150px 120px rgba(255,255,255,0.85), 920px 280px rgba(255,255,255,0.8),
-                  1380px 140px rgba(255,255,255,0.9), 280px 420px rgba(255,255,255,0.85),
-                  680px 610px rgba(255,255,255,0.8), 1290px 520px rgba(255,255,255,0.85),
-                  420px 250px rgba(201,168,76,0.65), 1150px 380px rgba(255,255,255,0.9),
-                  260px 680px rgba(255,255,255,0.8), 1040px 100px rgba(255,255,255,0.85);
-              }
-              .stars-md {
-                width: 2px; height: 2px;
-                box-shadow:
-                  190px 140px rgba(255,255,255,0.85), 510px 270px rgba(255,255,255,0.8),
-                  820px 70px rgba(255,255,255,0.9), 1080px 430px rgba(255,255,255,0.85),
-                  360px 580px rgba(255,255,255,0.75), 640px 340px rgba(255,255,255,0.85),
-                  1260px 200px rgba(255,255,255,0.8), 940px 660px rgba(255,255,255,0.75),
-                  150px 750px rgba(255,255,255,0.85), 1380px 580px rgba(255,255,255,0.9),
-                  590px 480px rgba(201,168,76,0.7), 890px 310px rgba(201,168,76,0.65),
-                  1150px 640px rgba(201,168,76,0.6), 300px 80px rgba(255,255,255,0.85),
-                  750px 420px rgba(255,255,255,0.8), 1250px 320px rgba(255,255,255,0.85),
-                  70px 220px rgba(255,255,255,0.8), 1320px 680px rgba(255,255,255,0.75),
-                  450px 140px rgba(201,168,76,0.65), 980px 580px rgba(255,255,255,0.9);
-              }
-              .stars-lg {
-                width: 3px; height: 3px;
-                box-shadow:
-                  280px 220px rgba(255,255,255,0.9), 740px 460px rgba(255,255,255,0.85),
-                  1160px 130px rgba(255,255,255,0.8), 490px 630px rgba(255,255,255,0.85),
-                  1020px 530px rgba(255,255,255,0.8), 110px 330px rgba(255,255,255,0.9),
-                  850px 200px rgba(201,168,76,0.75), 380px 410px rgba(201,168,76,0.7),
-                  620px 80px rgba(255,255,255,0.85), 1300px 240px rgba(255,255,255,0.8),
-                  200px 600px rgba(255,255,255,0.85), 900px 750px rgba(255,255,255,0.8);
-              }
-
-              @keyframes twinkle {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0.75; }
-              }
-              .stars-sm { animation: twinkle 6s ease-in-out infinite; }
-              .stars-md { animation: twinkle 9s ease-in-out infinite 1s; }
-              .stars-lg { animation: twinkle 12s ease-in-out infinite 2s; }
-            `}</style>
-            <div className="stars-sm" />
-            <div className="stars-md" />
-            <div className="stars-lg" />
-          </div>
+          {/* Layer 2: Live Golden Particles */}
+          <GoldenParticles />
 
           {/* Layer 5: cyber grid — very subtle, just the top 40% of page */}
           <div style={{
@@ -1056,21 +1258,7 @@ export function IdeaThonPage() {
               transform: "translateY(-30px)",
             }}
           >
-            <FadeSection delay={0}>
-              <div className="cyber-tag" style={{ marginBottom: "1.6rem", opacity: 1 }}>
-                <span style={{ width: 4, height: 4, background: "#f5c518", display: "inline-block" }} />
-                <span style={{
-                  fontFamily: "'Rajdhani', sans-serif",
-                  fontSize: "0.82rem",
-                  letterSpacing: "0.22em",
-                  color: "#f5c518",
-                  fontWeight: 600,
-                }}>
-                  Computer Society of India · VNRVJIET
-                </span>
-                <span style={{ width: 4, height: 4, background: "#f5c518", display: "inline-block" }} />
-              </div>
-            </FadeSection>
+
 
             <FadeSection delay={80}>
               <h1 style={{
@@ -1182,6 +1370,16 @@ export function IdeaThonPage() {
           </div>
 
         </div>
+
+        {/* Seamless blend gradient for the bottom edge */}
+        <div style={{
+          position: "absolute",
+          bottom: 0, left: 0, right: 0,
+          height: "220px",
+          background: "linear-gradient(to bottom, transparent, #09090b)",
+          pointerEvents: "none",
+          zIndex: 10,
+        }} />
       </section>
 
         {/* ════════════════════════
@@ -1419,10 +1617,10 @@ export function IdeaThonPage() {
 
                     {/* description */}
                     <p style={{
-                      color: "rgba(245,230,192,0.7)",
-                      fontSize: "0.88rem",
-                      lineHeight: 1.7,
-                      fontFamily: "'Rajdhani', sans-serif",
+                      color: "rgba(245,230,192,0.95)",
+                      fontSize: "0.95rem",
+                      lineHeight: 1.6,
+                      fontFamily: "'Inter', sans-serif",
                       fontWeight: 400,
                       letterSpacing: "0.01em",
                       margin: 0,
@@ -1570,8 +1768,23 @@ export function IdeaThonPage() {
                   margin: "0 auto 1.75rem",
                   position: "relative", zIndex: 2,
                   boxShadow: "0 0 28px rgba(245,166,35,0.28), 0 0 8px rgba(201,168,76,0.12), inset 0 0 16px rgba(245,166,35,0.10)",
-                }}>
-                  💡
+                  transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                  cursor: "pointer"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 50px rgba(245,197,24,0.8), 0 0 15px rgba(201,168,76,0.4), inset 0 0 25px rgba(245,197,24,0.3)";
+                  e.currentTarget.style.transform = "scale(1.1) translateY(-4px)";
+                  e.currentTarget.style.borderColor = "rgba(245,197,24,0.9)";
+                  e.currentTarget.style.background = "radial-gradient(circle at 40% 35%, rgba(245,197,24,0.4) 0%, rgba(10,12,14,0.9) 60%, rgba(201,168,76,0.15) 100%)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 28px rgba(245,166,35,0.28), 0 0 8px rgba(201,168,76,0.12), inset 0 0 16px rgba(245,166,35,0.10)";
+                  e.currentTarget.style.transform = "scale(1) translateY(0)";
+                  e.currentTarget.style.borderColor = "rgba(245,166,35,0.35)";
+                  e.currentTarget.style.background = "radial-gradient(circle at 40% 35%, rgba(245,166,35,0.22) 0%, rgba(10,12,14,0.9) 60%, rgba(201,168,76,0.06) 100%)";
+                }}
+                >
+                  <Lightbulb size={36} color="#f5c518" strokeWidth={1.5} />
                 </div>
 
                 <h2 style={{
@@ -1618,15 +1831,31 @@ export function IdeaThonPage() {
         </section>
 
         {/* Floating Scroll Indicator */}
-
+        <style>{`
+          .scroll-indicator {
+            width: 3.5rem;
+            height: 3.5rem;
+          }
+          @media (max-width: 768px) {
+            .scroll-indicator {
+              width: 2.5rem !important;
+              height: 2.5rem !important;
+              bottom: 1.5rem !important;
+              right: 1.5rem !important;
+            }
+            .scroll-indicator svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        `}</style>
         <button
+          className="scroll-indicator"
           onClick={scrollToNextOrTop}
           style={{
             position: "fixed",
             bottom: "2rem",
             right: "2rem",
-            width: "3.5rem",
-            height: "3.5rem",
             borderRadius: "50%",
             background: "#000000",
             border: "1px solid rgba(201,168,76,0.3)",
@@ -1658,7 +1887,6 @@ export function IdeaThonPage() {
           {scrollY > 300 ? <ChevronUp size={28} strokeWidth={3} /> : <ChevronDown size={28} strokeWidth={3} />}
         </button>
 
-        <Footer />
 
       </div>
     </div>
