@@ -87,71 +87,6 @@ export function CustomForm({
     setFormData((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  const compressImageToBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    // Reject very large files early
-    if (file.size > 10 * 1024 * 1024) {
-      reject(new Error("Image must be smaller than 10MB."));
-      return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const img = new Image();
-
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-
-        const MAX_WIDTH = 1200;
-        const MAX_HEIGHT = 1200;
-
-        let { width, height } = img;
-
-        // Maintain aspect ratio
-        if (width > height) {
-          if (width > MAX_WIDTH) {
-            height = Math.round((height * MAX_WIDTH) / width);
-            width = MAX_WIDTH;
-          }
-        } else {
-          if (height > MAX_HEIGHT) {
-            width = Math.round((width * MAX_HEIGHT) / height);
-            height = MAX_HEIGHT;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-
-        const ctx = canvas.getContext("2d");
-
-        if (!ctx) {
-          reject(new Error("Failed to create canvas context."));
-          return;
-        }
-
-        ctx.drawImage(img, 0, 0, width, height);
-
-        // Use JPEG for better compression
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
-
-        // Remove "data:image/jpeg;base64,"
-        resolve(dataUrl.split(",")[1]);
-      };
-
-      img.onerror = () =>
-        reject(new Error("Failed to process image."));
-
-      img.src = e.target.result;
-    };
-
-    reader.onerror = () =>
-      reject(new Error("Failed to read image file."));
-
-    reader.readAsDataURL(file);
-  });
-
   const fileToBase64 = (f) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -191,24 +126,9 @@ export function CustomForm({
       const payload = { ...formData };
 
       if (allowFileUpload && file) {
-        if (file.type.startsWith("image/")) {
-          try {
-            // Compress images drastically before sending
-            payload.fileBase64 = await compressImageToBase64(file);
-            payload.mimeType = "image/jpeg";
-            payload.fileName = file.name.replace(/\.[^/.]+$/, "") + "_compressed.jpg";
-          } catch (compressErr) {
-            // Fallback to raw base64 if compression fails or exceeds the 10MB safety limit
-            console.warn("Image compression skipped or failed. Falling back to standard upload.", compressErr);
-            payload.fileBase64 = await fileToBase64(file);
-            payload.mimeType = file.type;
-            payload.fileName = file.name;
-          }
-        } else {
-          payload.fileBase64 = await fileToBase64(file);
-          payload.mimeType = file.type;
-          payload.fileName = file.name;
-        }
+        payload.fileBase64 = await fileToBase64(file);
+        payload.mimeType = file.type;
+        payload.fileName = file.name;
       }
 
       const response = await fetch(appScriptUrl, {
