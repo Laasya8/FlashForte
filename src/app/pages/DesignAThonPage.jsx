@@ -11,11 +11,11 @@ import {
   PenTool,
   Wand2,
   Monitor,
-  Sparkles,
-  Zap,
+  Sparkles, 
+  Zap 
 } from "lucide-react";
-
-
+import { CursorTrail } from "../components/CursorTrail.jsx";
+import { UniversalLoader } from "../components/UniversalLoader.jsx";
 
 /* ═══════════════════════════════════════════════════════════
    Shared Motion Constants  (identical to GameAThonPage)
@@ -448,141 +448,38 @@ const GALLERY_ITEMS = [
    RibbonCursor — green-themed canvas ribbon trail
    (mirrors GameAThonPage RibbonCursor, re-colored for green)
    ═══════════════════════════════════════════════════════════ */
-function RibbonCursor() {
-  const canvasRef = useRef(null);
-  const frameRef = useRef(null);
-  const mouseRef = useRef({ x: -200, y: -200 });
-  const pointsRef = useRef([]);
-  const activeRef = useRef(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(hover: none)").matches) return;
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    const TRAIL = 28;
-    const THICKNESS = 14;
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener("resize", resize);
-
-    pointsRef.current = Array.from({ length: TRAIL }, () => ({
-      x: -200,
-      y: -200,
-    }));
-
-    function onMove(e) {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
-      if (!activeRef.current) {
-        activeRef.current = true;
-        pointsRef.current = Array.from({ length: TRAIL }, () => ({
-          x: e.clientX,
-          y: e.clientY,
-        }));
-      }
-    }
-    window.addEventListener("mousemove", onMove);
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const head = pointsRef.current[0];
-      head.x += (mouseRef.current.x - head.x) * 0.36;
-      head.y += (mouseRef.current.y - head.y) * 0.36;
-
-      for (let i = 1; i < TRAIL; i++) {
-        const prev = pointsRef.current[i - 1];
-        const cur = pointsRef.current[i];
-        cur.x += (prev.x - cur.x) * 0.42;
-        cur.y += (prev.y - cur.y) * 0.42;
-      }
-
-      for (let i = 0; i < TRAIL - 1; i++) {
-        const t = i / (TRAIL - 1);
-        const p1 = pointsRef.current[i];
-        const p2 = pointsRef.current[i + 1];
-
-        const dx = p2.x - p1.x;
-        const dy = p2.y - p1.y;
-        const len = Math.sqrt(dx * dx + dy * dy) || 1;
-        const nx = (-dy / len) * THICKNESS * (1 - t) * 0.5;
-        const ny = (dx / len) * THICKNESS * (1 - t) * 0.5;
-
-        const alpha = (1 - t) * 0.55;
-
-        // Green gradient: #22C55E → #4ADE80 → #14B8A6
-        const r = Math.round(34 + t * (20 - 34));
-        const g = Math.round(197 - t * 13);
-        const b = Math.round(94 + t * (166 - 94));
-
-        ctx.beginPath();
-        ctx.moveTo(p1.x + nx, p1.y + ny);
-        ctx.lineTo(p1.x - nx, p1.y - ny);
-        ctx.lineTo(p2.x - nx * (1 - 1 / TRAIL), p2.y - ny * (1 - 1 / TRAIL));
-        ctx.lineTo(p2.x + nx * (1 - 1 / TRAIL), p2.y + ny * (1 - 1 / TRAIL));
-        ctx.closePath();
-
-        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
-        ctx.fill();
-      }
-
-      frameRef.current = requestAnimationFrame(draw);
-    }
-
-    frameRef.current = requestAnimationFrame(draw);
-
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("resize", resize);
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none",
-        zIndex: 9999,
-      }}
-    />
-  );
-}
 
 /* ═══════════════════════════════════════════════════════════
    MAIN PAGE COMPONENT
    ═══════════════════════════════════════════════════════════ */
 export function DesignAThonPage() {
   const [entranceComplete, setEntranceComplete] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
-<motion.div
-  initial={{
-    opacity: 0,
-    y: 20,
-  }}
-  animate={{
-    opacity: 1,
-    y: 0,
-  }}
-  transition={{
-    duration: 0.8,
-    delay: 0.2,
-  }}
->
-
-      <RibbonCursor />
+    <div className="relative w-full max-w-[100vw] overflow-x-hidden flex flex-col font-inter bg-[#050816]">
+      <CursorTrail colorRgb={[34, 197, 94]} />
+      {loading && (
+        <UniversalLoader
+          titleStart="DESIGN"
+          titleEnd="ATHON"
+          colorHex="#22C55E"
+          colorRgb="34,197,94"
+        />
+      )}
+      <motion.div
+        className="w-full flex flex-col"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+      
+      {/* Fixed backgrounds */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-space-radial" />
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
         <div className="bg-planet-top-right" />
@@ -1182,6 +1079,7 @@ export function DesignAThonPage() {
         </ScrollReveal>
       </section>
 
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }

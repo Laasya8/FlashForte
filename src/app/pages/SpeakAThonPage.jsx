@@ -5,6 +5,8 @@ import {
   BookOpen, MessageSquare, ChevronRight, 
   Volume2, ShieldAlert, ExternalLink
 } from "lucide-react";
+import { CursorTrail } from "../components/CursorTrail.jsx";
+import { UniversalLoader } from "../components/UniversalLoader.jsx";
 
 const BUTTERY_EASE = [0.16, 1, 0.3, 1];
 
@@ -632,6 +634,13 @@ function MicPortal({ size = "md" }) {
 }
 
 export function SpeakAThonPage() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(t);
+  }, []);
+
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
@@ -665,6 +674,15 @@ export function SpeakAThonPage() {
 
   return (
     <div className="relative min-h-screen w-full flex flex-col items-center font-inter overflow-x-hidden text-[#FFFFFF]">
+      <CursorTrail colorRgb={[249, 115, 22]} />
+      {loading && (
+        <UniversalLoader
+          titleStart="SPEAK"
+          titleEnd="ATHON"
+          colorHex="#F97316"
+          colorRgb="249,115,22"
+        />
+      )}
       
       {/* Dynamic Font & Animation Styles */}
       <style>

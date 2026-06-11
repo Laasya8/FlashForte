@@ -6,7 +6,7 @@ const events = [
   {
     id: "ideathon",
     title: "IdeaThon",
-    desc: "Dive into AI holograms and transparent circuits",
+    desc: "Ignite Ideas. Inspire Change.",
     color: "#EAB308", // Gold
     icon: Lightbulb,
     link: "/ideathon",
@@ -14,7 +14,7 @@ const events = [
   {
     id: "speakathon",
     title: "Speak-A-Thon",
-    desc: "Command the glowing stage with your voice",
+    desc: "Find Your Voice. Shape Your Story.",
     color: "#F97316", // Orange
     icon: Mic,
     link: "/speak-a-thon",
@@ -22,7 +22,7 @@ const events = [
   {
     id: "designathon",
     title: "Design-A-Thon",
-    desc: "Float through UI/UX wireframes and digital art",
+    desc: "Unleash Your Creativity.",
     color: "#22C55E", // Green
     icon: Palette,
     link: "/design-a-thon",
@@ -30,7 +30,7 @@ const events = [
   {
     id: "gameathon",
     title: "Game-A-Thon",
-    desc: "Enter retro neon gaming paradise, more text here",
+    desc: "Don't Just Play the Game. Own It.",
     color: "#A855F7", // Purple
     icon: Gamepad2,
     link: "/game-a-thon",
@@ -39,7 +39,7 @@ const events = [
 
 export function ChooseYourReality() {
   return (
-    <section className="relative z-10 w-full max-w-[1400px] mx-auto px-5 py-16 lg:py-24 flex flex-col items-center">
+    <section id="choose-your-reality" className="relative z-10 w-full max-w-[1400px] mx-auto px-5 py-16 lg:py-24 flex flex-col items-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

@@ -215,13 +215,13 @@ export function HeroSection() {
 
         <div className="order-7 relative w-full flex justify-center mb-8 lg:mb-8">
           <motion.div variants={animBtn} className="w-full max-w-[320px] relative z-10">
-            <Link
-              to="/registration-test"
+            <button
+              onClick={() => document.getElementById('choose-your-reality')?.scrollIntoView({ behavior: 'smooth' })}
               className="flex items-center justify-center gap-2 w-full px-10 py-4 rounded-[50px] border-none text-[#FFFFFF] text-[clamp(15px,2vw,17px)] font-bold tracking-[0.02em] cursor-pointer no-underline shadow-[0_4px_30px_rgba(0,119,182,0.3),inset_0_0_15px_rgba(143,107,255,0.5)] [text-shadow:0_1px_2px_rgba(0,0,0,0.8)] animate-cta-gradient"
               style={{ animationPlayState: entranceComplete ? 'running' : 'paused' }}
             >
               <span className="text-[12px]">✦</span> Enter the Multiverse <span className="text-[12px]">✦</span>
-            </Link>
+            </button>
           </motion.div>
         </div>
       </motion.div>
