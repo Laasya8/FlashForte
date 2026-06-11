@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 export function CursorTrail({ colorRgb = [245, 197, 24] }) {
   const canvasRef = useRef(null);
@@ -7,8 +8,14 @@ export function CursorTrail({ colorRgb = [245, 197, 24] }) {
   const pointsRef = useRef([]);
   const activeRef = useRef(false);
   const isHiddenRef = useRef(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     // Prevents the ribbon from running on mobile devices or devices without hover capabilities
     if (window.matchMedia("(hover: none)").matches) return;
 
@@ -114,9 +121,11 @@ export function CursorTrail({ colorRgb = [245, 197, 24] }) {
       window.removeEventListener("resize", resize);
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };
-  }, [colorRgb]);
+  }, [colorRgb, mounted]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <canvas
       ref={canvasRef}
       style={{
@@ -126,8 +135,9 @@ export function CursorTrail({ colorRgb = [245, 197, 24] }) {
         width: "100%",
         height: "100%",
         pointerEvents: "none", // Ensures you can click items underneath the canvas
-        zIndex: 9999,          // Sits completely on top of everything else
+        zIndex: 99999,         // Sits completely on top of everything else
       }}
-    />
+    />,
+    document.body
   );
 }

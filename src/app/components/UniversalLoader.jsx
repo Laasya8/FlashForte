@@ -1,9 +1,21 @@
+import { useEffect } from "react";
+
 export function UniversalLoader({ 
   titleStart = "IDEA", 
   titleEnd = "THON", 
   colorHex = "#f5c518", 
   colorRgb = "245,197,24" 
 }) {
+  useEffect(() => {
+    // Disable scroll on mount
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = "hidden";
+    
+    // Re-enable on unmount
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
   return (
     <div className="loader-screen" style={{
       position: "fixed", inset: 0, zIndex: 9999,
