@@ -1,11 +1,18 @@
-const DUMMY_URL = "https://script.google.com/macros/s/AKfycby8HRjsKEY1qdn6EdXVKrc3gVKuLfE0PL0HpMDdQ7Ilx7nLhMbYKmVPjAfeNpxCjXQ7kg/exec";
+const DUMMY_URL = "https://script.google.com/macros/s/AKfycbyF8P8pqcrVh0z2x6JHH9Dri3UFtSwejRPQnaKjD5iMryYW_uGghZgHyoY7pT1TinvQ/exec";
 
 /* ── Common Field Schemas ────────────────────────────────────────────── */
 const REGISTRATION_FIELDS = [
   { name: "name", label: "Full Name", type: "text", required: true, placeholder: "Enter your full name" },
   { name: "email", label: "Email Address", type: "email", required: true, placeholder: "you@example.com" },
   { name: "phone", label: "Phone Number", type: "text", required: true, placeholder: "Enter your phone number" },
-  { name: "college", label: "College", type: "text", required: true, placeholder: "Enter your college name" },
+  { name: "rollNo", label: "Roll Number", type: "text", required: true, placeholder: "Enter your roll number" },
+  { name: "branch", label: "Branch", type: "select", required: true, options: ["CSE", "IT", "ECE", "EEE", "Mechanical", "Civil", "Other"] },
+  { name: "section", label: "Section", type: "select", required: true, options: ["A", "B", "C", "D"] },
+  { name: "yearOfStudy", label: "Year of Study", type: "select", required: true, options: ["1st Year", "2nd Year", "3rd Year", "4th Year", "Other"] },
+  { name: "discordId", label: "Discord ID", type: "text", required: true, placeholder: "username#1234 or username" },
+  { name: "tshirtSize", label: "T-Shirt Size", type: "select", required: true, options: ["XS", "S", "M", "L", "XL", "XXL"] },
+  { name: "dietaryRequirements", label: "Dietary Requirements", type: "text", required: false, placeholder: "e.g., Vegetarian, Vegan, Gluten-free" },
+  { name: "heardAboutUs", label: "How did you hear about us?", type: "select", required: false, options: ["Social Media", "Friend/Colleague", "University Announcement", "Other"] },
 ];
 
 const SUBMISSION_FIELDS = [
@@ -182,13 +189,5 @@ export const registrationConfig = {
     "application/vnd.ms-powerpoint",
     "application/vnd.openxmlformats-officedocument.presentationml.presentation",
   ],
-  fields: [
-    {
-      name: "name",
-      label: "Full Name",
-      type: "text",
-      required: true,
-      placeholder: "Enter your full name",
-    },
-  ],
+  fields: REGISTRATION_FIELDS,
 };

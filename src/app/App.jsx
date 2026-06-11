@@ -7,6 +7,7 @@ import { GameAThonPage } from "./pages/GameAThonPage.jsx";
 import { SpeakAThonPage } from "./pages/SpeakAThonPage.jsx";
 import { DesignAThonPage } from "./pages/DesignAThonPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
+import { TestPage } from "./pages/TestPage.jsx";
 import { Navbar } from "./components/Navbar.jsx";
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/game-a-thon" element={<GameAThonPage />} />
           <Route path="/speak-a-thon" element={<SpeakAThonPage />} />
           <Route path="/design-a-thon" element={<DesignAThonPage />} />
+          <Route path="/test" element={<TestPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
