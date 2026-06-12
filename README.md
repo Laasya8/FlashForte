@@ -1,67 +1,101 @@
 # FlashForte 2K26
 
-<img src="public/csilogo.png" alt="FlashForte Logo" width="200" height="200">
+<img src="src/images/csilogo.webp" alt="FlashForte Logo" width="200" height="200">
 
-Welcome to the official web portal for **FlashForte 2K26** — a premier multi-disciplinary tech event hosted by **CSI-VNRVJIET**. Step into the multiverse and experience a fusion of technology, design, and innovation.
+## About FlashForte
 
-##  Features
+**FlashForte 2K26** is the official web portal for the flagship first-year event organized by the **Computer Society of India (CSI) – VNRVJIET**.
 
-- **Sci-Fi Aesthetic**: A premium, "Deep Space Navy" dark mode UI featuring glowing typography, smooth gradients, and glassmorphic elements.
-- **Dynamic Routing**: Instant client-side navigation powered by **React Router v7** for a seamless, app-like experience.
-- **Mobile First**: Fully responsive layouts ensuring the multiverse looks incredible on any device or viewport.
-- **Event Ecosystem**: Dedicated routing and landing pages for all flagship events:
-  -  **IdeaThon**
-  -  **Game-A-Thon**
-  -  **Speak-A-Thon**
-  -  **Design-A-Thon**
+It brings together students from diverse backgrounds to explore creativity, innovation, communication, and strategic thinking through a series of competitions and challenges. The platform allows participants to discover events, explore schedules, and stay updated throughout the competition.
 
-##  Tech Stack
+## The Four Fortes
 
-This project is built using modern, lightning-fast web technologies:
+### Speak-a-thon
+Focuses on communication, storytelling, and spontaneous thinking. Participants are challenged to express ideas clearly and demonstrate creativity through spoken word.
 
-- **Framework**: [React 18](https://react.dev/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Routing**: [React Router v7](https://reactrouter.com/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
+### Design-a-thon
+Celebrates visual storytelling and design thinking. Participants transform ideas into visual experiences, exploring themes that inspire innovation and meaningful communication.
 
-##  Getting Started
+### Ideathon
+Provides a platform for innovators to identify real-world challenges and propose impactful solutions. It encourages structured thinking, problem-solving, and idea pitching.
+
+### Game-a-thon
+Combines entertainment, strategy, and competition. Through interactive challenges, participants test adaptability, critical thinking, teamwork, and decision-making skills.
+
+## Features
+
+* Responsive design for desktop and mobile devices
+* Interactive event and schedule exploration
+* Previous year highlights
+* Registration and participation tracking
+
+## Tech Stack
+
+* React
+* JavaScript
+* Tailwind CSS
+* Framer Motion
+* Vite
+* Vercel
+
+## Getting Started
 
 ### Prerequisites
 
-Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+Make sure you have Node.js installed on your machine.
 
 ### Installation
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   ```
-2. Navigate into the project directory:
-   ```bash
+   git clone https://github.com/<your-username>/FlashForte.git
    cd FlashForte
    ```
-3. Install the dependencies:
+
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-### Running Locally
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-To start the local development server:
+4. Open in browser:
+   Visit http://localhost:5173 to view the application.
 
-```bash
-npm run dev
-```
+### Production
 
-Your app will be running at `http://localhost:5173/`.
-
-### Building for Production
-
-To create an optimized production build:
-
+Build the application:
 ```bash
 npm run build
 ```
 
-This will generate a `dist` folder containing the minified assets ready for deployment.
+Run the production build:
+```bash
+npm start
+```
+
+## Project Structure
+
+```text
+FlashForte/
+├── app/            # Next.js app router and pages
+├── components/     # Reusable React components
+├── public/         # Static assets (images, fonts)
+├── styles/         # Global styles and Tailwind config
+├── lib/            # Utility functions and helpers
+├── hooks/          # Custom React hooks
+├── data/           # Static data and constants
+└── assets/         # Additional project assets
+```
+
+## Organization
+
+Developed and maintained by the **Computer Society of India (CSI) – VNRVJIET**.
+
+## License
+
+This project is intended for the official FlashForte event conducted by CSI VNRVJIET.
+All rights reserved.

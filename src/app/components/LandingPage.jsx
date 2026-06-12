@@ -1,4 +1,4 @@
-import { StarField } from "./HeroSection.jsx"; // We will export StarField from HeroSection or move it
+import { StarField } from "./StarField.jsx";
 import { HeroSection } from "./HeroSection.jsx";
 import { ChooseYourReality } from "./ChooseYourReality.jsx";
 import { RealitiesArchive } from "./RealitiesArchive.jsx";
@@ -8,7 +8,7 @@ import { Footer } from "./Footer.jsx";
 
 export function LandingPage() {
   return (
-    <div className="relative w-full overflow-x-hidden flex flex-col font-inter bg-[#050816]">
+    <div className="relative w-full overflow-x-hidden flex flex-col font-inter">
       {/* 
         Fixed backgrounds for continuous journey 
         Moving the radial gradient and starfield here to cover the whole page.
@@ -17,7 +17,6 @@ export function LandingPage() {
       
       {/* Background decorations - migrated to CSS classes */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="bg-planet-top-right" />
         <div className="bg-planet-left" />
         <div className="bg-ambient-depth" />
       </div>

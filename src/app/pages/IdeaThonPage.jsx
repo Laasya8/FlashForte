@@ -2,12 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronUp, ChevronDown, Lightbulb } from "lucide-react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Footer } from "../components/Footer.jsx";
+
 import ideathon1 from "../../images/Ideathon/ideathon1.webp";
 import ideathon2 from "../../images/Ideathon/ideathon2.webp";
 import ideathon3 from "../../images/Ideathon/ideathon3.webp";
 import ideathon4 from "../../images/Ideathon/ideathon4.webp";
 import ideathon5 from "../../images/Ideathon/ideathon5.webp";
 
+import { CursorTrail } from "../components/CursorTrail.jsx";
+import { UniversalLoader } from "../components/UniversalLoader.jsx";
 /* ─────────────────────────────────────────────
    IDEATHON PAGE — FlashForte 2K26
    ───────────────────────────────────────────── */
@@ -347,141 +350,6 @@ function ClickBurst() {
   );
 }
 
-/* ── RibbonCursor Component ── */
-function RibbonCursor() {
-  const canvasRef = useRef(null);
-  const frameRef = useRef(null);
-  const mouseRef = useRef({ x: -200, y: -200 });
-  const pointsRef = useRef([]);
-  const activeRef = useRef(false);
-  const isHiddenRef = useRef(false);
-
-  useEffect(() => {
-    // 1. Prevents the ribbon from running on mobile devices or devices without hover capabilities
-    if (window.matchMedia("(hover: none)").matches) return;
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    const TRAIL = 10;      // Number of tracking segments in the ribbon
-    const THICKNESS = 8;   // Max thickness of the ribbon head
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener("resize", resize);
-
-    // Initialize all trailing points off-screen
-    pointsRef.current = Array.from({ length: TRAIL }, () => ({
-      x: -200,
-      y: -200,
-    }));
-
-    // Updates the target mouse coordinates on move
-    function onMove(e) {
-      if (e.target && e.target.closest && e.target.closest('.tilted-card-figure')) {
-        isHiddenRef.current = true;
-      } else {
-        isHiddenRef.current = false;
-      }
-
-      mouseRef.current = { x: e.clientX, y: e.clientY };
-      if (!activeRef.current) {
-        activeRef.current = true;
-        pointsRef.current = Array.from({ length: TRAIL }, () => ({
-          x: e.clientX,
-          y: e.clientY,
-        }));
-      }
-    }
-    window.addEventListener("mousemove", onMove);
-
-    // 2. The Animation Loop using RequestAnimationFrame
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Smoothly ease the head point toward the real mouse position
-      const head = pointsRef.current[0];
-      head.x += (mouseRef.current.x - head.x) * 0.36;
-      head.y += (mouseRef.current.y - head.y) * 0.36;
-
-      // Make every following point ease toward the point ahead of it (creates the physics lag trail)
-      for (let i = 1; i < TRAIL; i++) {
-        const prev = pointsRef.current[i - 1];
-        const cur = pointsRef.current[i];
-        cur.x += (prev.x - cur.x) * 0.42;
-        cur.y += (prev.y - cur.y) * 0.42;
-      }
-
-      if (isHiddenRef.current) {
-        frameRef.current = requestAnimationFrame(draw);
-        return;
-      }
-
-      // 3. Render the ribbon geometry onto the HTML5 Canvas
-      for (let i = 0; i < TRAIL - 1; i++) {
-        const t = i / (TRAIL - 1);
-        const p1 = pointsRef.current[i];
-        const p2 = pointsRef.current[i + 1];
-
-        const dx = p2.x - p1.x;
-        const dy = p2.y - p1.y;
-        const len = Math.sqrt(dx * dx + dy * dy) || 1;
-        
-        // Calculate perpendicular vectors to give the line thickness
-        const nx = (-dy / len) * THICKNESS * (1 - t) * 0.5;
-        const ny = (dx / len) * THICKNESS * (1 - t) * 0.5;
-
-        const alpha = (1 - t) * 0.55; // Fades out toward the tail
-
-        // Gradient shifting from gold colors down the trail (e.g. 245, 197, 24 -> darker gold)
-        const r = Math.round(245 - t * 44);
-        const g = Math.round(197 - t * 29);
-        const b = Math.round(24 + t * 52);
-
-        // Draw the complex quad shape connecting point segments
-        ctx.beginPath();
-        ctx.moveTo(p1.x + nx, p1.y + ny);
-        ctx.lineTo(p1.x - nx, p1.y - ny);
-        ctx.lineTo(p2.x - nx * (1 - 1 / TRAIL), p2.y - ny * (1 - 1 / TRAIL));
-        ctx.lineTo(p2.x + nx * (1 - 1 / TRAIL), p2.y + ny * (1 - 1 / TRAIL));
-        ctx.closePath();
-
-        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
-        ctx.fill();
-      }
-
-      frameRef.current = requestAnimationFrame(draw);
-    }
-
-    frameRef.current = requestAnimationFrame(draw);
-
-    // Cleanup listeners and animation frames when component unmounts
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("resize", resize);
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none", // Ensures you can click items underneath the canvas
-        zIndex: 9999,          // Sits completely on top of everything else
-      }}
-    />
-  );
-}
 
 /* ── Golden Particles Background ── */
 function GoldenParticles() {
@@ -1045,129 +913,15 @@ export function IdeaThonPage() {
       `}</style>
 
       <div style={{ position: "relative", background: "#09090b", minHeight: "100vh" }}>
-        <RibbonCursor />
+        <CursorTrail colorRgb={[245, 197, 24]} />
         {loading && (
-          <div className="loader-screen" style={{
-            position: "fixed", inset: 0, zIndex: 9999,
-            background: "#080810",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            overflow: "hidden",
-        }}>
-
-    {/* Background bloom */}
-    <div style={{
-      position: "absolute", inset: 0,
-      background: "radial-gradient(ellipse 60% 55% at 50% 50%, rgba(245,197,24,0.1) 0%, rgba(245,166,35,0.05) 40%, transparent 70%)",
-      animation: "loader-pulse 2s ease-in-out infinite",
-    }} />
-
-    {/* Particle dots */}
-    {Array.from({ length: 18 }).map((_, i) => {
-      const angle  = (i / 18) * 360;
-      const radius = 140 + Math.random() * 120;
-      const x      = Math.cos((angle * Math.PI) / 180) * radius;
-      const y      = Math.sin((angle * Math.PI) / 180) * radius;
-      const size   = 2 + Math.random() * 4;
-      return (
-        <div key={i} style={{
-          position: "absolute",
-          left: "50%", top: "50%",
-          width: size, height: size,
-          borderRadius: "50%",
-          background: i % 3 === 0 ? "#f5c518" : "rgba(255,255,255,0.6)",
-          transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
-          boxShadow: i % 3 === 0 ? "0 0 6px rgba(245,197,24,0.8)" : "none",
-          animation: `particle-drift ${1.5 + Math.random()}s ease-out infinite`,
-          "--dx": `${(Math.random() - 0.5) * 60}px`,
-          "--dy": `${(Math.random() - 0.5) * 60}px`,
-          animationDelay: `${Math.random() * 1.5}s`,
-        }} />
-      );
-    })}
-
-    {/* Outer spinning ring */}
-    <div style={{
-      position: "absolute", left: "50%", top: "50%",
-      width: 340, height: 340, borderRadius: "50%",
-      border: "1px solid rgba(245,197,24,0.15)",
-      transform: "translate(-50%, -50%)",
-    }} />
-    <div style={{
-      position: "absolute", left: "50%", top: "50%",
-      width: 340, height: 340, borderRadius: "50%",
-      border: "1.5px solid transparent",
-      borderTopColor: "rgba(245,197,24,0.5)",
-      borderRightColor: "rgba(245,197,24,0.2)",
-      animation: "loader-ring-spin 2.5s linear infinite",
-    }} />
-
-    {/* Inner counter-spinning ring */}
-    <div style={{
-      position: "absolute", left: "50%", top: "50%",
-      width: 260, height: 260, borderRadius: "50%",
-      border: "1px solid rgba(255,255,255,0.06)",
-      transform: "translate(-50%, -50%)",
-    }} />
-    <div style={{
-      position: "absolute", left: "50%", top: "50%",
-      width: 260, height: 260, borderRadius: "50%",
-      border: "1.5px solid transparent",
-      borderBottomColor: "rgba(245,197,24,0.35)",
-      borderLeftColor: "rgba(245,197,24,0.15)",
-      animation: "loader-ring-spin-rev 3.5s linear infinite",
-    }} />
-
-    {/* Center content */}
-    <div style={{ position: "relative", zIndex: 2, textAlign: "center", animation: "loader-float 3s ease-in-out infinite" }}>
-      {/* Glow disc behind text */}
-      <div style={{
-        position: "absolute", left: "50%", top: "50%",
-        transform: "translate(-50%, -50%)",
-        width: 180, height: 180, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(245,197,24,0.18) 0%, transparent 70%)",
-        filter: "blur(20px)",
-      }} />
-
-      <h1 style={{
-        fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif",
-        fontSize: "clamp(3rem, 8vw, 5.5rem)",
-        fontWeight: 900, color: "#ffffff",
-        letterSpacing: "-0.02em", lineHeight: 1,
-        textShadow: "0 0 40px rgba(245,197,24,0.5), 0 0 80px rgba(245,197,24,0.25)",
-        margin: 0,
-        position: "relative",
-      }}>
-        IDEA<span style={{ color: "#f5c518" }}>THON</span>
-      </h1>
-
-      <p style={{
-        fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif",
-        fontSize: "0.72rem", letterSpacing: "0.45em",
-        color: "rgba(245,197,24,0.8)",
-        textTransform: "uppercase", marginTop: "0.9rem",
-        fontWeight: 600, position: "relative",
-      }}>
-        Loading Reality
-      </p>
-
-      {/* Progress bar */}
-      <div style={{
-        marginTop: "1.25rem", width: 200,
-        height: 2, background: "rgba(255,255,255,0.08)",
-        borderRadius: 999, overflow: "hidden",
-        position: "relative",
-      }}>
-        <div style={{
-          height: "100%", borderRadius: 999,
-          background: "linear-gradient(90deg, #f5c518, #ffd700)",
-          boxShadow: "0 0 8px rgba(245,197,24,0.7)",
-          animation: "loader-progress 1.3s ease-in-out forwards",
-        }} />
-      </div>
-    </div>
-
-  </div>
-)}
+          <UniversalLoader
+            titleStart="IDEA"
+            titleEnd="THON"
+            colorHex="#f5c518"
+            colorRgb="245,197,24"
+          />
+        )}
 
         {/* ── BACKGROUND LAYERS (fixed, behind everything) ── */}
         <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
