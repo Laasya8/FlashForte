@@ -51,10 +51,10 @@ export function ScheduleCards() {
         className="text-center mb-12"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
-        <h2 className="font-orbitron text-[clamp(24px,4vw,36px)] font-bold text-[#F8FAFC] text-glow">
+        <h2 className="font-orbitron text-[clamp(24px,4vw,36px)] font-black uppercase tracking-[0.05em] text-[#F8FAFC] text-glow">
           The Multiverse Awaits
         </h2>
         <p className="text-[#C8D3F5] text-[clamp(13px,2vw,15px)] mt-2 max-w-md mx-auto">
@@ -68,39 +68,39 @@ export function ScheduleCards() {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, amount: 0.2 }}
       >
         {SCHEDULE_DATA.map((day) => (
           <motion.div
             key={day.day}
-            className="glass-card flex-1 w-full shrink-0 flex flex-col overflow-hidden rounded-[20px] border border-[#8F6BFF]/20"
+            className="bg-[#050816]/40 border border-white/5 flex-1 w-full shrink-0 flex flex-col overflow-hidden rounded-[24px]"
             variants={cardVariants}
             whileHover={{
               y: -6,
-              boxShadow: "0 8px 40px rgba(143, 107, 255, 0.2), 0 0 60px rgba(143, 107, 255, 0.08)",
-              borderColor: "rgba(143, 107, 255, 0.5)",
+              boxShadow: "0 8px 40px rgba(6, 182, 212, 0.15), 0 0 60px rgba(6, 182, 212, 0.05)",
+              borderColor: "rgba(255, 255, 255, 0.15)",
             }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             {/* Card header */}
             <div
-              className="px-6 py-5 border-b border-[#8F6BFF]/15"
+              className="px-6 py-5 border-b border-white/5"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(143, 107, 255, 0.15) 0%, rgba(63, 224, 255, 0.08) 100%)",
+                  "linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, transparent 100%)",
               }}
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-orbitron text-[clamp(16px,3vw,20px)] font-bold text-[#F8FAFC] m-0 leading-tight">
+                  <h3 className="font-orbitron text-[clamp(16px,3vw,20px)] font-black uppercase tracking-[0.05em] text-[#F8FAFC] text-glow m-0 leading-tight">
                     {day.day}
                   </h3>
                   <span className="text-[#C8D3F5] text-[13px] mt-1 block">{day.date}</span>
                 </div>
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#8F6BFF]/15 border border-[#8F6BFF]/30"
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#06B6D4]/15 border border-[#06B6D4]/30"
                 >
-                  <Clock size={18} color="#8F6BFF" />
+                  <Clock size={18} color="#06B6D4" />
                 </div>
               </div>
             </div>
@@ -124,7 +124,7 @@ export function ScheduleCards() {
                     <Icon size={20} color={event.color} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[#F8FAFC] text-[15px] font-semibold leading-tight">
+                    <div className="font-orbitron font-black text-[#F8FAFC] text-[16px] sm:text-[18px] tracking-[0.06em] text-glow leading-tight animate-title-glow">
                       {event.name}
                     </div>
                     <div

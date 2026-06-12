@@ -8,7 +8,7 @@ export function Footer() {
         className="w-full h-[1px]"
         style={{
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(143, 107, 255, 0.4) 30%, rgba(63, 224, 255, 0.4) 70%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(143, 107, 255, 0.4) 30%, rgba(0, 168, 232, 0.4) 70%, transparent 100%)",
         }}
       />
 

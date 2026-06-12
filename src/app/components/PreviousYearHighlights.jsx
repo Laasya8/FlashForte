@@ -7,7 +7,7 @@ const highlightData = [
     id: "ideathon",
     title: "IdeaThon",
     year: "2025",
-    navDesc: "Innovate groundbreaking solutions to real challenges.",
+    navDesc: "Ignite Ideas. Inspire Change.",
     color: "#EAB308", // Gold
     icon: Lightbulb,
     participants: "90+",
@@ -17,78 +17,86 @@ const highlightData = [
       "/ideathon-3.jpg",
     ],
     highlights: [
-      "50+ innovative ideas pitched",
-      "Across multiple tech domains",
-      "Top 3 teams won exciting prizes",
-      "Internship opportunities for winners",
+      "Innovation and creative problem solving",
+      "Critical and analytical thinking",
+      "Entrepreneurial mindset",
+      "Idea validation and feasibility analysis",
+      "Structured thinking",
+      "Pitching and communication skills",
     ],
     winners: [
-      "1st Place - Code Crafters",
-      "2nd Place - Innovators Hub",
-      "3rd Place - Future Founders",
+      "1st Place - Chatradhara Reddy",
+      "2nd Place - Sachin Tripathi",
+      "3rd Place - M. Jithendar Reddy",
     ]
   },
   {
     id: "gameathon",
     title: "Game-A-Thon",
     year: "2025",
-    navDesc: "Showcase gaming skills in electrifying battles.",
+    navDesc: "Don't Just Play the Game. Own It.",
     color: "#A855F7", // Purple
     icon: Gamepad2,
     participants: "120+",
     images: [],
     highlights: [
-      "120+ gamers registered",
-      "Valorant & BGMI tournaments",
-      "Live streamed finals",
-      "Exclusive gaming gear prizes",
+      "Strategic thinking",
+      "Adaptability and decision making",
+      "Logical reasoning",
+      "Observation and analytical skills",
+      "Competitive spirit and sportsmanship",
+      "Teamwork and collaboration",
     ],
     winners: [
-      "1st Place - Team Phoenix",
-      "2nd Place - AimBots",
-      "3rd Place - Ghost Riders",
+      "1st Place - Harshith Annavarapu",
+      "2nd Place - Asritha Thota",
+      "3rd Place - Sai Koushik Reddy Anumula",
     ]
   },
   {
     id: "designathon",
     title: "Design-A-Thon",
     year: "2025",
-    navDesc: "Craft stunning visuals and intuitive experiences.",
+    navDesc: "Unleash Your Creativity.",
     color: "#22C55E", // Green
     icon: Palette,
     participants: "70+",
     images: [],
     highlights: [
-      "24-hour UI/UX challenge",
-      "Real-world problem statements",
-      "Mentorship from industry experts",
-      "Prototyping tools sponsored",
+      "Design thinking",
+      "Visual storytelling",
+      "Creativity and innovation",
+      "Presentation and articulation skills",
+      "Problem-solving through design",
+      "Understanding of visual communication",
     ],
     winners: [
-      "1st Place - Pixel Perfect",
-      "2nd Place - Creative Minds",
-      "3rd Place - Vector Valley",
+      "1st Place - M. Rithika Sai & Sahithi Uppala",
+      "2nd Place - Sai Sowmya Lohitha & K. Sri Divya Valli",
+      "3rd Place - Pendli Thanmayee & Adapaka Tej Satwik",
     ]
   },
   {
     id: "speakathon",
     title: "Speak-A-Thon",
     year: "2025",
-    navDesc: "Command the stage with persuasive power.",
+    navDesc: "Find Your Voice. Shape Your Story.",
     color: "#F97316", // Orange
     icon: Mic,
     participants: "40+",
     images: [],
     highlights: [
-      "Extempore & prepared speeches",
-      "Judged by Toastmasters experts",
-      "Topics ranging from AI to ethics",
-      "Confidence building workshops",
+      "Public speaking and presentation skills",
+      "Creative storytelling",
+      "Quick thinking and improvisation",
+      "Audience engagement",
+      "Confidence and self-expression",
+      "Verbal communication and persuasion",
     ],
     winners: [
-      "1st Place - Sarah Jenkins",
-      "2nd Place - Rahul Sharma",
-      "3rd Place - Emily Chen",
+      "1st Place - Chakresh Sri Varma",
+      "2nd Place - Patha Sloka",
+      "3rd Place - M. Saanvika",
     ]
   }
 ];
@@ -138,7 +146,7 @@ function MobileImageGallery({ activeEvent }) {
               key={index}
               animate={{ rotateY, scale, opacity, zIndex }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="gallery-carousel-item snap-center shrink-0 w-[240px] aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group preserve-3d will-change-transform will-change-opacity"
+              className="gallery-carousel-item snap-center shrink-0 w-[240px] aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group preserve-3d"
             >
               <div className="absolute inset-0 flex items-center justify-center opacity-20 transition-opacity">
                 <activeEvent.icon size={48} color={activeEvent.color} />
@@ -222,7 +230,7 @@ export function PreviousYearHighlights() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="text-center mb-12 lg:mb-16"
       >
@@ -269,7 +277,7 @@ export function PreviousYearHighlights() {
                 <motion.div 
                   key={event.id}
                   onClick={() => handleTabClick(index)}
-                  className={`nav-carousel-item relative shrink-0 lg:w-full cursor-pointer group preserve-3d will-change-transform will-change-opacity ${isMobile ? "snap-center w-[240px]" : "w-[260px]"}`}
+                  className={`nav-carousel-item relative shrink-0 lg:w-full cursor-pointer group preserve-3d ${isMobile ? "snap-center w-[240px]" : "w-[260px]"}`}
                   animate={isMobile ? { rotateY, scale, opacity, zIndex } : { rotateY: 0, scale: 1, opacity: 1, zIndex: 1 }}
                   transition={{ duration: 0.4 }}
                 >
@@ -328,7 +336,7 @@ export function PreviousYearHighlights() {
               <div className="flex justify-between items-start mb-6 lg:mb-8 border-b border-white/10 pb-4 lg:pb-6">
                 <div className="flex items-center gap-3 lg:gap-4">
                   <activeEvent.icon size={isMobile ? 24 : 32} color={activeEvent.color} style={{ filter: `drop-shadow(0 0 10px ${activeEvent.color}80)` }} />
-                  <h3 className="font-orbitron font-bold text-[20px] sm:text-[24px] lg:text-[28px] text-white tracking-wide">
+                  <h3 className="font-orbitron font-black uppercase tracking-[0.05em] text-[16px] sm:text-[24px] lg:text-[28px] text-[#F8FAFC] text-glow">
                     {activeEvent.title} {activeEvent.year}
                   </h3>
                 </div>
@@ -393,13 +401,6 @@ export function PreviousYearHighlights() {
                     })}
                   </ul>
                 </div>
-              </div>
-
-              {/* View All CTA */}
-              <div className="mt-8 lg:mt-10 flex justify-center">
-                <button className="flex items-center gap-2 px-4 py-2 lg:px-6 lg:py-3 rounded-full btn-outline-glow text-xs lg:text-sm font-semibold">
-                  View All Highlights <ChevronRight size={16} />
-                </button>
               </div>
 
             </motion.div>

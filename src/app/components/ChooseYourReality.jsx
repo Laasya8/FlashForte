@@ -6,7 +6,7 @@ const events = [
   {
     id: "ideathon",
     title: "IdeaThon",
-    desc: "Dive into AI holograms and transparent circuits",
+    desc: "Ignite Ideas. Inspire Change.",
     color: "#EAB308", // Gold
     icon: Lightbulb,
     link: "/ideathon",
@@ -14,7 +14,7 @@ const events = [
   {
     id: "speakathon",
     title: "Speak-A-Thon",
-    desc: "Command the glowing stage with your voice",
+    desc: "Find Your Voice. Shape Your Story.",
     color: "#F97316", // Orange
     icon: Mic,
     link: "/speak-a-thon",
@@ -22,7 +22,7 @@ const events = [
   {
     id: "designathon",
     title: "Design-A-Thon",
-    desc: "Float through UI/UX wireframes and digital art",
+    desc: "Unleash Your Creativity.",
     color: "#22C55E", // Green
     icon: Palette,
     link: "/design-a-thon",
@@ -30,7 +30,7 @@ const events = [
   {
     id: "gameathon",
     title: "Game-A-Thon",
-    desc: "Enter retro neon gaming paradise, more text here",
+    desc: "Don't Just Play the Game. Own It.",
     color: "#A855F7", // Purple
     icon: Gamepad2,
     link: "/game-a-thon",
@@ -39,11 +39,11 @@ const events = [
 
 export function ChooseYourReality() {
   return (
-    <section className="relative z-10 w-full max-w-[1400px] mx-auto px-5 py-16 lg:py-24 flex flex-col items-center">
+    <section id="choose-your-reality" className="relative z-10 w-full max-w-[1400px] mx-auto px-5 py-16 lg:py-24 flex flex-col items-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="text-center mb-12 lg:mb-16"
       >
@@ -63,7 +63,7 @@ export function ChooseYourReality() {
               key={event.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <Link
@@ -98,7 +98,7 @@ export function ChooseYourReality() {
                 </div>
 
                 <div className="flex flex-col text-left z-10 flex-1 justify-center">
-                  <h3 className="font-orbitron text-[22px] sm:text-[26px] font-bold text-white mb-2 tracking-[0.02em]">
+                  <h3 className="font-orbitron font-black uppercase tracking-[0.05em] text-[16px] sm:text-[26px] text-[#F8FAFC] text-glow mb-2">
                     {event.title}
                   </h3>
                   <p className="text-[#94A3B8] text-[14px] sm:text-[15px] mb-4 leading-[1.6]">
