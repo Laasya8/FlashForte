@@ -626,7 +626,7 @@ export function SpeakAThonPage() {
       {/* Dynamic Font & Animation Styles */}
       <style>
         {`
-          @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700;800&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700;800&display=swap');
           
           .font-playfair {
             font-family: 'Playfair Display', Georgia, serif;
@@ -749,13 +749,6 @@ export function SpeakAThonPage() {
             z-index: -3;
           }
 
-          .font-orbitron {
-            font-family: 'Orbitron', sans-serif !important;
-          }
-          .font-rajdhani {
-            font-family: 'Rajdhani', sans-serif !important;
-          }
-
           @media (max-width: 1024px) {
             .hero-layout {
               flex-direction: column !important;
@@ -820,13 +813,7 @@ export function SpeakAThonPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.2 }}
-            style={{
-              fontSize: "clamp(2.4rem, 6vw, 5.5rem)",
-              letterSpacing: "0.08em",
-              lineHeight: 1.05,
-              textShadow: "0 0 48px rgba(249,115,22,0.45), 0 0 100px rgba(249,115,22,0.18)",
-            }}
-            className="font-orbitron font-black text-[#F8FAFC] mb-2 text-center lg:text-left whitespace-nowrap"
+            className="font-orbitron text-[clamp(28px,7.5vw,60px)] font-black tracking-[0.08em] text-[#F8FAFC] orange-glow-text leading-[1.05] mb-2 text-center lg:text-left whitespace-nowrap"
           >
             SPEAK
             <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-amber-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
@@ -839,12 +826,7 @@ export function SpeakAThonPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.35 }}
-            style={{
-              fontSize: "clamp(0.95rem, 1.8vw, 1.3rem)",
-              letterSpacing: "0.22em",
-              textShadow: "0 0 18px rgba(249,115,22,0.35)",
-            }}
-            className="text-[#FFFFFF] font-rajdhani font-bold mb-4 mt-0 uppercase text-center lg:text-left leading-[1.35] w-full"
+            className="text-[#FFFFFF] text-[clamp(13px,2.2vw,22px)] font-extrabold leading-[1.35] tracking-[0.18em] mb-4 mt-0 uppercase text-center lg:text-left w-full"
           >
             WHERE CONFIDENCE{" "}
             <span className="bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
