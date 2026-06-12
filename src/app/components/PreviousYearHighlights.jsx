@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { CheckCircle2, Trophy, Lightbulb, Gamepad2, Palette, Mic, ChevronRight, ArrowRight, ArrowLeft } from "lucide-react";
+import { ImageModal } from "./ImageModal.jsx";
 
 const highlightData = [
   {
@@ -101,7 +102,7 @@ const highlightData = [
   }
 ];
 
-function MobileImageGallery({ activeEvent }) {
+function MobileImageGallery({ activeEvent, onImageClick }) {
   const carouselRef = useRef(null);
   const [activeImgIndex, setActiveImgIndex] = useState(0);
 
@@ -124,14 +125,15 @@ function MobileImageGallery({ activeEvent }) {
   };
 
   return (
-    <div className="mb-10 -mx-6 perspective-1000">
+    <div className="mb-10 perspective-1000">
       <div 
         ref={carouselRef}
         onScroll={handleScroll}
         className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory py-4"
         style={{
-          paddingLeft: "calc(50vw - 120px)",
-          paddingRight: "calc(50vw - 120px)"
+          paddingLeft: "calc(50% - 100px)",
+          paddingRight: "calc(50% - 100px)",
+          scrollBehavior: "smooth"
         }}
       >
         {[1, 2, 3].map((_, index) => {
@@ -146,7 +148,8 @@ function MobileImageGallery({ activeEvent }) {
               key={index}
               animate={{ rotateY, scale, opacity, zIndex }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="gallery-carousel-item snap-center shrink-0 w-[240px] aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group preserve-3d"
+              className="gallery-carousel-item snap-center shrink-0 w-[200px] aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group preserve-3d cursor-pointer"
+              onClick={() => onImageClick({ event: activeEvent, index })}
             >
               <div className="absolute inset-0 flex items-center justify-center opacity-20 transition-opacity">
                 <activeEvent.icon size={48} color={activeEvent.color} />
@@ -165,7 +168,10 @@ export function PreviousYearHighlights() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const navCarouselRef = useRef(null);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const programmaticScroll = useRef(false);
+  const [zoomedImage, setZoomedImage] = useState(null);
   
   const activeEvent = highlightData[activeIndex];
 
@@ -192,12 +198,12 @@ export function PreviousYearHighlights() {
   }, [activeIndex, isMobile]);
 
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!isAutoPlaying || !isInView) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % highlightData.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, isInView]);
 
   const handleNavScroll = () => {
     if (!navCarouselRef.current || !isMobile || programmaticScroll.current) return;
@@ -226,7 +232,7 @@ export function PreviousYearHighlights() {
   };
 
   return (
-    <section className="relative z-10 w-full px-5 pt-16 pb-12 lg:pt-24 lg:pb-16 max-w-[1400px] mx-auto">
+    <section ref={sectionRef} className="relative z-10 w-full px-5 pt-16 pb-12 lg:pt-24 lg:pb-16 max-w-[1400px] mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -260,8 +266,9 @@ export function PreviousYearHighlights() {
             onScroll={handleNavScroll}
             className={`flex lg:flex-col gap-4 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 hide-scrollbar perspective-1000 ${isMobile ? "snap-x snap-mandatory" : ""}`}
             style={{
-               paddingLeft: isMobile ? "calc(50vw - 120px)" : undefined,
-               paddingRight: isMobile ? "calc(50vw - 120px)" : undefined,
+               paddingLeft: isMobile ? "calc(50% - 120px)" : undefined,
+               paddingRight: isMobile ? "calc(50% - 120px)" : undefined,
+               scrollBehavior: "smooth"
             }}
           >
             {highlightData.map((event, index) => {
@@ -348,13 +355,14 @@ export function PreviousYearHighlights() {
 
               {/* Image Gallery Placeholders */}
               {isMobile ? (
-                <MobileImageGallery activeEvent={activeEvent} />
+                <MobileImageGallery activeEvent={activeEvent} onImageClick={setZoomedImage} />
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
                   {[1, 2, 3].map((_, i) => (
                     <div 
                       key={i} 
-                      className="aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group"
+                      onClick={() => setZoomedImage({ event: activeEvent, index: i })}
+                      className="aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group cursor-pointer"
                     >
                       {/* Placeholder content since we don't have images */}
                       <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
@@ -408,6 +416,16 @@ export function PreviousYearHighlights() {
         </div>
       </div>
       
+      <ImageModal isOpen={!!zoomedImage} onClose={() => setZoomedImage(null)}>
+        {zoomedImage && (
+          <div className="w-full max-w-[800px] aspect-video rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden glass-card">
+             <div className="absolute inset-0 flex items-center justify-center opacity-40">
+                <zoomedImage.event.icon size={80} color={zoomedImage.event.color} />
+             </div>
+             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+          </div>
+        )}
+      </ImageModal>
     </section>
   );
 }

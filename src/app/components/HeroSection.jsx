@@ -79,7 +79,16 @@ const animBlock = {
 };
 const animBtn = {
   hidden: { opacity: 0, y: 15 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1.0, delay: 1.5, ease: BUTTERY_EASE } },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      type: "spring",
+      stiffness: 100,
+      damping: 20,
+      delay: 1.2
+    } 
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════

@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft } from "lucide-react";
+import { ImageModal } from "./ImageModal.jsx";
 
 const archivePosters = [
   {
@@ -25,6 +26,7 @@ export function RealitiesArchive() {
   const carouselRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [zoomedImage, setZoomedImage] = useState(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -106,6 +108,7 @@ export function RealitiesArchive() {
                 viewport={{ once: true, amount: 0.2 }}
                 animate={isMobile ? { rotateY, scale, opacity, zIndex } : { zIndex: 1, rotateY: 0, scale: 1, opacity: 1 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
+                onClick={() => setZoomedImage(poster)}
                 className={`archive-carousel-item shrink-0 lg:w-[320px] aspect-[1/1.4] rounded-[20px] relative group cursor-pointer preserve-3d ${isMobile ? "snap-center w-[240px]" : "w-[280px]"}`}
               >
                 {/* Holographic Panel Background / Image Placeholder */}
@@ -131,6 +134,25 @@ export function RealitiesArchive() {
         </div>
       </div>
 
+      <ImageModal isOpen={!!zoomedImage} onClose={() => setZoomedImage(null)}>
+        {zoomedImage && (
+          <div 
+            className="w-full max-w-[400px] aspect-[1/1.4] rounded-[20px] glass-card overflow-hidden flex items-center justify-center relative"
+            style={{
+              borderColor: `${zoomedImage.color}40`,
+              boxShadow: `0 10px 40px -10px ${zoomedImage.color}30, inset 0 0 20px ${zoomedImage.color}10`,
+            }}
+          >
+            <span className="text-[#94A3B8]/40 font-orbitron text-lg tracking-widest uppercase">Poster Image</span>
+            <div 
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `linear-gradient(180deg, transparent 0%, ${zoomedImage.color}20 100%)`
+              }}
+            />
+          </div>
+        )}
+      </ImageModal>
     </section>
   );
 }

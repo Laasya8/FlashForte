@@ -17,9 +17,10 @@ const navbarVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 1.0,
-      ease: BUTTERY_EASE,
-      delay: 1.0,
+      type: "spring",
+      stiffness: 80,
+      damping: 20,
+      delay: 0.8,
     },
   },
 };
