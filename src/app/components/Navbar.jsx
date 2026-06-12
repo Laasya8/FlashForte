@@ -78,12 +78,9 @@ export function Navbar() {
               >
                 {link.label}
                 {isActive && (
-                  <motion.div 
-                    layoutId="desktop-underline"
+                  <div 
                     className="absolute -bottom-[6px] left-0 w-full h-[2px] rounded-[2px]"
                     style={{ backgroundColor: link.color, boxShadow: `0 0 8px ${link.color}80` }}
-                    initial={false}
-                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
                   />
                 )}
               </Link>

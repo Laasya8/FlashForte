@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-export function CursorTrail({ colorRgb = [245, 197, 24] }) {
+export function CursorTrail({ colorRgb = [245, 197, 24], trailLength = 10 }) {
   const canvasRef = useRef(null);
   const frameRef = useRef(null);
   const mouseRef = useRef({ x: -200, y: -200 });
@@ -25,7 +25,7 @@ export function CursorTrail({ colorRgb = [245, 197, 24] }) {
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    const TRAIL = 10;      // Number of tracking segments in the ribbon
+    const TRAIL = trailLength;      // Number of tracking segments in the ribbon
     const THICKNESS = 8;   // Max thickness of the ribbon head
 
     function resize() {
