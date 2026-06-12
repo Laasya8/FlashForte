@@ -8,6 +8,12 @@ import {
 import { CursorTrail } from "../components/CursorTrail.jsx";
 import { UniversalLoader } from "../components/UniversalLoader.jsx";
 
+import speakathon1 from "../../images/Speakathon/speakathon1.webp";
+import speakathon2 from "../../images/Speakathon/speakathon2.webp";
+import speakathon3 from "../../images/Speakathon/speakathon3.webp";
+import speakathon4 from "../../images/Speakathon/speakthon4.webp";
+import speakathon5 from "../../images/Speakathon/speakathon5.webp";
+
 const BUTTERY_EASE = [0.16, 1, 0.3, 1];
 
 // Dynamic Particles Generator
@@ -769,6 +775,29 @@ export function SpeakAThonPage() {
             .hero-btns { justify-content: center !important; }
             .hero-portal-mobile-slot { display: flex !important; }
           }
+
+          @keyframes gallery-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .gallery-track {
+            animation: gallery-scroll 28s linear infinite;
+          }
+          .gallery-track:hover {
+            animation-play-state: paused;
+          }
+          .gallery-mask {
+            mask: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+            -webkit-mask: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+          }
+          .gallery-item {
+            transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+          }
+          .gallery-item:hover {
+            transform: scale(1.04);
+            filter: brightness(1.1) saturate(1.15);
+          }
         `}
       </style>
       
@@ -1294,38 +1323,60 @@ export function SpeakAThonPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 1.0, ease: BUTTERY_EASE }}
-          className="w-full max-w-[1200px] mx-auto"
+          className="w-full mt-10"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {[
-              { src: "/highlight-1.jpg", alt: "Speak-A-Thon '25 Gallery Image 1", label: "Inspirational Speeches" },
-              { src: "/highlight-2.jpg", alt: "Speak-A-Thon '25 Gallery Image 2", label: "Intense Debates" },
-              { src: "/highlight-3.jpg", alt: "Speak-A-Thon '25 Gallery Image 3", label: "Storytelling Multiverse" }
-            ].map((img, index) => (
-              <div 
-                key={index} 
-                className="relative group rounded-2xl overflow-hidden glass-panel border border-white/5 orange-border-glow aspect-video transition-all duration-300 hover:-translate-y-1"
-              >
-                <img 
-                  src={img.src} 
-                  alt={img.alt} 
-                  className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"
-                  onError={(e) => { e.target.style.display = 'none'; }}
-                />
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-[#1C100B]/40 to-transparent p-4 text-center">
-                  <Mic className="w-10 h-10 text-orange-500/40 mb-2.5 group-hover:text-orange-500 transition-colors" />
-                  <span className="text-xs font-orbitron font-semibold tracking-wider text-[#BDBDBD] uppercase">
-                    {img.label}
-                  </span>
+          <div className="gallery-mask" style={{ width: "100%", overflow: "hidden" }}>
+            <div className="gallery-track" style={{ display: "flex", gap: "0.75rem", width: "max-content" }}>
+              {[
+                speakathon1, speakathon2, speakathon3, speakathon4, speakathon5,
+                speakathon1, speakathon2, speakathon3, speakathon4, speakathon5,
+              ].map((src, i) => (
+                <div
+                  key={i}
+                  className="gallery-item"
+                  style={{
+                    flexShrink: 0,
+                    width: "clamp(280px, 36vw, 380px)",
+                    height: "clamp(180px, 26vw, 260px)",
+                    borderRadius: "2px",
+                    clipPath: "none",
+                    overflow: "hidden",
+                    border: "1px dashed rgba(249, 115, 22, 0.25)",
+                    background: "rgba(8,10,12,0.95)",
+                    position: "relative",
+                  }}
+                >
+                  {src ? (
+                    <img
+                      src={src}
+                      alt={`Speak-A-Thon moment ${(i % 5) + 1}`}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div style={{
+                      width: "100%", height: "100%",
+                      display: "flex", flexDirection: "column",
+                      alignItems: "center", justifyContent: "center",
+                      gap: "0.4rem",
+                      background: "rgba(8,10,12,0.95)",
+                    }}>
+                      <span style={{
+                        fontFamily: "'Rajdhani', sans-serif",
+                        fontSize: "0.7rem", letterSpacing: "0.25em",
+                        color: "rgba(249, 115, 22, 0.35)", textTransform: "uppercase",
+                      }}>Photo 0{(i % 5) + 1}</span>
+                    </div>
+                  )}
+
+                  {/* corner accents */}
+                  <div style={{ position:"absolute", top:8, left:8, width:12, height:12, borderTop:"1.5px solid rgba(249, 115, 22, 0.4)", borderLeft:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
+                  <div style={{ position:"absolute", top:8, right:8, width:12, height:12, borderTop:"1.5px solid rgba(249, 115, 22, 0.4)", borderRight:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
+                  <div style={{ position:"absolute", bottom:8, left:8, width:12, height:12, borderBottom:"1.5px solid rgba(249, 115, 22, 0.4)", borderLeft:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
+                  <div style={{ position:"absolute", bottom:8, right:8, width:12, height:12, borderBottom:"1.5px solid rgba(249, 115, 22, 0.4)", borderRight:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
                 </div>
-                <div className="absolute bottom-0 left-0 w-full p-3 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-between">
-                  <span className="text-xs font-orbitron font-semibold tracking-wider text-orange-400">
-                    SPEAKER IMAGE {index + 1}
-                  </span>
-                  <Sparkles className="w-4 h-4 text-orange-500 animate-pulse" />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </motion.div>
       </section>
