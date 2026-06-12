@@ -2,6 +2,8 @@ import { Menu, ChevronRight, X } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import vnrLogo from "../../images/vnrlogo.webp";
+import csiLogo from "../../images/csilogo.webp";
 
 /* ═══════════════════════════════════════════════════════════
    Phase 3: Navbar Dropdown — T=1.8s
@@ -49,7 +51,7 @@ export function Navbar() {
         <div className="flex items-center gap-1.5 sm:gap-4 shrink-0">
           <a href="https://vnrvjiet.ac.in" target="_blank" rel="noopener noreferrer" className="flex items-center shrink-0">
             <img
-              src="/vnrlogo.webp"
+              src={vnrLogo}
               alt="VNRVJIET"
               className="w-auto h-auto max-w-[140px] sm:max-w-[200px] md:max-w-none max-h-9 sm:max-h-10 md:max-h-12 object-contain rounded-sm transition duration-300 hover:scale-105"
             />
@@ -57,7 +59,7 @@ export function Navbar() {
 
           <a href="https://www.vnrvjietcsi.com" target="_blank" rel="noopener noreferrer" className="flex items-center shrink-0">
             <img
-              src="/csilogo.webp"
+              src={csiLogo}
               alt="CSI-VNRVJIET"
               className="w-auto h-auto max-w-[40px] sm:max-w-[56px] md:max-w-none max-h-10 sm:max-h-12 md:max-h-14 object-contain rounded-sm transition duration-300 hover:scale-105"
             />
