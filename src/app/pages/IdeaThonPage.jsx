@@ -2,6 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronUp, ChevronDown, Lightbulb } from "lucide-react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Footer } from "../components/Footer.jsx";
+
+import ideathon1 from "../../images/Ideathon/ideathon1.webp";
+import ideathon2 from "../../images/Ideathon/ideathon2.webp";
+import ideathon3 from "../../images/Ideathon/ideathon3.webp";
+import ideathon4 from "../../images/Ideathon/ideathon4.webp";
+import ideathon5 from "../../images/Ideathon/ideathon5.webp";
+
 import { CursorTrail } from "../components/CursorTrail.jsx";
 import { UniversalLoader } from "../components/UniversalLoader.jsx";
 /* ─────────────────────────────────────────────
@@ -1138,6 +1145,84 @@ export function IdeaThonPage() {
         }} />
       </section>
 
+      {/* ════════════════════════
+    MANIFESTO STRIP
+════════════════════════ */}
+<section style={{ padding: "0 1.5rem 4rem" }}>
+  <FadeSection>
+    <div style={{
+      maxWidth: 1000, margin: "0 auto",
+      position: "relative",
+      background: "radial-gradient(ellipse 80% 100% at 50% 50%, rgba(245,197,24,0.16) 0%, rgba(20,16,6,0.95) 55%, rgba(10,8,4,0.98) 100%)",
+      border: "1px solid rgba(245,197,24,0.35)",
+      borderRadius: "24px",
+      padding: "5rem 3.5rem",
+      minHeight: "320px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+      overflow: "hidden",
+      boxShadow: "0 0 100px rgba(245,197,24,0.25), 0 0 200px rgba(245,197,24,0.1), inset 0 0 80px rgba(245,197,24,0.06)",
+    }}>
+
+      {/* opening quote mark */}
+      <span style={{
+        position: "absolute", top: "1.5rem", left: "2.5rem",
+        fontFamily: "Georgia, serif",
+        fontSize: "8rem", fontWeight: 900,
+        color: "rgba(245,197,24,0.18)",
+        lineHeight: 1, userSelect: "none",
+      }}>&ldquo;</span>
+
+      <p style={{
+        fontFamily: "'Rajdhani', sans-serif",
+        fontSize: "0.75rem",
+        letterSpacing: "0.35em",
+        color: "rgba(245,230,192,0.55)",
+        textTransform: "uppercase",
+        marginBottom: "1.75rem",
+        fontWeight: 700,
+      }}>
+        IdeaThon Manifesto
+      </p>
+
+      <h3 style={{
+        fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif",
+        fontSize: "clamp(1.4rem, 3.2vw, 2.2rem)",
+        fontWeight: 800,
+        color: "#f5e6c0",
+        lineHeight: 1.55,
+        margin: 0,
+        letterSpacing: "0.01em",
+        maxWidth: 720,
+      }}>
+        Innovation isn't about having every answer.<br />
+        It's about{" "}
+        <span style={{ color: "#f5c518", textShadow: "0 0 20px rgba(245,197,24,0.6)" }}>
+          asking the right questions.
+        </span>
+      </h3>
+
+      {/* closing quote mark + divider */}
+      <div style={{
+        display: "flex", alignItems: "center", justifyContent: "center",
+        gap: "1rem", marginTop: "2.25rem",
+      }}>
+        <div style={{ width: 60, height: 1, background: "linear-gradient(90deg, transparent, rgba(245,197,24,0.4))" }} />
+        <span style={{
+          fontFamily: "Georgia, serif",
+          fontSize: "1.8rem", fontWeight: 900,
+          color: "#f5c518", lineHeight: 1,
+          textShadow: "0 0 14px rgba(245,197,24,0.6)",
+        }}>&rdquo;</span>
+        <div style={{ width: 60, height: 1, background: "linear-gradient(90deg, rgba(245,197,24,0.4), transparent)" }} />
+      </div>
+    </div>
+  </FadeSection>
+</section>
+
         {/* ════════════════════════
             SECTION 2 — ROUNDS
         ════════════════════════ */}
@@ -1434,8 +1519,8 @@ export function IdeaThonPage() {
             <div className="gallery-mask" style={{ width: "100%", overflow: "hidden", marginTop: "2.5rem" }}>
               <div className="gallery-track" style={{ display: "flex", gap: "0.75rem", width: "max-content" }}>
                 {[
-                  "src/app/images/Ideathon/ideathon1.webp", "src/app/images/Ideathon/ideathon2.webp", "src/app/images/Ideathon/ideathon3.webp", "src/app/images/Ideathon/ideathon4.webp", "src/app/images/Ideathon/ideathon5.webp",
-                  "src/app/images/Ideathon/ideathon1.webp", "src/app/images/Ideathon/ideathon2.webp", "src/app/images/Ideathon/ideathon3.webp", "src/app/images/Ideathon/ideathon4.webp", "src/app/images/Ideathon/ideathon5.webp", 
+                  ideathon1, ideathon2, ideathon3, ideathon4, ideathon5,
+                  ideathon1, ideathon2, ideathon3, ideathon4, ideathon5,
                 ].map((src, i) => (
                   <div
                     key={i}
