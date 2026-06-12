@@ -96,6 +96,13 @@ export function CustomForm({
           return;
         }
       }
+      if (field.pattern && value) {
+        const regex = new RegExp(field.pattern);
+        if (!regex.test(value)) {
+          setErrorMsg(field.patternMessage || `Please enter a valid value for ${field.label}.`);
+          return;
+        }
+      }
     }
 
     // File upload is now optional, so we remove the strict requirement check.
