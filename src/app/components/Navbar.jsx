@@ -46,20 +46,20 @@ export function Navbar() {
         animate="visible"
       >
         {/* Left logos */}
-        <div className="flex items-center gap-4">
-          <a href="https://vnrvjiet.ac.in" target="_blank" rel="noopener noreferrer">
+        <div className="flex items-center gap-1.5 sm:gap-4 shrink-0">
+          <a href="https://vnrvjiet.ac.in" target="_blank" rel="noopener noreferrer" className="flex items-center shrink-0">
             <img
-              src="/vnrlogo.png"
+              src="/vnrlogo.webp"
               alt="VNRVJIET"
-              className="h-10 md:h-12 object-contain rounded-sm transition duration-300 hover:scale-105"
+              className="w-auto h-auto max-w-[140px] sm:max-w-[200px] md:max-w-none max-h-9 sm:max-h-10 md:max-h-12 object-contain rounded-sm transition duration-300 hover:scale-105"
             />
           </a>
 
-          <a href="https://www.vnrvjietcsi.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.vnrvjietcsi.com" target="_blank" rel="noopener noreferrer" className="flex items-center shrink-0">
             <img
-              src="/csilogo.png"
+              src="/csilogo.webp"
               alt="CSI-VNRVJIET"
-              className="h-12 md:h-14 object-contain rounded-sm transition duration-300 hover:scale-105"
+              className="w-auto h-auto max-w-[40px] sm:max-w-[56px] md:max-w-none max-h-10 sm:max-h-12 md:max-h-14 object-contain rounded-sm transition duration-300 hover:scale-105"
             />
           </a>
         </div>
