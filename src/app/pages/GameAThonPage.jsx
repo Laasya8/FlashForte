@@ -16,8 +16,8 @@ import {
   Trophy,
 } from "lucide-react";
 import { StarField } from "../components/StarField.jsx";
-import ss1 from "../../images/Gameathon/Gameathon_ss1.png";
-import ss2 from "../../images/Gameathon/Gameathon_ss2.png";
+import ss1 from "../../images/Gameathon/Gameathon_ss1.webp";
+import ss2 from "../../images/Gameathon/Gameathon_ss2.webp";
 
 function GalaxyBackground({
   density          = 0.8,
@@ -1091,6 +1091,13 @@ export function GameAThonPage() {
 
   return (
     <div className="relative w-full max-w-[100vw] overflow-x-hidden flex flex-col font-inter" style={{ background: "#050816", isolation: "isolate" }}>
+      {/* CHANGE 1: Hide the navbar/header while the loading screen is active */}
+      {loading && (
+        <style>{`
+          nav { display: none !important; }
+        `}</style>
+      )}
+
       <GalaxyBackground
         density={0.8}
         glowIntensity={0.25}
