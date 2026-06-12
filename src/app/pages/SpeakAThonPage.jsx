@@ -548,85 +548,6 @@ function MicPortal({ size = "md" }) {
 
       {/* Floating Sparks particles */}
       <ParticleField />
-      
-      {/* MICROPHONE & FLOOR REFLECTIONS OVERLAY */}
-      <div className="relative z-10 flex items-center justify-center w-full h-full">
-        <svg viewBox="0 0 400 400" className="w-full h-full text-orange-500">
-          <defs>
-            <linearGradient id="glowOrangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FDBA74" />
-              <stop offset="50%" stopColor="#F97316" />
-              <stop offset="100%" stopColor="#EA580C" />
-            </linearGradient>
-            
-            <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#1E1E1E" />
-              <stop offset="25%" stopColor="#F97316" />
-              <stop offset="50%" stopColor="#FFE5D9" />
-              <stop offset="75%" stopColor="#F97316" />
-              <stop offset="100%" stopColor="#1E1E1E" />
-            </linearGradient>
-
-            <linearGradient id="grilleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#0A0A0A" />
-              <stop offset="100%" stopColor="#2D1910" />
-            </linearGradient>
-          </defs>
-
-          {/* DETAILED PREMIUM RETRO CONDENSER MICROPHONE (Floating inside circle) */}
-          <g>
-            {/* Swivel cradle fork/bracket */}
-            <path 
-              d="M 174,188 C 174,252 226,252 226,188" 
-              fill="none" 
-              stroke="url(#metalGrad)" 
-              strokeWidth="4" 
-              strokeLinecap="round" 
-              filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"
-            />
-            <circle cx="174" cy="188" r="3.5" fill="#FB923C" stroke="#EA580C" strokeWidth="1" />
-            <circle cx="226" cy="188" r="3.5" fill="#FB923C" stroke="#EA580C" strokeWidth="1" />
-
-            {/* Mic head capsule */}
-            <path 
-              d="M 181,168 C 181,155 219,155 219,168 L 217,212 C 217,222 209,228 200,228 C 191,228 183,222 183,212 Z" 
-              fill="url(#grilleGrad)" 
-              stroke="#EA580C" 
-              strokeWidth="1.5" 
-            />
-
-            {/* Mesh pattern */}
-            <path 
-              d="M 182,176 L 218,176 M 181.5,184 L 218.5,184 M 182.5,198 L 217.5,198 M 183.5,206 L 216.5,206 M 184,214 L 216,214" 
-              stroke="#EA580C" 
-              strokeWidth="0.8" 
-              opacity="0.5" 
-            />
-
-            {/* Center metal band */}
-            <rect x="180.5" y="190" width="39" height="5" rx="1" fill="url(#metalGrad)" stroke="#F97316" strokeWidth="1" />
-
-            {/* Vertical grille ribs */}
-            <path d="M 187.5,165 L 188.5,222" stroke="url(#metalGrad)" strokeWidth="2.2" />
-            <path d="M 193.5,161 L 194.5,226" stroke="url(#metalGrad)" strokeWidth="2.2" />
-            <path d="M 200,159 L 200,228" stroke="url(#metalGrad)" strokeWidth="2.8" />
-            <path d="M 206.5,161 L 205.5,226" stroke="url(#metalGrad)" strokeWidth="2.2" />
-            <path d="M 212.5,165 L 211.5,222" stroke="url(#metalGrad)" strokeWidth="2.2" />
-
-            {/* Outer shell highlight */}
-            <path 
-              d="M 181,168 C 181,155 219,155 219,168 L 217,212 C 217,222 209,228 200,228 C 191,228 183,222 183,212 Z" 
-              fill="none" 
-              stroke="url(#metalGrad)" 
-              strokeWidth="2.5" 
-            />
-
-            {/* Mount neck */}
-            <rect x="194.5" y="228" width="11" height="12" rx="2" fill="url(#metalGrad)" stroke="#F97316" strokeWidth="1.5" />
-            <circle cx="200" cy="242" r="4.5" fill="url(#metalGrad)" stroke="#F97316" strokeWidth="1.5" />
-          </g>
-        </svg>
-      </div>
     </div>
   );
 }
@@ -639,14 +560,114 @@ export function SpeakAThonPage() {
     }
   };
 
-  // Compact inline audio bars flanking the CTA button
+  // Event Gallery Carousel Component
+  const EventGalleryCarousel = () => {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [progress, setProgress] = useState(0);
+
+    const images = [
+      { src: "https://res.cloudinary.com/dgje0yyqb/image/upload/q_auto/f_auto/v1781201023/Screenshot_2026-06-11_233239_ntbvyp.png", label: "Round 1: What If Challenge" },
+      { src: "https://res.cloudinary.com/dgje0yyqb/image/upload/q_auto/f_auto/v1781201023/Screenshot_2026-06-11_233205_c2xt5i.png", label: "Round 2: Buzzword Storytelling" },
+      { src: "https://res.cloudinary.com/dgje0yyqb/image/upload/q_auto/f_auto/v1781201023/Screenshot_2026-06-11_233254_oqpzgq.png", label: "Round 3: Object Monologue" },
+      { src: "https://res.cloudinary.com/dgje0yyqb/image/upload/q_auto/f_auto/v1781201023/Screenshot_2026-06-11_233315_kef62x.png", label: "Winners Announcement" }
+    ];
+
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            setActiveIndex((current) => (current + 1) % images.length);
+            return 0;
+          }
+          return prev + 0.5;
+        });
+      }, 30);
+      return () => clearInterval(timer);
+    }, []);
+
+    return (
+      <div className="relative w-full">
+        {/* Main Image Display */}
+        <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black border border-orange-500/20">
+          {images.map((img, index) => (
+            <motion.img
+              key={index}
+              src={img.src}
+              alt={img.label}
+              className="absolute inset-0 w-full h-full object-cover"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: activeIndex === index ? 1 : 0 }}
+              transition={{ duration: 0.5 }}
+            />
+          ))}
+
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+
+          {/* Current Label */}
+          <div className="absolute bottom-4 left-4 right-4">
+            <h3 className="text-white text-lg font-semibold">{images[activeIndex].label}</h3>
+          </div>
+        </div>
+
+        {/* Navigation Dots with Progress */}
+        <div className="flex items-center justify-center gap-2 mt-4">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setActiveIndex(index);
+                setProgress(0);
+              }}
+              className="relative group"
+            >
+              <div className={`w-12 h-1.5 rounded-full transition-all ${
+                activeIndex === index ? 'bg-orange-500/30' : 'bg-white/20'
+              }`}>
+                {activeIndex === index && (
+                  <motion.div
+                    className="h-full bg-orange-500 rounded-full"
+                    initial={{ width: '0%' }}
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 0.1 }}
+                  />
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Navigation Arrows */}
+        <button
+          onClick={() => {
+            setActiveIndex((current) => (current - 1 + images.length) % images.length);
+            setProgress(0);
+          }}
+          className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center text-white transition-all backdrop-blur-sm border border-orange-500/20"
+        >
+          <ChevronRight size={20} className="rotate-180" />
+        </button>
+        <button
+          onClick={() => {
+            setActiveIndex((current) => (current + 1) % images.length);
+            setProgress(0);
+          }}
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center text-white transition-all backdrop-blur-sm border border-orange-500/20"
+        >
+          <ChevronRight size={20} />
+        </button>
+      </div>
+    );
+  };
+
+  // Audio bars component for button decoration
   const ButtonAudioBars = ({ side, count = 10 }) => {
-    const basHeights = side === "left"
+    const baseHeights = side === "left"
       ? [8, 18, 28, 14, 38, 22, 48, 30, 20, 12]
       : [12, 20, 30, 48, 22, 38, 14, 28, 18, 8];
     return (
       <div className={`flex items-center gap-[3px] h-10 ${side === "left" ? "flex-row-reverse" : "flex-row"}`}>
-        {basHeights.slice(0, count).map((h, i) => (
+        {baseHeights.slice(0, count).map((h, i) => (
           <motion.div
             key={i}
             className="w-[3px] rounded-full"
@@ -814,19 +835,22 @@ export function SpeakAThonPage() {
         <div className="absolute bottom-0 right-0 w-40 h-40 opacity-10" style={{ backgroundImage: "radial-gradient(circle, #F97316 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
       </div>
 
-      {/* Main Column */}
-      <div className="relative z-10 w-full max-w-[1200px] px-4 md:px-8 py-8 flex flex-col items-center">
-        <section className="w-full flex flex-col items-center pt-6 pb-8 relative">
+      {/* HERO SECTION */}
+      <section
+        id="hero"
+        className="relative z-10 flex flex-col lg:flex-row lg:justify-between items-center lg:items-center px-5 pt-4 md:pt-6 lg:pt-6 pb-12 lg:pb-20 w-full max-w-[1400px] mx-auto gap-0 lg:gap-0"
+        style={{
+          minHeight: "calc(100dvh - 72px)",
+          scrollMarginTop: "72px",
+        }}
+      >
 
-          {/* Two-col wrapper */}
-          <div className="w-full flex flex-col lg:flex-row lg:justify-between lg:items-center gap-8 lg:gap-0 min-h-[calc(100dvh-80px)] lg:min-h-0">
-
-            {/* ━━━━━━━━ LEFT COLUMN ━━━━━━━━ */}
-            <motion.div
-              className="flex flex-col items-center lg:items-start text-center lg:text-left lg:w-[48%] lg:pl-4 xl:pl-8 order-1"
-              initial="hidden"
-              animate="visible"
-            >
+        {/* LEFT COLUMN — Content */}
+        <motion.div
+          className="flex flex-col items-center lg:items-start lg:w-[48%] lg:max-w-[580px] text-center lg:text-left lg:pl-8 w-full"
+          initial="hidden"
+          animate="visible"
+        >
               {/* Top Brand Tag */}
               <motion.div
                 initial={{ opacity: 0, y: -15 }}
@@ -842,307 +866,226 @@ export function SpeakAThonPage() {
                 </span>
               </motion.div>
 
-              {/* Mic badge with pulse rings */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.1 }}
-                className="w-16 h-16 flex items-center justify-center mb-5 relative"
-              >
-                <span className="mic-badge-ping absolute inset-0 rounded-full border border-orange-500/50" />
-                <span className="mic-badge-ping absolute inset-0 rounded-full border border-orange-400/30" style={{ animationDelay: "1.2s" }} />
-                <svg width="64" height="64" viewBox="0 0 80 80" className="w-full h-full select-none relative z-10">
-                  <circle cx="40" cy="40" r="38" fill="rgba(249,115,22,0.06)" stroke="#F97316" strokeWidth="2" className="drop-shadow-[0_0_6px_rgba(249,115,22,0.6)]" />
-                  <rect x="33" y="22" width="14" height="20" rx="7" fill="none" stroke="#F97316" strokeWidth="2" />
-                  <line x1="37" y1="26" x2="37" y2="34" stroke="#F97316" strokeWidth="1.5" />
-                  <line x1="40" y1="24" x2="40" y2="36" stroke="#F97316" strokeWidth="1.5" />
-                  <line x1="43" y1="26" x2="43" y2="34" stroke="#F97316" strokeWidth="1.5" />
-                  <path d="M28,32 C28,42 52,42 52,32" fill="none" stroke="#F97316" strokeWidth="2" strokeLinecap="round" />
-                  <line x1="40" y1="41" x2="40" y2="52" stroke="#F97316" strokeWidth="2" />
-                  <ellipse cx="40" cy="52" rx="9" ry="2.5" fill="none" stroke="#F97316" strokeWidth="2" />
-                </svg>
-              </motion.div>
 
-              {/* Event Title */}
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.2 }}
-                className="font-playfair text-[clamp(38px,6vw,68px)] font-black tracking-[0.02em] text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-amber-300 orange-glow-text leading-[1.05] mb-2 whitespace-nowrap"
-              >
-                Speak-A-Thon
-              </motion.h1>
-
-              {/* Subtitle */}
-              <motion.h2
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.35 }}
-                className="font-orbitron text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-orange-400/90 mb-5"
-              >
-                WHERE CONFIDENCE FINDS ITS VOICE
-              </motion.h2>
-
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.5 }}
-                className="text-[#C8D3F5] text-sm sm:text-[15px] leading-[1.7] max-w-[440px] font-medium mb-8"
-              >
-                Step into the arena of oratory — where ideas are born loud, stories shake the stage, and every voice finds its power.
-              </motion.p>
-
-              {/* CTA Button with audio bars */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.65 }}
-                className="mb-8 flex gap-3 flex-wrap justify-center lg:justify-start"
-              >
-                <div className="flex items-center gap-3">
-                  <ButtonAudioBars side="left" count={8} />
-                  <div className="relative">
-                    <span className="btn-pulse-ring absolute inset-0 rounded-full bg-orange-500/25 pointer-events-none" />
-                    <span className="btn-pulse-ring-2 absolute inset-0 rounded-full bg-orange-400/15 pointer-events-none" />
-                    <button
-                      onClick={() => scrollToSection("openmic")}
-                      className="relative flex items-center gap-2 font-orbitron font-bold rounded-full px-8 py-3.5 text-xs sm:text-sm bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white border border-white/10 shadow-[0_0_32px_rgba(249,115,22,0.5),0_0_60px_rgba(249,115,22,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(249,115,22,0.7)] cursor-pointer will-change-transform z-10"
-                    >
-                      Enter Speak-A-Thon <ChevronRight size={16} />
-                    </button>
-                  </div>
-                  <ButtonAudioBars side="right" count={8} />
-                </div>
-              </motion.div>
-
-            </motion.div>
-
-            {/* ━━━━━━━━ RIGHT COLUMN — Mic Portal ━━━━━━━━ */}
-            <motion.div
-              className="order-2 lg:w-[55%] flex justify-center lg:justify-end relative -mt-4 lg:-mt-16 lg:translate-x-8 xl:translate-x-12 will-change-opacity"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.5, ease: BUTTERY_EASE, delay: 0 }}
-            >
-              {/* Extra outer ambient glow */}
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-[-15%] rounded-full blur-[60px] bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.12)_0%,_transparent_70%)]" />
-              </div>
-              <MicPortal size="lg" />
-            </motion.div>
-
-          </div>
-
-          {/* Category nav cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          {/* Event Title */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.9 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-[850px] mt-2 lg:-mt-6"
+            transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.2 }}
+            className="font-playfair text-[clamp(38px,6vw,68px)] font-black tracking-[0.02em] text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-amber-300 orange-glow-text leading-[1.05] mb-2 whitespace-nowrap"
           >
-            {[
-              { id: "openmic", label: "Open Mic", icon: Mic },
-              { id: "debates", label: "Debates", icon: MessageSquare },
-              { id: "storytelling", label: "Storytelling", icon: BookOpen },
-              { id: "highlights", label: "Highlights", icon: Sparkles },
-            ].map((tab) => {
-              const TabIcon = tab.icon;
-              return (
-                <div
-                  key={tab.id}
-                  onClick={() => scrollToSection(tab.id)}
-                  className="group p-5 rounded-xl glass-panel orange-border-glow transition-all duration-300 cursor-pointer flex flex-col items-center justify-center text-center hover:-translate-y-1"
-                >
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-orange-950/30 border border-orange-500/20 group-hover:border-orange-500/50 group-hover:bg-orange-500/10 mb-2 transition-colors duration-300">
-                    <TabIcon size={16} className="text-orange-500 drop-shadow-[0_0_4px_rgba(249,115,22,0.4)]" />
-                  </div>
-                  <h3 className="font-orbitron font-semibold text-[11px] sm:text-xs text-[#BDBDBD] group-hover:text-white tracking-wide transition-colors">
-                    {tab.label}
-                  </h3>
-                </div>
-              );
-            })}
+            Speak-A-Thon
+          </motion.h1>
+
+          {/* Mobile Portal */}
+          <motion.div
+            className="lg:hidden w-full flex justify-center my-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, ease: BUTTERY_EASE, delay: 0.3 }}
+          >
+            <MicPortal size="md" />
           </motion.div>
 
-        </section>
+          {/* Subtitle */}
+          <motion.h2
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.35 }}
+            className="font-orbitron text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-orange-400/90 mb-5"
+          >
+            WHERE CONFIDENCE FINDS ITS VOICE
+          </motion.h2>
 
-        {/* BOTTOM METADATA FLOATING BAR */}
-        <motion.section 
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.8, ease: BUTTERY_EASE }}
-          className="w-full py-4 px-6 flex flex-row items-center justify-between text-xs sm:text-sm font-semibold tracking-wider font-orbitron text-[#BDBDBD] mb-16 max-w-[850px] mx-auto glass-panel rounded-xl relative overflow-hidden group"
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.5 }}
+            className="text-[#C8D3F5] text-sm sm:text-[15px] leading-[1.7] max-w-[440px] font-medium mb-8"
+          >
+            A three-round speaking competition designed to foster spontaneous speaking, creative storytelling, and quick thinking among first-year students.
+          </motion.p>
+
+          {/* CTA Button with audio bars */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.65 }}
+            className="mb-8 flex gap-3 flex-wrap justify-center lg:justify-start"
+          >
+            <div className="flex items-center gap-3">
+              <ButtonAudioBars side="left" count={8} />
+              <div className="relative">
+                <span className="btn-pulse-ring absolute inset-0 rounded-full bg-orange-500/25 pointer-events-none" />
+                <span className="btn-pulse-ring-2 absolute inset-0 rounded-full bg-orange-400/15 pointer-events-none" />
+                <button
+                  onClick={() => alert("Registration Coming Soon!\n\nStay tuned for registration details.")}
+                  className="relative flex items-center gap-2 font-orbitron font-bold rounded-full px-8 py-3.5 text-xs sm:text-sm bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white border border-white/10 shadow-[0_0_32px_rgba(249,115,22,0.5),0_0_60px_rgba(249,115,22,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(249,115,22,0.7)] cursor-pointer will-change-transform z-10"
+                >
+                  Register Now <ChevronRight size={16} />
+                </button>
+              </div>
+              <ButtonAudioBars side="right" count={8} />
+            </div>
+          </motion.div>
+
+        </motion.div>
+
+        {/* RIGHT COLUMN — Mic Portal (desktop only) */}
+        <motion.div
+          className="hidden lg:flex lg:w-[55%] justify-center lg:justify-end relative will-change-opacity"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5, ease: BUTTERY_EASE, delay: 0 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/3 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-          <div className="flex items-center gap-2 relative z-10">
-            <Calendar size={14} className="text-orange-500" />
-            <span>JUNE 2026</span>
+          {/* Extra outer ambient glow */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-[-15%] rounded-full blur-[60px] bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.12)_0%,_transparent_70%)]" />
           </div>
-          <div className="w-1.5 h-1.5 rounded-full bg-orange-500/50 shadow-[0_0_4px_#F97316] relative z-10" />
-          <div className="flex items-center gap-2 relative z-10">
-            <MapPin size={14} className="text-orange-500" />
-            <span>VNR VJIET, HYDERABAD</span>
-          </div>
-        </motion.section>
+          <MicPortal size="lg" />
+        </motion.div>
+
+      </section>
+
+      {/* Main content wrapper */}
+      <div className="relative z-10 w-full max-w-[1200px] px-4 md:px-8 flex flex-col items-center">
 
         {/* CATEGORIES SECTION */}
-        <section className="w-full flex flex-col items-center mb-16">
-          <motion.div 
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: BUTTERY_EASE }}
+        <section className="w-full flex flex-col items-center mb-16 mt-8">
+          <motion.div
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.9, ease: BUTTERY_EASE }}
             className="text-center mb-8"
           >
             <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
-              Explore the Categories
+              Competition Structure
             </span>
             <h2 className="font-playfair text-2xl sm:text-3xl font-black text-white mt-1">
-              The Dimensions of Speech
+              Three Progressive Rounds
             </h2>
           </motion.div>
 
           <div className="w-full max-w-[850px] flex flex-col gap-10">
             
-            {/* OPEN MIC CATEGORY */}
-            <motion.div 
-              id="openmic" 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.9, ease: BUTTERY_EASE }}
-              className="glass-panel p-6 md:p-8 rounded-[20px] orange-border-glow transition-all duration-300 relative group overflow-hidden"
+            {/* ROUND 1 - WHAT IF CHALLENGE */}
+            <motion.div
+              id="openmic"
+              initial={{ opacity: 0, x: -40, rotateY: -15 }}
+              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              viewport={{ once: true, margin: "-120px" }}
+              transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.1 }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+              className="p-6 md:p-8 rounded-xl bg-gradient-to-br from-[#0a0a0a] to-[#1a0a05] border border-orange-500/20 shadow-[0_0_30px_rgba(249,115,22,0.1)] hover:shadow-[0_0_45px_rgba(249,115,22,0.2)] transition-shadow duration-300"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(249,115,22,0.035),_transparent_75%)] pointer-events-none" />
-              <div className="flex flex-col md:flex-row gap-6 relative z-10">
-                <div className="shrink-0 flex items-center justify-center w-14 h-14 rounded-[14px] bg-orange-950/30 border border-orange-500/20">
-                  <Mic size={24} className="text-orange-500" />
-                </div>
+              <div className="flex items-start gap-4 mb-4">
+                <motion.div
+                  className="flex items-center justify-center w-12 h-12 rounded-lg bg-orange-500/10 border border-orange-500/30"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Mic size={20} className="text-orange-500" />
+                </motion.div>
                 <div className="flex-1">
-                  <span className="font-orbitron text-xs font-bold text-orange-400 uppercase tracking-wider block mb-1">
-                    Category 01
-                  </span>
-                  <h3 className="font-playfair text-lg sm:text-xl font-bold text-white mb-3">
-                    Open Mic & Extempore
-                  </h3>
-                  <p className="text-[#BDBDBD] text-xs sm:text-sm leading-relaxed mb-6">
-                    A multi-stage platform built for absolute spontaneity and prepared expression. Test your limits by either stepping up with pre-structured ideas or conquering the challenge of delivering an impromptu speech on cutting-edge topics.
-                  </p>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5">
-                      <h4 className="text-white text-xs font-bold font-orbitron mb-2 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500" /> Prepared Speech
-                      </h4>
-                      <p className="text-[11px] text-[#BDBDBD]/70 leading-relaxed">
-                        Pick a futuristic theme, craft a powerful story, and present within 3 minutes. Focuses on structure, logic, and delivery.
-                      </p>
-                    </div>
-                    <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5">
-                      <h4 className="text-white text-xs font-bold font-orbitron mb-2 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500" /> Extempore Clash
-                      </h4>
-                      <p className="text-[11px] text-[#BDBDBD]/70 leading-relaxed">
-                        Pick a slip, get 1 minute to prepare, and speak for 2 minutes on the spot. Evaluates quick logic, confidence, and posture.
-                      </p>
-                    </div>
-                  </div>
+                  <span className="text-xs font-semibold text-orange-400 uppercase tracking-wide">Round 01</span>
+                  <h3 className="text-xl font-bold text-white mt-1">"What If…?" Challenge</h3>
+                </div>
+              </div>
+
+              <p className="text-[#BDBDBD] text-sm leading-relaxed mb-4">
+                Participants get a random "What if…?" question. 30 seconds prep, 1–2 minutes to speak. Top 8 advance.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <p className="text-white text-xs font-semibold mb-1">Preparation: 30 seconds</p>
+                  <p className="text-[11px] text-[#BDBDBD]/70">Gather thoughts and structure response</p>
+                </div>
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <p className="text-white text-xs font-semibold mb-1">Speaking: 1-2 minutes</p>
+                  <p className="text-[11px] text-[#BDBDBD]/70">Deliver engaging creative response</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* DEBATES CATEGORY */}
-            <motion.div 
-              id="debates" 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.9, ease: BUTTERY_EASE }}
-              className="glass-panel p-6 md:p-8 rounded-[20px] orange-border-glow transition-all duration-300 relative group overflow-hidden"
+            {/* ROUND 2 - BUZZWORD STORYTELLING */}
+            <motion.div
+              id="debates"
+              initial={{ opacity: 0, x: 40, rotateY: 15 }}
+              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              viewport={{ once: true, margin: "-120px" }}
+              transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.15 }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+              className="p-6 md:p-8 rounded-xl bg-gradient-to-br from-[#0a0a0a] to-[#1a0a05] border border-orange-500/20 shadow-[0_0_30px_rgba(249,115,22,0.1)] hover:shadow-[0_0_45px_rgba(249,115,22,0.2)] transition-shadow duration-300"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(249,115,22,0.035),_transparent_75%)] pointer-events-none" />
-              <div className="flex flex-col md:flex-row gap-6 relative z-10">
-                <div className="shrink-0 flex items-center justify-center w-14 h-14 rounded-[14px] bg-orange-950/30 border border-orange-500/20">
-                  <MessageSquare size={24} className="text-orange-500" />
-                </div>
+              <div className="flex items-start gap-4 mb-4">
+                <motion.div
+                  className="flex items-center justify-center w-12 h-12 rounded-lg bg-orange-500/10 border border-orange-500/30"
+                  whileHover={{ scale: 1.1, rotate: -5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <MessageSquare size={20} className="text-orange-500" />
+                </motion.div>
                 <div className="flex-1">
-                  <span className="font-orbitron text-xs font-bold text-orange-400 uppercase tracking-wider block mb-1">
-                    Category 02
-                  </span>
-                  <h3 className="font-playfair text-lg sm:text-xl font-bold text-white mb-3">
-                    Head-to-Head Debates
-                  </h3>
-                  <p className="text-[#BDBDBD] text-xs sm:text-sm leading-relaxed mb-6">
-                    Enter the crucible of logic where ideas go to battle. Debaters face off in structured rounds, arguing for or against controversial topics on futuristic ethics, AI hegemony, space rights, and societal evolution.
-                  </p>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5">
-                      <h4 className="text-white text-xs font-bold font-orbitron mb-2 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500" /> Constructive Argument
-                      </h4>
-                      <p className="text-[11px] text-[#BDBDBD]/70 leading-relaxed">
-                        State your stance with hard-hitting statistics, structural insights, and deep logic. Propose solutions to complex systems.
-                      </p>
-                    </div>
-                    <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5">
-                      <h4 className="text-white text-xs font-bold font-orbitron mb-2 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500" /> Rebuttal Duels
-                      </h4>
-                      <p className="text-[11px] text-[#BDBDBD]/70 leading-relaxed">
-                        Tear down opposing logic in the immediate rebuttal rounds. High-speed articulation meets rhetorical excellence.
-                      </p>
-                    </div>
-                  </div>
+                  <span className="text-xs font-semibold text-orange-400 uppercase tracking-wide">Round 02</span>
+                  <h3 className="text-xl font-bold text-white mt-1">Buzzword Storytelling</h3>
+                </div>
+              </div>
+
+              <p className="text-[#BDBDBD] text-sm leading-relaxed mb-4">
+                Draw 5 unrelated buzzwords, weave them into a story. 60 seconds prep, 1–2 minutes to deliver. Top 5 advance to finale.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <p className="text-white text-xs font-semibold mb-1">Preparation: 60 seconds</p>
+                  <p className="text-[11px] text-[#BDBDBD]/70">Plan narrative with 5 buzzwords</p>
+                </div>
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <p className="text-white text-xs font-semibold mb-1">Speaking: 1-2 minutes</p>
+                  <p className="text-[11px] text-[#BDBDBD]/70">Deliver coherent creative story</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* STORYTELLING CATEGORY */}
-            <motion.div 
-              id="storytelling" 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.9, ease: BUTTERY_EASE }}
-              className="glass-panel p-6 md:p-8 rounded-[20px] orange-border-glow transition-all duration-300 relative group overflow-hidden"
+            {/* ROUND 3 - OBJECT MONOLOGUE */}
+            <motion.div
+              id="storytelling"
+              initial={{ opacity: 0, x: -40, rotateY: -15 }}
+              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              viewport={{ once: true, margin: "-120px" }}
+              transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.2 }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+              className="p-6 md:p-8 rounded-xl bg-gradient-to-br from-[#0a0a0a] to-[#1a0a05] border border-orange-500/20 shadow-[0_0_30px_rgba(249,115,22,0.1)] hover:shadow-[0_0_45px_rgba(249,115,22,0.2)] transition-shadow duration-300"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(249,115,22,0.035),_transparent_75%)] pointer-events-none" />
-              <div className="flex flex-col md:flex-row gap-6 relative z-10">
-                <div className="shrink-0 flex items-center justify-center w-14 h-14 rounded-[14px] bg-orange-950/30 border border-orange-500/20">
-                  <BookOpen size={24} className="text-orange-500" />
-                </div>
+              <div className="flex items-start gap-4 mb-4">
+                <motion.div
+                  className="flex items-center justify-center w-12 h-12 rounded-lg bg-orange-500/10 border border-orange-500/30"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <BookOpen size={20} className="text-orange-500" />
+                </motion.div>
                 <div className="flex-1">
-                  <span className="font-orbitron text-xs font-bold text-orange-400 uppercase tracking-wider block mb-1">
-                    Category 03
-                  </span>
-                  <h3 className="font-playfair text-lg sm:text-xl font-bold text-white mb-3">
-                    Sci-Fi Storytelling
-                  </h3>
-                  <p className="text-[#BDBDBD] text-xs sm:text-sm leading-relaxed mb-6">
-                    Unlock the doors of imagination. Storytellers weave detailed narratives set in cyberpunk landscapes, distant galactical civilizations, or alternate space realities, leveraging vocal tone and theatrics to build immersive worlds.
-                  </p>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5">
-                      <h4 className="text-white text-xs font-bold font-orbitron mb-2 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500" /> World-Building
-                      </h4>
-                      <p className="text-[11px] text-[#BDBDBD]/70 leading-relaxed">
-                        Construct highly detailed sci-fi environments, characters, and plotlines. Draw listeners into your creative multiverse.
-                      </p>
-                    </div>
-                    <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5">
-                      <h4 className="text-white text-xs font-bold font-orbitron mb-2 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500" /> Vocal Theatrics
-                      </h4>
-                      <p className="text-[11px] text-[#BDBDBD]/70 leading-relaxed">
-                        Use pace shifts, pauses, sound effects (via voice), and emotional modulation to make stories come alive.
-                      </p>
-                    </div>
-                  </div>
+                  <span className="text-xs font-semibold text-orange-400 uppercase tracking-wide">Round 03 - Finale</span>
+                  <h3 className="text-xl font-bold text-white mt-1">Object Monologue</h3>
+                </div>
+              </div>
+
+              <p className="text-[#BDBDBD] text-sm leading-relaxed mb-4">
+                Speak as an everyday object (shoes, router, etc.). 60 seconds prep, 1–2 minutes to perform. Bring the object to life with emotion and personality.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <p className="text-white text-xs font-semibold mb-1">Preparation: 60 seconds</p>
+                  <p className="text-[11px] text-[#BDBDBD]/70">Plan object personification</p>
+                </div>
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <p className="text-white text-xs font-semibold mb-1">Speaking: 1-2 minutes</p>
+                  <p className="text-[11px] text-[#BDBDBD]/70">Deliver emotional monologue</p>
                 </div>
               </div>
             </motion.div>
@@ -1152,11 +1095,11 @@ export function SpeakAThonPage() {
 
         {/* GUIDELINES & DIRECTIVES SECTION */}
         <section className="w-full flex flex-col items-center mb-16">
-          <motion.div 
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: BUTTERY_EASE }}
+          <motion.div
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.9, ease: BUTTERY_EASE }}
             className="text-center mb-10"
           >
             <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
@@ -1169,11 +1112,12 @@ export function SpeakAThonPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[850px]">
             {/* Rules panel */}
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.9, ease: BUTTERY_EASE }}
+            <motion.div
+              initial={{ opacity: 0, x: -50, scale: 0.9 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-120px" }}
+              transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.1 }}
+              whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
               className="p-6 rounded-[20px] glass-panel flex flex-col orange-border-glow transition-all duration-300 relative group overflow-hidden"
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,_rgba(249,115,22,0.025),_transparent_60%)] pointer-events-none" />
@@ -1183,33 +1127,34 @@ export function SpeakAThonPage() {
               <ul className="space-y-3 text-xs sm:text-sm text-[#BDBDBD] flex-1 relative z-10">
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-2" />
-                  <span>Participation is strictly individual.</span>
+                  <span>Event conducted online via Zoom with 13 first-year participants.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-2" />
-                  <span>All presentations and arguments must be delivered in English.</span>
+                  <span>Three progressive rounds: "What If…?" Challenge, Buzzword Storytelling, and Object Monologue.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-2" />
-                  <span>Topic allocation for prepared speech happens 2 days prior to the main event.</span>
+                  <span>Top 8 advance from Round 1, top 5 advance from Round 2 to the finale.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-2" />
-                  <span>Decisions made by the judging panel (Toastmasters experts) are final and binding.</span>
+                  <span>Judging Panel: Dr. Y.V. Sudha Devi and Dr. Swathi Metla.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-2" />
-                  <span>Offensive, derogatory, or political slurs will result in immediate disqualification.</span>
+                  <span>Each round tests spontaneity, creativity, and emotional expression.</span>
                 </li>
               </ul>
             </motion.div>
 
             {/* Scoring Breakdown */}
-            <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.9, ease: BUTTERY_EASE }}
+            <motion.div
+              initial={{ opacity: 0, x: 50, scale: 0.9 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-120px" }}
+              transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.2 }}
+              whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
               className="p-6 rounded-[20px] glass-panel flex flex-col orange-border-glow transition-all duration-300 relative group overflow-hidden"
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(249,115,22,0.025),_transparent_60%)] pointer-events-none" />
@@ -1218,10 +1163,10 @@ export function SpeakAThonPage() {
               </h3>
               <div className="space-y-4 flex-1 justify-center flex flex-col relative z-10">
                 {[
-                  { label: "Content & Substance", percentage: 40, desc: "Structure, research depth, and relevance of statements." },
-                  { label: "Vocal Modulation", percentage: 30, desc: "Pitch control, speed, clarity, and articulation." },
-                  { label: "Poise & Body Language", percentage: 20, desc: "Confidence, hand gestures, eye contact, and presence." },
-                  { label: "Time Management", percentage: 10, desc: "Adherence to warning signals and designated limit." },
+                  { label: "Creative Thinking", percentage: 35, desc: "Originality, imagination, and unique perspectives." },
+                  { label: "Narrative Structure", percentage: 30, desc: "Coherence, flow, and logical progression of ideas." },
+                  { label: "Delivery & Expression", percentage: 25, desc: "Vocal variety, emotional range, and audience engagement." },
+                  { label: "Spontaneity", percentage: 10, desc: "Quick thinking and adaptation under time constraints." },
                 ].map((item, index) => (
                   <div key={index} className="flex flex-col">
                     <div className="flex justify-between items-center text-xs mb-1">
@@ -1241,11 +1186,11 @@ export function SpeakAThonPage() {
 
         {/* LAST YEAR RETROSPECTIVE */}
         <section id="highlights" className="w-full flex flex-col items-center mb-16">
-          <motion.div 
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: BUTTERY_EASE }}
+          <motion.div
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.9, ease: BUTTERY_EASE }}
             className="text-center mb-10"
           >
             <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
@@ -1256,41 +1201,55 @@ export function SpeakAThonPage() {
             </h2>
           </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.9, ease: BUTTERY_EASE }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.1 }}
             className="w-full max-w-[850px] grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-6 items-stretch mb-8"
           >
             
             {/* Stats card */}
-            <div className="p-6 rounded-[20px] bg-gradient-to-b from-[#1C100B]/10 to-transparent border border-white/5 flex flex-col justify-between">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.2 }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+              className="p-6 rounded-[20px] bg-gradient-to-b from-[#1C100B]/10 to-transparent border border-white/5 flex flex-col justify-between shadow-[0_0_20px_rgba(249,115,22,0.05)] hover:shadow-[0_0_30px_rgba(249,115,22,0.1)] transition-shadow duration-300"
+            >
               <div>
                 <h3 className="font-orbitron text-sm sm:text-base font-bold text-white mb-2">Speak-A-Thon '25</h3>
                 <p className="text-xs text-[#BDBDBD] leading-relaxed mb-6">
-                  Relive the magic of our previous edition, where speakers pushed boundaries in futuristic storytelling and tech debates.
+                  A three-round speaking competition that challenged first-year students with spontaneous speaking, creative storytelling, and quick thinking.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-xs text-[#BDBDBD]/70">Total Speakers</span>
-                  <span className="font-orbitron font-bold text-xs sm:text-sm text-white">40+ Orators</span>
+                  <span className="text-xs text-[#BDBDBD]/70">Total Participants</span>
+                  <span className="font-orbitron font-bold text-xs sm:text-sm text-white">13 First-Year Students</span>
                 </div>
                 <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-xs text-[#BDBDBD]/70">Judging Board</span>
-                  <span className="font-orbitron font-bold text-xs sm:text-sm text-white">Toastmasters Experts</span>
+                  <span className="text-xs text-[#BDBDBD]/70">Event Mode</span>
+                  <span className="font-orbitron font-bold text-xs sm:text-sm text-white">Online via Zoom</span>
                 </div>
                 <div className="flex justify-between items-center pb-2">
-                  <span className="text-xs text-[#BDBDBD]/70">Themes Addressed</span>
-                  <span className="font-orbitron font-bold text-xs sm:text-sm text-white">AI Ethics to Mars Colonialization</span>
+                  <span className="text-xs text-[#BDBDBD]/70">Date & Duration</span>
+                  <span className="font-orbitron font-bold text-xs sm:text-sm text-white">June 28 • 9 AM - 1 PM</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Winners podium card */}
-            <div className="p-6 rounded-[20px] glass-panel flex flex-col justify-between">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.3 }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+              className="p-6 rounded-[20px] glass-panel flex flex-col justify-between shadow-[0_0_20px_rgba(249,115,22,0.05)] hover:shadow-[0_0_30px_rgba(249,115,22,0.1)] transition-shadow duration-300"
+            >
               <div>
                 <h3 className="font-orbitron text-sm sm:text-base font-bold text-white mb-4 flex items-center gap-2">
                   <Trophy size={16} className="text-orange-500" /> 2025 Podium
@@ -1298,9 +1257,9 @@ export function SpeakAThonPage() {
                 
                 <div className="space-y-3">
                   {[
-                    { rank: "1st Place", name: "Sarah Jenkins", details: "Linguistics & AI Debate champ", trophyColor: "text-amber-500" },
-                    { rank: "2nd Place", name: "Rahul Sharma", details: "Cyberpunk narrative specialist", trophyColor: "text-slate-400" },
-                    { rank: "3rd Place", name: "Emily Chen", details: "Extempore adaptability expert", trophyColor: "text-amber-800" },
+                    { rank: "1st Place", name: "Chakresh Sri Varma", details: "ECE-B • Roll No: 24071A04B8 • ₹2000", trophyColor: "text-amber-500" },
+                    { rank: "2nd Place", name: "Patha Sloka", details: "DS-A • Roll No: 24071A6751 • ₹1300", trophyColor: "text-slate-400" },
+                    { rank: "3rd Place", name: "M. Saanvika", details: "ECE-B • Roll No: 24071A04B3 • ₹700", trophyColor: "text-amber-800" },
                   ].map((winner, idx) => (
                     <div key={idx} className="p-3 rounded-lg border border-white/5 bg-white/[0.01] flex items-center gap-3">
                       <Trophy size={14} className={`${winner.trophyColor} shrink-0`} />
@@ -1326,92 +1285,92 @@ export function SpeakAThonPage() {
                   View full retrospective archive <ExternalLink size={12} />
                 </a>
               </div>
-            </div>
+            </motion.div>
 
           </motion.div>
 
-          {/* Gallery */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 1.0, ease: BUTTERY_EASE }}
-            className="w-full max-w-[850px]"
+          {/* Gallery - Progressive Carousel */}
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 1.1, ease: BUTTERY_EASE, delay: 0.2 }}
+            className="w-full max-w-[900px]"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {[
-                { src: "/highlight-1.jpg", alt: "Speak-A-Thon '25 Gallery Image 1", label: "Inspirational Speeches" },
-                { src: "/highlight-2.jpg", alt: "Speak-A-Thon '25 Gallery Image 2", label: "Intense Debates" },
-                { src: "/highlight-3.jpg", alt: "Speak-A-Thon '25 Gallery Image 3", label: "Storytelling Multiverse" }
-              ].map((img, index) => (
-                <div 
-                  key={index} 
-                  className="relative group rounded-2xl overflow-hidden glass-panel border border-white/5 orange-border-glow aspect-video transition-all duration-300 hover:-translate-y-1"
-                >
-                  <img 
-                    src={img.src} 
-                    alt={img.alt} 
-                    className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"
-                    onError={(e) => { e.target.style.display = 'none'; }}
-                  />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-[#1C100B]/40 to-transparent p-4 text-center">
-                    <Mic className="w-8 h-8 text-orange-500/40 mb-2 group-hover:text-orange-500 transition-colors" />
-                    <span className="text-[10px] font-orbitron font-semibold tracking-wider text-[#BDBDBD] uppercase">
-                      {img.label}
-                    </span>
-                  </div>
-                  <div className="absolute bottom-0 left-0 w-full p-3 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-between">
-                    <span className="text-[10px] font-orbitron font-semibold tracking-wider text-orange-400">
-                      SPEAKER IMAGE {index + 1}
-                    </span>
-                    <Sparkles className="w-3.5 h-3.5 text-orange-500 animate-pulse" />
-                  </div>
-                </div>
-              ))}
-            </div>
+            <EventGalleryCarousel />
           </motion.div>
         </section>
 
-        {/* REGISTRATION STATUS CARD */}
-        <section id="registration" className="w-full flex flex-col items-center pb-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 25 }}
+        {/* REGISTRATION SECTION */}
+        <section id="registration" className="w-full flex flex-col items-center pb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: BUTTERY_EASE }}
-            className="text-center mb-10"
-          >
-            <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
-              Join the Cosmos
-            </span>
-            <h2 className="font-playfair text-2xl sm:text-3xl font-black text-white mt-1">
-              Registration Station
-            </h2>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.0, ease: BUTTERY_EASE }}
-            className="w-full max-w-[850px] relative"
+            transition={{ duration: 0.9, ease: BUTTERY_EASE, delay: 0.1 }}
+            className="w-full max-w-[900px] relative"
           >
-            <div className="absolute inset-0 rounded-[24px] bg-gradient-to-r from-orange-500/10 to-amber-500/10 blur-xl pointer-events-none -z-10" />
-            <div className="absolute inset-0 rounded-[24px] border border-orange-500/30 shadow-[0_0_30px_rgba(249,115,22,0.15)] pointer-events-none -z-10" />
-            
-            <div className="w-full p-8 md:p-12 rounded-[24px] glass-panel flex flex-col items-center text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.03)_0%,_transparent_60%)] pointer-events-none" />
-              <Sparkles className="w-12 h-12 text-orange-500 mb-4 animate-pulse" />
-              <h3 className="font-orbitron text-base sm:text-lg font-bold text-white mb-2 tracking-wide">
-                REGISTRATION GATES OPENING SOON
-              </h3>
-              <p className="text-[#BDBDBD] text-xs sm:text-sm max-w-md leading-relaxed mb-6">
-                Preparation is key in the multiverse. Stay tuned as registration timelines, speaker criteria, and portal keys are finalized.
-              </p>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/20 bg-orange-950/20">
-                <div className="w-2 h-2 rounded-full bg-orange-500 animate-ping" />
-                <span className="font-orbitron font-bold text-[10px] text-orange-400 tracking-wider">TRANSMISSION ACTIVE</span>
-              </div>
+            {/* Glow effects */}
+            <div className="absolute inset-0 rounded-[28px] bg-gradient-to-r from-orange-500/15 via-amber-500/10 to-orange-600/15 blur-2xl pointer-events-none" />
+            <div className="absolute inset-0 rounded-[28px] shadow-[0_0_60px_rgba(249,115,22,0.25)] pointer-events-none" />
+
+            <div className="relative w-full p-10 md:p-14 rounded-[28px] glass-panel flex flex-col items-center text-center overflow-hidden border border-orange-500/20">
+              {/* Animated background gradient */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(249,115,22,0.06)_0%,_transparent_70%)] pointer-events-none" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-orange-500/5 blur-[80px] rounded-full pointer-events-none" />
+
+              {/* Icon */}
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.3 }}
+                className="relative mb-6"
+              >
+                <div className="absolute inset-0 bg-orange-500/20 blur-xl rounded-full" />
+                <Mic className="w-16 h-16 text-orange-500 relative z-10" strokeWidth={1.5} />
+              </motion.div>
+
+              {/* Title */}
+              <motion.h3
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.4 }}
+                className="font-playfair text-3xl sm:text-4xl font-black text-white mb-3 relative z-10"
+              >
+                Ready to Speak?
+              </motion.h3>
+
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="text-[#C8D3F5] text-sm sm:text-base max-w-xl leading-relaxed mb-8 relative z-10"
+              >
+                Lock in your spot and let your voice be heard.
+              </motion.p>
+
+              {/* CTA Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.6 }}
+                className="flex flex-wrap justify-center gap-3 relative z-10"
+              >
+                <button
+                  onClick={() => alert("Registration Coming Soon!\n\nStay tuned for registration details.")}
+                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-full text-white text-sm sm:text-base font-bold tracking-[0.02em] cursor-pointer shadow-[0_4px_30px_rgba(249,115,22,0.45),0_0_60px_rgba(249,115,22,0.2),inset_0_0_20px_rgba(249,115,22,0.15)] hover:shadow-[0_6px_40px_rgba(249,115,22,0.6),0_0_80px_rgba(249,115,22,0.3)] transition-all duration-300 hover:scale-105 will-change-transform"
+                  style={{
+                    background: "linear-gradient(135deg, #F97316 0%, #FB923C 50%, #FDBA74 100%)",
+                  }}
+                >
+                  <Sparkles size={16} /> Register Now <ChevronRight size={16} />
+                </button>
+              </motion.div>
             </div>
           </motion.div>
         </section>
