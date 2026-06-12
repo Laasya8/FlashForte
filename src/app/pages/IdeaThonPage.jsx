@@ -668,8 +668,8 @@ export function IdeaThonPage() {
           transform: translateY(-2px);
         }
         .btn-outline {
-          background: rgba(245,197,24,0.05); color: #ffda59;
-          border: 1.5px solid rgba(245,197,24,0.7);
+          background: rgba(245,197,24,0.08); color: #ffe27a;
+          border: 1.5px solid rgba(245,197,24,0.9);
           padding: 0.9rem 2rem;
           font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
           font-size: 0.75rem; font-weight: 700;
@@ -678,11 +678,14 @@ export function IdeaThonPage() {
           border-radius: 24px;
           white-space: nowrap;
           transition: all 0.25s ease;
+          box-shadow: 0 0 14px rgba(245,197,24,0.45), 0 0 35px rgba(245,197,24,0.25), inset 0 0 10px rgba(245,197,24,0.15);
+          text-shadow: 0 0 8px rgba(245,197,24,0.6);
         }
         .btn-outline:hover {
-          background: rgba(245,197,24,0.1);
-          border-color: #f5c518;
-          box-shadow: 0 0 20px rgba(245,197,24,0.22), 0 0 24px rgba(245,197,24,0.14);
+          background: rgba(245,197,24,0.15);
+          border-color: #ffe27a;
+          color: #fff8de;
+          box-shadow: 0 0 22px rgba(245,197,24,0.7), 0 0 55px rgba(245,197,24,0.4), inset 0 0 14px rgba(245,197,24,0.25);
           transform: translateY(-2px);
         }
 
@@ -1431,8 +1434,8 @@ export function IdeaThonPage() {
             <div className="gallery-mask" style={{ width: "100%", overflow: "hidden", marginTop: "2.5rem" }}>
               <div className="gallery-track" style={{ display: "flex", gap: "0.75rem", width: "max-content" }}>
                 {[
-                  "/IdeathonPhotos/ideathon1.webp", "/IdeathonPhotos/ideathon2.webp", "/IdeathonPhotos/ideathon3.webp", "/IdeathonPhotos/ideathon4.webp", "/IdeathonPhotos/ideathon5.webp",
-                  "/IdeathonPhotos/ideathon1.webp", "/IdeathonPhotos/ideathon2.webp", "/IdeathonPhotos/ideathon3.webp", "/IdeathonPhotos/ideathon4.webp", "/IdeathonPhotos/ideathon5.webp", 
+                  "src/app/images/Ideathon/ideathon1.webp", "src/app/images/Ideathon/ideathon2.webp", "src/app/images/Ideathon/ideathon3.webp", "src/app/images/Ideathon/ideathon4.webp", "src/app/images/Ideathon/ideathon5.webp",
+                  "src/app/images/Ideathon/ideathon1.webp", "src/app/images/Ideathon/ideathon2.webp", "src/app/images/Ideathon/ideathon3.webp", "src/app/images/Ideathon/ideathon4.webp", "src/app/images/Ideathon/ideathon5.webp", 
                 ].map((src, i) => (
                   <div
                     key={i}
