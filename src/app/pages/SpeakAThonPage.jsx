@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Mic, Trophy, Sparkles, Calendar, MapPin, 
   BookOpen, MessageSquare, ChevronRight, 
@@ -8,6 +8,12 @@ import {
 import { CursorTrail } from "../components/CursorTrail.jsx";
 import { UniversalLoader } from "../components/UniversalLoader.jsx";
 
+import speakathon1 from "../../images/Speakathon/speakathon1.webp";
+import speakathon2 from "../../images/Speakathon/speakathon2.webp";
+import speakathon3 from "../../images/Speakathon/speakathon3.webp";
+import speakathon4 from "../../images/Speakathon/speakthon4.webp";
+import speakathon5 from "../../images/Speakathon/speakathon5.webp";
+
 const BUTTERY_EASE = [0.16, 1, 0.3, 1];
 
 // Dynamic Particles Generator
@@ -15,7 +21,9 @@ function ParticleField() {
   const [particles, setParticles] = useState([]);
   
   useEffect(() => {
-    const generated = Array.from({ length: 25 }).map((_, i) => ({
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? 10 : 25;
+    const generated = Array.from({ length: count }).map((_, i) => ({
       id: i,
       x: Math.random() * 260 - 130,
       y: Math.random() * 260 - 130,
@@ -78,7 +86,8 @@ function PortalEmissionCanvas() {
       { radius: 0.55, maxRadius: 0.95, speed: 0.0035, opacity: 0.4 }
     ];
 
-    const maxSparks = 25;
+    const isMobile = window.innerWidth < 768;
+    const maxSparks = isMobile ? 10 : 25;
 
     const render = () => {
       const rect = canvas.getBoundingClientRect();
@@ -98,7 +107,6 @@ function PortalEmissionCanvas() {
 
       const cx = width / 2;
       const cy = height / 2;
-      // Portal radius based on bounding box
       const baseRadius = Math.min(width, height) * 0.36;
 
       // 1. Concentric Ripple Waves
@@ -197,7 +205,6 @@ function CosmicAtmosphere() {
     let width = 0;
     let height = 0;
 
-    // Mouse Tracking
     const mouse = { x: -1000, y: -1000, active: false };
 
     const handleMouseMove = (e) => {
@@ -225,10 +232,16 @@ function CosmicAtmosphere() {
     };
 
     resizeCanvas();
+    let scrollYVal = window.scrollY;
+    const handleScroll = () => {
+      scrollYVal = window.scrollY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", resizeCanvas);
 
-    // 1. Starfield Layer (twinkling & slowly drifting stardust)
-    const stars = Array.from({ length: 130 }).map(() => ({
+    const isMobile = window.innerWidth < 768;
+
+    const stars = Array.from({ length: isMobile ? 40 : 130 }).map(() => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       vx: (Math.random() - 0.5) * 0.06,
@@ -239,8 +252,7 @@ function CosmicAtmosphere() {
       phase: Math.random() * Math.PI * 2,
     }));
 
-    // 2. Cosmic Dust Layer (warm amber, microscopic, drifting)
-    const dust = Array.from({ length: 110 }).map(() => ({
+    const dust = Array.from({ length: isMobile ? 20 : 110 }).map(() => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       vx: (Math.random() - 0.5) * 0.22,
@@ -251,12 +263,11 @@ function CosmicAtmosphere() {
       phase: Math.random() * Math.PI * 2,
     }));
 
-    // 3. Global Floating Sparks Layer (drifting sparks)
-    const sparks = Array.from({ length: 55 }).map(() => ({
+    const sparks = Array.from({ length: isMobile ? 15 : 55 }).map(() => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       vx: (Math.random() - 0.5) * 0.24,
-      vy: -0.16 - Math.random() * 0.24, // continuous upward float
+      vy: -0.16 - Math.random() * 0.24,
       size: Math.random() * 2.4 + 0.8,
       baseOpacity: Math.random() * 0.38 + 0.15,
       phase: Math.random() * Math.PI * 2,
@@ -264,20 +275,18 @@ function CosmicAtmosphere() {
       frequency: 0.002 + Math.random() * 0.004,
     }));
 
-    // 4. Floating Orbs (blurred miniature planet nodes)
-    const orbs = Array.from({ length: 15 }).map((_, i) => ({
+    const orbs = Array.from({ length: isMobile ? 2 : 15 }).map((_, i) => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       vx: (Math.random() - 0.5) * 0.08,
       vy: (Math.random() - 0.5) * 0.08,
-      radius: Math.random() * 24 + 14,
+      radius: isMobile ? Math.random() * 12 + 8 : Math.random() * 24 + 14,
       color: i % 3 === 0 ? "rgba(249, 115, 22, 0.08)" : i % 3 === 1 ? "rgba(251, 146, 60, 0.06)" : "rgba(253, 186, 116, 0.07)",
       pulseSpeed: 0.0015 + Math.random() * 0.0025,
       phase: Math.random() * Math.PI * 2,
     }));
 
-    // 5. Rare Energy Streams (thin flowing paths)
-    const streams = Array.from({ length: 3 }).map(() => ({
+    const streams = Array.from({ length: isMobile ? 0 : 3 }).map(() => ({
       x: -250 - Math.random() * 250,
       y: Math.random() * window.innerHeight,
       vx: 0.28 + Math.random() * 0.32,
@@ -310,17 +319,15 @@ function CosmicAtmosphere() {
       time += 0.5;
       ctx.clearRect(0, 0, width, height);
 
-      // Current scroll value
-      const scrollY = window.scrollY;
+      const scrollY = scrollYVal;
 
-      // Parallax Offsets
       const starParallax = scrollY * 0.04;
       const dustParallax = scrollY * 0.14;
       const sparkParallax = scrollY * 0.24;
       const orbParallax = scrollY * 0.36;
       const streamParallax = scrollY * 0.28;
 
-      // 1. Draw Starfield (with slow drift movement)
+      // 1. Draw Starfield
       for (const s of stars) {
         s.x += s.vx;
         s.y += s.vy;
@@ -362,7 +369,7 @@ function CosmicAtmosphere() {
         ctx.fill();
       }
 
-      // 3. Draw Sparks Layer & Mouse Interactions
+      // 3. Draw Sparks & Mouse Interactions
       for (const p of sparks) {
         p.x += p.vx + Math.sin(time * p.frequency + p.phase) * 0.04;
         p.y += p.vy;
@@ -387,7 +394,6 @@ function CosmicAtmosphere() {
 
           if (dist < 140) {
             const force = (140 - dist) / 140;
-            // Displacement away from cursor
             pushX = (dx / dist) * force * 12;
             pushY = (dy / dist) * force * 12;
             scale = 1.0 + force * 0.5;
@@ -407,7 +413,7 @@ function CosmicAtmosphere() {
         ctx.shadowBlur = 0;
       }
 
-      // 4. Draw Floating Cosmic Orbs
+      // 4. Draw Floating Orbs
       for (const o of orbs) {
         o.x += o.vx;
         o.y += o.vy;
@@ -498,6 +504,7 @@ function CosmicAtmosphere() {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseleave", handleMouseLeave);
       window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -511,7 +518,7 @@ function CosmicAtmosphere() {
 }
 
 // Orange mic portal — same orange theme as before, mic is the central visual
-function MicPortal({ size = "md" }) {
+function MicPortal({ className = "" }) {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -520,18 +527,20 @@ function MicPortal({ size = "md" }) {
     }
   }, []);
 
-  const sizeClass = size === "lg"
-    ? "w-[340px] h-[340px] md:w-[480px] md:h-[480px] lg:w-[560px] lg:h-[560px]"
-    : "w-72 h-72 md:w-[360px] md:h-[360px]";
+  const hasCustomWidth = className.includes("w-") || className.includes("max-w-");
+  const defaultClasses = hasCustomWidth
+    ? ""
+    : "w-full max-w-[clamp(312px,90vw,576px)] lg:max-w-none lg:w-full";
 
   return (
-    <div className={`relative ${sizeClass} flex items-center justify-center select-none pointer-events-none`}>
-      
+    <div
+      className={`relative flex items-center justify-center aspect-square mx-auto select-none pointer-events-none ${defaultClasses} ${className}`}
+    >
       {/* Glow Backing */}
       <div className="absolute rounded-full blur-[40px] mix-blend-screen z-0 inset-[-15%] bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.18)_0%,_rgba(249,115,22,0.08)_40%,_transparent_70%)] animate-pulse" />
       <div className="absolute inset-0 rounded-full blur-[20px] mix-blend-screen z-0 bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.22)_0%,_transparent_60%)]" />
       
-      {/* Video Element (Color shifted to Orange) */}
+      {/* Video Element */}
       <video
         ref={videoRef}
         src="/Portal Animation.webm"
@@ -554,6 +563,132 @@ function MicPortal({ size = "md" }) {
   );
 }
 
+// Custom Cosmic & Sound Themed Loader
+function CosmicSpeakLoader() {
+  const [dots, setDots] = useState("");
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
+    }, 400);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 1.05 }}
+      transition={{ duration: 0.6, ease: BUTTERY_EASE }}
+      className="fixed inset-0 z-[100] bg-[#030303] flex flex-col items-center justify-center select-none"
+    >
+      {/* Background Starry Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.06)_0%,_transparent_65%)] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-orange-600/5 blur-[80px] rounded-full pointer-events-none animate-pulse" />
+
+      {/* Floating Stardust Particles */}
+      <div className="absolute inset-0 overflow-hidden opacity-30 pointer-events-none">
+        {Array.from({ length: 15 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 rounded-full bg-orange-400"
+            initial={{ 
+              x: Math.random() * window.innerWidth, 
+              y: window.innerHeight + 20, 
+              opacity: 0,
+              scale: 0.4
+            }}
+            animate={{ 
+              y: [window.innerHeight + 10, -10],
+              opacity: [0, 0.8, 0.8, 0],
+              scale: [0.4, 1.2, 0.4]
+            }}
+            transition={{ 
+              duration: 3 + Math.random() * 3, 
+              repeat: Infinity, 
+              delay: Math.random() * 2,
+              ease: "linear"
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Concentric Sound Portal & Mic */}
+      <div className="relative mb-8 flex items-center justify-center">
+        {/* Rippling rings */}
+        <motion.div
+          animate={{ scale: [1, 1.6], opacity: [0.6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+          className="absolute w-28 h-28 rounded-full border border-orange-500/30"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.6], opacity: [0.6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay: 0.67 }}
+          className="absolute w-28 h-28 rounded-full border border-orange-400/20"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.6], opacity: [0.6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay: 1.33 }}
+          className="absolute w-28 h-28 rounded-full border border-amber-300/10"
+        />
+
+        {/* Inner Mic container */}
+        <motion.div 
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="relative w-24 h-24 rounded-full flex items-center justify-center bg-black/60 border border-orange-500/30 shadow-[0_0_35px_rgba(249,115,22,0.2)] z-10"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.08)_0%,_transparent_65%)] rounded-full" />
+          <Mic className="w-10 h-10 text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.6)]" strokeWidth={1.5} />
+        </motion.div>
+      </div>
+
+      {/* Active Audio Waveform Equalizer */}
+      <div className="flex items-center gap-[4px] h-8 mb-6 z-10">
+        {Array.from({ length: 12 }).map((_, i) => {
+          const heights = [10, 24, 14, 32, 18, 28, 16, 26, 12, 22, 10, 15];
+          const h = heights[i % heights.length];
+          return (
+            <motion.div
+              key={i}
+              className="w-[3px] rounded-full"
+              style={{
+                height: h,
+                background: "linear-gradient(to top, #EA580C, #F97316, #FDBA74)",
+                boxShadow: "0 0 8px rgba(249,115,22,0.6)",
+              }}
+              animate={{ height: [h, h * 0.15 + 3, h * 0.75, h] }}
+              transition={{ 
+                duration: 0.8 + i * 0.05, 
+                repeat: Infinity, 
+                ease: "easeInOut",
+                delay: i * 0.04
+              }}
+            />
+          );
+        })}
+      </div>
+
+      {/* Loading Text */}
+      <div className="flex flex-col items-center gap-1 z-10">
+        <motion.h2 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="font-orbitron text-sm font-bold tracking-[0.3em] text-[#F8FAFC] flex items-center gap-1"
+        >
+          SPEAK
+          <span className="bg-gradient-to-r from-orange-600 to-amber-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
+            -A-THON
+          </span>
+        </motion.h2>
+        <span className="font-orbitron text-[10px] font-bold tracking-[0.2em] text-[#BDBDBD]/50 mt-1 uppercase">
+          Tuning Frequency{dots}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
 export function SpeakAThonPage() {
   const [loading, setLoading] = useState(true);
 
@@ -563,129 +698,34 @@ export function SpeakAThonPage() {
   }, []);
 
   const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    const el = document.getElementById(id);
+    if (!el) return;
+    const navbar = document.querySelector("nav");
+    const navbarHeight = navbar ? navbar.offsetHeight : 72;
+    const BREATHING = 20;
+    const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight - BREATHING;
+    window.scrollTo({ top, behavior: "smooth" });
   };
 
-  // Event Gallery Carousel Component
-  const EventGalleryCarousel = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [progress, setProgress] = useState(0);
 
-    const images = [
-      { src: "https://res.cloudinary.com/dgje0yyqb/image/upload/q_auto/f_auto/v1781201023/Screenshot_2026-06-11_233239_ntbvyp.png", label: "Round 1: What If Challenge" },
-      { src: "https://res.cloudinary.com/dgje0yyqb/image/upload/q_auto/f_auto/v1781201023/Screenshot_2026-06-11_233205_c2xt5i.png", label: "Round 2: Buzzword Storytelling" },
-      { src: "https://res.cloudinary.com/dgje0yyqb/image/upload/q_auto/f_auto/v1781201023/Screenshot_2026-06-11_233254_oqpzgq.png", label: "Round 3: Object Monologue" },
-      { src: "https://res.cloudinary.com/dgje0yyqb/image/upload/q_auto/f_auto/v1781201023/Screenshot_2026-06-11_233315_kef62x.png", label: "Winners Announcement" }
-    ];
-
-    useEffect(() => {
-      const timer = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            setActiveIndex((current) => (current + 1) % images.length);
-            return 0;
-          }
-          return prev + 0.5;
-        });
-      }, 30);
-      return () => clearInterval(timer);
-    }, []);
-
-    return (
-      <div className="relative w-full">
-        {/* Main Image Display */}
-        <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black border border-orange-500/20">
-          {images.map((img, index) => (
-            <motion.img
-              key={index}
-              src={img.src}
-              alt={img.label}
-              className="absolute inset-0 w-full h-full object-cover"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: activeIndex === index ? 1 : 0 }}
-              transition={{ duration: 0.5 }}
-            />
-          ))}
-
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-
-          {/* Current Label */}
-          <div className="absolute bottom-4 left-4 right-4">
-            <h3 className="text-white text-lg font-semibold">{images[activeIndex].label}</h3>
-          </div>
-        </div>
-
-        {/* Navigation Dots with Progress */}
-        <div className="flex items-center justify-center gap-2 mt-4">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setActiveIndex(index);
-                setProgress(0);
-              }}
-              className="relative group"
-            >
-              <div className={`w-12 h-1.5 rounded-full transition-all ${
-                activeIndex === index ? 'bg-orange-500/30' : 'bg-white/20'
-              }`}>
-                {activeIndex === index && (
-                  <motion.div
-                    className="h-full bg-orange-500 rounded-full"
-                    initial={{ width: '0%' }}
-                    animate={{ width: `${progress}%` }}
-                    transition={{ duration: 0.1 }}
-                  />
-                )}
-              </div>
-            </button>
-          ))}
-        </div>
-
-        {/* Navigation Arrows */}
-        <button
-          onClick={() => {
-            setActiveIndex((current) => (current - 1 + images.length) % images.length);
-            setProgress(0);
-          }}
-          className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center text-white transition-all backdrop-blur-sm border border-orange-500/20"
-        >
-          <ChevronRight size={20} className="rotate-180" />
-        </button>
-        <button
-          onClick={() => {
-            setActiveIndex((current) => (current + 1) % images.length);
-            setProgress(0);
-          }}
-          className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center text-white transition-all backdrop-blur-sm border border-orange-500/20"
-        >
-          <ChevronRight size={20} />
-        </button>
-      </div>
-    );
-  };
-
-  // Audio bars component for button decoration
+  // Compact inline audio bars flanking the CTA button
   const ButtonAudioBars = ({ side, count = 10 }) => {
-    const baseHeights = side === "left"
+    const basHeights = side === "left"
       ? [8, 18, 28, 14, 38, 22, 48, 30, 20, 12]
       : [12, 20, 30, 48, 22, 38, 14, 28, 18, 8];
     return (
-      <div className={`flex items-center gap-[3px] h-10 ${side === "left" ? "flex-row-reverse" : "flex-row"}`}>
-        {baseHeights.slice(0, count).map((h, i) => (
+      <div className={`hidden sm:flex items-center gap-[3px] h-10 ${side === "left" ? "flex-row-reverse" : "flex-row"}`}>
+        {basHeights.slice(0, count).map((h, i) => (
           <motion.div
             key={i}
             className="w-[3px] rounded-full"
             style={{
               height: h,
+              transformOrigin: "bottom",
               background: "linear-gradient(to top, #EA580C, #F97316, #FCD34D)",
               boxShadow: "0 0 5px #F97316, 0 0 10px rgba(249,115,22,0.5)",
             }}
-            animate={{ height: [h, h * 0.15 + 2, h * 0.7, h] }}
+            animate={{ scaleY: [1, 0.15, 0.7, 1] }}
             transition={{ duration: 0.9 + i * 0.08, repeat: Infinity, ease: "easeInOut", delay: i * 0.06 }}
           />
         ))}
@@ -694,16 +734,11 @@ export function SpeakAThonPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col items-center font-inter overflow-x-hidden text-[#FFFFFF]">
+    <div className="relative min-h-screen w-full flex flex-col font-inter overflow-x-hidden text-[#FFFFFF] bg-[#050505]">
       <CursorTrail colorRgb={[249, 115, 22]} />
-      {loading && (
-        <UniversalLoader
-          titleStart="SPEAK"
-          titleEnd="ATHON"
-          colorHex="#F97316"
-          colorRgb="249,115,22"
-        />
-      )}
+      <AnimatePresence>
+        {loading && <CosmicSpeakLoader />}
+      </AnimatePresence>
       
       {/* Dynamic Font & Animation Styles */}
       <style>
@@ -830,6 +865,50 @@ export function SpeakAThonPage() {
             animation: meteor 16s linear infinite 10s;
             z-index: -3;
           }
+
+          @media (max-width: 1024px) {
+            .hero-layout {
+              flex-direction: column !important;
+              align-items: center !important;
+              padding: 2rem 1.25rem 3rem !important;
+              min-height: unset !important;
+              gap: 0 !important;
+            }
+            .hero-left {
+              width: 100% !important;
+              max-width: 100% !important;
+              padding-left: 0 !important;
+              transform: none !important;
+              align-items: center !important;
+              text-align: center !important;
+            }
+            .hero-left p { text-align: center !important; }
+            .hero-btns { justify-content: center !important; }
+            .hero-portal-mobile-slot { display: flex !important; }
+          }
+
+          @keyframes gallery-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .gallery-track {
+            animation: gallery-scroll 28s linear infinite;
+          }
+          .gallery-track:hover {
+            animation-play-state: paused;
+          }
+          .gallery-mask {
+            mask: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+            -webkit-mask: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+          }
+          .gallery-item {
+            transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+          }
+          .gallery-item:hover {
+            transform: scale(1.04);
+            filter: brightness(1.1) saturate(1.15);
+          }
         `}
       </style>
       
@@ -856,73 +935,65 @@ export function SpeakAThonPage() {
       {/* HERO SECTION */}
       <section
         id="hero"
-        className="relative z-10 flex flex-col lg:flex-row lg:justify-between items-center lg:items-center px-5 pt-4 md:pt-6 lg:pt-6 pb-12 lg:pb-20 w-full max-w-[1400px] mx-auto gap-0 lg:gap-0"
+        className="hero-layout relative z-10 flex flex-col lg:flex-row lg:justify-between items-center lg:items-center px-5 pt-4 md:pt-6 lg:pt-6 pb-12 lg:pb-20 w-full max-w-[1400px] mx-auto gap-0 lg:gap-0"
         style={{
           minHeight: "calc(100dvh - 72px)",
           scrollMarginTop: "72px",
         }}
       >
-
-        {/* LEFT COLUMN — Content */}
+        {/* ━━━━━━ LEFT COLUMN ━━━━━━ */}
         <motion.div
-          className="flex flex-col items-center lg:items-start lg:w-[48%] lg:max-w-[580px] text-center lg:text-left lg:pl-8 w-full"
+          className="hero-left flex flex-col items-center lg:items-start text-center lg:text-left lg:w-[48%] lg:max-w-[580px] lg:pl-8 w-full"
           initial="hidden"
           animate="visible"
         >
-              {/* Top Brand Tag */}
-              <motion.div
-                initial={{ opacity: 0, y: -15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: BUTTERY_EASE }}
-                className="flex flex-col items-center lg:items-start mb-4"
-              >
-                <span className="font-orbitron text-[13px] font-semibold tracking-[0.25em] text-orange-500 uppercase">
-                  FLASHFORTE
-                </span>
-                <span className="font-orbitron text-[10px] font-bold tracking-[0.4em] text-[#BDBDBD] uppercase mt-1">
-                  • 2K26 •
-                </span>
-              </motion.div>
-
 
           {/* Event Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.2 }}
-            className="font-playfair text-[clamp(38px,6vw,68px)] font-black tracking-[0.02em] text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-amber-300 orange-glow-text leading-[1.05] mb-2 whitespace-nowrap"
+            className="font-orbitron text-[clamp(28px,7.5vw,60px)] font-black tracking-[0.08em] text-[#F8FAFC] orange-glow-text leading-[1.05] mb-2 text-center lg:text-left whitespace-nowrap"
           >
-            Speak-A-Thon
+            SPEAK
+            <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-amber-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
+              -A-THON
+            </span>
           </motion.h1>
-
-          {/* Mobile Portal */}
-          <motion.div
-            className="lg:hidden w-full flex justify-center my-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: BUTTERY_EASE, delay: 0.3 }}
-          >
-            <MicPortal size="md" />
-          </motion.div>
 
           {/* Subtitle */}
           <motion.h2
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.35 }}
-            className="font-orbitron text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-orange-400/90 mb-5"
+            className="text-[#FFFFFF] text-[clamp(13px,2.2vw,22px)] font-extrabold leading-[1.35] tracking-[0.18em] mb-4 mt-0 uppercase text-center lg:text-left w-full"
           >
-            WHERE CONFIDENCE FINDS ITS VOICE
+            WHERE CONFIDENCE{" "}
+            <span className="bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
+              FINDS ITS VOICE
+            </span>
           </motion.h2>
+
+          {/* Portal Animation — mobile only */}
+          <motion.div
+            className="hero-portal-mobile-slot lg:hidden flex w-full justify-center my-3"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: BUTTERY_EASE }}
+          >
+            <div className="w-[70%] max-w-[300px] aspect-square relative">
+              <MicPortal className="w-full h-full" />
+            </div>
+          </motion.div>
 
           {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.5 }}
-            className="text-[#C8D3F5] text-sm sm:text-[15px] leading-[1.7] max-w-[440px] font-medium mb-8"
+            className="text-[#C8D3F5] text-[clamp(13px,1.8vw,16px)] leading-[1.8] max-w-[500px] mb-8 font-medium"
           >
-            A three-round speaking competition designed to foster spontaneous speaking, creative storytelling, and quick thinking among first-year students.
+            Step into the arena of oratory — where ideas are born loud, stories shake the stage, and every voice finds its power.
           </motion.p>
 
           {/* CTA Button with audio bars */}
@@ -930,7 +1001,7 @@ export function SpeakAThonPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.65 }}
-            className="mb-8 flex gap-3 flex-wrap justify-center lg:justify-start"
+            className="hero-btns mb-8 flex gap-3 flex-wrap justify-center lg:justify-start"
           >
             <div className="flex items-center gap-3">
               <ButtonAudioBars side="left" count={8} />
@@ -938,36 +1009,81 @@ export function SpeakAThonPage() {
                 <span className="btn-pulse-ring absolute inset-0 rounded-full bg-orange-500/25 pointer-events-none" />
                 <span className="btn-pulse-ring-2 absolute inset-0 rounded-full bg-orange-400/15 pointer-events-none" />
                 <button
-                  onClick={() => alert("Registration Coming Soon!\n\nStay tuned for registration details.")}
-                  className="relative flex items-center gap-2 font-orbitron font-bold rounded-full px-8 py-3.5 text-xs sm:text-sm bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white border border-white/10 shadow-[0_0_32px_rgba(249,115,22,0.5),0_0_60px_rgba(249,115,22,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(249,115,22,0.7)] cursor-pointer will-change-transform z-10"
+                  onClick={() => scrollToSection("openmic")}
+                  className="relative flex items-center gap-2 font-orbitron font-bold rounded-full px-8 py-4 text-[clamp(13px,1.6vw,15px)] bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white border border-white/10 shadow-[0_0_32px_rgba(249,115,22,0.5),0_0_60px_rgba(249,115,22,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(249,115,22,0.7)] cursor-pointer will-change-transform z-10"
                 >
-                  Register Now <ChevronRight size={16} />
+                  Enter Speak-A-Thon <ChevronRight size={16} />
                 </button>
               </div>
               <ButtonAudioBars side="right" count={8} />
             </div>
           </motion.div>
-
         </motion.div>
 
-        {/* RIGHT COLUMN — Mic Portal (desktop only) */}
+        {/* ━━━━━━ RIGHT COLUMN — Mic Portal ━━━━━━ */}
         <motion.div
-          className="hidden lg:flex lg:w-[55%] justify-center lg:justify-end relative will-change-opacity"
+          className="hidden lg:flex lg:w-[48%] justify-end w-full relative lg:translate-x-4 will-change-opacity"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, ease: BUTTERY_EASE, delay: 0 }}
         >
-          {/* Extra outer ambient glow */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-[-15%] rounded-full blur-[60px] bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.12)_0%,_transparent_70%)]" />
-          </div>
-          <MicPortal size="lg" />
+          <MicPortal className="w-[100%] lg:w-[141%]" />
         </motion.div>
-
       </section>
 
+      {/* Category nav cards */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.9 }}
+        className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-[1200px] px-5 mb-16 mx-auto"
+      >
+        {[
+          { id: "openmic", label: "Round 1", icon: Mic },
+          { id: "debates", label: "Round 2", icon: MessageSquare },
+          { id: "storytelling", label: "Round 3", icon: BookOpen },
+          { id: "highlights", label: "Highlights", icon: Sparkles },
+        ].map((tab) => {
+          const TabIcon = tab.icon;
+          return (
+            <div
+              key={tab.id}
+              onClick={() => scrollToSection(tab.id)}
+              className="group p-5 rounded-xl glass-panel orange-border-glow transition-all duration-300 cursor-pointer flex flex-col items-center justify-center text-center hover:-translate-y-1"
+            >
+              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-orange-950/30 border border-orange-500/20 group-hover:border-orange-500/50 group-hover:bg-orange-500/10 mb-2 transition-colors duration-300">
+                <TabIcon size={16} className="text-orange-500 drop-shadow-[0_0_4px_rgba(249,115,22,0.4)]" />
+              </div>
+              <h3 className="font-orbitron font-semibold text-[11px] sm:text-xs text-[#BDBDBD] group-hover:text-white tracking-wide transition-colors">
+                {tab.label}
+              </h3>
+            </div>
+          );
+        })}
+      </motion.div>
+
+      {/* BOTTOM METADATA FLOATING BAR */}
+      <motion.section 
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.8, ease: BUTTERY_EASE }}
+        className="w-full py-4 px-6 flex flex-row items-center justify-between text-xs sm:text-sm font-semibold tracking-wider font-orbitron text-[#BDBDBD] my-12 max-w-[1200px] mx-auto glass-panel rounded-xl relative overflow-hidden group"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/3 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+        <div className="flex items-center gap-2 relative z-10">
+          <Calendar size={14} className="text-orange-500" />
+          <span>JUNE 2026</span>
+        </div>
+        <div className="w-1.5 h-1.5 rounded-full bg-orange-500/50 shadow-[0_0_4px_#F97316] relative z-10" />
+        <div className="flex items-center gap-2 relative z-10">
+          <MapPin size={14} className="text-orange-500" />
+          <span>VNR VJIET, HYDERABAD</span>
+        </div>
+      </motion.section>
+
       {/* Main content wrapper */}
-      <div className="relative z-10 w-full max-w-[1200px] px-4 md:px-8 flex flex-col items-center">
+      <div className="relative z-10 w-full max-w-[1200px] px-4 md:px-8 flex flex-col items-center mx-auto">
 
         {/* CATEGORIES SECTION */}
         <section className="w-full flex flex-col items-center mb-16 mt-8">
@@ -981,7 +1097,7 @@ export function SpeakAThonPage() {
             <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
               Competition Structure
             </span>
-            <h2 className="font-playfair text-2xl sm:text-3xl font-black text-white mt-1">
+            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(249,115,22,0.35)" }}>
               Three Progressive Rounds
             </h2>
           </motion.div>
@@ -1123,7 +1239,7 @@ export function SpeakAThonPage() {
             <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
               Directives
             </span>
-            <h2 className="font-playfair text-2xl sm:text-3xl font-black text-white mt-1">
+            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(249,115,22,0.35)" }}>
               Rules & Judging Metrics
             </h2>
           </motion.div>
@@ -1214,9 +1330,72 @@ export function SpeakAThonPage() {
             <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
               2025 Retrospective
             </span>
-            <h2 className="font-playfair text-2xl sm:text-3xl font-black text-white mt-1">
+            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(249,115,22,0.35)" }}>
               Last Year Highlights
             </h2>
+          </motion.div>
+
+          {/* Scrolling Marquee Gallery (Local Images) */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.0, ease: BUTTERY_EASE }}
+            className="w-full mb-14"
+          >
+            <div className="gallery-mask" style={{ width: "100%", overflow: "hidden" }}>
+              <div className="gallery-track" style={{ display: "flex", gap: "0.75rem", width: "max-content" }}>
+                {[
+                  speakathon1, speakathon2, speakathon3, speakathon4, speakathon5,
+                  speakathon1, speakathon2, speakathon3, speakathon4, speakathon5,
+                ].map((src, i) => (
+                  <div
+                    key={i}
+                    className="gallery-item"
+                    style={{
+                      flexShrink: 0,
+                      width: "clamp(280px, 36vw, 380px)",
+                      height: "clamp(180px, 26vw, 260px)",
+                      borderRadius: "2px",
+                      clipPath: "none",
+                      overflow: "hidden",
+                      border: "1px dashed rgba(249, 115, 22, 0.25)",
+                      background: "rgba(8,10,12,0.95)",
+                      position: "relative",
+                    }}
+                  >
+                    {src ? (
+                      <img
+                        src={src}
+                        alt={`Speak-A-Thon moment ${(i % 5) + 1}`}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div style={{
+                        width: "100%", height: "100%",
+                        display: "flex", flexDirection: "column",
+                        alignItems: "center", justifyContent: "center",
+                        gap: "0.4rem",
+                        background: "rgba(8,10,12,0.95)",
+                      }}>
+                        <span style={{
+                          fontFamily: "'Rajdhani', sans-serif",
+                          fontSize: "0.7rem", letterSpacing: "0.25em",
+                          color: "rgba(249, 115, 22, 0.35)", textTransform: "uppercase",
+                        }}>Photo 0{(i % 5) + 1}</span>
+                      </div>
+                    )}
+
+                    {/* corner accents */}
+                    <div style={{ position:"absolute", top:8, left:8, width:12, height:12, borderTop:"1.5px solid rgba(249, 115, 22, 0.4)", borderLeft:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
+                    <div style={{ position:"absolute", top:8, right:8, width:12, height:12, borderTop:"1.5px solid rgba(249, 115, 22, 0.4)", borderRight:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
+                    <div style={{ position:"absolute", bottom:8, left:8, width:12, height:12, borderBottom:"1.5px solid rgba(249, 115, 22, 0.4)", borderLeft:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
+                    <div style={{ position:"absolute", bottom:8, right:8, width:12, height:12, borderBottom:"1.5px solid rgba(249, 115, 22, 0.4)", borderRight:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
 
           <motion.div
@@ -1226,7 +1405,6 @@ export function SpeakAThonPage() {
             transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.1 }}
             className="w-full max-w-[850px] grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-6 items-stretch mb-8"
           >
-            
             {/* Stats card */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -1244,10 +1422,6 @@ export function SpeakAThonPage() {
               </div>
 
               <div className="space-y-4">
-                <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-xs text-[#BDBDBD]/70">Total Participants</span>
-                  <span className="font-orbitron font-bold text-xs sm:text-sm text-white">13 First-Year Students</span>
-                </div>
                 <div className="flex justify-between items-center border-b border-white/5 pb-2">
                   <span className="text-xs text-[#BDBDBD]/70">Event Mode</span>
                   <span className="font-orbitron font-bold text-xs sm:text-sm text-white">Online via Zoom</span>
@@ -1304,19 +1478,8 @@ export function SpeakAThonPage() {
                 </a>
               </div>
             </motion.div>
-
           </motion.div>
 
-          {/* Gallery - Progressive Carousel */}
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: "-120px" }}
-            transition={{ duration: 1.1, ease: BUTTERY_EASE, delay: 0.2 }}
-            className="w-full max-w-[900px]"
-          >
-            <EventGalleryCarousel />
-          </motion.div>
         </section>
 
         {/* REGISTRATION SECTION */}
