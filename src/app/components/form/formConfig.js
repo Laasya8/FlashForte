@@ -1,29 +1,24 @@
-const DUMMY_URL = "https://script.google.com/macros/s/AKfycbyF8P8pqcrVh0z2x6JHH9Dri3UFtSwejRPQnaKjD5iMryYW_uGghZgHyoY7pT1TinvQ/exec";
+const DUMMY_URL = "https://script.google.com/macros/s/AKfycbwu9N5SOCpvznloU3KsRzlVmpR6B7TuIy5D5_7BHGRI6fN9cn5G39rVgRnA8V5BqfY/exec";
 
 /* ── Common Field Schemas ────────────────────────────────────────────── */
 const REGISTRATION_FIELDS = [
   { name: "name", label: "Full Name", type: "text", required: true, placeholder: "Enter your full name" },
   { name: "email", label: "Email Address", type: "email", required: true, placeholder: "you@example.com" },
-  { name: "phone", label: "Phone Number", type: "text", required: true, placeholder: "Enter your phone number" },
-  { name: "rollNo", label: "Roll Number", type: "text", required: true, placeholder: "Enter your roll number" },
-  { name: "branch", label: "Branch", type: "select", required: true, options: ["CSE", "IT", "ECE", "EEE", "Mechanical", "Civil", "Other"] },
+  { name: "phone", label: "Phone Number", type: "text", required: true, placeholder: "Enter your phone number", pattern: "^[0-9]{10}$" },
+  { name: "rollNo", label: "Roll Number", type: "text", required: true, placeholder: "Enter your roll number", pattern: "^2[0-9]071[aA][0-9]{2}[a-zA-Z0-9][0-9]$" },
+  { name: "branch", label: "Branch", type: "select", required: true, options: ["CSE", "AIML", "DS", "CSBS", "CyS", "AIDS", "IT", "IoT", "ECE", "EEE", "Mechanical", "Civil"] },
   { name: "section", label: "Section", type: "select", required: true, options: ["A", "B", "C", "D"] },
-  { name: "yearOfStudy", label: "Year of Study", type: "select", required: true, options: ["1st Year", "2nd Year", "3rd Year", "4th Year", "Other"] },
   { name: "discordId", label: "Discord ID", type: "text", required: true, placeholder: "username#1234 or username" },
-  { name: "tshirtSize", label: "T-Shirt Size", type: "select", required: true, options: ["XS", "S", "M", "L", "XL", "XXL"] },
-  { name: "dietaryRequirements", label: "Dietary Requirements", type: "text", required: false, placeholder: "e.g., Vegetarian, Vegan, Gluten-free" },
-  { name: "heardAboutUs", label: "How did you hear about us?", type: "select", required: false, options: ["Social Media", "Friend/Colleague", "University Announcement", "Other"] },
+  { name: "heardAboutUs", label: "How did you hear about us?", type: "select", required: false, options: ["Social Media", "Friend", "Senior", "Other"] },
 ];
 
 const SUBMISSION_FIELDS = [
-  { name: "teamName", label: "Team Name", type: "text", required: true, placeholder: "Enter your team name" },
-  { name: "email", label: "Team Leader Email", type: "email", required: true, placeholder: "leader@example.com" },
-  { name: "projectTitle", label: "Project Title", type: "text", required: true, placeholder: "Enter project title" },
-  { name: "description", label: "Project Description", type: "textarea", required: true, placeholder: "Describe your project" },
+  { name: "name", label: "Full Name", type: "text", required: true, placeholder: "Enter your full name" },
+  { name: "email", label: "Email Address", type: "email", required: true, placeholder: "you@example.com" },
+  { name: "phone", label: "Phone Number", type: "text", required: true, placeholder: "Enter your phone number", pattern: "^[0-9]{10}$" },
 ];
 
 const FEEDBACK_FIELDS = [
-  { name: "name", label: "Name", type: "text", required: true, placeholder: "Your name" },
   { name: "rating", label: "Rating (1-5)", type: "select", required: true, options: ["1 - Poor", "2 - Fair", "3 - Good", "4 - Very Good", "5 - Excellent"] },
   { name: "feedback", label: "Feedback", type: "textarea", required: true, placeholder: "Tell us about your experience..." },
 ];
