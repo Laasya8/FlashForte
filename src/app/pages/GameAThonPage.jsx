@@ -16,8 +16,11 @@ import {
   Trophy,
 } from "lucide-react";
 import { StarField } from "../components/StarField.jsx";
-import ss1 from "../../images/Gameathon/Gameathon_ss1.webp";
-import ss2 from "../../images/Gameathon/Gameathon_ss2.webp";
+import img1 from "../../images/Gameathon/Gameathon_ss1.webp";
+import img2 from "../../images/Gameathon/Gameathon_ss2.webp";
+import img3 from "../../images/Gameathon/Gameathon_ss3.webp";
+import img4 from "../../images/Gameathon/Gameathon_ss4.webp";
+import img5 from "../../images/Gameathon/Gameathon_ss5.webp";
 
 function GalaxyBackground({
   density          = 0.8,
@@ -425,8 +428,8 @@ function RibbonCursor() {
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    const TRAIL = 28;
-    const THICKNESS = 14;
+    const TRAIL = 22;
+    const THICKNESS = 12;
 
     function resize() {
       canvas.width = window.innerWidth;
@@ -456,14 +459,14 @@ function RibbonCursor() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const head = pointsRef.current[0];
-      head.x += (mouseRef.current.x - head.x) * 0.36;
-      head.y += (mouseRef.current.y - head.y) * 0.36;
+      head.x += (mouseRef.current.x - head.x) * 0.38;
+      head.y += (mouseRef.current.y - head.y) * 0.38;
 
       for (let i = 1; i < TRAIL; i++) {
         const prev = pointsRef.current[i - 1];
         const cur = pointsRef.current[i];
-        cur.x += (prev.x - cur.x) * 0.42;
-        cur.y += (prev.y - cur.y) * 0.42;
+        cur.x += (prev.x - cur.x) * 0.44;
+        cur.y += (prev.y - cur.y) * 0.44;
       }
 
       for (let i = 0; i < TRAIL - 1; i++) {
@@ -477,7 +480,7 @@ function RibbonCursor() {
         const nx = (-dy / len) * THICKNESS * (1 - t) * 0.5;
         const ny = (dx / len) * THICKNESS * (1 - t) * 0.5;
 
-        const alpha = (1 - t) * 0.55;
+        const alpha = (1 - t) * 0.45;
 
         const r = Math.round(168 - t * 55);
         const g = Math.round(85 - t * 52);
@@ -720,88 +723,159 @@ function SkillCard({ icon: Icon, title, delay = 0 }) {
 }
 
 const GALLERY_ITEMS = [
-  {
-    accent: "#A855F7",
-    image:  ss1,
-  },
-  {
-    accent: "#9333EA",
-    image:  ss2,
-  },
+  { accent: "#A855F7", image: img1 },
+  { accent: "#9333EA", image: img2 },
+  { accent: "#A855F7", image: img3 },
+  { accent: "#9333EA", image: img4 },
+  { accent: "#A855F7", image: img5 },
 ];
 
 function TalentGallery() {
+  const trackRef = useRef(null);
+  const isPausedRef = useRef(false);
+  const posRef = useRef(0);
+  const rafRef = useRef(null);
+  const speedPx = 2.2;
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    function animate() {
+      if (!isPausedRef.current) {
+        posRef.current += speedPx;
+        const half = track.scrollWidth / 2;
+        if (posRef.current >= half) {
+          posRef.current = 0;
+        }
+        track.style.transform = `translateX(-${posRef.current}px)`;
+      }
+      rafRef.current = requestAnimationFrame(animate);
+    }
+
+    rafRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  const handleContainerEnter = () => { isPausedRef.current = true; };
+  const handleContainerLeave = () => { isPausedRef.current = false; };
+
   return (
     <div
       style={{
         width: "100%",
-        maxWidth: "1100px",
+        overflow: "hidden",
+        position: "relative",
       }}
-      className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
+      onMouseEnter={handleContainerEnter}
+      onMouseLeave={handleContainerLeave}
     >
-      {GALLERY_ITEMS.map((item, i) => (
-        <div
-          key={i}
-          style={{
-            position: "relative",
-            borderRadius: "16px",
-            overflow: "hidden",
-            height: "clamp(220px, 40vw, 380px)",
-            boxShadow: [
-              `0 0 0 1px ${item.accent}44`,
-              `0 8px 40px ${item.accent}35`,
-              `0 28px 80px ${item.accent}1a`,
-              "0 4px 16px rgba(0,0,0,0.65)",
-            ].join(", "),
-            transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1)",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "translateY(-6px) scale(1.015)";
-            e.currentTarget.style.boxShadow = [
-              `0 0 0 1px ${item.accent}66`,
-              `0 16px 56px ${item.accent}45`,
-              `0 32px 90px ${item.accent}26`,
-              "0 6px 20px rgba(0,0,0,0.70)",
-            ].join(", ");
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "";
-            e.currentTarget.style.boxShadow = [
-              `0 0 0 1px ${item.accent}44`,
-              `0 8px 40px ${item.accent}35`,
-              `0 28px 80px ${item.accent}1a`,
-              "0 4px 16px rgba(0,0,0,0.65)",
-            ].join(", ");
-          }}
-        >
+      {/* left fade edge */}
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: "80px",
+          background: "linear-gradient(90deg, #050816 0%, transparent 100%)",
+          zIndex: 2,
+          pointerEvents: "none",
+        }}
+      />
+      {/* right fade edge */}
+      <div
+        style={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          bottom: 0,
+          width: "80px",
+          background: "linear-gradient(270deg, #050816 0%, transparent 100%)",
+          zIndex: 2,
+          pointerEvents: "none",
+        }}
+      />
+
+      <div
+        ref={trackRef}
+        style={{
+          display: "flex",
+          gap: "20px",
+          width: "max-content",
+          willChange: "transform",
+        }}
+      >
+        {[...GALLERY_ITEMS, ...GALLERY_ITEMS].map((item, i) => (
           <div
+            key={i}
             style={{
-              position: "absolute",
-              inset: "-24px",
-              borderRadius: "32px",
-              background: `radial-gradient(ellipse at 50% 65%, ${item.accent}30 0%, ${item.accent}0a 55%, transparent 75%)`,
-              filter: "blur(22px)",
-              pointerEvents: "none",
-              zIndex: 0,
-            }}
-          />
-          <img
-            src={item.image}
-            alt={`GameAThon highlight ${i + 1}`}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block",
+              position: "relative",
               borderRadius: "16px",
-              zIndex: 1,
+              overflow: "hidden",
+              flexShrink: 0,
+              width: "clamp(260px, 32vw, 420px)",
+              height: "clamp(180px, 26vw, 300px)",
+              boxShadow: [
+                `0 0 0 1px ${item.accent}44`,
+                `0 8px 40px ${item.accent}35`,
+                `0 28px 80px ${item.accent}1a`,
+                "0 4px 16px rgba(0,0,0,0.65)",
+              ].join(", "),
+              transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), filter 0.4s ease",
+              cursor: "default",
             }}
-            draggable={false}
-          />
-        </div>
-      ))}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.05)";
+              e.currentTarget.style.filter = "brightness(1.18)";
+              e.currentTarget.style.boxShadow = [
+                `0 0 0 1px ${item.accent}88`,
+                `0 16px 56px ${item.accent}55`,
+                `0 32px 90px ${item.accent}30`,
+                "0 6px 20px rgba(0,0,0,0.70)",
+                `0 0 32px ${item.accent}40`,
+              ].join(", ");
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "";
+              e.currentTarget.style.filter = "";
+              e.currentTarget.style.boxShadow = [
+                `0 0 0 1px ${item.accent}44`,
+                `0 8px 40px ${item.accent}35`,
+                `0 28px 80px ${item.accent}1a`,
+                "0 4px 16px rgba(0,0,0,0.65)",
+              ].join(", ");
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                inset: "-24px",
+                borderRadius: "32px",
+                background: `radial-gradient(ellipse at 50% 65%, ${item.accent}30 0%, ${item.accent}0a 55%, transparent 75%)`,
+                filter: "blur(22px)",
+                pointerEvents: "none",
+                zIndex: 0,
+              }}
+            />
+            <img
+              src={item.image}
+              alt={`GameAThon highlight ${(i % GALLERY_ITEMS.length) + 1}`}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+                borderRadius: "16px",
+                zIndex: 1,
+              }}
+              draggable={false}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -1437,9 +1511,7 @@ export function GameAThonPage() {
         </div>
 
         <ScrollReveal variants={fadeIn}>
-          <div className="flex justify-center">
-            <TalentGallery />
-          </div>
+          <TalentGallery />
         </ScrollReveal>
       </section>
 
