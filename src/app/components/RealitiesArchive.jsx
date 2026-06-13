@@ -109,7 +109,7 @@ export function RealitiesArchive() {
                 animate={isMobile ? { rotateY, scale, opacity, zIndex } : { zIndex: 1, rotateY: 0, scale: 1, opacity: 1 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
                 onClick={() => setZoomedImage(poster)}
-                className={`archive-carousel-item shrink-0 lg:w-[320px] aspect-[1/1.4] rounded-[20px] relative group cursor-pointer preserve-3d ${isMobile ? "snap-center w-[240px]" : "w-[280px]"}`}
+                className={`archive-carousel-item shrink-0 lg:w-[320px] aspect-[297/420] rounded-[20px] relative group cursor-pointer preserve-3d ${isMobile ? "snap-center w-[240px]" : "w-[280px]"}`}
               >
                 {/* Holographic Panel Background / Image Placeholder */}
                 <div 
@@ -137,7 +137,7 @@ export function RealitiesArchive() {
       <ImageModal isOpen={!!zoomedImage} onClose={() => setZoomedImage(null)}>
         {zoomedImage && (
           <div 
-            className="w-full max-w-[400px] aspect-[1/1.4] rounded-[20px] glass-card overflow-hidden flex items-center justify-center relative"
+            className="w-full max-w-[400px] aspect-[297/420] rounded-[20px] glass-card overflow-hidden flex items-center justify-center relative"
             style={{
               borderColor: `${zoomedImage.color}40`,
               boxShadow: `0 10px 40px -10px ${zoomedImage.color}30, inset 0 0 20px ${zoomedImage.color}10`,

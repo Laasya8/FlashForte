@@ -4,8 +4,8 @@ import { CheckCircle2, Trophy, Lightbulb, Gamepad2, Palette, Mic, ChevronRight, 
 import { ImageModal } from "./ImageModal.jsx";
 
 import ideathon1 from "../../images/Ideathon/ideathon1.webp";
-import ideathon2 from "../../images/Ideathon/ideathon2.webp";
-import ideathon3 from "../../images/Ideathon/ideathon3.webp";
+import ideathon2 from "../../images/Ideathon/ideathon3.webp";
+import ideathon3 from "../../images/Ideathon/ideathon4.webp";
 
 import gameathon1 from "../../images/Gameathon/Gameathon_ss1.webp";
 import gameathon2 from "../../images/Gameathon/Gameathon_ss2.webp";
