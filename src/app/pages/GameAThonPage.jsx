@@ -16,6 +16,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { StarField } from "../components/StarField.jsx";
+import { CursorTrail } from "../components/CursorTrail.jsx";
 import img1 from "../../images/Gameathon/Gameathon_ss1.webp";
 import img2 from "../../images/Gameathon/Gameathon_ss2.webp";
 import img3 from "../../images/Gameathon/Gameathon_ss3.webp";
@@ -159,6 +160,128 @@ function GalaxyBackground({
         zIndex:        0,
         opacity:       0.60,
         display:       "block",
+      }}
+      aria-hidden="true"
+    />
+  );
+}
+
+function FloatingParticlesBackground() {
+  const canvasRef = useRef(null);
+  const mouseRef = useRef({ x: -1000, y: -1000 });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let animationFrameId;
+    let particles = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    };
+
+    const initParticles = () => {
+      particles = [];
+      const numParticles = Math.floor((window.innerWidth / 8) * 0.7);
+      for (let i = 0; i < numParticles; i++) {
+        const isForeground = Math.random() > 0.85;
+        const vx = (Math.random() - 0.5) * 0.3;
+        const vy = (Math.random() - 0.5) * 0.3 - (isForeground ? 0.4 : 0.15);
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: isForeground ? Math.random() * 4 + 2 : Math.random() * 2 + 1,
+          vx: vx,
+          vy: vy,
+          baseVx: vx,
+          baseVy: vy,
+          life: Math.random() * 100,
+          alpha: isForeground ? Math.random() * 0.6 + 0.4 : Math.random() * 0.7 + 0.2,
+          isForeground
+        });
+      }
+    };
+
+    const onMouseMove = (e) => {
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', onMouseMove);
+    resize();
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const mouse = mouseRef.current;
+
+      particles.forEach(p => {
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 150) {
+          const force = (150 - dist) / 150;
+          p.vx -= (dx / dist) * force * 0.6;
+          p.vy -= (dy / dist) * force * 0.6;
+        }
+
+        p.vx += (p.baseVx - p.vx) * 0.02;
+        p.vy += (p.baseVy - p.vy) * 0.02;
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < -20) p.x = canvas.width + 20;
+        if (p.x > canvas.width + 20) p.x = -20;
+        if (p.y < -20) p.y = canvas.height + 20;
+        if (p.y > canvas.height + 20) p.y = -20;
+
+        p.life += 0.02;
+        const currentAlpha = p.alpha * (0.6 + 0.4 * Math.sin(p.life));
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+
+        if (p.isForeground) {
+          ctx.shadowBlur = p.radius * 2.5;
+          ctx.shadowColor = 'rgba(168, 85, 247, 0.5)';
+          ctx.fillStyle = `rgba(192, 132, 252, ${currentAlpha * 0.85})`;
+        } else {
+          ctx.shadowBlur = p.radius * 1.2;
+          ctx.shadowColor = 'rgba(147, 51, 234, 0.3)';
+          ctx.fillStyle = `rgba(168, 85, 247, ${currentAlpha * 0.8})`;
+        }
+
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: 0
       }}
       aria-hidden="true"
     />
@@ -414,117 +537,6 @@ function ScrollReveal({ children, variants = fadeIn, className = "", delay = 0 }
   );
 }
 
-function RibbonCursor() {
-  const canvasRef = useRef(null);
-  const frameRef = useRef(null);
-  const mouseRef = useRef({ x: -200, y: -200 });
-  const pointsRef = useRef([]);
-  const activeRef = useRef(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(hover: none)").matches) return;
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    const TRAIL = 22;
-    const THICKNESS = 12;
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener("resize", resize);
-
-    pointsRef.current = Array.from({ length: TRAIL }, () => ({
-      x: -200,
-      y: -200,
-    }));
-
-    function onMove(e) {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
-      if (!activeRef.current) {
-        activeRef.current = true;
-        pointsRef.current = Array.from({ length: TRAIL }, () => ({
-          x: e.clientX,
-          y: e.clientY,
-        }));
-      }
-    }
-    window.addEventListener("mousemove", onMove);
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const head = pointsRef.current[0];
-      head.x += (mouseRef.current.x - head.x) * 0.38;
-      head.y += (mouseRef.current.y - head.y) * 0.38;
-
-      for (let i = 1; i < TRAIL; i++) {
-        const prev = pointsRef.current[i - 1];
-        const cur = pointsRef.current[i];
-        cur.x += (prev.x - cur.x) * 0.44;
-        cur.y += (prev.y - cur.y) * 0.44;
-      }
-
-      for (let i = 0; i < TRAIL - 1; i++) {
-        const t = i / (TRAIL - 1);
-        const p1 = pointsRef.current[i];
-        const p2 = pointsRef.current[i + 1];
-
-        const dx = p2.x - p1.x;
-        const dy = p2.y - p1.y;
-        const len = Math.sqrt(dx * dx + dy * dy) || 1;
-        const nx = (-dy / len) * THICKNESS * (1 - t) * 0.5;
-        const ny = (dx / len) * THICKNESS * (1 - t) * 0.5;
-
-        const alpha = (1 - t) * 0.45;
-
-        const r = Math.round(168 - t * 55);
-        const g = Math.round(85 - t * 52);
-        const b = Math.round(247 - t * 115);
-
-        ctx.beginPath();
-        ctx.moveTo(p1.x + nx, p1.y + ny);
-        ctx.lineTo(p1.x - nx, p1.y - ny);
-        ctx.lineTo(p2.x - nx * (1 - 1 / TRAIL), p2.y - ny * (1 - 1 / TRAIL));
-        ctx.lineTo(p2.x + nx * (1 - 1 / TRAIL), p2.y + ny * (1 - 1 / TRAIL));
-        ctx.closePath();
-
-        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
-        ctx.fill();
-      }
-
-      frameRef.current = requestAnimationFrame(draw);
-    }
-
-    frameRef.current = requestAnimationFrame(draw);
-
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("resize", resize);
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none",
-        zIndex: 9999,
-      }}
-    />
-  );
-}
-
 function PortalVideo({ className = "" }) {
   const videoRef = useRef(null);
   useEffect(() => {
@@ -763,14 +775,17 @@ function TalentGallery() {
   return (
     <div
       style={{
-        width: "100%",
-        overflow: "hidden",
+        width: "100vw",
         position: "relative",
+        left: "50%",
+        right: "50%",
+        marginLeft: "-50vw",
+        marginRight: "-50vw",
+        overflow: "hidden",
       }}
       onMouseEnter={handleContainerEnter}
       onMouseLeave={handleContainerLeave}
     >
-      {/* left fade edge */}
       <div
         style={{
           position: "absolute",
@@ -783,7 +798,6 @@ function TalentGallery() {
           pointerEvents: "none",
         }}
       />
-      {/* right fade edge */}
       <div
         style={{
           position: "absolute",
@@ -1165,12 +1179,17 @@ export function GameAThonPage() {
 
   return (
     <div className="relative w-full max-w-[100vw] overflow-x-hidden flex flex-col font-inter" style={{ background: "#050816", isolation: "isolate" }}>
-      {/* CHANGE 1: Hide the navbar/header while the loading screen is active */}
       {loading && (
-        <style>{`
-          nav { display: none !important; }
-        `}</style>
-      )}
+  <style>{`
+    nav { display: none !important; }
+  `}</style>
+)}
+<style>{`
+  canvas[style*="z-index: 9999"],
+  canvas[style*="z-index:9999"] {
+    filter: hue-rotate(200deg) saturate(1.4) brightness(0.95) !important;
+  }
+`}</style>
 
       <GalaxyBackground
         density={0.8}
@@ -1184,8 +1203,10 @@ export function GameAThonPage() {
         speed={0.5}
       />
 
+      <FloatingParticlesBackground />
+
       {loading && <GameAThonLoader onDone={() => setLoading(false)} />}
-      <RibbonCursor />
+      <CursorTrail />
 
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-space-radial" />
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
@@ -1259,29 +1280,42 @@ export function GameAThonPage() {
             className="flex flex-wrap justify-center lg:justify-start gap-3 w-full"
             variants={scaleUp}
           >
-            <button
-              onClick={() => scrollToSection("gaming-skills")}
-              className="flex items-center justify-center gap-2 px-7 py-3 rounded-[50px] border-none text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer"
+            <Link
+              to="/game-a-thon/register"
+              className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline"
               style={{
-                background: "#a855f7",
-                boxShadow:  "0 4px 30px rgba(168,85,247,0.45), inset 0 0 15px rgba(168,85,247,0.3)",
+                background: "linear-gradient(135deg, #A855F7, #7C3AED)",
+                boxShadow: "0 4px 24px rgba(168,85,247,0.40), inset 0 0 12px rgba(168,85,247,0.30)",
+                transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.06)";
+                e.currentTarget.style.boxShadow = "0 8px 36px rgba(168,85,247,0.60), inset 0 0 18px rgba(168,85,247,0.40)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "";
+                e.currentTarget.style.boxShadow = "0 4px 24px rgba(168,85,247,0.40), inset 0 0 12px rgba(168,85,247,0.30)";
               }}
             >
-              <Zap size={14} /> Start Gaming
-            </button>
-
-            <Link
-              to="/registration-test"
-              className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline btn-outline-glow"
-            >
-              Join Game-A-Thon <ChevronRight size={13} />
+              Register Now <ChevronRight size={13} />
             </Link>
 
             <button
               onClick={() => scrollToSection("highlights")}
-              className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#7E89A8] text-[clamp(13px,1.6vw,15px)] font-semibold tracking-[0.02em] cursor-pointer border border-[rgba(126,137,168,0.3)] bg-transparent hover:text-[#C8D3F5] hover:border-[rgba(168,85,247,0.35)] transition-all duration-300"
+              className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline btn-outline-glow"
+              style={{
+                transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.06)";
+                e.currentTarget.style.boxShadow = "0 8px 28px rgba(168,85,247,0.35)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "";
+                e.currentTarget.style.boxShadow = "";
+              }}
             >
-              <Trophy size={13} /> View Highlights
+              View Highlights <ChevronRight size={13} />
             </button>
           </motion.div>
         </motion.div>
@@ -1542,25 +1576,31 @@ export function GameAThonPage() {
               </h2>
 
               <p className="text-[#C8D3F5] text-[clamp(13px,1.8vw,17px)] leading-[1.7] max-w-[460px] mx-auto mb-8">
-                Seats are limited. The arena is live on June 26–27.
+                Seats are limited. The stage is live on FlashForte 2K26.
                 Lock in your spot and let the best gamer win.
               </p>
 
               <div className="flex flex-wrap justify-center gap-3">
                 <Link
-                  to="/registration-test"
-                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-[50px] text-[#FFFFFF] text-[clamp(14px,1.8vw,16px)] font-bold tracking-[0.02em] cursor-pointer no-underline shadow-[0_4px_30px_rgba(168,85,247,0.38),inset_0_0_15px_rgba(168,85,247,0.5)]"
-                  style={{ background: "linear-gradient(135deg, #A855F7, #7C3AED)" }}
+                  to="/game-a-thon/register"
+                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-[50px] text-[#FFFFFF] text-[clamp(14px,1.8vw,16px)] font-bold tracking-[0.02em] cursor-pointer no-underline"
+                  style={{
+                    background: "linear-gradient(135deg, #A855F7, #7C3AED)",
+                    boxShadow: "0 4px 30px rgba(168,85,247,0.38), inset 0 0 15px rgba(168,85,247,0.5)",
+                    transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "scale(1.06)";
+                    e.currentTarget.style.boxShadow = "0 8px 44px rgba(168,85,247,0.60), inset 0 0 22px rgba(168,85,247,0.55)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "";
+                    e.currentTarget.style.boxShadow = "0 4px 30px rgba(168,85,247,0.38), inset 0 0 15px rgba(168,85,247,0.5)";
+                  }}
                 >
                   <span className="text-[11px]">✦</span> Register Now{" "}
                   <ChevronRight size={14} />
                 </Link>
-                <button
-                  onClick={() => scrollToSection("gaming-skills")}
-                  className="flex items-center justify-center gap-2 px-8 py-4 rounded-[50px] text-[#C8D3F5] text-[clamp(14px,1.8vw,16px)] font-semibold tracking-[0.02em] cursor-pointer bg-transparent btn-outline-glow"
-                >
-                  Explore Skills
-                </button>
               </div>
             </div>
           </div>
