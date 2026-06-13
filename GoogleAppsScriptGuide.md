@@ -19,8 +19,6 @@ This guide walks you through the process of setting up a Google Apps Script to a
    - `Section`
    - `Year of Study`
    - `Discord ID`
-   - `T-Shirt Size`
-   - `Dietary Requirements`
    - `Heard About Us`
 
 ## Step 2: Open Google Apps Script
@@ -67,14 +65,23 @@ function doPost(e) {
     let fileUrl = "No file attached";
     if (params.fileBase64 && params.fileName && DRIVE_FOLDER_ID) {
       const decodedData = Utilities.base64Decode(params.fileBase64);
+      const folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
       
-      // Use phone number for the filename, preserving original extension
-      // ################### Edit this to how ever you want the file names ##################
+      // Use rollNo for the filename
       const extension = params.fileName.split('.').pop();
-      const finalFileName = params.phone ? `${params.phone}.${extension}` : params.fileName;
+      const baseName = params.rollNo ? params.rollNo : (params.phone || "submission");
+      const finalFileName = `${baseName}.${extension}`;
+      
+      // Check if file for this rollNo already exists, and trash it to override
+      let existingFiles = folder.searchFiles("title contains '" + baseName + ".'");
+      while (existingFiles.hasNext()) {
+        let file = existingFiles.next();
+        if (file.getName().startsWith(baseName + ".")) {
+          file.setTrashed(true);
+        }
+      }
       
       const blob = Utilities.newBlob(decodedData, params.mimeType || "application/octet-stream", finalFileName);
-      const folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
       const newFile = folder.createFile(blob);
       fileUrl = newFile.getUrl();
     } else if (params.fileName) {
@@ -99,13 +106,34 @@ function doPost(e) {
       fileUrl // Column M: Uploaded File URL
     ];
 
-    // 5. Append the row to the sheet safely using LockService to prevent overwrites
+    // 5. Write the data row safely using LockService to prevent concurrent overwrites
     const lock = LockService.getScriptLock();
     // Wait for up to 30 seconds for other processes to finish.
     lock.waitLock(30000);
     
     try {
-      sheet.appendRow(rowData);
+      // Search for an existing entry by Roll Number
+      const data = sheet.getDataRange().getValues();
+      let rowIndex = -1;
+      
+      if (params.rollNo) {
+        for (let i = 1; i < data.length; i++) { // Skip header row (index 0)
+          // Check Column E (index 4) for Roll Number
+          if (data[i][4] == params.rollNo) {
+            rowIndex = i + 1; // 1-based index for sheet
+            break;
+          }
+        }
+      }
+
+      if (rowIndex > -1) {
+        // Overwrite existing row
+        sheet.getRange(rowIndex, 1, 1, rowData.length).setValues([rowData]);
+      } else {
+        // Append new row
+        sheet.appendRow(rowData);
+      }
+      
       // Optional: SpreadsheetApp.flush() forces the change to be written immediately
       SpreadsheetApp.flush();
     } finally {
