@@ -1,7 +1,9 @@
-import { Menu, ChevronRight, X } from "lucide-react";
+import { Menu, ChevronDown, X } from "lucide-react";
 import { Link, useLocation } from "react-router";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import vnrLogo from "../../images/vnrlogo.webp";
+import csiLogo from "../../images/csilogo.webp";
 
 /* ═══════════════════════════════════════════════════════════
    Phase 3: Navbar Dropdown — T=1.8s
@@ -17,9 +19,10 @@ const navbarVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 1.0,
-      ease: BUTTERY_EASE,
-      delay: 1.0,
+      type: "spring",
+      stiffness: 80,
+      damping: 20,
+      delay: 0.8,
     },
   },
 };
@@ -34,8 +37,25 @@ const NAV_LINKS = [
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const location = useLocation();
   const path = location.pathname;
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setIsRegisterOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsRegisterOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
       <motion.nav
@@ -45,20 +65,20 @@ export function Navbar() {
         animate="visible"
       >
         {/* Left logos */}
-        <div className="flex items-center gap-4">
-          <a href="https://vnrvjiet.ac.in" target="_blank" rel="noopener noreferrer">
+        <div className="flex items-center gap-1.5 sm:gap-4 shrink-0">
+          <a href="https://vnrvjiet.ac.in" target="_blank" rel="noopener noreferrer" className="flex items-center shrink-0">
             <img
-              src="/vnrlogo.png"
+              src={vnrLogo}
               alt="VNRVJIET"
-              className="h-10 md:h-12 object-contain rounded-sm transition duration-300 hover:scale-105"
+              className="w-auto h-auto max-w-[140px] sm:max-w-[200px] md:max-w-none max-h-9 sm:max-h-10 md:max-h-12 object-contain rounded-sm transition duration-300 hover:scale-105"
             />
           </a>
 
-          <a href="https://www.vnrvjietcsi.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.vnrvjietcsi.com" target="_blank" rel="noopener noreferrer" className="flex items-center shrink-0">
             <img
-              src="/csilogo.png"
+              src={csiLogo}
               alt="CSI-VNRVJIET"
-              className="h-12 md:h-14 object-contain rounded-sm transition duration-300 hover:scale-105"
+              className="w-auto h-auto max-w-[40px] sm:max-w-[56px] md:max-w-none max-h-10 sm:max-h-12 md:max-h-14 object-contain rounded-sm transition duration-300 hover:scale-105"
             />
           </a>
         </div>
@@ -75,12 +95,9 @@ export function Navbar() {
               >
                 {link.label}
                 {isActive && (
-                  <motion.div 
-                    layoutId="desktop-underline"
+                  <div 
                     className="absolute -bottom-[6px] left-0 w-full h-[2px] rounded-[2px]"
                     style={{ backgroundColor: link.color, boxShadow: `0 0 8px ${link.color}80` }}
-                    initial={false}
-                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
                   />
                 )}
               </Link>
@@ -90,17 +107,44 @@ export function Navbar() {
 
         {/* Right actions */}
         <div className="flex items-center gap-2 md:gap-4">
-          <Link
-            to="/register"
-            className="flex items-center gap-1 font-semibold rounded-full px-4 py-2 text-sm btn-outline-glow no-underline cursor-pointer"
-          >
-            Register <ChevronRight size={12} />
-          </Link>
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => {
+                setIsRegisterOpen(!isRegisterOpen);
+                if (!isRegisterOpen) setIsMobileMenuOpen(false);
+              }}
+              className="flex items-center gap-1 font-semibold rounded-full px-4 py-2 text-sm btn-outline-glow cursor-pointer border-none bg-transparent"
+              style={{ border: "1px solid rgba(255, 255, 255, 0.15)" }}
+            >
+              Register <ChevronDown size={14} className={`transition-transform duration-300 ${isRegisterOpen ? "rotate-180" : ""}`} />
+            </button>
+            
+            <AnimatePresence>
+              {isRegisterOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute right-0 top-full mt-2 w-48 py-2 rounded-xl border border-white/10 overflow-hidden shadow-2xl flex flex-col"
+                  style={{ background: "linear-gradient(135deg, rgba(15,15,20,0.95), rgba(10,10,15,0.98))", backdropFilter: "blur(16px)" }}
+                >
+                  <Link to="/ideathon/register" className="px-4 py-2.5 text-[13px] font-semibold text-white/70 hover:text-[#EAB308] hover:bg-white/5 transition-colors no-underline">Ideathon</Link>
+                  <Link to="/design-a-thon/register" className="px-4 py-2.5 text-[13px] font-semibold text-white/70 hover:text-[#22C55E] hover:bg-white/5 transition-colors no-underline">Design-A-Thon</Link>
+                  <Link to="/speak-a-thon/register" className="px-4 py-2.5 text-[13px] font-semibold text-white/70 hover:text-[#F97316] hover:bg-white/5 transition-colors no-underline">Speak-A-Thon</Link>
+                  <Link to="/game-a-thon/register" className="px-4 py-2.5 text-[13px] font-semibold text-white/70 hover:text-[#A855F7] hover:bg-white/5 transition-colors no-underline">Game-A-Thon</Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
           
           {/* Hamburger Menu Toggle */}
           <div 
             className="lg:hidden flex items-center p-1 cursor-pointer"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={() => {
+              setIsMobileMenuOpen(!isMobileMenuOpen);
+              if (!isMobileMenuOpen) setIsRegisterOpen(false);
+            }}
           >
             {isMobileMenuOpen ? (
               <X size={22} color="#FFFFFF" />

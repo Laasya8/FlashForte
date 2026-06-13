@@ -13,7 +13,7 @@ export function Footer() {
       />
 
       <div
-        className="w-full max-w-[1400px] mx-auto px-5 flex flex-col items-center justify-center py-16"
+        className="w-full max-w-[1400px] mx-auto px-5 flex flex-col items-center justify-center pt-12 pb-8"
       >
         {/* Branding */}
         <h2

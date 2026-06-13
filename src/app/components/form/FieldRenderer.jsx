@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-export function FieldRenderer({ field, value, onChange, disabled }) {
+export const FieldRenderer = memo(function FieldRenderer({ field, value, onChange, disabled }) {
   const commonProps = {
     id: `reg-${field.name}`,
     name: field.name,
@@ -35,4 +35,4 @@ export function FieldRenderer({ field, value, onChange, disabled }) {
       )}
     </div>
   );
-}
+});

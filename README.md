@@ -1,6 +1,6 @@
 # FlashForte 2K26
 
-<img src="public/csilogo.png" alt="FlashForte Logo" width="200" height="200">
+<img src="src/images/csilogo.webp" alt="FlashForte Logo" width="200" height="200">
 
 ## About FlashForte
 
@@ -31,11 +31,11 @@ Combines entertainment, strategy, and competition. Through interactive challenge
 
 ## Tech Stack
 
-* Next.js
 * React
-* TypeScript
+* JavaScript
 * Tailwind CSS
 * Framer Motion
+* Vite
 * Vercel
 
 ## Getting Started

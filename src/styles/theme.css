@@ -597,7 +597,7 @@
   /* ── Card Header ────────────────────────────────────── */
   .reg-card__header {
     text-align: center;
-    margin-bottom: 2.25rem;
+    margin-bottom: 1.5rem;
   }
 
   .reg-card__title {
@@ -654,6 +654,12 @@
     transition: border-color 0.3s ease, background 0.3s ease;
     border-radius: 0;
     -webkit-appearance: none;
+    appearance: none;
+  }
+
+  select.reg-input option {
+    background-color: #0F0F14;
+    color: #F8FAFC;
   }
 
   .reg-input::placeholder {
@@ -822,8 +828,8 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 2rem 0;
-    gap: 1rem;
+    padding: 0;
+    gap: 0.75rem;
   }
 
   .reg-success__title {
@@ -845,7 +851,7 @@
 
   .reg-success__link {
     display: inline-block;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     font-size: 0.875rem;
     font-weight: 500;
     color: rgba(0, 210, 200, 0.8);
