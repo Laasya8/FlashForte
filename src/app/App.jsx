@@ -1,13 +1,11 @@
 import { Routes, Route } from "react-router";
 import { ScrollToTop } from "./components/ScrollToTop.jsx";
 import { LandingPage } from "./components/LandingPage.jsx";
-import { RegisterPage } from "./pages/RegisterPage.jsx";
 import { IdeaThonPage } from "./pages/IdeaThonPage.jsx";
 import { GameAThonPage } from "./pages/GameAThonPage.jsx";
 import { SpeakAThonPage } from "./pages/SpeakAThonPage.jsx";
 import { DesignAThonPage } from "./pages/DesignAThonPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
-import { TestPage } from "./pages/TestPage.jsx";
 import { ForteFormPage } from "./components/form/ForteFormPage.jsx";
 import { ideathonConfig } from "./components/form/configs/ideathonConfig.jsx";
 import { designathonConfig } from "./components/form/configs/designathonConfig.jsx";
@@ -25,7 +23,6 @@ export default function App() {
         <div className="flex-1 w-full max-w-[100vw] overflow-x-clip relative flex flex-col">
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/register" element={<RegisterPage />} />
           <Route path="/ideathon" element={<IdeaThonPage />} />
           <Route path="/game-a-thon" element={<GameAThonPage />} />
           <Route path="/speak-a-thon" element={<SpeakAThonPage />} />
@@ -48,7 +45,8 @@ export default function App() {
           {/* Speakathon Routes */}
           <Route path="/speak-a-thon/register" element={<ForteFormPage config={speakathonConfig.register} themeColor={speakathonConfig.themeColor} />} />
           <Route path="/speak-a-thon/feedback" element={<ForteFormPage config={speakathonConfig.feedback} themeColor={speakathonConfig.themeColor} />} />
-          <Route path="/test" element={<TestPage />} />
+          
+          
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
