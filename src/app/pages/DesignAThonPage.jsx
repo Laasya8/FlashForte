@@ -17,13 +17,13 @@ import {
 import { CursorTrail } from "../components/CursorTrail.jsx";
 import { UniversalLoader } from "../components/UniversalLoader.jsx";
 
-import designathon1 from "../../images/designathon/designathon1.webp";
-import designathon2 from "../../images/designathon/designathon2.webp";
-import designathon3 from "../../images/designathon/designathon3.webp";
-import designathon4 from "../../images/designathon/designathon4.webp";
-import designathon8 from "../../images/designathon/designathon8.webp";
-import designathon9 from "../../images/designathon/designathon9.webp";
-import designathon10 from "../../images/designathon/designathon10.webp";
+import designathon1 from "../../images/Designathon/designathon1.webp";
+import designathon2 from "../../images/Designathon/designathon2.webp";
+import designathon3 from "../../images/Designathon/designathon3.webp";
+import designathon4 from "../../images/Designathon/designathon4.webp";
+import designathon8 from "../../images/Designathon/designathon8.webp";
+import designathon9 from "../../images/Designathon/designathon9.webp";
+import designathon10 from "../../images/Designathon/designathon10.webp";
 
 /* ═══════════════════════════════════════════════════════════
    Shared Motion Constants  (identical to GameAThonPage)
