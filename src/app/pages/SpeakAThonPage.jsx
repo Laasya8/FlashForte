@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { 
   Mic, Trophy, Sparkles, Calendar, MapPin, 
   BookOpen, MessageSquare, ChevronRight, 
-  Volume2, ShieldAlert, ExternalLink
+  ExternalLink
 } from "lucide-react";
 import { CursorTrail } from "../components/CursorTrail.jsx";
 import { UniversalLoader } from "../components/UniversalLoader.jsx";
@@ -1018,6 +1018,14 @@ export function SpeakAThonPage() {
               </div>
               <ButtonAudioBars side="right" count={8} />
             </div>
+            <div className="relative">
+              <Link
+                to="/speak-a-thon/register"
+                className="relative flex items-center gap-2 font-orbitron font-bold rounded-full px-8 py-4 text-[clamp(13px,1.6vw,15px)] bg-transparent hover:bg-orange-500/10 text-white border border-orange-500/30 hover:border-orange-500/60 shadow-[0_0_15px_rgba(249,115,22,0.15)] hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] transition-all duration-300 hover:scale-105 cursor-pointer will-change-transform z-10"
+              >
+                Register Now <ChevronRight size={16} />
+              </Link>
+            </div>
           </motion.div>
         </motion.div>
 
@@ -1103,219 +1111,165 @@ export function SpeakAThonPage() {
             </h2>
           </motion.div>
 
-          <div className="w-full max-w-[850px] flex flex-col gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 xl:gap-6 w-full max-w-[1200px] mt-8 relative items-stretch">
             
             {/* ROUND 1 - WHAT IF CHALLENGE */}
             <motion.div
               id="openmic"
-              initial={{ opacity: 0, x: -40, rotateY: -15 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-120px" }}
-              transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.1 }}
-              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-              className="p-6 md:p-8 rounded-xl bg-gradient-to-br from-[#0a0a0a] to-[#1a0a05] border border-orange-500/20 shadow-[0_0_30px_rgba(249,115,22,0.1)] hover:shadow-[0_0_45px_rgba(249,115,22,0.2)] transition-shadow duration-300"
+              transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.1 }}
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+              className="group p-6 sm:p-8 rounded-[24px] glass-panel relative border border-orange-500/10 shadow-[0_4px_30px_rgba(249,115,22,0.03)] hover:border-orange-500/40 hover:shadow-[0_12px_45px_rgba(249,115,22,0.15)] transition-all duration-300 flex flex-col justify-between overflow-hidden"
             >
-              <div className="flex items-start gap-4 mb-4">
-                <motion.div
-                  className="flex items-center justify-center w-12 h-12 rounded-lg bg-orange-500/10 border border-orange-500/30"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Mic size={20} className="text-orange-500" />
-                </motion.div>
-                <div className="flex-1">
-                  <span className="text-xs font-semibold text-orange-400 uppercase tracking-wide">Round 01</span>
-                  <h3 className="text-xl font-bold text-white mt-1">"What If…?" Challenge</h3>
-                </div>
+              {/* Background watermark number - repositioned to avoid overlap */}
+              <div className="absolute -bottom-6 -right-4 font-orbitron text-[120px] font-black text-orange-500/[0.03] select-none pointer-events-none group-hover:text-orange-500/[0.08] group-hover:scale-110 transition-all duration-500 z-0">
+                01
               </div>
 
-              <p className="text-[#BDBDBD] text-sm leading-relaxed mb-4">
-                Participants get a random "What if…?" question. 30 seconds prep, 1–2 minutes to speak. Top 8 advance.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <p className="text-white text-xs font-semibold mb-1">Preparation: 30 seconds</p>
-                  <p className="text-[11px] text-[#BDBDBD]/70">Gather thoughts and structure response</p>
+              <div className="relative z-10">
+                <div className="flex flex-col gap-4 mb-5">
+                  <motion.div
+                    className="flex items-center justify-center w-14 h-14 rounded-xl bg-orange-500/10 border border-orange-500/25 group-hover:bg-orange-500/20 group-hover:border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.1)] group-hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] transition-all duration-300"
+                    whileHover={{ scale: 1.08, rotate: 5 }}
+                  >
+                    <Mic size={24} className="text-orange-500" />
+                  </motion.div>
+                  <div>
+                    <span className="text-[11px] font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2 py-1 rounded-md">Round 01</span>
+                    <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">"What If…?" Challenge</h3>
+                    <div className="w-8 h-1 bg-gradient-to-r from-orange-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
+                  </div>
                 </div>
-                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <p className="text-white text-xs font-semibold mb-1">Speaking: 1-2 minutes</p>
-                  <p className="text-[11px] text-[#BDBDBD]/70">Deliver engaging creative response</p>
+
+                <p className="text-[#C8D3F5] text-sm leading-relaxed mb-6 font-medium">
+                  Participants get a random "What if…?" question. 30 seconds prep, 1–2 minutes to speak. Top 8 advance.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3 mt-auto relative z-10">
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep: 30s</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Gather thoughts & structure response</p>
+                </div>
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak: 1-2m</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Deliver engaging creative response</p>
                 </div>
               </div>
             </motion.div>
+
+            {/* ARROW 1 */}
+            <div className="hidden lg:flex items-center justify-center flex-shrink-0 w-8">
+               <div className="flex flex-col items-center gap-1 opacity-80">
+                 <div className="w-[2px] h-4 bg-gradient-to-b from-transparent to-orange-500/50 rounded-full"></div>
+                 <ChevronRight size={28} className="text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]" />
+                 <div className="w-[2px] h-4 bg-gradient-to-t from-transparent to-orange-500/50 rounded-full"></div>
+               </div>
+            </div>
 
             {/* ROUND 2 - BUZZWORD STORYTELLING */}
             <motion.div
               id="debates"
-              initial={{ opacity: 0, x: 40, rotateY: 15 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-120px" }}
-              transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.15 }}
-              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-              className="p-6 md:p-8 rounded-xl bg-gradient-to-br from-[#0a0a0a] to-[#1a0a05] border border-orange-500/20 shadow-[0_0_30px_rgba(249,115,22,0.1)] hover:shadow-[0_0_45px_rgba(249,115,22,0.2)] transition-shadow duration-300"
+              transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.2 }}
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+              className="group p-6 sm:p-8 rounded-[24px] glass-panel relative border border-orange-500/10 shadow-[0_4px_30px_rgba(249,115,22,0.03)] hover:border-orange-500/40 hover:shadow-[0_12px_45px_rgba(249,115,22,0.15)] transition-all duration-300 flex flex-col justify-between overflow-hidden"
             >
-              <div className="flex items-start gap-4 mb-4">
-                <motion.div
-                  className="flex items-center justify-center w-12 h-12 rounded-lg bg-orange-500/10 border border-orange-500/30"
-                  whileHover={{ scale: 1.1, rotate: -5 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <MessageSquare size={20} className="text-orange-500" />
-                </motion.div>
-                <div className="flex-1">
-                  <span className="text-xs font-semibold text-orange-400 uppercase tracking-wide">Round 02</span>
-                  <h3 className="text-xl font-bold text-white mt-1">Buzzword Storytelling</h3>
-                </div>
+              <div className="absolute -bottom-6 -right-4 font-orbitron text-[120px] font-black text-orange-500/[0.03] select-none pointer-events-none group-hover:text-orange-500/[0.08] group-hover:scale-110 transition-all duration-500 z-0">
+                02
               </div>
 
-              <p className="text-[#BDBDBD] text-sm leading-relaxed mb-4">
-                Draw 5 unrelated buzzwords, weave them into a story. 60 seconds prep, 1–2 minutes to deliver. Top 5 advance to finale.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <p className="text-white text-xs font-semibold mb-1">Preparation: 60 seconds</p>
-                  <p className="text-[11px] text-[#BDBDBD]/70">Plan narrative with 5 buzzwords</p>
+              <div className="relative z-10">
+                <div className="flex flex-col gap-4 mb-5">
+                  <motion.div
+                    className="flex items-center justify-center w-14 h-14 rounded-xl bg-orange-500/10 border border-orange-500/25 group-hover:bg-orange-500/20 group-hover:border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.1)] group-hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] transition-all duration-300"
+                    whileHover={{ scale: 1.08, rotate: 5 }}
+                  >
+                    <MessageSquare size={24} className="text-orange-500" />
+                  </motion.div>
+                  <div>
+                    <span className="text-[11px] font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2 py-1 rounded-md">Round 02</span>
+                    <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">Buzzword Storytelling</h3>
+                    <div className="w-8 h-1 bg-gradient-to-r from-orange-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
+                  </div>
                 </div>
-                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <p className="text-white text-xs font-semibold mb-1">Speaking: 1-2 minutes</p>
-                  <p className="text-[11px] text-[#BDBDBD]/70">Deliver coherent creative story</p>
+
+                <p className="text-[#C8D3F5] text-sm leading-relaxed mb-6 font-medium">
+                  Draw 5 unrelated buzzwords, weave them into a story. 60 seconds prep, 1–2 minutes to deliver. Top 5 advance to finale.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3 mt-auto relative z-10">
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep: 60s</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Plan narrative with buzzwords</p>
+                </div>
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak: 1-2m</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Deliver coherent creative story</p>
                 </div>
               </div>
             </motion.div>
+
+            {/* ARROW 2 */}
+            <div className="hidden lg:flex items-center justify-center flex-shrink-0 w-8">
+               <div className="flex flex-col items-center gap-1 opacity-80">
+                 <div className="w-[2px] h-4 bg-gradient-to-b from-transparent to-orange-500/50 rounded-full"></div>
+                 <ChevronRight size={28} className="text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]" />
+                 <div className="w-[2px] h-4 bg-gradient-to-t from-transparent to-orange-500/50 rounded-full"></div>
+               </div>
+            </div>
 
             {/* ROUND 3 - OBJECT MONOLOGUE */}
             <motion.div
               id="storytelling"
-              initial={{ opacity: 0, x: -40, rotateY: -15 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-120px" }}
-              transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.2 }}
-              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-              className="p-6 md:p-8 rounded-xl bg-gradient-to-br from-[#0a0a0a] to-[#1a0a05] border border-orange-500/20 shadow-[0_0_30px_rgba(249,115,22,0.1)] hover:shadow-[0_0_45px_rgba(249,115,22,0.2)] transition-shadow duration-300"
+              transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.3 }}
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+              className="group p-6 sm:p-8 rounded-[24px] glass-panel relative border border-orange-500/10 shadow-[0_4px_30px_rgba(249,115,22,0.03)] hover:border-orange-500/40 hover:shadow-[0_12px_45px_rgba(249,115,22,0.15)] transition-all duration-300 flex flex-col justify-between overflow-hidden"
             >
-              <div className="flex items-start gap-4 mb-4">
-                <motion.div
-                  className="flex items-center justify-center w-12 h-12 rounded-lg bg-orange-500/10 border border-orange-500/30"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <BookOpen size={20} className="text-orange-500" />
-                </motion.div>
-                <div className="flex-1">
-                  <span className="text-xs font-semibold text-orange-400 uppercase tracking-wide">Round 03 - Finale</span>
-                  <h3 className="text-xl font-bold text-white mt-1">Object Monologue</h3>
-                </div>
+              <div className="absolute -bottom-6 -right-4 font-orbitron text-[120px] font-black text-orange-500/[0.03] select-none pointer-events-none group-hover:text-orange-500/[0.08] group-hover:scale-110 transition-all duration-500 z-0">
+                03
               </div>
 
-              <p className="text-[#BDBDBD] text-sm leading-relaxed mb-4">
-                Speak as an everyday object (shoes, router, etc.). 60 seconds prep, 1–2 minutes to perform. Bring the object to life with emotion and personality.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <p className="text-white text-xs font-semibold mb-1">Preparation: 60 seconds</p>
-                  <p className="text-[11px] text-[#BDBDBD]/70">Plan object personification</p>
-                </div>
-                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <p className="text-white text-xs font-semibold mb-1">Speaking: 1-2 minutes</p>
-                  <p className="text-[11px] text-[#BDBDBD]/70">Deliver emotional monologue</p>
-                </div>
-              </div>
-            </motion.div>
-
-          </div>
-        </section>
-
-        {/* GUIDELINES & DIRECTIVES SECTION */}
-        <section className="w-full flex flex-col items-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.9, ease: BUTTERY_EASE }}
-            className="text-center mb-10"
-          >
-            <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
-              Directives
-            </span>
-            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(249,115,22,0.35)" }}>
-              Rules & Judging Metrics
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[850px]">
-            {/* Rules panel */}
-            <motion.div
-              initial={{ opacity: 0, x: -50, scale: 0.9 }}
-              whileInView={{ opacity: 1, x: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-120px" }}
-              transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.1 }}
-              whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
-              className="p-6 rounded-[20px] glass-panel flex flex-col orange-border-glow transition-all duration-300 relative group overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,_rgba(249,115,22,0.025),_transparent_60%)] pointer-events-none" />
-              <h3 className="font-orbitron text-base font-bold text-white mb-4 flex items-center gap-2 relative z-10">
-                <ShieldAlert size={18} className="text-orange-500" /> General Rules
-              </h3>
-              <ul className="space-y-3 text-xs sm:text-sm text-[#BDBDBD] flex-1 relative z-10">
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-2" />
-                  <span>Event conducted online via Zoom with 13 first-year participants.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-2" />
-                  <span>Three progressive rounds: "What If…?" Challenge, Buzzword Storytelling, and Object Monologue.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-2" />
-                  <span>Top 8 advance from Round 1, top 5 advance from Round 2 to the finale.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-2" />
-                  <span>Judging Panel: Dr. Y.V. Sudha Devi and Dr. Swathi Metla.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-2" />
-                  <span>Each round tests spontaneity, creativity, and emotional expression.</span>
-                </li>
-              </ul>
-            </motion.div>
-
-            {/* Scoring Breakdown */}
-            <motion.div
-              initial={{ opacity: 0, x: 50, scale: 0.9 }}
-              whileInView={{ opacity: 1, x: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-120px" }}
-              transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.2 }}
-              whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
-              className="p-6 rounded-[20px] glass-panel flex flex-col orange-border-glow transition-all duration-300 relative group overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(249,115,22,0.025),_transparent_60%)] pointer-events-none" />
-              <h3 className="font-orbitron text-base font-bold text-white mb-4 flex items-center gap-2 relative z-10">
-                <Volume2 size={18} className="text-orange-500" /> Scoring Breakdown
-              </h3>
-              <div className="space-y-4 flex-1 justify-center flex flex-col relative z-10">
-                {[
-                  { label: "Creative Thinking", percentage: 35, desc: "Originality, imagination, and unique perspectives." },
-                  { label: "Narrative Structure", percentage: 30, desc: "Coherence, flow, and logical progression of ideas." },
-                  { label: "Delivery & Expression", percentage: 25, desc: "Vocal variety, emotional range, and audience engagement." },
-                  { label: "Spontaneity", percentage: 10, desc: "Quick thinking and adaptation under time constraints." },
-                ].map((item, index) => (
-                  <div key={index} className="flex flex-col">
-                    <div className="flex justify-between items-center text-xs mb-1">
-                      <span className="font-semibold text-white">{item.label}</span>
-                      <span className="font-orbitron font-bold text-orange-500">{item.percentage}%</span>
-                    </div>
-                    <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-orange-600 to-amber-500 rounded-full" style={{ width: `${item.percentage}%` }} />
-                    </div>
-                    <span className="text-[10px] text-[#BDBDBD]/65 mt-1">{item.desc}</span>
+              <div className="relative z-10">
+                <div className="flex flex-col gap-4 mb-5">
+                  <motion.div
+                    className="flex items-center justify-center w-14 h-14 rounded-xl bg-orange-500/10 border border-orange-500/25 group-hover:bg-orange-500/20 group-hover:border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.1)] group-hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] transition-all duration-300"
+                    whileHover={{ scale: 1.08, rotate: 5 }}
+                  >
+                    <BookOpen size={24} className="text-orange-500" />
+                  </motion.div>
+                  <div>
+                    <span className="text-[11px] font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2 py-1 rounded-md">Round 03 - Finale</span>
+                    <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">Object Monologue</h3>
+                    <div className="w-8 h-1 bg-gradient-to-r from-orange-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
                   </div>
-                ))}
+                </div>
+
+                <p className="text-[#C8D3F5] text-sm leading-relaxed mb-6 font-medium">
+                  Speak as an everyday object. 60 seconds prep, 1–2 minutes to perform. Bring the object to life with emotion and personality.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3 mt-auto relative z-10">
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep: 60s</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Plan object personification</p>
+                </div>
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak: 1-2m</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Deliver emotional monologue</p>
+                </div>
               </div>
             </motion.div>
+
           </div>
         </section>
 
