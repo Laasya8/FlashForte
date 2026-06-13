@@ -3,6 +3,22 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { CheckCircle2, Trophy, Lightbulb, Gamepad2, Palette, Mic, ChevronRight, ArrowRight, ArrowLeft } from "lucide-react";
 import { ImageModal } from "./ImageModal.jsx";
 
+import ideathon1 from "../../images/Ideathon/ideathon1.webp";
+import ideathon2 from "../../images/Ideathon/ideathon2.webp";
+import ideathon3 from "../../images/Ideathon/ideathon3.webp";
+
+import gameathon1 from "../../images/Gameathon/Gameathon_ss1.webp";
+import gameathon2 from "../../images/Gameathon/Gameathon_ss2.webp";
+import gameathon3 from "../../images/Gameathon/Gameathon_ss3.webp";
+
+import designathon1 from "../../images/Designathon/designathon1.webp";
+import designathon2 from "../../images/Designathon/designathon2.webp";
+import designathon3 from "../../images/Designathon/designathon3.webp";
+
+import speakathon1 from "../../images/Speakathon/speakathon1.webp";
+import speakathon2 from "../../images/Speakathon/speakathon2.webp";
+import speakathon3 from "../../images/Speakathon/speakathon3.webp";
+
 const highlightData = [
   {
     id: "ideathon",
@@ -13,9 +29,9 @@ const highlightData = [
     icon: Lightbulb,
     participants: "90+",
     images: [
-      "/ideathon-1.jpg", // We will use placeholders or empty divs if these don't exist
-      "/ideathon-2.jpg",
-      "/ideathon-3.jpg",
+      ideathon1,
+      ideathon2,
+      ideathon3,
     ],
     highlights: [
       "Innovation and creative problem solving",
@@ -39,7 +55,7 @@ const highlightData = [
     color: "#A855F7", // Purple
     icon: Gamepad2,
     participants: "120+",
-    images: [],
+    images: [gameathon1, gameathon2, gameathon3],
     highlights: [
       "Strategic thinking",
       "Adaptability and decision making",
@@ -62,7 +78,7 @@ const highlightData = [
     color: "#22C55E", // Green
     icon: Palette,
     participants: "70+",
-    images: [],
+    images: [designathon1, designathon2, designathon3],
     highlights: [
       "Design thinking",
       "Visual storytelling",
@@ -85,7 +101,7 @@ const highlightData = [
     color: "#F97316", // Orange
     icon: Mic,
     participants: "40+",
-    images: [],
+    images: [speakathon1, speakathon2, speakathon3],
     highlights: [
       "Public speaking and presentation skills",
       "Creative storytelling",
@@ -136,7 +152,7 @@ function MobileImageGallery({ activeEvent, onImageClick }) {
           scrollBehavior: "smooth"
         }}
       >
-        {[1, 2, 3].map((_, index) => {
+        {(activeEvent.images.length > 0 ? activeEvent.images : [null, null, null]).map((img, index) => {
           const distance = index - activeImgIndex;
           const rotateY = distance === 0 ? 0 : distance > 0 ? -25 : 25;
           const scale = distance === 0 ? 1 : 0.85;
@@ -151,10 +167,14 @@ function MobileImageGallery({ activeEvent, onImageClick }) {
               className="gallery-carousel-item snap-center shrink-0 w-[200px] aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group preserve-3d cursor-pointer"
               onClick={() => onImageClick({ event: activeEvent, index })}
             >
-              <div className="absolute inset-0 flex items-center justify-center opacity-20 transition-opacity">
-                <activeEvent.icon size={48} color={activeEvent.color} />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              {img ? (
+                <img src={img} alt="Highlight" className="w-full h-full object-cover" />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center opacity-20 transition-opacity">
+                  <activeEvent.icon size={48} color={activeEvent.color} />
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
             </motion.div>
           );
         })}
@@ -358,18 +378,20 @@ export function PreviousYearHighlights() {
                 <MobileImageGallery activeEvent={activeEvent} onImageClick={setZoomedImage} />
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-                  {[1, 2, 3].map((_, i) => (
+                  {(activeEvent.images.length > 0 ? activeEvent.images : [null, null, null]).map((img, i) => (
                     <div 
                       key={i} 
                       onClick={() => setZoomedImage({ event: activeEvent, index: i })}
                       className="aspect-video rounded-xl overflow-hidden relative bg-white/5 border border-white/10 group cursor-pointer"
                     >
-                      {/* Placeholder content since we don't have images */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
-                        <activeEvent.icon size={48} color={activeEvent.color} />
-                      </div>
-                      {/* Subtle gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      {img ? (
+                        <img src={img} alt="Highlight" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
+                          <activeEvent.icon size={48} color={activeEvent.color} />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                     </div>
                   ))}
                 </div>
@@ -419,9 +441,13 @@ export function PreviousYearHighlights() {
       <ImageModal isOpen={!!zoomedImage} onClose={() => setZoomedImage(null)}>
         {zoomedImage && (
           <div className="w-full max-w-[800px] aspect-video rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden glass-card">
-             <div className="absolute inset-0 flex items-center justify-center opacity-40">
-                <zoomedImage.event.icon size={80} color={zoomedImage.event.color} />
-             </div>
+             {zoomedImage.event.images && zoomedImage.event.images[zoomedImage.index] ? (
+               <img src={zoomedImage.event.images[zoomedImage.index]} alt="Zoomed highlight" className="w-full h-full object-cover" />
+             ) : (
+               <div className="absolute inset-0 flex items-center justify-center opacity-40">
+                  <zoomedImage.event.icon size={80} color={zoomedImage.event.color} />
+               </div>
+             )}
              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
           </div>
         )}

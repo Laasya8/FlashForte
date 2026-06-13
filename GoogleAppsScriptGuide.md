@@ -69,6 +69,7 @@ function doPost(e) {
       const decodedData = Utilities.base64Decode(params.fileBase64);
       
       // Use phone number for the filename, preserving original extension
+      // ################### Edit this to how ever you want the file names ##################
       const extension = params.fileName.split('.').pop();
       const finalFileName = params.phone ? `${params.phone}.${extension}` : params.fileName;
       

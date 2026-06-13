@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 import { ChevronUp, ChevronDown, Lightbulb } from "lucide-react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Footer } from "../components/Footer.jsx";
@@ -1098,8 +1099,12 @@ export function IdeaThonPage() {
 
             <FadeSection delay={260}>
               <div className="hero-btns" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-                <button className="btn-gold">Register Now →</button>
-                <button className="btn-outline">Submit Your Idea</button>
+                <Link to="/ideathon/register" className="no-underline">
+                  <button className="btn-gold">Register Now →</button>
+                </Link>
+                <Link to="/ideathon/submit" className="no-underline">
+                  <button className="btn-outline">Submit Your Idea</button>
+                </Link>
               </div>
             </FadeSection>
           </div>

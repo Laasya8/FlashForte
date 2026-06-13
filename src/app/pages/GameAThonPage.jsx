@@ -1271,7 +1271,7 @@ export function GameAThonPage() {
             </button>
 
             <Link
-              to="/registration-test"
+              to="/game-a-thon/register"
               className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline btn-outline-glow"
             >
               Join Game-A-Thon <ChevronRight size={13} />
@@ -1548,7 +1548,7 @@ export function GameAThonPage() {
 
               <div className="flex flex-wrap justify-center gap-3">
                 <Link
-                  to="/registration-test"
+                  to="/game-a-thon/register"
                   className="flex items-center justify-center gap-2 px-10 py-4 rounded-[50px] text-[#FFFFFF] text-[clamp(14px,1.8vw,16px)] font-bold tracking-[0.02em] cursor-pointer no-underline shadow-[0_4px_30px_rgba(168,85,247,0.38),inset_0_0_15px_rgba(168,85,247,0.5)]"
                   style={{ background: "linear-gradient(135deg, #A855F7, #7C3AED)" }}
                 >

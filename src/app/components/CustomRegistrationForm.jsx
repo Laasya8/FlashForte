@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomForm } from "./form/CustomForm";
-import { registrationConfig } from "./form/formConfig";
+import { ideathonConfig } from "./form/configs/ideathonConfig.jsx";
 
 export function CustomRegistrationForm() {
-  return <CustomForm {...registrationConfig} />;
+  return <CustomForm {...ideathonConfig.register} />;
 }

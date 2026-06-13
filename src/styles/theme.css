@@ -597,7 +597,7 @@
   /* ── Card Header ────────────────────────────────────── */
   .reg-card__header {
     text-align: center;
-    margin-bottom: 2.25rem;
+    margin-bottom: 1.5rem;
   }
 
   .reg-card__title {
@@ -828,8 +828,8 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 2rem 0;
-    gap: 1rem;
+    padding: 0;
+    gap: 0.75rem;
   }
 
   .reg-success__title {
@@ -851,7 +851,7 @@
 
   .reg-success__link {
     display: inline-block;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     font-size: 0.875rem;
     font-weight: 500;
     color: rgba(0, 210, 200, 0.8);

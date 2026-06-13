@@ -617,8 +617,8 @@ export function DesignAThonPage() {
             >
               {/* Primary CTA */}
               <Link
-                to="/registration-test"
-                className="flex items-center justify-center gap-2 px-7 py-3 rounded-[50px] text-[#0B1120] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline"
+                to="/design-a-thon/register"
+                className="flex items-center justify-center gap-2 px-7 py-3 rounded-[50px] text-[#0B1120] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline transition-transform hover:-translate-y-1"
                 style={{
                   background: "linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #14B8A6 100%)",
                   boxShadow: "0 4px 30px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.15)",
@@ -627,28 +627,30 @@ export function DesignAThonPage() {
                 <Zap size={14} /> Enter Designathon
               </Link>
 
-              {/* Scroll CTA */}
-              <button
-                onClick={() => scrollToSection("design-domains")}
-                className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#F8FAFC] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer"
+              {/* Submission CTA */}
+              <Link
+                to="/design-a-thon/submit"
+                className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#F8FAFC] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline transition-all hover:-translate-y-1"
                 style={{
                   border: "1px solid rgba(34,197,94,0.4)",
                   background: "rgba(34,197,94,0.06)",
                   backdropFilter: "blur(8px)",
                   WebkitBackdropFilter: "blur(8px)",
-                  transition: "border-color 0.3s, background 0.3s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(34,197,94,0.7)";
-                  e.currentTarget.style.background = "rgba(34,197,94,0.12)";
+                  e.currentTarget.style.borderColor = "rgba(34,197,94,0.8)";
+                  e.currentTarget.style.background = "rgba(34,197,94,0.15)";
+                  e.currentTarget.style.boxShadow = "0 0 20px rgba(34,197,94,0.2)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = "rgba(34,197,94,0.4)";
                   e.currentTarget.style.background = "rgba(34,197,94,0.06)";
+                  e.currentTarget.style.boxShadow = "none";
                 }}
               >
-                Explore Domains <ChevronRight size={13} />
-              </button>
+                Submit Design
+              </Link>
+
             </motion.div>
           </motion.div>
 
@@ -1079,7 +1081,7 @@ export function DesignAThonPage() {
 
                 <div className="flex flex-wrap justify-center gap-3">
                   <Link
-                    to="/registration-test"
+                    to="/design-a-thon/register"
                     className="flex items-center justify-center gap-2 px-10 py-4 rounded-[50px] text-[#0B1120] text-[clamp(14px,1.8vw,16px)] font-bold tracking-[0.02em] cursor-pointer no-underline"
                     style={{
                       background: "linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #14B8A6 100%)",

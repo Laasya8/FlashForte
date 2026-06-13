@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { speakathonRegistrationConfig } from "../form/formConfig.js";
+import { speakathonConfig } from "../form/configs/speakathonConfig.jsx";
 
 export function TestDashboard() {
   const [logs, setLogs] = useState([]);
@@ -202,6 +202,13 @@ export function TestDashboard() {
     <div className="p-8 max-w-5xl mx-auto text-white mt-24">
       <h1 className="text-3xl font-bold mb-6 text-cyan-400">System Stress & Reliability Test</h1>
       
+      <div className="bg-[#0f172a] rounded-lg border border-[#1e293b] p-6 shadow-xl mb-10 w-full max-w-4xl">
+        <h2 className="text-xl font-bold text-white mb-4">Registration Form Preview</h2>
+        <div className="bg-[#020617] rounded-md overflow-hidden relative">
+          <CustomForm {...speakathonConfig.register} />
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <button 
           onClick={runLoadTest} 

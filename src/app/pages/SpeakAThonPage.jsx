@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router";
 import { 
   Mic, Trophy, Sparkles, Calendar, MapPin, 
   BookOpen, MessageSquare, ChevronRight, 
@@ -1008,12 +1009,12 @@ export function SpeakAThonPage() {
               <div className="relative">
                 <span className="btn-pulse-ring absolute inset-0 rounded-full bg-orange-500/25 pointer-events-none" />
                 <span className="btn-pulse-ring-2 absolute inset-0 rounded-full bg-orange-400/15 pointer-events-none" />
-                <button
-                  onClick={() => scrollToSection("openmic")}
+                <Link
+                  to="/speak-a-thon/register"
                   className="relative flex items-center gap-2 font-orbitron font-bold rounded-full px-8 py-4 text-[clamp(13px,1.6vw,15px)] bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white border border-white/10 shadow-[0_0_32px_rgba(249,115,22,0.5),0_0_60px_rgba(249,115,22,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(249,115,22,0.7)] cursor-pointer will-change-transform z-10"
                 >
                   Enter Speak-A-Thon <ChevronRight size={16} />
-                </button>
+                </Link>
               </div>
               <ButtonAudioBars side="right" count={8} />
             </div>
@@ -1542,15 +1543,15 @@ export function SpeakAThonPage() {
                 transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.6 }}
                 className="flex flex-wrap justify-center gap-3 relative z-10"
               >
-                <button
-                  onClick={() => alert("Registration Coming Soon!\n\nStay tuned for registration details.")}
-                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-full text-white text-sm sm:text-base font-bold tracking-[0.02em] cursor-pointer shadow-[0_4px_30px_rgba(249,115,22,0.45),0_0_60px_rgba(249,115,22,0.2),inset_0_0_20px_rgba(249,115,22,0.15)] hover:shadow-[0_6px_40px_rgba(249,115,22,0.6),0_0_80px_rgba(249,115,22,0.3)] transition-all duration-300 hover:scale-105 will-change-transform"
+                <Link
+                  to="/speak-a-thon/register"
+                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-full text-white text-sm sm:text-base font-bold tracking-[0.02em] cursor-pointer shadow-[0_4px_30px_rgba(249,115,22,0.45),0_0_60px_rgba(249,115,22,0.2),inset_0_0_20px_rgba(249,115,22,0.15)] hover:shadow-[0_6px_40px_rgba(249,115,22,0.6),0_0_80px_rgba(249,115,22,0.3)] transition-all duration-300 hover:scale-105 will-change-transform no-underline"
                   style={{
                     background: "linear-gradient(135deg, #F97316 0%, #FB923C 50%, #FDBA74 100%)",
                   }}
                 >
                   <Sparkles size={16} /> Register Now <ChevronRight size={16} />
-                </button>
+                </Link>
               </motion.div>
             </div>
           </motion.div>
