@@ -43,12 +43,10 @@ export default function App() {
 
           {/* Gameathon Routes */}
           <Route path="/game-a-thon/register" element={<ForteFormPage config={gameathonConfig.register} themeColor={gameathonConfig.themeColor} />} />
-          <Route path="/game-a-thon/submit" element={<ForteFormPage config={gameathonConfig.submit} themeColor={gameathonConfig.themeColor} />} />
           <Route path="/game-a-thon/feedback" element={<ForteFormPage config={gameathonConfig.feedback} themeColor={gameathonConfig.themeColor} />} />
 
           {/* Speakathon Routes */}
           <Route path="/speak-a-thon/register" element={<ForteFormPage config={speakathonConfig.register} themeColor={speakathonConfig.themeColor} />} />
-          <Route path="/speak-a-thon/submit" element={<ForteFormPage config={speakathonConfig.submit} themeColor={speakathonConfig.themeColor} />} />
           <Route path="/speak-a-thon/feedback" element={<ForteFormPage config={speakathonConfig.feedback} themeColor={speakathonConfig.themeColor} />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="*" element={<NotFoundPage />} />

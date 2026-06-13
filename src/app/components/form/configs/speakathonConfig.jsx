@@ -1,7 +1,6 @@
 import { REGISTRATION_FIELDS, SUBMISSION_FIELDS, FEEDBACK_FIELDS } from "./commonFields.js";
 
 const APP_SCRIPT_REGISTER = "URL_PLACEHOLDER_SPEAKATHON_REGISTER";
-const APP_SCRIPT_SUBMIT = "URL_PLACEHOLDER_SPEAKATHON_SUBMIT";
 const APP_SCRIPT_FEEDBACK = "URL_PLACEHOLDER_SPEAKATHON_FEEDBACK";
 
 const IS_ACCEPTING = true;
@@ -32,20 +31,6 @@ export const speakathonConfig = {
     isAccepting: IS_ACCEPTING,
     showOtherEventsOnSuccess: true,
     forteId: "speakathon",
-  },
-  submit: {
-    appScriptUrl: APP_SCRIPT_SUBMIT,
-    titleNode: () => <>{titleNode()} Submission</>,
-    subtitle: "Submit your speech script or presentation",
-    submitText: "Submit Project",
-    successTitle: "Submission Received.",
-    successSubtitle: "Your script has been recorded.",
-    infoText: "If you'd like to resubmit, please fill the form again with the new file.",
-    allowFileUpload: true,
-    acceptedTypes: ".pdf,.ppt,.pptx",
-    acceptedMimeTypes: ["application/pdf", "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation"],
-    fields: SUBMISSION_FIELDS,
-    isAccepting: IS_ACCEPTING,
   },
   feedback: {
     appScriptUrl: APP_SCRIPT_FEEDBACK,

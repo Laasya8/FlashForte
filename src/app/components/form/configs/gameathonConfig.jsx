@@ -1,7 +1,6 @@
 import { REGISTRATION_FIELDS, SUBMISSION_FIELDS, FEEDBACK_FIELDS } from "./commonFields.js";
 
 const APP_SCRIPT_REGISTER = "URL_PLACEHOLDER_GAMEATHON_REGISTER";
-const APP_SCRIPT_SUBMIT = "URL_PLACEHOLDER_GAMEATHON_SUBMIT";
 const APP_SCRIPT_FEEDBACK = "URL_PLACEHOLDER_GAMEATHON_FEEDBACK";
 
 const IS_ACCEPTING = true;
@@ -26,20 +25,6 @@ export const gameathonConfig = {
     isAccepting: IS_ACCEPTING,
     showOtherEventsOnSuccess: true,
     forteId: "gameathon",
-  },
-  submit: {
-    appScriptUrl: APP_SCRIPT_SUBMIT,
-    titleNode: () => <>{titleNode()} Submission</>,
-    subtitle: "Upload your game build or assets",
-    submitText: "Submit Game",
-    successTitle: "Submission Received.",
-    successSubtitle: "Your game has been recorded.",
-    infoText: "If you'd like to resubmit, please fill the form again with the new file.",
-    allowFileUpload: true,
-    acceptedTypes: ".zip,.rar,.pdf",
-    acceptedMimeTypes: ["application/zip", "application/x-rar-compressed", "application/pdf"],
-    fields: SUBMISSION_FIELDS,
-    isAccepting: IS_ACCEPTING,
   },
   feedback: {
     appScriptUrl: APP_SCRIPT_FEEDBACK,
