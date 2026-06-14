@@ -27,7 +27,7 @@ export const speakathonConfig = {
     successTitle: "Registration Confirmed.",
     successSubtitle: "Your voice will be heard.",
     allowFileUpload: false,
-    fields: REGISTRATION_FIELDS.filter(field => field.name !== "discordId"),
+    fields: REGISTRATION_FIELDS,
     isAccepting: IS_ACCEPTING,
     showOtherEventsOnSuccess: true,
     forteId: "speakathon",
