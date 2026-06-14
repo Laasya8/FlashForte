@@ -9,11 +9,11 @@ import ideathon3 from "../../images/Ideathon/ideathon4.webp";
 
 import gameathon1 from "../../images/Gameathon/Gameathon_ss1.webp";
 import gameathon2 from "../../images/Gameathon/Gameathon_ss2.webp";
-import gameathon3 from "../../images/Gameathon/Gameathon_ss3.webp";
+import gameathon4 from "../../images/Gameathon/Gameathon_ss4.webp";
 
-import designathon1 from "../../images/Designathon/designathon1.webp";
 import designathon2 from "../../images/Designathon/designathon2.webp";
 import designathon3 from "../../images/Designathon/designathon3.webp";
+import designathon10 from "../../images/Designathon/designathon10.webp";
 
 import speakathon1 from "../../images/Speakathon/speakathon1.webp";
 import speakathon2 from "../../images/Speakathon/speakathon2.webp";
@@ -55,7 +55,7 @@ const highlightData = [
     color: "#A855F7", // Purple
     icon: Gamepad2,
     participants: "120+",
-    images: [gameathon1, gameathon2, gameathon3],
+    images: [gameathon1, gameathon2, gameathon4],
     highlights: [
       "Strategic thinking",
       "Adaptability and decision making",
@@ -78,7 +78,7 @@ const highlightData = [
     color: "#22C55E", // Green
     icon: Palette,
     participants: "70+",
-    images: [designathon1, designathon2, designathon3],
+    images: [designathon2, designathon3, designathon10],
     highlights: [
       "Design thinking",
       "Visual storytelling",
