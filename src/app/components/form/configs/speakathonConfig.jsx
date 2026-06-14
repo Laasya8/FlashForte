@@ -1,6 +1,6 @@
 import { REGISTRATION_FIELDS, SUBMISSION_FIELDS, FEEDBACK_FIELDS } from "./commonFields.js";
 
-const APP_SCRIPT_REGISTER = "URL_PLACEHOLDER_SPEAKATHON_REGISTER";
+const APP_SCRIPT_REGISTER = "https://script.google.com/macros/s/AKfycbyxzRq8MUpd7vjoBFGuSF3t_jcHC6Tqsl0T-RBcKdUzDIKjZFEdKwexe6omGP4C7DT63A/exec"
 const APP_SCRIPT_FEEDBACK = "URL_PLACEHOLDER_SPEAKATHON_FEEDBACK";
 
 const IS_ACCEPTING = true;
@@ -22,16 +22,17 @@ export const speakathonConfig = {
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
     titleNode: () => <>{titleNode()} Registration</>,
-    subtitle: "Find your voice. Shape your story.",
+    subtitle: "Where Confidence Finds its Voice",
     submitText: "Register Now",
     successTitle: "Registration Confirmed.",
     successSubtitle: "Your voice will be heard.",
     allowFileUpload: false,
-    fields: REGISTRATION_FIELDS,
+    fields: REGISTRATION_FIELDS.filter(field => field.name !== "discordId"),
     isAccepting: IS_ACCEPTING,
     showOtherEventsOnSuccess: true,
     forteId: "speakathon",
   },
+
   feedback: {
     appScriptUrl: APP_SCRIPT_FEEDBACK,
     titleNode: () => <>{titleNode()} Feedback</>,
