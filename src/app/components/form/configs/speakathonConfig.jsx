@@ -1,7 +1,6 @@
 import { REGISTRATION_FIELDS, SUBMISSION_FIELDS, FEEDBACK_FIELDS } from "./commonFields.js";
 
-const APP_SCRIPT_REGISTER = "https://script.google.com/macros/s/AKfycbwLqNXVLYWVMuVCewtWMZsy6TbBHxkBhPrjEB_8u7UHTd1FQzo3k76jCuXZA_lwGeXAyg/exec";
-
+const APP_SCRIPT_REGISTER = "https://script.google.com/macros/s/AKfycbyxzRq8MUpd7vjoBFGuSF3t_jcHC6Tqsl0T-RBcKdUzDIKjZFEdKwexe6omGP4C7DT63A/exec"
 const APP_SCRIPT_FEEDBACK = "URL_PLACEHOLDER_SPEAKATHON_FEEDBACK";
 
 const IS_ACCEPTING = true;
@@ -28,7 +27,7 @@ export const speakathonConfig = {
     successTitle: "Registration Confirmed.",
     successSubtitle: "Your voice will be heard.",
     allowFileUpload: false,
-    fields: REGISTRATION_FIELDS,
+    fields: REGISTRATION_FIELDS.filter(field => field.name !== "discordId"),
     isAccepting: IS_ACCEPTING,
     showOtherEventsOnSuccess: true,
     forteId: "speakathon",
