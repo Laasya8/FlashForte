@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router";
+import { ArrowRight, Shield } from "lucide-react";
 import { FieldRenderer } from "./FieldRenderer";
 import { FileUpload } from "./FileUpload";
 
@@ -38,7 +39,7 @@ function CheckmarkAnimation({ themeColor = "#00D2C8" }) {
 }
 
 function Spinner() {
-  return <span className="reg-spinner" aria-hidden="true" />;
+  return <span className="neon-spinner" aria-hidden="true" />;
 }
 
 export function CustomForm({
@@ -76,8 +77,6 @@ export function CustomForm({
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState("idle"); // idle, loading, success, error
   const [errorMsg, setErrorMsg] = useState("");
-
-
 
   const handleFieldChange = useCallback((name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -172,147 +171,155 @@ export function CustomForm({
   };
 
   return (
-    <div className="w-full flex justify-center px-4 md:px-0">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="reg-ambient reg-ambient--top-left" aria-hidden="true" />
-        <div className="reg-ambient reg-ambient--bottom-right" aria-hidden="true" />
+    <motion.div className="neon-card" variants={cardVariants} initial="hidden" animate="visible">
+      {/* ── Card Header ────────────────────────── */}
+      <div className="neon-card__header">
+        <h2 className="neon-card__event-title">
+          {titleNode ? titleNode() : title}
+        </h2>
+        {subtitle && <p className="neon-card__subtitle">{subtitle}</p>}
       </div>
 
-      <motion.div className="reg-card w-full" variants={cardVariants} initial="hidden" animate="visible">
-        <div className="reg-card__header">
-          <h2 className="reg-card__title" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-            {titleNode ? titleNode() : title}
-          </h2>
-          {subtitle && <p className="reg-card__subtitle">{subtitle}</p>}
-        </div>
-
-        <AnimatePresence mode="wait">
-          {!isAccepting ? (
-            <motion.div 
-              key="closed" 
-              className="flex flex-col items-center justify-center py-10 text-center"
-              variants={formContentVariants} 
-              initial="visible" 
-              exit="exit"
+      {/* ── Card Body ──────────────────────────── */}
+      <AnimatePresence mode="wait">
+        {!isAccepting ? (
+          <motion.div
+            key="closed"
+            className="neon-closed"
+            variants={formContentVariants}
+            initial="visible"
+            exit="exit"
+          >
+            <div
+              className="neon-closed__icon-ring"
+              style={{ background: `rgba(var(--theme-color-rgb), 0.08)`, border: `1px solid rgba(var(--theme-color-rgb), 0.2)` }}
             >
-              <div 
-                className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
-                style={{ background: `${themeColor}15`, border: `1px solid ${themeColor}30` }}
-              >
-                <span style={{ fontSize: '24px' }}>✨</span>
-              </div>
-              <h3 className="text-xl font-bold text-white mb-3" style={{ textShadow: `0 0 15px ${themeColor}40` }}>
-                Submissions Closed
-              </h3>
-              <p className="text-[#C8D3F5] text-[15px] leading-relaxed max-w-[400px]">
-                We are currently not accepting responses for this form. <br />
-                Stay tuned and look forward to the next amazing events from CSI!
-              </p>
-            </motion.div>
-          ) : status === "success" ? (
-            <motion.div key="success" className="reg-success" variants={successVariants} initial="hidden" animate="visible" exit="exit">
-              <CheckmarkAnimation themeColor={themeColor} />
-              <h2 className="reg-success__title" style={{ textShadow: `0 0 20px ${themeColor}40` }}>{successTitle}</h2>
-              <p className="reg-success__subtitle">{successSubtitle}</p>
-              <button
-                onClick={() => {
-                  setStatus('idle');
-                  setFormData({});
-                  setFile(null);
-                }}
-                className="reg-success__link bg-transparent border-none cursor-pointer p-0"
-                style={{ color: themeColor }}
-              >
-                Submit Another →
-              </button>
+              <span style={{ fontSize: '24px' }}>✨</span>
+            </div>
+            <h3 className="neon-closed__title">
+              Submissions Closed
+            </h3>
+            <p className="neon-closed__text">
+              We are currently not accepting responses for this form. <br />
+              Stay tuned and look forward to the next amazing events from CSI!
+            </p>
+          </motion.div>
+        ) : status === "success" ? (
+          <motion.div key="success" className="neon-success" variants={successVariants} initial="hidden" animate="visible" exit="exit">
+            <CheckmarkAnimation themeColor={themeColor} />
+            <h2 className="neon-success__title">{successTitle}</h2>
+            <p className="neon-success__subtitle">{successSubtitle}</p>
+            <button
+              onClick={() => {
+                setStatus('idle');
+                setFormData({});
+                setFile(null);
+              }}
+              className="neon-success__link"
+            >
+              Submit Another →
+            </button>
 
-              {showOtherEventsOnSuccess && forteId && (
-                <div className="w-full mt-4 pt-4 border-t border-white/10 flex flex-col items-center">
-                  <h3 className="text-white text-base md:text-lg font-bold mb-4 font-orbitron tracking-wide uppercase" style={{ textShadow: `0 0 10px ${themeColor}50` }}>
-                    Explore Other Fortes
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-[105%] -mx-2">
-                    {ALL_EVENTS.filter(e => e.id !== forteId).map(event => (
-                      <Link 
-                        key={event.id} 
-                        to={event.link}
-                        className="group flex flex-col items-center justify-center py-4 px-2 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] bg-black/40"
-                        style={{ 
-                          border: `1px solid ${event.color}40`,
-                          boxShadow: `0 0 10px ${event.color}10`
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.borderColor = event.color;
-                          e.currentTarget.style.boxShadow = `0 0 25px ${event.color}50`;
-                          e.currentTarget.style.backgroundColor = `rgba(10,10,15,0.8)`;
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.borderColor = `${event.color}40`;
-                          e.currentTarget.style.boxShadow = `0 0 10px ${event.color}10`;
-                          e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.4)';
-                        }}
-                      >
-                        <span className="font-bold text-[14px] sm:text-[15px] mb-1.5 text-center transition-all drop-shadow-md" style={{ color: event.color }}>
-                          {event.title}
-                        </span>
-                        <span className="text-white/70 text-[11px] sm:text-[12px] text-center leading-snug px-1">
-                          {event.desc}
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
+            {showOtherEventsOnSuccess && forteId && (
+              <div className="w-full mt-4 pt-4 border-t border-white/10 flex flex-col items-center">
+                <h3 className="neon-success__explore-title">
+                  Explore Other Fortes
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-[105%] -mx-2">
+                  {ALL_EVENTS.filter(e => e.id !== forteId).map(event => (
+                    <Link
+                      key={event.id}
+                      to={event.link}
+                      className="neon-success__event-card"
+                      style={{
+                        '--event-color': event.color,
+                        border: `1px solid ${event.color}40`,
+                        boxShadow: `0 0 10px ${event.color}10`
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = event.color;
+                        e.currentTarget.style.boxShadow = `0 0 25px ${event.color}50`;
+                        e.currentTarget.style.backgroundColor = `rgba(10,10,15,0.8)`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = `${event.color}40`;
+                        e.currentTarget.style.boxShadow = `0 0 10px ${event.color}10`;
+                        e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.4)';
+                      }}
+                    >
+                      <span className="font-bold text-[14px] sm:text-[15px] mb-1.5 text-center transition-all drop-shadow-md" style={{ color: event.color }}>
+                        {event.title}
+                      </span>
+                      <span className="text-white/70 text-[11px] sm:text-[12px] text-center leading-snug px-1">
+                        {event.desc}
+                      </span>
+                    </Link>
+                  ))}
                 </div>
-              )}
-            </motion.div>
-          ) : (
-            <motion.form key="form" className="reg-form" onSubmit={handleSubmit} variants={formContentVariants} initial="visible" exit="exit" autoComplete="off">
-              {fields.map((field) => (
-                <FieldRenderer
-                  key={field.name}
-                  field={field}
-                  value={formData[field.name]}
-                  onChange={handleFieldChange}
-                  disabled={status === "loading"}
-                />
-              ))}
-
-              {allowFileUpload && (
-                <FileUpload
-                  file={file}
-                  setFile={setFile}
-                  acceptedTypes={acceptedTypes}
-                  acceptedMimeTypes={acceptedMimeTypes}
-                  setErrorMsg={setErrorMsg}
-                  isSubmitting={status === "loading"}
-                />
-              )}
-
-              <AnimatePresence>
-                {errorMsg && (
-                  <motion.p className="reg-error" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }}>
-                    {errorMsg}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-
-              {infoText && (
-                <p className="text-[#8F9BB3] text-xs sm:text-sm text-center mb-6 italic" style={{ marginTop: '0.5rem' }}>
-                  {infoText}
-                </p>
-              )}
-
-              <button 
-                type="submit" 
-                className="reg-submit" 
+              </div>
+            )}
+          </motion.div>
+        ) : (
+          <motion.form key="form" className="neon-form" onSubmit={handleSubmit} variants={formContentVariants} initial="visible" exit="exit" autoComplete="off">
+            {fields.map((field) => (
+              <FieldRenderer
+                key={field.name}
+                field={field}
+                value={formData[field.name]}
+                onChange={handleFieldChange}
                 disabled={status === "loading"}
-                style={{ background: themeColor, color: "white" }}
-              >
-                {status === "loading" ? "Processing…" : submitText}
-              </button>
-            </motion.form>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </div>
+              />
+            ))}
+
+            {allowFileUpload && (
+              <FileUpload
+                file={file}
+                setFile={setFile}
+                acceptedTypes={acceptedTypes}
+                acceptedMimeTypes={acceptedMimeTypes}
+                setErrorMsg={setErrorMsg}
+                isSubmitting={status === "loading"}
+              />
+            )}
+
+            <AnimatePresence>
+              {errorMsg && (
+                <motion.p className="neon-error" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }}>
+                  {errorMsg}
+                </motion.p>
+              )}
+            </AnimatePresence>
+
+            {infoText && (
+              <p className="neon-info-text">
+                {infoText}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="neon-submit"
+              disabled={status === "loading"}
+            >
+              {status === "loading" ? (
+                <>
+                  <Spinner /> Processing…
+                </>
+              ) : (
+                <>
+                  {submitText} <ArrowRight size={18} />
+                </>
+              )}
+            </button>
+
+            {/* Security note */}
+            <div className="neon-security">
+              <Shield size={14} className="neon-security__icon" />
+              <span>Your information is secure with us.</span>
+            </div>
+          </motion.form>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
