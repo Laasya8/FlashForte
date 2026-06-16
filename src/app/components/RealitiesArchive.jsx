@@ -14,11 +14,11 @@ const archivePosters = [
   },
   {
     id: "speakathon",
-    color: "#F97316", // Orange
+    color: "#22C55E", // Green
   },
   {
     id: "designathon",
-    color: "#22C55E", // Green
+    color: "#F97316", // Orange
   },
 ];
 

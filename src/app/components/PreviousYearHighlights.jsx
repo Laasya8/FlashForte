@@ -73,7 +73,7 @@ const highlightData = [
     title: "Design-A-Thon",
     year: "2025",
     navDesc: "Design. Create. Elevate.",
-    color: "#22C55E", // Green
+    color: "#F97316", // Orange
     icon: Palette,
     images: [designathon2, designathon3, designathon10],
     highlights: [
@@ -95,7 +95,7 @@ const highlightData = [
     title: "Speak-A-Thon",
     year: "2025",
     navDesc: "Where confidence finds its voice.",
-    color: "#F97316", // Orange
+    color: "#22C55E", // Green
     icon: Mic,
     images: [speakathon1, speakathon2, speakathon3],
     highlights: [

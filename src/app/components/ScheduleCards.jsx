@@ -6,7 +6,7 @@ const SCHEDULE_DATA = [
     day: "Day 1",
     date: "June 26",
     events: [
-      { name: "Speak-A-Thon", time: "9:00 AM - 1:00 PM", icon: Mic, color: "#F97316" },
+      { name: "Speak-A-Thon", time: "9:00 AM - 1:00 PM", icon: Mic, color: "#22C55E" },
       { name: "Game-A-Thon", time: "2:00 PM - 5:00 PM", icon: Gamepad2, color: "#A855F7" },
     ],
   },
@@ -14,7 +14,7 @@ const SCHEDULE_DATA = [
     day: "Day 2",
     date: "June 27",
     events: [
-      { name: "Design-A-Thon", time: "9:00 AM - 1:00 PM", icon: Palette, color: "#22C55E" },
+      { name: "Design-A-Thon", time: "9:00 AM - 1:00 PM", icon: Palette, color: "#F97316" },
       { name: "IdeaThon", time: "2:00 PM - 5:00 PM", icon: Lightbulb, color: "#EAB308" },
     ],
   },

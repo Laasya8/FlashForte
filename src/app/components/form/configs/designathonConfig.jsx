@@ -10,7 +10,7 @@ const titleNode = () => (
   <span style={{ whiteSpace: "nowrap" }}>
     DESIGN<span
       style={{
-        background: "linear-gradient(90deg, #22C55E 0%, #4ADE80 50%, #86EFAC 100%)",
+        background: "linear-gradient(90deg, #F97316 0%, #FB923C 50%, #FDBA74 100%)",
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
         backgroundClip: "text",
@@ -20,7 +20,7 @@ const titleNode = () => (
 );
 
 export const designathonConfig = {
-  themeColor: "#22C55E",
+  themeColor: "#F97316",
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
     titleNode: () => <>{titleNode()} Registration</>,
