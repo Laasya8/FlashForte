@@ -8,7 +8,7 @@ const IS_ACCEPTING = true;
 const titleNode = () => (
   <span style={{ whiteSpace: "nowrap" }}>
     SPEAK<span
-      className="bg-gradient-to-r from-orange-600 via-orange-500 to-amber-400 bg-clip-text text-transparent"
+      className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-400 bg-clip-text text-transparent"
       style={{
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
@@ -18,7 +18,7 @@ const titleNode = () => (
 );
 
 export const speakathonConfig = {
-  themeColor: "#F97316",
+  themeColor: "#22C55E",
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
     titleNode: () => <>{titleNode()} Registration</>,

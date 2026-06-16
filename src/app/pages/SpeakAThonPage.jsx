@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { 
   Mic, Trophy, Sparkles, Calendar, MapPin, 
   BookOpen, MessageSquare, ChevronRight, 
-  ExternalLink
+  ExternalLink, Clock
 } from "lucide-react";
 import { CursorTrail } from "../components/CursorTrail.jsx";
 import { UniversalLoader } from "../components/UniversalLoader.jsx";
@@ -40,7 +40,7 @@ function ParticleField() {
       {particles.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-full bg-orange-500/80 shadow-[0_0_8px_#F97316]"
+          className="absolute rounded-full bg-green-500/80 shadow-[0_0_8px_#22C55E]"
           initial={{ x: p.x, y: p.y + 40, opacity: 0, scale: 0.5 }}
           animate={{ y: p.y - 120, opacity: [0, 0.9, 0.9, 0], scale: [0.5, 1.3, 0.8] }}
           transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: "easeOut" }}
@@ -120,10 +120,10 @@ function PortalEmissionCanvas() {
         const progress = (r.radius - 0.15) / (r.maxRadius - 0.15);
         const opacity = (1.0 - progress) * 0.45;
         
-        ctx.strokeStyle = `rgba(249, 115, 22, ${opacity})`;
+        ctx.strokeStyle = `rgba(34, 197, 94, ${opacity})`;
         ctx.lineWidth = 1.8;
         ctx.shadowBlur = 8;
-        ctx.shadowColor = "rgba(249, 115, 22, 0.7)";
+        ctx.shadowColor = "rgba(34, 197, 94, 0.7)";
 
         ctx.beginPath();
         ctx.arc(cx, cy, baseRadius * r.radius * 2, 0, Math.PI * 2);
@@ -146,7 +146,7 @@ function PortalEmissionCanvas() {
           size: Math.random() * 2.2 + 0.8,
           opacity: 1.0,
           decay: 0.007 + Math.random() * 0.012,
-          color: Math.random() > 0.45 ? "rgba(249, 115, 22, 0.95)" : "rgba(253, 186, 116, 0.98)"
+          color: Math.random() > 0.45 ? "rgba(34, 197, 94, 0.95)" : "rgba(74, 222, 128, 0.98)"
         });
       }
 
@@ -163,7 +163,7 @@ function PortalEmissionCanvas() {
 
         ctx.fillStyle = s.color;
         ctx.shadowBlur = 6;
-        ctx.shadowColor = "rgba(249, 115, 22, 0.8)";
+        ctx.shadowColor = "rgba(34, 197, 94, 0.8)";
 
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.size * (0.5 + s.opacity * 0.5), 0, Math.PI * 2);
@@ -282,7 +282,7 @@ function CosmicAtmosphere() {
       vx: (Math.random() - 0.5) * 0.08,
       vy: (Math.random() - 0.5) * 0.08,
       radius: isMobile ? Math.random() * 12 + 8 : Math.random() * 24 + 14,
-      color: i % 3 === 0 ? "rgba(249, 115, 22, 0.08)" : i % 3 === 1 ? "rgba(251, 146, 60, 0.06)" : "rgba(253, 186, 116, 0.07)",
+      color: i % 3 === 0 ? "rgba(34, 197, 94, 0.08)" : i % 3 === 1 ? "rgba(74, 222, 128, 0.06)" : "rgba(20, 184, 166, 0.07)",
       pulseSpeed: 0.0015 + Math.random() * 0.0025,
       phase: Math.random() * Math.PI * 2,
     }));
@@ -364,7 +364,7 @@ function CosmicAtmosphere() {
         const y = (d.y + dustParallax) % height;
         const finalY = y < 0 ? y + height : y;
 
-        ctx.fillStyle = `rgba(249, 115, 22, ${Math.max(0.01, Math.min(1, opacity))})`;
+        ctx.fillStyle = `rgba(34, 197, 94, ${Math.max(0.01, Math.min(1, opacity))})`;
         ctx.beginPath();
         ctx.arc(d.x, finalY, d.size, 0, Math.PI * 2);
         ctx.fill();
@@ -403,9 +403,9 @@ function CosmicAtmosphere() {
         }
 
         const opacity = Math.max(0.01, Math.min(1, p.baseOpacity + opacityBoost));
-        ctx.fillStyle = `rgba(249, 115, 22, ${opacity})`;
+        ctx.fillStyle = `rgba(34, 197, 94, ${opacity})`;
         ctx.shadowBlur = 3.5 * scale;
-        ctx.shadowColor = "rgba(249, 115, 22, 0.75)";
+        ctx.shadowColor = "rgba(34, 197, 94, 0.75)";
 
         ctx.beginPath();
         ctx.arc(p.x + pushX, finalY + pushY, p.size * scale, 0, Math.PI * 2);
@@ -479,10 +479,10 @@ function CosmicAtmosphere() {
           ctx.lineWidth = s.width;
 
           const grad = ctx.createLinearGradient(s.x, finalY, s.x + s.length, finalY);
-          grad.addColorStop(0, "rgba(249, 115, 22, 0)");
-          grad.addColorStop(0.3, `rgba(249, 115, 22, ${s.opacity})`);
-          grad.addColorStop(0.7, `rgba(253, 186, 116, ${s.opacity * 0.85})`);
-          grad.addColorStop(1, "rgba(249, 115, 22, 0)");
+          grad.addColorStop(0, "rgba(34, 197, 94, 0)");
+          grad.addColorStop(0.3, `rgba(34, 197, 94, ${s.opacity})`);
+          grad.addColorStop(0.7, `rgba(74, 222, 128, ${s.opacity * 0.85})`);
+          grad.addColorStop(1, "rgba(34, 197, 94, 0)");
 
           ctx.strokeStyle = grad;
           ctx.moveTo(s.x, finalY);
@@ -531,15 +531,15 @@ function MicPortal({ className = "" }) {
   const hasCustomWidth = className.includes("w-") || className.includes("max-w-");
   const defaultClasses = hasCustomWidth
     ? ""
-    : "w-full max-w-[clamp(312px,90vw,576px)] lg:max-w-none lg:w-full";
+    : "w-full max-w-[clamp(340px,85vw,600px)] lg:max-w-none lg:w-full";
 
   return (
     <div
       className={`relative flex items-center justify-center aspect-square mx-auto select-none pointer-events-none ${defaultClasses} ${className}`}
     >
       {/* Glow Backing */}
-      <div className="absolute rounded-full blur-[40px] mix-blend-screen z-0 inset-[-15%] bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.18)_0%,_rgba(249,115,22,0.08)_40%,_transparent_70%)] animate-pulse" />
-      <div className="absolute inset-0 rounded-full blur-[20px] mix-blend-screen z-0 bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.22)_0%,_transparent_60%)]" />
+      <div className="absolute rounded-full blur-[40px] mix-blend-screen z-0 inset-[-15%] bg-[radial-gradient(circle_at_center,_rgba(34,197,94,0.18)_0%,_rgba(34,197,94,0.08)_40%,_transparent_70%)] animate-pulse" />
+      <div className="absolute inset-0 rounded-full blur-[20px] mix-blend-screen z-0 bg-[radial-gradient(circle_at_center,_rgba(34,197,94,0.22)_0%,_transparent_60%)]" />
       
       {/* Video Element */}
       <video
@@ -551,7 +551,7 @@ function MicPortal({ className = "" }) {
         playsInline
         className="absolute inset-0 z-0 w-full h-full object-cover portal-mask"
         style={{
-          filter: "sepia(1) saturate(380%) hue-rotate(-20deg) brightness(1.15) drop-shadow(0 0 30px rgba(249,115,22,0.45))",
+          filter: "sepia(1) saturate(3.5) hue-rotate(85deg) brightness(1.0) contrast(1.1) drop-shadow(0 0 30px rgba(34,197,94,0.7))",
         }}
       />
 
@@ -583,15 +583,15 @@ function CosmicSpeakLoader() {
       className="fixed inset-0 z-[100] bg-[#030303] flex flex-col items-center justify-center select-none"
     >
       {/* Background Starry Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.06)_0%,_transparent_65%)] pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-orange-600/5 blur-[80px] rounded-full pointer-events-none animate-pulse" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(34,197,94,0.06)_0%,_transparent_65%)] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-green-600/5 blur-[80px] rounded-full pointer-events-none animate-pulse" />
 
       {/* Floating Stardust Particles */}
       <div className="absolute inset-0 overflow-hidden opacity-30 pointer-events-none">
         {Array.from({ length: 15 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 rounded-full bg-orange-400"
+            className="absolute w-1 h-1 rounded-full bg-green-400"
             initial={{ 
               x: Math.random() * window.innerWidth, 
               y: window.innerHeight + 20, 
@@ -619,27 +619,27 @@ function CosmicSpeakLoader() {
         <motion.div
           animate={{ scale: [1, 1.6], opacity: [0.6, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-          className="absolute w-28 h-28 rounded-full border border-orange-500/30"
+          className="absolute w-28 h-28 rounded-full border border-green-500/30"
         />
         <motion.div
           animate={{ scale: [1, 1.6], opacity: [0.6, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay: 0.67 }}
-          className="absolute w-28 h-28 rounded-full border border-orange-400/20"
+          className="absolute w-28 h-28 rounded-full border border-green-400/20"
         />
         <motion.div
           animate={{ scale: [1, 1.6], opacity: [0.6, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay: 1.33 }}
-          className="absolute w-28 h-28 rounded-full border border-amber-300/10"
+          className="absolute w-28 h-28 rounded-full border border-emerald-300/10"
         />
 
         {/* Inner Mic container */}
         <motion.div 
           animate={{ y: [0, -6, 0] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          className="relative w-24 h-24 rounded-full flex items-center justify-center bg-black/60 border border-orange-500/30 shadow-[0_0_35px_rgba(249,115,22,0.2)] z-10"
+          className="relative w-24 h-24 rounded-full flex items-center justify-center bg-black/60 border border-green-500/30 shadow-[0_0_35px_rgba(34,197,94,0.2)] z-10"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(249,115,22,0.08)_0%,_transparent_65%)] rounded-full" />
-          <Mic className="w-10 h-10 text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.6)]" strokeWidth={1.5} />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(34,197,94,0.08)_0%,_transparent_65%)] rounded-full" />
+          <Mic className="w-10 h-10 text-green-500 drop-shadow-[0_0_10px_rgba(34,197,94,0.6)]" strokeWidth={1.5} />
         </motion.div>
       </div>
 
@@ -654,8 +654,8 @@ function CosmicSpeakLoader() {
               className="w-[3px] rounded-full"
               style={{
                 height: h,
-                background: "linear-gradient(to top, #EA580C, #F97316, #FDBA74)",
-                boxShadow: "0 0 8px rgba(249,115,22,0.6)",
+                background: "linear-gradient(to top, #16A34A, #22C55E, #86EFAC)",
+                boxShadow: "0 0 8px rgba(34,197,94,0.6)",
               }}
               animate={{ height: [h, h * 0.15 + 3, h * 0.75, h] }}
               transition={{ 
@@ -678,7 +678,7 @@ function CosmicSpeakLoader() {
           className="font-orbitron text-sm font-bold tracking-[0.3em] text-[#F8FAFC] flex items-center gap-1"
         >
           SPEAK
-          <span className="bg-gradient-to-r from-orange-600 to-amber-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
+          <span className="bg-gradient-to-r from-green-600 to-emerald-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
             -A-THON
           </span>
         </motion.h2>
@@ -723,8 +723,8 @@ export function SpeakAThonPage() {
             style={{
               height: h,
               transformOrigin: "bottom",
-              background: "linear-gradient(to top, #EA580C, #F97316, #FCD34D)",
-              boxShadow: "0 0 5px #F97316, 0 0 10px rgba(249,115,22,0.5)",
+              background: "linear-gradient(to top, #16A34A, #22C55E, #86EFAC)",
+              boxShadow: "0 0 5px #22C55E, 0 0 10px rgba(34,197,94,0.5)",
             }}
             animate={{ scaleY: [1, 0.15, 0.7, 1] }}
             transition={{ duration: 0.9 + i * 0.08, repeat: Infinity, ease: "easeInOut", delay: i * 0.06 }}
@@ -736,7 +736,7 @@ export function SpeakAThonPage() {
 
   return (
     <div className="relative min-h-screen w-full flex flex-col font-inter overflow-x-hidden text-[#FFFFFF] bg-[#050505]">
-      <CursorTrail colorRgb={[249, 115, 22]} />
+      <CursorTrail colorRgb={[34, 197, 94]} />
       <AnimatePresence>
         {loading && <CosmicSpeakLoader />}
       </AnimatePresence>
@@ -749,8 +749,8 @@ export function SpeakAThonPage() {
           .font-playfair {
             font-family: 'Playfair Display', Georgia, serif;
           }
-          .orange-glow-text {
-            text-shadow: 0 0 20px rgba(249,115,22,0.4), 0 0 45px rgba(251,146,60,0.2);
+          .green-glow-text {
+            text-shadow: 0 0 20px rgba(34,197,94,0.4), 0 0 45px rgba(74,222,128,0.2);
           }
           .glass-panel {
             background: rgba(11, 11, 11, 0.75);
@@ -758,9 +758,9 @@ export function SpeakAThonPage() {
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
           }
-          .orange-border-glow:hover {
-            border-color: rgba(249, 115, 22, 0.4);
-            box-shadow: 0 0 25px rgba(249, 115, 22, 0.15);
+          .green-border-glow:hover {
+            border-color: rgba(34, 197, 94, 0.4);
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.15);
           }
           
           @keyframes spinClockwise {
@@ -842,7 +842,7 @@ export function SpeakAThonPage() {
             right: 15%;
             width: 80px;
             height: 1.5px;
-            background: linear-gradient(90deg, #F97316, transparent);
+            background: linear-gradient(90deg, #22C55E, transparent);
             animation: meteor 14s linear infinite;
             z-index: -3;
           }
@@ -852,7 +852,7 @@ export function SpeakAThonPage() {
             left: 8%;
             width: 100px;
             height: 1.5px;
-            background: linear-gradient(90deg, #FB923C, transparent);
+            background: linear-gradient(90deg, #4ADE80, transparent);
             animation: meteor 20s linear infinite 5s;
             z-index: -3;
           }
@@ -862,7 +862,7 @@ export function SpeakAThonPage() {
             right: 20%;
             width: 70px;
             height: 1.5px;
-            background: linear-gradient(90deg, #FDBA74, transparent);
+            background: linear-gradient(90deg, #86EFAC, transparent);
             animation: meteor 16s linear infinite 10s;
             z-index: -3;
           }
@@ -920,23 +920,23 @@ export function SpeakAThonPage() {
         <div className="shooting-star-1" />
         <div className="shooting-star-2" />
         <div className="shooting-star-3" />
-        <div className="absolute top-[-20%] left-[25%] w-[50vw] h-[50vh] bg-gradient-to-b from-[#F97316]/5 to-transparent blur-[120px]" />
-        <div className="absolute bottom-[-20%] right-[20%] w-[60vw] h-[60vh] bg-gradient-to-t from-[#FB923C]/5 to-transparent blur-[120px]" />
-        <div className="absolute top-[15%] left-[8%] w-64 h-64 rounded-full bg-orange-500/8 blur-[90px]" style={{ animation: "floatOrb 8s ease-in-out infinite" }} />
-        <div className="absolute top-[55%] right-[6%] w-48 h-48 rounded-full bg-amber-400/6 blur-[70px]" style={{ animation: "floatOrb 11s ease-in-out infinite 3s" }} />
-        <div className="absolute bottom-[10%] left-[35%] w-80 h-80 rounded-full bg-orange-600/5 blur-[100px]" style={{ animation: "floatOrb 13s ease-in-out infinite 5s" }} />
+        <div className="absolute top-[-20%] left-[25%] w-[50vw] h-[50vh] bg-gradient-to-b from-[#22C55E]/5 to-transparent blur-[120px]" />
+        <div className="absolute bottom-[-20%] right-[20%] w-[60vw] h-[60vh] bg-gradient-to-t from-[#4ADE80]/5 to-transparent blur-[120px]" />
+        <div className="absolute top-[15%] left-[8%] w-64 h-64 rounded-full bg-green-500/8 blur-[90px]" style={{ animation: "floatOrb 8s ease-in-out infinite" }} />
+        <div className="absolute top-[55%] right-[6%] w-48 h-48 rounded-full bg-emerald-400/6 blur-[70px]" style={{ animation: "floatOrb 11s ease-in-out infinite 3s" }} />
+        <div className="absolute bottom-[10%] left-[35%] w-80 h-80 rounded-full bg-green-600/5 blur-[100px]" style={{ animation: "floatOrb 13s ease-in-out infinite 5s" }} />
         {/* Glowing planetary/nebula backings */}
-        <div className="absolute top-[8%] right-[-10%] w-[320px] h-[320px] rounded-full bg-gradient-to-br from-[#F97316]/6 to-[#EA580C]/2 blur-[80px]" style={{ animation: "floatOrb 15s ease-in-out infinite" }} />
-        <div className="absolute bottom-[25%] left-[-10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-[#F97316]/5 to-transparent blur-[100px]" style={{ animation: "floatOrb 20s ease-in-out infinite 5s" }} />
-        <div className="hero-scanline absolute left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-orange-500/8 to-transparent pointer-events-none" />
-        <div className="absolute top-0 left-0 w-40 h-40 opacity-10" style={{ backgroundImage: "radial-gradient(circle, #F97316 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
-        <div className="absolute bottom-0 right-0 w-40 h-40 opacity-10" style={{ backgroundImage: "radial-gradient(circle, #F97316 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
+        <div className="absolute top-[8%] right-[-10%] w-[320px] h-[320px] rounded-full bg-gradient-to-br from-[#22C55E]/6 to-[#16A34A]/2 blur-[80px]" style={{ animation: "floatOrb 15s ease-in-out infinite" }} />
+        <div className="absolute bottom-[25%] left-[-10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-[#22C55E]/5 to-transparent blur-[100px]" style={{ animation: "floatOrb 20s ease-in-out infinite 5s" }} />
+        <div className="hero-scanline absolute left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-green-500/8 to-transparent pointer-events-none" />
+        <div className="absolute top-0 left-0 w-40 h-40 opacity-10" style={{ backgroundImage: "radial-gradient(circle, #22C55E 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
+        <div className="absolute bottom-0 right-0 w-40 h-40 opacity-10" style={{ backgroundImage: "radial-gradient(circle, #22C55E 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
       </div>
 
       {/* HERO SECTION */}
       <section
         id="hero"
-        className="hero-layout relative z-10 flex flex-col lg:flex-row lg:justify-between items-center lg:items-center px-5 pt-4 md:pt-6 lg:pt-6 pb-12 lg:pb-20 w-full max-w-[1400px] mx-auto gap-0 lg:gap-0"
+        className="hero-layout relative z-10 flex flex-col lg:flex-row lg:justify-between items-center lg:items-center px-5 pt-0 pb-12 lg:pb-20 w-full max-w-[1400px] mx-auto gap-0 lg:gap-0"
         style={{
           minHeight: "calc(100dvh - 72px)",
           scrollMarginTop: "72px",
@@ -945,6 +945,7 @@ export function SpeakAThonPage() {
         {/* ━━━━━━ LEFT COLUMN ━━━━━━ */}
         <motion.div
           className="hero-left flex flex-col items-center lg:items-start text-center lg:text-left lg:w-[48%] lg:max-w-[580px] lg:pl-8 w-full"
+          style={{ transform: "translateY(-30px)" }}
           initial="hidden"
           animate="visible"
         >
@@ -954,10 +955,10 @@ export function SpeakAThonPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.2 }}
-            className="font-orbitron text-[clamp(28px,7.5vw,60px)] font-black tracking-[0.08em] text-[#F8FAFC] orange-glow-text leading-[1.05] mb-2 text-center lg:text-left whitespace-nowrap"
+            className="font-orbitron text-[clamp(28px,7.5vw,60px)] font-black tracking-[0.08em] text-[#F8FAFC] green-glow-text leading-[1.05] mb-2 text-center lg:text-left whitespace-nowrap"
           >
             SPEAK
-            <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-amber-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
+            <span className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
               -A-THON
             </span>
           </motion.h1>
@@ -970,10 +971,42 @@ export function SpeakAThonPage() {
             className="text-[#FFFFFF] text-[clamp(13px,2.2vw,22px)] font-extrabold leading-[1.35] tracking-[0.18em] mb-4 mt-0 text-center lg:text-left w-full"
           >
             Where confidence{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
+            <span className="bg-gradient-to-r from-green-500 to-emerald-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
               finds its voice.
             </span>
           </motion.h2>
+
+          {/* Date & Time Box */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.42 }}
+            className="flex justify-center lg:justify-start w-full mb-5"
+          >
+            <div
+              className="inline-flex flex-wrap items-center gap-x-4 gap-y-1.5 px-5 py-2.5 rounded-[14px]"
+              style={{
+                background: "linear-gradient(135deg, rgba(6,26,14,0.85) 0%, rgba(10,28,20,0.85) 100%)",
+                border: "1px solid rgba(34,197,94,0.28)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                boxShadow: "0 4px 20px rgba(34,197,94,0.16), inset 0 1px 0 rgba(34,197,94,0.14)",
+              }}
+            >
+              <span className="flex items-center gap-1.5 text-[#F8FAFC] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
+                <Calendar size={14} color="#22C55E" />
+                June 27, 2026
+              </span>
+              <span
+                aria-hidden="true"
+                style={{ width: "1px", height: "14px", background: "rgba(34,197,94,0.30)" }}
+              />
+              <span className="flex items-center gap-1.5 text-[#C8D3F5] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
+                <Clock size={14} color="#22C55E" />
+                2:00 PM – 5:00 PM
+              </span>
+            </div>
+          </motion.div>
 
           {/* Portal Animation — mobile only */}
           <motion.div
@@ -982,7 +1015,7 @@ export function SpeakAThonPage() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: BUTTERY_EASE }}
           >
-            <div className="w-[70%] max-w-[300px] aspect-square relative">
+            <div className="w-[90%] max-w-[420px] aspect-square relative">
               <MicPortal className="w-full h-full" />
             </div>
           </motion.div>
@@ -1002,26 +1035,22 @@ export function SpeakAThonPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.65 }}
-            className="hero-btns mb-8 flex flex-col gap-3 items-center lg:items-start"
+            className="hero-btns mb-8 flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start"
           >
-            <div className="flex items-center gap-3">
-              <ButtonAudioBars side="left" count={8} />
-              <button
-                onClick={() => {
-                  const element = document.getElementById('openmic');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }
-                }}
-                className="relative flex items-center gap-2 font-orbitron font-bold rounded-full px-8 py-4 text-[clamp(13px,1.6vw,15px)] bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white border border-white/10 shadow-[0_0_32px_rgba(249,115,22,0.5),0_0_60px_rgba(249,115,22,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(249,115,22,0.7)] cursor-pointer will-change-transform z-10"
-              >
-                Enter Speakathon <ChevronRight size={16} />
-              </button>
-              <ButtonAudioBars side="right" count={8} />
-            </div>
+            <button
+              onClick={() => {
+                const element = document.getElementById('openmic');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
+              className="relative flex items-center gap-2 font-orbitron font-bold rounded-full px-8 py-4 text-[clamp(13px,1.6vw,15px)] bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white border border-white/10 shadow-[0_0_32px_rgba(34,197,94,0.5),0_0_60px_rgba(34,197,94,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(34,197,94,0.7)] cursor-pointer will-change-transform z-10"
+            >
+              Enter Speak-A-Thon <ChevronRight size={16} />
+            </button>
             <Link
               to="/speak-a-thon/register"
-              className="relative flex items-center gap-2 font-orbitron font-bold rounded-full px-8 py-4 text-[clamp(13px,1.6vw,15px)] bg-transparent hover:bg-orange-500/10 text-white border border-orange-500/30 hover:border-orange-500/60 shadow-[0_0_15px_rgba(249,115,22,0.15)] hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] transition-all duration-300 hover:scale-105 cursor-pointer will-change-transform z-10"
+              className="relative flex items-center gap-2 font-orbitron font-bold rounded-full px-8 py-4 text-[clamp(13px,1.6vw,15px)] bg-transparent hover:bg-green-500/10 text-white border border-green-500/30 hover:border-green-500/60 shadow-[0_0_15px_rgba(34,197,94,0.15)] hover:shadow-[0_0_25px_rgba(34,197,94,0.3)] transition-all duration-300 hover:scale-105 cursor-pointer will-change-transform z-10"
             >
               Register Now <ChevronRight size={16} />
             </Link>
@@ -1030,12 +1059,12 @@ export function SpeakAThonPage() {
 
         {/* ━━━━━━ RIGHT COLUMN — Mic Portal ━━━━━━ */}
         <motion.div
-          className="hidden lg:flex lg:w-[48%] justify-end w-full relative lg:translate-x-4 will-change-opacity"
+          className="hidden lg:flex lg:w-[55%] justify-end w-full relative lg:translate-x-12 lg:-translate-y-8 will-change-opacity"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, ease: BUTTERY_EASE, delay: 0 }}
         >
-          <MicPortal className="w-[100%] lg:w-[141%]" />
+          <MicPortal className="w-[110%] lg:w-[120%]" />
         </motion.div>
       </section>
 
@@ -1055,8 +1084,8 @@ export function SpeakAThonPage() {
               maxWidth: "900px",
               padding: "3.5rem 2.5rem",
               borderRadius: "32px",
-              background: "linear-gradient(135deg, rgba(249,115,22,0.03) 0%, rgba(251,146,60,0.06) 50%, rgba(253,186,116,0.03) 100%)",
-              border: "1px solid rgba(249,115,22,0.12)",
+              background: "linear-gradient(135deg, rgba(34,197,94,0.03) 0%, rgba(74,222,128,0.06) 50%, rgba(134,239,172,0.03) 100%)",
+              border: "1px solid rgba(34,197,94,0.12)",
               position: "relative",
               minHeight: "320px",
               display: "flex",
@@ -1065,7 +1094,7 @@ export function SpeakAThonPage() {
               justifyContent: "center",
               textAlign: "center",
               overflow: "hidden",
-              boxShadow: "0 0 100px rgba(249,115,22,0.25), 0 0 200px rgba(249,115,22,0.1), inset 0 0 80px rgba(249,115,22,0.06)",
+              boxShadow: "0 0 100px rgba(34,197,94,0.25), 0 0 200px rgba(34,197,94,0.1), inset 0 0 80px rgba(34,197,94,0.06)",
             }}
           >
             {/* Opening quote mark */}
@@ -1073,7 +1102,7 @@ export function SpeakAThonPage() {
               position: "absolute", top: "1.5rem", left: "2.5rem",
               fontFamily: "Georgia, serif",
               fontSize: "8rem", fontWeight: 900,
-              color: "rgba(249,115,22,0.18)",
+              color: "rgba(34,197,94,0.18)",
               lineHeight: 1, userSelect: "none",
             }}>&ldquo;</span>
 
@@ -1081,19 +1110,19 @@ export function SpeakAThonPage() {
               fontFamily: "'Rajdhani', sans-serif",
               fontSize: "0.75rem",
               letterSpacing: "0.35em",
-              color: "rgba(253,186,116,0.55)",
+              color: "rgba(134,239,172,0.55)",
               textTransform: "uppercase",
               marginBottom: "1.75rem",
               fontWeight: 700,
             }}>
-              Speakathon Manifesto
+              Speak-A-Thon Manifesto
             </p>
 
             <h3 style={{
               fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif",
               fontSize: "clamp(1.4rem, 3.2vw, 2.2rem)",
               fontWeight: 800,
-              color: "#fde6c0",
+              color: "#D1FAE5",
               lineHeight: 1.55,
               margin: 0,
               letterSpacing: "0.01em",
@@ -1101,7 +1130,7 @@ export function SpeakAThonPage() {
             }}>
               Every voice matters, every story counts.<br />
               Step up, speak out, and{" "}
-              <span style={{ color: "#F97316", textShadow: "0 0 20px rgba(249,115,22,0.6)" }}>
+              <span style={{ color: "#22C55E", textShadow: "0 0 20px rgba(34,197,94,0.6)" }}>
                 let your words inspire.
               </span>
             </h3>
@@ -1111,14 +1140,14 @@ export function SpeakAThonPage() {
               display: "flex", alignItems: "center", justifyContent: "center",
               gap: "1rem", marginTop: "2.25rem",
             }}>
-              <div style={{ width: 60, height: 1, background: "linear-gradient(90deg, transparent, rgba(249,115,22,0.4))" }} />
+              <div style={{ width: 60, height: 1, background: "linear-gradient(90deg, transparent, rgba(34,197,94,0.4))" }} />
               <span style={{
                 fontFamily: "Georgia, serif",
                 fontSize: "1.8rem", fontWeight: 900,
-                color: "#F97316", lineHeight: 1,
-                textShadow: "0 0 14px rgba(249,115,22,0.6)",
+                color: "#22C55E", lineHeight: 1,
+                textShadow: "0 0 14px rgba(34,197,94,0.6)",
               }}>&rdquo;</span>
-              <div style={{ width: 60, height: 1, background: "linear-gradient(90deg, rgba(249,115,22,0.4), transparent)" }} />
+              <div style={{ width: 60, height: 1, background: "linear-gradient(90deg, rgba(34,197,94,0.4), transparent)" }} />
             </div>
           </motion.div>
         </section>
@@ -1132,11 +1161,11 @@ export function SpeakAThonPage() {
             transition={{ duration: 0.9, ease: BUTTERY_EASE }}
             className="text-center mb-8"
           >
-            <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
+            <span className="font-orbitron text-xs font-bold text-green-500 uppercase tracking-widest">
               Glimpse of Rounds
             </span>
-            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(249,115,22,0.35)" }}>
-              Speakathon 2k25
+            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(34,197,94,0.35)" }}>
+              Speak-A-Thon 2k25
             </h2>
           </motion.div>
 
@@ -1150,25 +1179,25 @@ export function SpeakAThonPage() {
               viewport={{ once: true, margin: "-120px" }}
               transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.1 }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
-              className="group p-6 sm:p-8 rounded-[24px] glass-panel relative border border-orange-500/10 shadow-[0_4px_30px_rgba(249,115,22,0.03)] hover:border-orange-500/40 hover:shadow-[0_12px_45px_rgba(249,115,22,0.15)] transition-all duration-300 flex flex-col justify-between overflow-hidden"
+              className="group p-6 sm:p-8 rounded-[24px] glass-panel relative border border-green-500/10 shadow-[0_4px_30px_rgba(34,197,94,0.03)] hover:border-green-500/40 hover:shadow-[0_12px_45px_rgba(34,197,94,0.15)] transition-all duration-300 flex flex-col justify-between overflow-hidden"
             >
               {/* Background watermark number - repositioned to avoid overlap */}
-              <div className="absolute -bottom-6 -right-4 font-orbitron text-[120px] font-black text-orange-500/[0.03] select-none pointer-events-none group-hover:text-orange-500/[0.08] group-hover:scale-110 transition-all duration-500 z-0">
+              <div className="absolute -bottom-6 -right-4 font-orbitron text-[120px] font-black text-green-500/[0.03] select-none pointer-events-none group-hover:text-green-500/[0.08] group-hover:scale-110 transition-all duration-500 z-0">
                 01
               </div>
 
               <div className="relative z-10">
                 <div className="flex flex-col gap-4 mb-5">
                   <motion.div
-                    className="flex items-center justify-center w-14 h-14 rounded-xl bg-orange-500/10 border border-orange-500/25 group-hover:bg-orange-500/20 group-hover:border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.1)] group-hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] transition-all duration-300"
+                    className="flex items-center justify-center w-14 h-14 rounded-xl bg-green-500/10 border border-green-500/25 group-hover:bg-green-500/20 group-hover:border-green-500/50 shadow-[0_0_15px_rgba(34,197,94,0.1)] group-hover:shadow-[0_0_25px_rgba(34,197,94,0.3)] transition-all duration-300"
                     whileHover={{ scale: 1.08, rotate: 5 }}
                   >
-                    <Mic size={24} className="text-orange-500" />
+                    <Mic size={24} className="text-green-500" />
                   </motion.div>
                   <div>
-                    <span className="text-[11px] font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2 py-1 rounded-md">Round 01</span>
+                    <span className="text-[11px] font-bold text-green-400 uppercase tracking-widest bg-green-500/10 px-2 py-1 rounded-md">Round 01</span>
                     <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">"What If...?" Challenge</h3>
-                    <div className="w-8 h-1 bg-gradient-to-r from-orange-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
+                    <div className="w-8 h-1 bg-gradient-to-r from-green-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
                   </div>
                 </div>
 
@@ -1178,12 +1207,12 @@ export function SpeakAThonPage() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3 mt-auto relative z-10">
-                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep: 30s</p>
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-green-500/15 group-hover:bg-green-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-green-400"/> Prep: 30s</p>
                   <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Prepare response to hypothetical</p>
                 </div>
-                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak: 1-2m</p>
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-green-500/15 group-hover:bg-green-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-green-400"/> Speak: 1-2m</p>
                   <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Explore creative scenarios</p>
                 </div>
               </div>
@@ -1192,9 +1221,9 @@ export function SpeakAThonPage() {
             {/* ARROW 1 */}
             <div className="hidden lg:flex items-center justify-center flex-shrink-0 w-8">
                <div className="flex flex-col items-center gap-1 opacity-80">
-                 <div className="w-[2px] h-4 bg-gradient-to-b from-transparent to-orange-500/50 rounded-full"></div>
-                 <ChevronRight size={28} className="text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]" />
-                 <div className="w-[2px] h-4 bg-gradient-to-t from-transparent to-orange-500/50 rounded-full"></div>
+                 <div className="w-[2px] h-4 bg-gradient-to-b from-transparent to-green-500/50 rounded-full"></div>
+                 <ChevronRight size={28} className="text-green-500 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]" />
+                 <div className="w-[2px] h-4 bg-gradient-to-t from-transparent to-green-500/50 rounded-full"></div>
                </div>
             </div>
 
@@ -1206,24 +1235,24 @@ export function SpeakAThonPage() {
               viewport={{ once: true, margin: "-120px" }}
               transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.2 }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
-              className="group p-6 sm:p-8 rounded-[24px] glass-panel relative border border-orange-500/10 shadow-[0_4px_30px_rgba(249,115,22,0.03)] hover:border-orange-500/40 hover:shadow-[0_12px_45px_rgba(249,115,22,0.15)] transition-all duration-300 flex flex-col justify-between overflow-hidden"
+              className="group p-6 sm:p-8 rounded-[24px] glass-panel relative border border-green-500/10 shadow-[0_4px_30px_rgba(34,197,94,0.03)] hover:border-green-500/40 hover:shadow-[0_12px_45px_rgba(34,197,94,0.15)] transition-all duration-300 flex flex-col justify-between overflow-hidden"
             >
-              <div className="absolute -bottom-6 -right-4 font-orbitron text-[120px] font-black text-orange-500/[0.03] select-none pointer-events-none group-hover:text-orange-500/[0.08] group-hover:scale-110 transition-all duration-500 z-0">
+              <div className="absolute -bottom-6 -right-4 font-orbitron text-[120px] font-black text-green-500/[0.03] select-none pointer-events-none group-hover:text-green-500/[0.08] group-hover:scale-110 transition-all duration-500 z-0">
                 02
               </div>
 
               <div className="relative z-10">
                 <div className="flex flex-col gap-4 mb-5">
                   <motion.div
-                    className="flex items-center justify-center w-14 h-14 rounded-xl bg-orange-500/10 border border-orange-500/25 group-hover:bg-orange-500/20 group-hover:border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.1)] group-hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] transition-all duration-300"
+                    className="flex items-center justify-center w-14 h-14 rounded-xl bg-green-500/10 border border-green-500/25 group-hover:bg-green-500/20 group-hover:border-green-500/50 shadow-[0_0_15px_rgba(34,197,94,0.1)] group-hover:shadow-[0_0_25px_rgba(34,197,94,0.3)] transition-all duration-300"
                     whileHover={{ scale: 1.08, rotate: 5 }}
                   >
-                    <MessageSquare size={24} className="text-orange-500" />
+                    <MessageSquare size={24} className="text-green-500" />
                   </motion.div>
                   <div>
-                    <span className="text-[11px] font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2 py-1 rounded-md">Round 02</span>
+                    <span className="text-[11px] font-bold text-green-400 uppercase tracking-widest bg-green-500/10 px-2 py-1 rounded-md">Round 02</span>
                     <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">Buzzword Storytelling</h3>
-                    <div className="w-8 h-1 bg-gradient-to-r from-orange-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
+                    <div className="w-8 h-1 bg-gradient-to-r from-green-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
                   </div>
                 </div>
 
@@ -1233,12 +1262,12 @@ export function SpeakAThonPage() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3 mt-auto relative z-10">
-                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep: 60s</p>
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-green-500/15 group-hover:bg-green-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-green-400"/> Prep: 60s</p>
                   <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Weave buzzwords into story</p>
                 </div>
-                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak: 1-2m</p>
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-green-500/15 group-hover:bg-green-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-green-400"/> Speak: 1-2m</p>
                   <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Tell coherent narrative</p>
                 </div>
               </div>
@@ -1247,9 +1276,9 @@ export function SpeakAThonPage() {
             {/* ARROW 2 */}
             <div className="hidden lg:flex items-center justify-center flex-shrink-0 w-8">
                <div className="flex flex-col items-center gap-1 opacity-80">
-                 <div className="w-[2px] h-4 bg-gradient-to-b from-transparent to-orange-500/50 rounded-full"></div>
-                 <ChevronRight size={28} className="text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]" />
-                 <div className="w-[2px] h-4 bg-gradient-to-t from-transparent to-orange-500/50 rounded-full"></div>
+                 <div className="w-[2px] h-4 bg-gradient-to-b from-transparent to-green-500/50 rounded-full"></div>
+                 <ChevronRight size={28} className="text-green-500 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]" />
+                 <div className="w-[2px] h-4 bg-gradient-to-t from-transparent to-green-500/50 rounded-full"></div>
                </div>
             </div>
 
@@ -1261,24 +1290,24 @@ export function SpeakAThonPage() {
               viewport={{ once: true, margin: "-120px" }}
               transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.3 }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
-              className="group p-6 sm:p-8 rounded-[24px] glass-panel relative border border-orange-500/10 shadow-[0_4px_30px_rgba(249,115,22,0.03)] hover:border-orange-500/40 hover:shadow-[0_12px_45px_rgba(249,115,22,0.15)] transition-all duration-300 flex flex-col justify-between overflow-hidden"
+              className="group p-6 sm:p-8 rounded-[24px] glass-panel relative border border-green-500/10 shadow-[0_4px_30px_rgba(34,197,94,0.03)] hover:border-green-500/40 hover:shadow-[0_12px_45px_rgba(34,197,94,0.15)] transition-all duration-300 flex flex-col justify-between overflow-hidden"
             >
-              <div className="absolute -bottom-6 -right-4 font-orbitron text-[120px] font-black text-orange-500/[0.03] select-none pointer-events-none group-hover:text-orange-500/[0.08] group-hover:scale-110 transition-all duration-500 z-0">
+              <div className="absolute -bottom-6 -right-4 font-orbitron text-[120px] font-black text-green-500/[0.03] select-none pointer-events-none group-hover:text-green-500/[0.08] group-hover:scale-110 transition-all duration-500 z-0">
                 03
               </div>
 
               <div className="relative z-10">
                 <div className="flex flex-col gap-4 mb-5">
                   <motion.div
-                    className="flex items-center justify-center w-14 h-14 rounded-xl bg-orange-500/10 border border-orange-500/25 group-hover:bg-orange-500/20 group-hover:border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.1)] group-hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] transition-all duration-300"
+                    className="flex items-center justify-center w-14 h-14 rounded-xl bg-green-500/10 border border-green-500/25 group-hover:bg-green-500/20 group-hover:border-green-500/50 shadow-[0_0_15px_rgba(34,197,94,0.1)] group-hover:shadow-[0_0_25px_rgba(34,197,94,0.3)] transition-all duration-300"
                     whileHover={{ scale: 1.08, rotate: 5 }}
                   >
-                    <BookOpen size={24} className="text-orange-500" />
+                    <BookOpen size={24} className="text-green-500" />
                   </motion.div>
                   <div>
-                    <span className="text-[11px] font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2 py-1 rounded-md">Round 03 - Finale</span>
+                    <span className="text-[11px] font-bold text-green-400 uppercase tracking-widest bg-green-500/10 px-2 py-1 rounded-md">Round 03 - Finale</span>
                     <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">Object Monologue</h3>
-                    <div className="w-8 h-1 bg-gradient-to-r from-orange-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
+                    <div className="w-8 h-1 bg-gradient-to-r from-green-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
                   </div>
                 </div>
 
@@ -1288,12 +1317,12 @@ export function SpeakAThonPage() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3 mt-auto relative z-10">
-                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep: 1m</p>
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-green-500/15 group-hover:bg-green-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-green-400"/> Prep: 1m</p>
                   <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Plan object personification</p>
                 </div>
-                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak: 1-2m</p>
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-green-500/15 group-hover:bg-green-500/[0.02] transition-colors duration-300">
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-green-400"/> Speak: 1-2m</p>
                   <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Deliver monologue as object</p>
                 </div>
               </div>
@@ -1311,11 +1340,11 @@ export function SpeakAThonPage() {
             transition={{ duration: 0.9, ease: BUTTERY_EASE }}
             className="text-center mb-8"
           >
-            <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
+            <span className="font-orbitron text-xs font-bold text-green-500 uppercase tracking-widest">
               Upcoming Event
             </span>
-            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(249,115,22,0.35)" }}>
-              Speakathon 2k26
+            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(34,197,94,0.35)" }}>
+              Speak-A-Thon 2k26
             </h2>
           </motion.div>
 
@@ -1326,25 +1355,15 @@ export function SpeakAThonPage() {
             transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.2 }}
             className="w-full max-w-[600px]"
           >
-            <div className="p-8 rounded-[24px] glass-panel border border-orange-500/20 shadow-[0_8px_40px_rgba(249,115,22,0.1)]">
+            <div className="p-8 rounded-[24px] glass-panel border border-green-500/20 shadow-[0_8px_40px_rgba(34,197,94,0.1)]">
               <div className="flex flex-col gap-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/25">
-                    <MapPin size={20} className="text-orange-500" />
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/25">
+                    <MapPin size={20} className="text-green-500" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-white mb-1">Event Mode</h3>
                     <p className="text-[#C8D3F5] text-sm">Online</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/25">
-                    <Calendar size={20} className="text-orange-500" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-white mb-1">Date & Duration</h3>
-                    <p className="text-[#C8D3F5] text-sm">Coming Soon</p>
                   </div>
                 </div>
               </div>
@@ -1361,10 +1380,10 @@ export function SpeakAThonPage() {
             transition={{ duration: 0.9, ease: BUTTERY_EASE }}
             className="text-center mb-10"
           >
-            <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
+            <span className="font-orbitron text-xs font-bold text-green-500 uppercase tracking-widest">
               2025 Retrospective
             </span>
-            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(249,115,22,0.35)" }}>
+            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(34,197,94,0.35)" }}>
               Last Year Highlights
             </h2>
           </motion.div>
@@ -1387,12 +1406,12 @@ export function SpeakAThonPage() {
                     className="gallery-item"
                     style={{
                       flexShrink: 0,
-                      width: "clamp(280px, 36vw, 380px)",
-                      height: "clamp(180px, 26vw, 260px)",
+                      width: "clamp(340px, 45vw, 540px)",
+                      height: "clamp(220px, 32vw, 360px)",
                       borderRadius: "2px",
                       clipPath: "none",
                       overflow: "hidden",
-                      border: "1px dashed rgba(249, 115, 22, 0.25)",
+                      border: "1px dashed rgba(34, 197, 94, 0.25)",
                       background: "rgba(8,10,12,0.95)",
                       position: "relative",
                     }}
@@ -1415,16 +1434,16 @@ export function SpeakAThonPage() {
                         <span style={{
                           fontFamily: "'Rajdhani', sans-serif",
                           fontSize: "0.7rem", letterSpacing: "0.25em",
-                          color: "rgba(249, 115, 22, 0.35)", textTransform: "uppercase",
+                          color: "rgba(34, 197, 94, 0.35)", textTransform: "uppercase",
                         }}>Photo 0{(i % 5) + 1}</span>
                       </div>
                     )}
 
                     {/* corner accents */}
-                    <div style={{ position:"absolute", top:8, left:8, width:12, height:12, borderTop:"1.5px solid rgba(249, 115, 22, 0.4)", borderLeft:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
-                    <div style={{ position:"absolute", top:8, right:8, width:12, height:12, borderTop:"1.5px solid rgba(249, 115, 22, 0.4)", borderRight:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
-                    <div style={{ position:"absolute", bottom:8, left:8, width:12, height:12, borderBottom:"1.5px solid rgba(249, 115, 22, 0.4)", borderLeft:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
-                    <div style={{ position:"absolute", bottom:8, right:8, width:12, height:12, borderBottom:"1.5px solid rgba(249, 115, 22, 0.4)", borderRight:"1.5px solid rgba(249, 115, 22, 0.4)" }} />
+                    <div style={{ position:"absolute", top:8, left:8, width:12, height:12, borderTop:"1.5px solid rgba(34, 197, 94, 0.4)", borderLeft:"1.5px solid rgba(34, 197, 94, 0.4)" }} />
+                    <div style={{ position:"absolute", top:8, right:8, width:12, height:12, borderTop:"1.5px solid rgba(34, 197, 94, 0.4)", borderRight:"1.5px solid rgba(34, 197, 94, 0.4)" }} />
+                    <div style={{ position:"absolute", bottom:8, left:8, width:12, height:12, borderBottom:"1.5px solid rgba(34, 197, 94, 0.4)", borderLeft:"1.5px solid rgba(34, 197, 94, 0.4)" }} />
+                    <div style={{ position:"absolute", bottom:8, right:8, width:12, height:12, borderBottom:"1.5px solid rgba(34, 197, 94, 0.4)", borderRight:"1.5px solid rgba(34, 197, 94, 0.4)" }} />
                   </div>
                 ))}
               </div>
@@ -1442,13 +1461,13 @@ export function SpeakAThonPage() {
             className="w-full max-w-[900px] relative"
           >
             {/* Glow effects */}
-            <div className="absolute inset-0 rounded-[28px] bg-gradient-to-r from-orange-500/15 via-amber-500/10 to-orange-600/15 blur-2xl pointer-events-none" />
-            <div className="absolute inset-0 rounded-[28px] shadow-[0_0_60px_rgba(249,115,22,0.25)] pointer-events-none" />
+            <div className="absolute inset-0 rounded-[28px] bg-gradient-to-r from-green-500/15 via-emerald-500/10 to-green-600/15 blur-2xl pointer-events-none" />
+            <div className="absolute inset-0 rounded-[28px] shadow-[0_0_60px_rgba(34,197,94,0.25)] pointer-events-none" />
 
-            <div className="relative w-full p-10 md:p-14 rounded-[28px] glass-panel flex flex-col items-center text-center overflow-hidden border border-orange-500/20">
+            <div className="relative w-full p-10 md:p-14 rounded-[28px] glass-panel flex flex-col items-center text-center overflow-hidden border border-green-500/20">
               {/* Animated background gradient */}
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(249,115,22,0.06)_0%,_transparent_70%)] pointer-events-none" />
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-orange-500/5 blur-[80px] rounded-full pointer-events-none" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(34,197,94,0.06)_0%,_transparent_70%)] pointer-events-none" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-green-500/5 blur-[80px] rounded-full pointer-events-none" />
 
               {/* Icon */}
               <motion.div
@@ -1458,8 +1477,8 @@ export function SpeakAThonPage() {
                 transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.3 }}
                 className="relative mb-6"
               >
-                <div className="absolute inset-0 bg-orange-500/20 blur-xl rounded-full" />
-                <Mic className="w-16 h-16 text-orange-500 relative z-10" strokeWidth={1.5} />
+                <div className="absolute inset-0 bg-green-500/20 blur-xl rounded-full" />
+                <Mic className="w-16 h-16 text-green-500 relative z-10" strokeWidth={1.5} />
               </motion.div>
 
               {/* Title */}
@@ -1494,9 +1513,9 @@ export function SpeakAThonPage() {
               >
                 <Link
                   to="/speak-a-thon/register"
-                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-full text-white text-sm sm:text-base font-bold tracking-[0.02em] cursor-pointer shadow-[0_4px_30px_rgba(249,115,22,0.45),0_0_60px_rgba(249,115,22,0.2),inset_0_0_20px_rgba(249,115,22,0.15)] hover:shadow-[0_6px_40px_rgba(249,115,22,0.6),0_0_80px_rgba(249,115,22,0.3)] transition-all duration-300 hover:scale-105 will-change-transform no-underline"
+                  className="flex items-center justify-center gap-2 px-10 py-4 rounded-full text-white text-sm sm:text-base font-bold tracking-[0.02em] cursor-pointer shadow-[0_4px_30px_rgba(34,197,94,0.45),0_0_60px_rgba(34,197,94,0.2),inset_0_0_20px_rgba(34,197,94,0.15)] hover:shadow-[0_6px_40px_rgba(34,197,94,0.6),0_0_80px_rgba(34,197,94,0.3)] transition-all duration-300 hover:scale-105 will-change-transform no-underline"
                   style={{
-                    background: "linear-gradient(135deg, #F97316 0%, #FB923C 50%, #FDBA74 100%)",
+                    background: "linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #86EFAC 100%)",
                   }}
                 >
                   <Sparkles size={16} /> Register Now <ChevronRight size={16} />
