@@ -705,81 +705,136 @@ export function IdeaThonPage() {
           <div className="divider" />
 
           {/* ════════════════════════
-              SECTION 2 — ROUNDS
-          ════════════════════════ */}
-          <section style={{ padding: "5rem 1.5rem" }}>
-            <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-              <FadeSection>
-                <SectionHeading label="The Journey" title="TWO ROUNDS TO THE STAGE" />
-              </FadeSection>
+    SECTION 2 — ROUNDS
+════════════════════════ */}
+<section style={{ padding: "5rem 1.5rem" }}>
+  <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+    <FadeSection>
+      <SectionHeading label="The Journey" title="TWO ROUNDS TO THE STAGE" />
+    </FadeSection>
 
-              <div className="rounds-grid" style={{ display: "flex", gap: "1.5rem", alignItems: "stretch" }}>
+    <div className="rounds-grid" style={{ display: "flex", gap: "1.5rem", alignItems: "stretch" }}>
 
-                <FadeSection style={{ flex: 1 }}>
-                  <RoundCard>
-                    <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "5rem", fontWeight: 900, color: "rgba(245,197,24,0.18)", position: "absolute", top: "0.8rem", right: "1.2rem", lineHeight: 1, userSelect: "none" }}>01</div>
-                    <div style={{ color: "#f5c518", marginBottom: "1rem" }}>
-                      <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.4">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                      </svg>
-                    </div>
-                    <p style={{ fontFamily: "'Rajdhani'", fontSize: "0.78rem", letterSpacing: "0.25em", color: "#f5c518", textTransform: "uppercase", marginBottom: "0.4rem", fontWeight: 600 }}>Round One</p>
-                    <h3 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "1.2rem", fontWeight: 700, color: "#f5e6c0", marginBottom: "0.9rem", letterSpacing: "0.06em" }}>PPT SUBMISSION</h3>
-                    <p style={{ color: "rgba(245,230,192,0.85)", fontSize: "0.98rem", lineHeight: 1.75, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
-                      Present your idea as a structured deck. Cover the problem, your solution, market scope, and a rough implementation plan. Selected teams advance to Round 2.
-                    </p>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", marginTop: "1.2rem" }}>
-                    <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "#f5c518", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f5c518" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                      Deadline: 27 June 2026, 5:00 PM
-                    </div>
-                    <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "rgba(245,197,24,0.6)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                      <span style={{ width: "1.8rem", height: "1.5px", background: "rgba(245,197,24,0.6)", display: "inline-block" }} />
-                      Online Submission
-                    </div>
-                  </div>
-                  </RoundCard>
-                </FadeSection>
-
-                <div className="rounds-arrow" style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                    <div style={{ width: 1, height: 28, background: "linear-gradient(transparent, rgba(245,197,24,0.4))" }} />
-                    <span style={{ color: "#f5c518", fontSize: "1rem", lineHeight: 1 }}>▶</span>
-                    <div style={{ width: 1, height: 28, background: "linear-gradient(rgba(245,197,24,0.4), transparent)" }} />
-                  </div>
-                </div>
-
-                <FadeSection delay={150} style={{ flex: 1 }}>
-                  <RoundCard>
-                    <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "5rem", fontWeight: 900, color: "rgba(245,197,24,0.18)", position: "absolute", top: "0.8rem", right: "1.2rem", lineHeight: 1, userSelect: "none" }}>02</div>
-                    <div style={{ color: "#f5c518", marginBottom: "1rem" }}>
-                      <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.4">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
-                      </svg>
-                    </div>
-                    <p style={{ fontFamily: "'Rajdhani'", fontSize: "0.78rem", letterSpacing: "0.25em", color: "#f5c518", textTransform: "uppercase", marginBottom: "0.4rem", fontWeight: 600 }}>Round Two</p>
-                    <h3 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "1.2rem", fontWeight: 700, color: "#f5e6c0", marginBottom: "0.9rem", letterSpacing: "0.06em" }}>IDEA PRESENTATION</h3>
-                    <p style={{ color: "rgba(245,230,192,0.85)", fontSize: "0.98rem", lineHeight: 1.75, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
-                      Take the stage. Present your solution live to a panel of judges. Defend your idea, answer questions, and demonstrate its real-world potential.
-                    </p>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", marginTop: "1.2rem" }}>
-                    <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "#f5c518", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f5c518" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                      Date: 30 June 2026
-                    </div>
-                    <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "rgba(245,197,24,0.6)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                      <span style={{ width: "1.8rem", height: "1.5px", background: "rgba(245,197,24,0.6)", display: "inline-block" }} />
-                      Live Judging
-                    </div>
-                  </div>
-                  </RoundCard>
-                </FadeSection>
-
-              </div>
+      <FadeSection style={{ flex: 1 }}>
+        <RoundCard>
+          <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "5rem", fontWeight: 900, color: "rgba(245,197,24,0.18)", position: "absolute", top: "0.8rem", right: "1.2rem", lineHeight: 1, userSelect: "none" }}>01</div>
+          <div style={{ color: "#f5c518", marginBottom: "1rem" }}>
+            <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+            </svg>
+          </div>
+          <p style={{ fontFamily: "'Rajdhani'", fontSize: "0.78rem", letterSpacing: "0.25em", color: "#f5c518", textTransform: "uppercase", marginBottom: "0.4rem", fontWeight: 600 }}>Round One</p>
+          <h3 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "1.2rem", fontWeight: 700, color: "#f5e6c0", marginBottom: "0.9rem", letterSpacing: "0.06em" }}>PPT SUBMISSION</h3>
+          <p style={{ color: "rgba(245,230,192,0.85)", fontSize: "0.98rem", lineHeight: 1.75, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
+            Present your idea as a structured deck. Cover the problem, your solution, market scope, and a rough implementation plan. Selected teams advance to Round 2.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", marginTop: "1.2rem" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "#f5c518", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f5c518" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Deadline: 27 June 2026, 5:00 PM
             </div>
-          </section>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "rgba(245,197,24,0.6)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+              <span style={{ width: "1.8rem", height: "1.5px", background: "rgba(245,197,24,0.6)", display: "inline-block" }} />
+              Online Submission
+            </div>
+          </div>
+        </RoundCard>
+      </FadeSection>
 
-          <div className="divider" />
+      <div className="rounds-arrow" style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+          <div style={{ width: 1, height: 28, background: "linear-gradient(transparent, rgba(245,197,24,0.4))" }} />
+          <span style={{ color: "#f5c518", fontSize: "1rem", lineHeight: 1 }}>▶</span>
+          <div style={{ width: 1, height: 28, background: "linear-gradient(rgba(245,197,24,0.4), transparent)" }} />
+        </div>
+      </div>
+
+      <FadeSection delay={150} style={{ flex: 1 }}>
+        <RoundCard>
+          <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "5rem", fontWeight: 900, color: "rgba(245,197,24,0.18)", position: "absolute", top: "0.8rem", right: "1.2rem", lineHeight: 1, userSelect: "none" }}>02</div>
+          <div style={{ color: "#f5c518", marginBottom: "1rem" }}>
+            <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
+            </svg>
+          </div>
+          <p style={{ fontFamily: "'Rajdhani'", fontSize: "0.78rem", letterSpacing: "0.25em", color: "#f5c518", textTransform: "uppercase", marginBottom: "0.4rem", fontWeight: 600 }}>Round Two</p>
+          <h3 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "1.2rem", fontWeight: 700, color: "#f5e6c0", marginBottom: "0.9rem", letterSpacing: "0.06em" }}>IDEA PRESENTATION</h3>
+          <p style={{ color: "rgba(245,230,192,0.85)", fontSize: "0.98rem", lineHeight: 1.75, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
+            Take the stage. Present your solution live to a panel of judges. Defend your idea, answer questions, and demonstrate its real-world potential.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", marginTop: "1.2rem" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "#f5c518", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f5c518" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Date: 30 June 2026
+            </div>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "rgba(245,197,24,0.6)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+              <span style={{ width: "1.8rem", height: "1.5px", background: "rgba(245,197,24,0.6)", display: "inline-block" }} />
+              Live Judging
+            </div>
+          </div>
+        </RoundCard>
+      </FadeSection>
+
+    </div>
+
+    {/* PPT Template Download */}
+    <FadeSection delay={200}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "2.5rem" }}>
+        <a href="/IdeathonPitchTemplate.pptx" download style={{ textDecoration: "none" }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "1rem",
+              padding: "1rem 2.2rem",
+              border: "1px solid rgba(245,197,24,0.25)",
+              borderRadius: "6px",
+              background: "rgba(245,197,24,0.04)",
+              cursor: "pointer",
+              position: "relative",
+              backdropFilter: "blur(4px)",
+              transition: "border-color 0.3s ease, background 0.3s ease",
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = "rgba(245,197,24,0.55)";
+              e.currentTarget.style.background = "rgba(245,197,24,0.08)";
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = "rgba(245,197,24,0.25)";
+              e.currentTarget.style.background = "rgba(245,197,24,0.04)";
+            }}
+          >
+            <span style={{ position: "absolute", top: 6, left: 6, width: 10, height: 10, borderTop: "1.5px solid #f5c518", borderLeft: "1.5px solid #f5c518" }} />
+            <span style={{ position: "absolute", top: 6, right: 6, width: 10, height: 10, borderTop: "1.5px solid #f5c518", borderRight: "1.5px solid #f5c518" }} />
+            <span style={{ position: "absolute", bottom: 6, left: 6, width: 10, height: 10, borderBottom: "1.5px solid #f5c518", borderLeft: "1.5px solid #f5c518" }} />
+            <span style={{ position: "absolute", bottom: 6, right: 6, width: 10, height: 10, borderBottom: "1.5px solid #f5c518", borderRight: "1.5px solid #f5c518" }} />
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5c518" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="12" y1="18" x2="12" y2="12" />
+              <polyline points="9 15 12 18 15 15" />
+            </svg>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
+              <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.2em", color: "#f5c518", textTransform: "uppercase" }}>
+                Download PPT Template
+              </span>
+              <span style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: "0.76rem", fontWeight: 500, letterSpacing: "0.06em", color: "rgba(245,210,120,0.45)" }}>
+                Round 1 · Official Submission Format
+              </span>
+            </div>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(245,197,24,0.55)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "0.3rem", flexShrink: 0 }}>
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <polyline points="19 12 12 19 5 12" />
+            </svg>
+          </div>
+        </a>
+      </div>
+    </FadeSection>
+
+  </div>
+</section>
+
+<div className="divider" />
 
           {/* ════════════════════════
               SECTION 4 — GALLERY
