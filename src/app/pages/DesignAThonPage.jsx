@@ -1234,7 +1234,7 @@ export function DesignAThonPage() {
                   boxShadow: "0 4px 20px rgba(34,197,94,0.16), inset 0 1px 0 rgba(34,197,94,0.14)",
                 }}
               >
-                <span className="flex items-center gap-1.5 text-[#F8FAFC] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
+                <span className="flex items-center gap-1.5 text-white text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
                   <Calendar size={14} color="#22C55E" />
                   June 26–27, 2026
                 </span>
@@ -1242,7 +1242,7 @@ export function DesignAThonPage() {
                   aria-hidden="true"
                   style={{ width: "1px", height: "14px", background: "rgba(34,197,94,0.30)" }}
                 />
-                <span className="flex items-center gap-1.5 text-[#C8D3F5] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
+                <span className="flex items-center gap-1.5 text-white text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
                   <Clock size={14} color="#22C55E" />
                   9:00 AM – 4:00 PM
                 </span>
