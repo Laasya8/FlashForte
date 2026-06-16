@@ -433,7 +433,32 @@ export function IdeaThonPage() {
 
         .cyber-tag { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.95rem; border: 1px solid rgba(245,197,24,0.7); background: rgba(245,197,24,0.06); font-family: 'Rajdhani', sans-serif; font-size: 0.78rem; letter-spacing: 0.22em; color: #f5c518; text-transform: uppercase; border-radius: 22px; }
 
-        @media (max-width: 1024px) { .hero-layout { flex-direction: column !important; } .hero-left { width: 100% !important; max-width: 100% !important; padding-left: 0 !important; text-align: center !important; align-items: center !important; } .hero-right { width: 100% !important; justify-content: center !important; transform: none !important; } .hero-btns { justify-content: center !important; } }
+        @media (max-width: 768px) {
+  .hero-layout {
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 1.5rem 1.25rem 2rem !important;
+    min-height: unset !important;
+    gap: 0 !important;
+  }
+  .hero-left {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    transform: none !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .hero-left p { text-align: center !important; }
+  .hero-btns { justify-content: center !important; flex-direction: column !important; align-items: center !important; }
+  .hero-btns a { width: 80vw !important; }
+  .hero-btns button { width: 100% !important; }
+  .hero-right { display: none !important; }
+  .hero-portal-mobile-slot { display: flex !important; }
+  .hero-desc { margin-bottom: 1rem !important; }
+  .hero-portal-mobile-slot { margin-bottom: 0.5rem !important; }
+}
+@media (min-width: 769px) { .hero-portal-mobile-slot { display: none !important; } }
         @media (max-width: 768px) { .rounds-grid { flex-direction: column !important; } .rounds-arrow { display: none !important; } .domains-grid { grid-template-columns: 1fr 1fr !important; } .gallery-grid { grid-template-columns: 1fr 1fr !important; } }
         @media (max-width: 480px) { .domains-grid { grid-template-columns: 1fr !important; } .gallery-grid { grid-template-columns: 1fr !important; } }
 
@@ -534,6 +559,21 @@ export function IdeaThonPage() {
                   </p>
                 </FadeSection>
 
+                
+                {/* Mobile portal */}
+                <div className="hero-portal-mobile-slot" style={{ width: "100%", justifyContent: "center", marginBottom: "0.5rem" }}>
+                  <div style={{ width: "90%", maxWidth: "420px", aspectRatio: "1 / 1", position: "relative" }}>
+                    <TiltedCard
+                      containerHeight="100%" containerWidth="100%"
+                      imageHeight="100%" imageWidth="100%"
+                      rotateAmplitude={0} scaleOnHover={1}
+                      showMobileWarning={false} showTooltip={false}
+                      displayOverlayContent={true}
+                      overlayContent={<PortalVideo className="w-full h-full" />}
+                    />
+                  </div>
+                </div>
+
                 <FadeSection delay={160}>
                   <div style={{
                     display: "inline-flex",
@@ -561,13 +601,6 @@ export function IdeaThonPage() {
                     </span>
                   </div>
                 </FadeSection>
-
-                {/* Mobile portal */}
-                <div className="hero-portal-mobile-slot" style={{ width: "100%", justifyContent: "center", marginBottom: "1.5rem" }}>
-                  <div style={{ width: "52%", aspectRatio: "1 / 1", position: "relative" }}>
-                    <TiltedCard containerHeight="100%" containerWidth="100%" imageHeight="100%" imageWidth="100%" rotateAmplitude={0} scaleOnHover={1} showMobileWarning={false} showTooltip={false} displayOverlayContent={true} overlayContent={<PortalVideo className="w-full h-full" />} />
-                  </div>
-                </div>
 
                 <FadeSection delay={180}>
                   <p className="hero-desc" style={{ color: "rgba(245,230,192,0.85)", fontSize: "clamp(0.9rem, 1.5vw, 1.05rem)", lineHeight: 1.75, maxWidth: 460, marginBottom: "2.4rem", fontFamily: "'Rajdhani', sans-serif", fontWeight: 400, letterSpacing: "0.02em" }}>
