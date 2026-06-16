@@ -1530,7 +1530,7 @@ export function GameAThonPage() {
 
             <div className="relative z-10">
               <p className="text-[#7E89A8] text-[10px] font-bold tracking-[0.18em] uppercase mb-7">
-                GameAThon Manifesto
+                Game-A-Thon Manifesto
               </p>
 
               <blockquote
@@ -1665,7 +1665,7 @@ export function GameAThonPage() {
               Glimpse of Last Year's Talent
             </h2>
             <p className="text-[#7E89A8] text-[clamp(13px,1.8vw,16px)] leading-[1.7] max-w-[480px] mx-auto">
-              The moments that defined GameAThon. Relive the intensity
+              The moments that defined Game-A-Thon. Relive the intensity
               before you write your own chapter.
             </p>
           </ScrollReveal>
