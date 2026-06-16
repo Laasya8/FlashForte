@@ -525,12 +525,8 @@ export function IdeaThonPage() {
                 </FadeSection>
 
                 <FadeSection delay={140}>
-                  <p style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: "clamp(0.95rem, 1.4vw, 1.2rem)", letterSpacing: "0.25em", color: "#f5c518", textTransform: "uppercase", marginBottom: "1.4rem", fontWeight: 700, textShadow: "0 0 18px rgba(245,197,24,0.35)", display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}><strong>Think</strong></span>
-                    <span style={{ color: "rgba(245,230,192,0.9)", letterSpacing: "0.14em" }}>·</span>
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}><strong>Ideate</strong></span>
-                    <span style={{ color: "rgba(245,230,192,0.9)", letterSpacing: "0.14em" }}>·</span>
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}><strong>Pitch</strong></span>
+                  <p style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: "clamp(0.95rem, 1.4vw, 1.2rem)", letterSpacing: "0.25em", color: "#f5c518", marginBottom: "1.4rem", fontWeight: 700, textShadow: "0 0 18px rgba(245,197,24,0.35)", display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+                    Think. Ideate. Pitch.
                   </p>
                 </FadeSection>
 

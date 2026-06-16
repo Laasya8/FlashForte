@@ -967,11 +967,11 @@ export function SpeakAThonPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.35 }}
-            className="text-[#FFFFFF] text-[clamp(13px,2.2vw,22px)] font-extrabold leading-[1.35] tracking-[0.18em] mb-4 mt-0 uppercase text-center lg:text-left w-full"
+            className="text-[#FFFFFF] text-[clamp(13px,2.2vw,22px)] font-extrabold leading-[1.35] tracking-[0.18em] mb-4 mt-0 text-center lg:text-left w-full"
           >
-            WHERE CONFIDENCE{" "}
+            Where confidence{" "}
             <span className="bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
-              FINDS ITS VOICE
+              finds its voice.
             </span>
           </motion.h2>
 

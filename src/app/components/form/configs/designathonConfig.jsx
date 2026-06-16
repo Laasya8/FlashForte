@@ -24,7 +24,7 @@ export const designathonConfig = {
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
     titleNode: () => <>{titleNode()} Registration</>,
-    subtitle: "Where creativity meets impact.",
+    subtitle: "Design. Create. Elevate.",
     submitText: "Register Now",
     successTitle: "Registration Confirmed.",
     successSubtitle: "Your creative journey begins.",
