@@ -3,20 +3,21 @@ import { Link } from "react-router";
 import { motion, useInView } from "framer-motion";
 import {
   ChevronRight,
-  LayoutGrid,
   Palette,
-  Paintbrush,
   Box,
-  Trophy,
   Layers,
   PenTool,
   Wand2,
   Monitor,
   Sparkles,
-  Zap,
+  Calendar,
+  Clock,
+  Eye,
+  Leaf,
+  Gamepad2,
+  Brain,
 } from "lucide-react";
 import { CursorTrail } from "../components/CursorTrail.jsx";
-import { UniversalLoader } from "../components/UniversalLoader.jsx";
 
 import designathon1 from "../../images/Designathon/designathon1.webp";
 import designathon2 from "../../images/Designathon/designathon2.webp";
@@ -131,37 +132,39 @@ function PortalVideo({ className = "" }) {
     if (videoRef.current) videoRef.current.playbackRate = 0.6;
   }, []);
 
-  // Radial mask: visible center, fades to nothing well before the edge
   const MASK =
-    "radial-gradient(circle at center, black 30%, rgba(0,0,0,0.85) 48%, rgba(0,0,0,0.40) 62%, transparent 75%)";
+    "radial-gradient(circle at center, black 30%, rgba(0,0,0,0.85) 48%, rgba(0,0,0,0.40) 62%, transparent 72%)";
 
   return (
     <div
       className={`relative flex items-center justify-center aspect-square mx-auto my-0 md:my-4 w-full max-w-[clamp(340px,85vw,600px)] lg:max-w-none lg:w-full ${className}`}
     >
-      {/* Soft ambient energy — bleeds freely into the page bg */}
+      {/* Outer ambient glow */}
       <div
-        className="absolute pointer-events-none"
+        className="absolute rounded-full blur-[40px] mix-blend-screen z-0 inset-[-15%]"
         style={{
-          inset: "-30%",
-          zIndex: 0,
-          filter: "blur(80px)",
           background:
-            "radial-gradient(circle at center, rgba(34,197,94,0.26) 0%, rgba(34,197,94,0.14) 45%, rgba(34,197,94,0.06) 65%, transparent 80%)",
+            "radial-gradient(circle, rgba(34,197,94,0.48) 0%, rgba(22,163,74,0.25) 50%, transparent 75%)",
         }}
       />
-
+      {/* Inner ambient glow */}
+      <div
+        className="absolute inset-0 rounded-full blur-[20px] mix-blend-screen z-0"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(74,222,128,0.30) 0%, rgba(34,197,94,0.15) 60%, transparent 100%)",
+        }}
+      />
       {/* Masked portal wrapper — all layers fade together via mask */}
       <div
-        className="absolute"
+        className="absolute inset-0"
         style={{
-          inset: 0,
           zIndex: 1,
           maskImage: MASK,
           WebkitMaskImage: MASK,
         }}
       >
-        {/* Video */}
+        {/* Video with green color filter */}
         <video
           ref={videoRef}
           src="/Portal Animation.webm"
@@ -169,54 +172,23 @@ function PortalVideo({ className = "" }) {
           muted
           loop
           playsInline
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            zIndex: 1,
-            filter: "grayscale(1) brightness(1.15) contrast(1.05)",
-          }}
-        />
-
-        {/* Color: purple-blue tint over grayscale video */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 2,
-            mixBlendMode: "color",
-            background:
-              "conic-gradient(from 200deg at 45% 45%, #22C55E 0deg, #4ADE80 60deg, #86EFAC 100deg, #14B8A6 160deg, #22C55E 220deg, #4ADE80 280deg, #14B8A6 360deg)",
-            opacity: 0.92,
-          }}
-        />
-
-        {/* Screen: inner luminous highlight */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 3,
-            mixBlendMode: "screen",
-            background:
-              "radial-gradient(ellipse at 55% 38%, rgba(34,197,94,0.35) 0%, rgba(34,197,94,0.18) 40%, transparent 65%)",
-          }}
-        />
-
-        {/* Multiply: darkens perimeter so fade starts from near-black */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 4,
-            mixBlendMode: "multiply",
-            background:
-              "radial-gradient(circle at center, transparent 20%, rgba(5,8,22,0.55) 65%, rgba(5,8,22,0.96) 100%)",
+            filter:
+              "sepia(1) saturate(3.5) hue-rotate(85deg) brightness(1.0) contrast(1.1) drop-shadow(0 0 30px rgba(34,197,94,0.7))",
           }}
         />
       </div>
+
+      {/* Completely solid black center */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          zIndex: 2,
+          background:
+            "radial-gradient(circle at center, #000000 0%, #000000 14%, transparent 24%, transparent 100%)",
+        }}
+      />
     </div>
   );
 }
@@ -227,11 +199,23 @@ function PortalVideo({ className = "" }) {
    ═══════════════════════════════════════════════════════════ */
 function DesignCard({ icon: Icon, title, description, accentColor = "#22C55E", delay = 0 }) {
   return (
-    <ScrollReveal variants={scaleUp} delay={delay} className="h-full">
+    <ScrollReveal variants={scaleUp} delay={delay} className="h-full relative">
+      {/* Background neon radiance blended with bg */}
       <div
-        className="glass-card rounded-[20px] p-6 h-full flex flex-col gap-4 cursor-default"
+        className="absolute inset-0 pointer-events-none rounded-[20px]"
         style={{
-          border: `1px solid ${accentColor}33`,
+          background: `radial-gradient(circle at 50% 50%, ${accentColor}22 0%, transparent 75%)`,
+          filter: "blur(20px)",
+          zIndex: 0,
+          transform: "scale(1.15)",
+        }}
+      />
+      <div
+        className="glass-card rounded-[20px] p-6 h-full flex flex-col gap-4 cursor-default relative"
+        style={{
+          zIndex: 1,
+          border: `1px solid ${accentColor}44`,
+          boxShadow: `0 0 20px ${accentColor}18, 0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 ${accentColor}15`,
           transition:
             "transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease",
           willChange: "transform",
@@ -240,12 +224,13 @@ function DesignCard({ icon: Icon, title, description, accentColor = "#22C55E", d
           const card = e.currentTarget;
           card.style.transform = "translateY(-8px) scale(1.02)";
           card.style.boxShadow = [
-            `0 20px 60px ${accentColor}28`,
-            `0 8px 24px ${accentColor}18`,
-            `0 0 0 1px ${accentColor}44`,
-            `inset 0 1px 0 ${accentColor}22`,
+            `0 20px 60px ${accentColor}35`,
+            `0 8px 24px ${accentColor}22`,
+            `0 0 0 1px ${accentColor}66`,
+            `inset 0 1px 0 ${accentColor}33`,
+            `0 0 30px ${accentColor}30`,
           ].join(", ");
-          card.style.borderColor = `${accentColor}55`;
+          card.style.borderColor = `${accentColor}66`;
           const iconBox = card.querySelector(".icon-box");
           if (iconBox) {
             iconBox.style.boxShadow = `0 0 28px ${accentColor}55, 0 0 8px ${accentColor}33`;
@@ -255,8 +240,8 @@ function DesignCard({ icon: Icon, title, description, accentColor = "#22C55E", d
         onMouseLeave={(e) => {
           const card = e.currentTarget;
           card.style.transform = "";
-          card.style.boxShadow = "";
-          card.style.borderColor = "";
+          card.style.boxShadow = `0 0 20px ${accentColor}18, 0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 ${accentColor}15`;
+          card.style.borderColor = `${accentColor}44`;
           const iconBox = card.querySelector(".icon-box");
           if (iconBox) {
             iconBox.style.boxShadow = "";
@@ -265,7 +250,7 @@ function DesignCard({ icon: Icon, title, description, accentColor = "#22C55E", d
         }}
       >
         <div
-          className="icon-box w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0"
+          className="icon-box w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 relative z-10"
           style={{
             background: `linear-gradient(135deg, ${accentColor}22 0%, ${accentColor}11 100%)`,
             border: `1px solid ${accentColor}44`,
@@ -275,7 +260,7 @@ function DesignCard({ icon: Icon, title, description, accentColor = "#22C55E", d
         >
           <Icon size={22} style={{ color: accentColor }} />
         </div>
-        <div>
+        <div className="relative z-10">
           <h3 className="text-[#F8FAFC] text-[16px] font-bold mb-2 tracking-[0.01em] leading-snug">
             {title}
           </h3>
@@ -291,11 +276,23 @@ function DesignCard({ icon: Icon, title, description, accentColor = "#22C55E", d
    ═══════════════════════════════════════════════════════════ */
 function ToolCard({ icon: Icon, title, delay = 0 }) {
   return (
-    <ScrollReveal variants={scaleUp} delay={delay}>
+    <ScrollReveal variants={scaleUp} delay={delay} className="relative">
+      {/* Background neon radiance blended with bg */}
       <div
-        className="glass-card rounded-[16px] px-5 py-6 flex flex-col items-center gap-3 text-center cursor-default"
+        className="absolute inset-0 pointer-events-none rounded-[16px]"
         style={{
-          border: "1px solid rgba(34,197,94,0.2)",
+          background: `radial-gradient(circle at 50% 50%, rgba(34,197,94,0.14) 0%, transparent 75%)`,
+          filter: "blur(16px)",
+          zIndex: 0,
+          transform: "scale(1.15)",
+        }}
+      />
+      <div
+        className="glass-card rounded-[16px] px-5 py-6 flex flex-col items-center gap-3 text-center cursor-default relative"
+        style={{
+          zIndex: 1,
+          border: "1px solid rgba(34,197,94,0.35)",
+          boxShadow: "0 0 15px rgba(34,197,94,0.15), 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(34,197,94,0.12)",
           transition:
             "transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease",
           willChange: "transform",
@@ -308,6 +305,7 @@ function ToolCard({ icon: Icon, title, delay = 0 }) {
             "0 6px 20px rgba(34,197,94,0.14)",
             "0 0 0 1px rgba(34,197,94,0.45)",
             "inset 0 1px 0 rgba(34,197,94,0.18)",
+            "0 0 20px rgba(34,197,94,0.20)",
           ].join(", ");
           card.style.borderColor = "rgba(34,197,94,0.5)";
           const ring = card.querySelector(".tool-icon-ring");
@@ -320,8 +318,8 @@ function ToolCard({ icon: Icon, title, delay = 0 }) {
         onMouseLeave={(e) => {
           const card = e.currentTarget;
           card.style.transform = "";
-          card.style.boxShadow = "";
-          card.style.borderColor = "";
+          card.style.boxShadow = "0 0 15px rgba(34,197,94,0.15), 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(34,197,94,0.12)";
+          card.style.borderColor = "rgba(34,197,94,0.35)";
           const ring = card.querySelector(".tool-icon-ring");
           if (ring) {
             ring.style.boxShadow = "";
@@ -331,12 +329,12 @@ function ToolCard({ icon: Icon, title, delay = 0 }) {
         }}
       >
         <div
-          className="tool-icon-ring w-11 h-11 rounded-full flex items-center justify-center bg-[rgba(34,197,94,0.12)] border border-[rgba(34,197,94,0.25)] shadow-[0_0_12px_rgba(34,197,94,0.12)]"
+          className="tool-icon-ring w-11 h-11 rounded-full flex items-center justify-center bg-[rgba(34,197,94,0.12)] border border-[rgba(34,197,94,0.25)] shadow-[0_0_12px_rgba(34,197,94,0.12)] relative z-10"
           style={{ transition: "box-shadow 0.4s ease, background 0.4s ease, border-color 0.4s ease" }}
         >
           <Icon size={20} color="#22C55E" />
         </div>
-        <span className="text-[#C8D3F5] text-[13px] font-semibold tracking-[0.03em]">
+        <span className="text-[#C8D3F5] text-[13px] font-semibold tracking-[0.03em] relative z-10">
           {title}
         </span>
       </div>
@@ -350,22 +348,38 @@ function ToolCard({ icon: Icon, title, delay = 0 }) {
    ═══════════════════════════════════════════════════════════ */
 function WorkCard({ caption, index, image, position = "top" }) {
   return (
-    <div
-      className="relative w-full h-full rounded-[16px] overflow-hidden group cursor-pointer"
-      style={{ transition: "transform 0.35s ease, box-shadow 0.35s ease" }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "scale(1.03)";
-        e.currentTarget.style.boxShadow = "0 20px 40px rgba(34,197,94,0.15)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "";
-        e.currentTarget.style.boxShadow = "";
-      }}
-    >
-      {image && (
-        <img src={image} alt={caption} className="w-full h-full object-cover" style={{ objectPosition: position }} loading="lazy" />
-      )}
-      <div className="absolute inset-0 rounded-[16px] border border-[rgba(34,197,94,0.2)] group-hover:border-[rgba(34,197,94,0.5)] transition-colors duration-300 pointer-events-none" />
+    <div className="w-full h-full relative">
+      {/* Background neon radiance blended with bg */}
+      <div
+        className="absolute inset-0 pointer-events-none rounded-[16px]"
+        style={{
+          background: `radial-gradient(circle at 50% 50%, rgba(34,197,94,0.15) 0%, transparent 75%)`,
+          filter: "blur(18px)",
+          zIndex: 0,
+          transform: "scale(1.1)",
+        }}
+      />
+      <div
+        className="relative w-full h-full rounded-[16px] overflow-hidden group cursor-pointer"
+        style={{
+          zIndex: 1,
+          boxShadow: "0 0 12px rgba(34,197,94,0.18), 0 4px 18px rgba(0,0,0,0.4), 0 0 0 1px rgba(34,197,94,0.25)",
+          transition: "transform 0.35s ease, box-shadow 0.35s ease"
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = "scale(1.03)";
+          e.currentTarget.style.boxShadow = "0 0 20px rgba(34,197,94,0.30), 0 10px 30px rgba(34,197,94,0.22)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = "";
+          e.currentTarget.style.boxShadow = "0 0 12px rgba(34,197,94,0.18), 0 4px 18px rgba(0,0,0,0.4), 0 0 0 1px rgba(34,197,94,0.25)";
+        }}
+      >
+        {image && (
+          <img src={image} alt={caption} className="w-full h-full object-cover" style={{ objectPosition: position }} loading="lazy" />
+        )}
+        <div className="absolute inset-0 rounded-[16px] border border-[rgba(34,197,94,0.2)] group-hover:border-[rgba(34,197,94,0.5)] transition-colors duration-300 pointer-events-none" />
+      </div>
     </div>
   );
 }
@@ -375,34 +389,34 @@ function WorkCard({ caption, index, image, position = "top" }) {
    ═══════════════════════════════════════════════════════════ */
 const DESIGN_CARDS = [
   {
-    icon: Sparkles,
-    title: "Domain 1",
+    icon: Eye,
+    title: "A World Through Different Eyes",
     description:
-      "To be revealed. Stay tuned for exciting updates.",
+      "Exploring how different people perceive the same world through their unique experiences, emotions, and perspectives, fostering empathy and understanding.",
   },
   {
-    icon: Sparkles,
-    title: "Domain 2",
+    icon: Brain,
+    title: "Mind Over Machine",
     description:
-      "To be revealed. Stay tuned for exciting updates.",
+      "Exploring how human creativity and intelligence can work alongside advancing technology to create meaningful solutions.",
   },
   {
-    icon: Sparkles,
-    title: "Domain 3",
+    icon: Leaf,
+    title: "Borrowed Earth",
     description:
-      "To be revealed. Stay tuned for exciting updates.",
+      "It emphasizes that Earth is not ours to exploit but a gift we hold in trust for future generations. It inspires people to protect the environment and make sustainable choices.",
   },
   {
-    icon: Sparkles,
-    title: "Domain 4",
+    icon: Monitor,
+    title: "Digital Detox",
     description:
-      "To be revealed. Stay tuned for exciting updates.",
+      "A conscious effort to reduce screen time and digital distractions, promoting mental well-being, healthier habits, and stronger connections with the world beyond technology.",
   },
   {
-    icon: Sparkles,
-    title: "Domain 5",
+    icon: Gamepad2,
+    title: "Gaming Beyond Entertainment",
     description:
-      "To be revealed. Stay tuned for exciting updates.",
+      "Examining how gaming can evolve beyond entertainment to foster innovation, solve societal challenges, and inspire positive change.",
   },
 ];
 
@@ -426,9 +440,587 @@ const GALLERY_ITEMS = [
 ];
 
 /* ═══════════════════════════════════════════════════════════
-   RibbonCursor — green-themed canvas ribbon trail
-   (mirrors GameAThonPage RibbonCursor, re-colored for green)
+   GreenFloatingParticlesBackground — animated 3D bubble bg
+   (matches FloatingParticlesBackground from other thon pages,
+   re-colored with green accent palette)
    ═══════════════════════════════════════════════════════════ */
+function GreenFloatingParticlesBackground() {
+  const canvasRef = useRef(null);
+  const mouseRef = useRef({ x: -1000, y: -1000 });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let animationFrameId;
+    let particles = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    };
+
+    const initParticles = () => {
+      particles = [];
+      const numParticles = Math.floor((window.innerWidth / 8) * 0.7);
+      for (let i = 0; i < numParticles; i++) {
+        const isForeground = Math.random() > 0.85;
+        const vx = (Math.random() - 0.5) * 0.3;
+        const vy = (Math.random() - 0.5) * 0.3 - (isForeground ? 0.4 : 0.15);
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: isForeground ? Math.random() * 4 + 2 : Math.random() * 2 + 1,
+          vx: vx,
+          vy: vy,
+          baseVx: vx,
+          baseVy: vy,
+          life: Math.random() * 100,
+          alpha: isForeground ? Math.random() * 0.6 + 0.4 : Math.random() * 0.7 + 0.2,
+          isForeground
+        });
+      }
+    };
+
+    const onMouseMove = (e) => {
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', onMouseMove);
+    resize();
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const mouse = mouseRef.current;
+
+      particles.forEach(p => {
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 150) {
+          const force = (150 - dist) / 150;
+          p.vx -= (dx / dist) * force * 0.6;
+          p.vy -= (dy / dist) * force * 0.6;
+        }
+
+        p.vx += (p.baseVx - p.vx) * 0.02;
+        p.vy += (p.baseVy - p.vy) * 0.02;
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < -20) p.x = canvas.width + 20;
+        if (p.x > canvas.width + 20) p.x = -20;
+        if (p.y < -20) p.y = canvas.height + 20;
+        if (p.y > canvas.height + 20) p.y = -20;
+
+        p.life += 0.02;
+        const currentAlpha = p.alpha * (0.6 + 0.4 * Math.sin(p.life));
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+
+        if (p.isForeground) {
+          ctx.shadowBlur = p.radius * 2.5;
+          ctx.shadowColor = 'rgba(34, 197, 94, 0.5)';
+          ctx.fillStyle = `rgba(74, 222, 128, ${currentAlpha * 0.85})`;
+        } else {
+          ctx.shadowBlur = p.radius * 1.2;
+          ctx.shadowColor = 'rgba(22, 163, 74, 0.3)';
+          ctx.fillStyle = `rgba(34, 197, 94, ${currentAlpha * 0.8})`;
+        }
+
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: 0
+      }}
+      aria-hidden="true"
+    />
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DesignAThonLoader — Custom themed loading screen
+   ═══════════════════════════════════════════════════════════ */
+function DesignAThonLoader({ onDone }) {
+  const canvasRef = useRef(null);
+  const frameRef = useRef(null);
+  const [exit, setExit] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  // Lock scroll
+  useEffect(() => {
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+    };
+  }, []);
+
+  // Progress animation
+  useEffect(() => {
+    const start = Date.now();
+    const duration = 1250;
+    function tick() {
+      const elapsed = Date.now() - start;
+      const pct = Math.min(100, Math.round((elapsed / duration) * 100));
+      setProgress(pct);
+      if (pct < 100) {
+        requestAnimationFrame(tick);
+      }
+    }
+    requestAnimationFrame(tick);
+  }, []);
+
+  // Vector Design Canvas builder animation simulation
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Cubic Bezier math helper
+    function getBezierPoint(p0, p1, p2, p3, t) {
+      const oneMinusT = 1 - t;
+      const x = Math.pow(oneMinusT, 3) * p0.x +
+                3 * Math.pow(oneMinusT, 2) * t * p1.x +
+                3 * oneMinusT * Math.pow(t, 2) * p2.x +
+                Math.pow(t, 3) * p3.x;
+      const y = Math.pow(oneMinusT, 3) * p0.y +
+                3 * Math.pow(oneMinusT, 2) * t * p1.y +
+                3 * oneMinusT * Math.pow(t, 2) * p2.y +
+                Math.pow(t, 3) * p3.y;
+      return { x, y };
+    }
+
+    function draw() {
+      const W = canvas.width;
+      const H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      const cx = W / 2;
+      const cy = H / 2 - 130;
+
+      // 1. Draw coordinate grid blueprint
+      ctx.strokeStyle = "rgba(34, 197, 94, 0.02)";
+      ctx.lineWidth = 1;
+      const gridSize = 40;
+      for (let x = 0; x < W; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, H);
+        ctx.stroke();
+      }
+      for (let y = 0; y < H; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(W, y);
+        ctx.stroke();
+      }
+
+      // Palette path coordinates
+      const p0 = { x: cx - 80, y: cy - 60 };
+      const cp1_1 = { x: cx - 20, y: cy - 140 }, cp1_2 = { x: cx + 80, y: cy - 140 }, p1 = { x: cx + 120, y: cy - 60 };
+      const cp2_1 = { x: cx + 150, y: cy - 10 }, cp2_2 = { x: cx + 130, y: cy + 80 }, p2 = { x: cx + 60, y: cy + 110 };
+      const cp3_1 = { x: cx + 20, y: cy + 130 }, cp3_2 = { x: cx - 80, y: cy + 120 }, p3 = { x: cx - 110, y: cy + 40 };
+      const cp4_1 = { x: cx - 130, y: cy - 20 }, cp4_2 = { x: cx - 120, y: cy - 40 }, p4 = p0;
+
+      const points = [];
+      const steps = 40;
+      for (let i = 0; i <= steps; i++) points.push(getBezierPoint(p0, cp1_1, cp1_2, p1, i / steps));
+      for (let i = 1; i <= steps; i++) points.push(getBezierPoint(p1, cp2_1, cp2_2, p2, i / steps));
+      for (let i = 1; i <= steps; i++) points.push(getBezierPoint(p2, cp3_1, cp3_2, p3, i / steps));
+      for (let i = 1; i <= steps; i++) points.push(getBezierPoint(p3, cp4_1, cp4_2, p4, i / steps));
+
+      // Paint wells
+      const wells = [
+        { x: cx + 70, y: cy - 40, color: "#EC4899" }, // Fuchsia
+        { x: cx + 55, y: cy + 10, color: "#F97316" }, // Orange
+        { x: cx + 10, y: cy + 45, color: "#EAB308" }, // Yellow
+        { x: cx - 40, y: cy + 35, color: "#06B6D4" }  // Cyan
+      ];
+      const thumbhole = { x: cx - 60, y: cy - 10, r: 12 };
+
+      // Initialize drawing cursor (mx, my)
+      let mx = cx;
+      let my = cy;
+
+      // Draw state based on progress
+      if (progress < 50) {
+        // Phase 1: Draw Palette Outline
+        const ratio = progress / 50;
+        const currentLen = Math.floor(ratio * (points.length - 1));
+        
+        ctx.strokeStyle = "rgba(34, 197, 94, 0.6)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i <= currentLen; i++) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.stroke();
+
+        mx = points[currentLen].x;
+        my = points[currentLen].y;
+      } else {
+        // Outline completed
+        ctx.strokeStyle = "rgba(34, 197, 94, 0.5)";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+
+        // Phase 2: Draw Paint Wells (50 to 75)
+        wells.forEach((w, index) => {
+          const startP = 50 + index * 5;
+          const endP = 50 + (index + 1) * 5;
+          if (progress >= startP) {
+            ctx.beginPath();
+            ctx.arc(w.x, w.y, 10, 0, Math.PI * 2);
+            if (progress >= endP) {
+              ctx.fillStyle = w.color;
+              ctx.fill();
+              ctx.strokeStyle = "rgba(255,255,255,0.2)";
+              ctx.stroke();
+            } else {
+              const ratio = (progress - startP) / 5;
+              ctx.fillStyle = w.color;
+              ctx.globalAlpha = ratio;
+              ctx.fill();
+              ctx.globalAlpha = 1.0;
+            }
+          }
+        });
+
+        // Draw thumbhole
+        if (progress >= 70) {
+          ctx.beginPath();
+          ctx.arc(thumbhole.x, thumbhole.y, thumbhole.r, 0, Math.PI * 2);
+          ctx.fillStyle = "#050816";
+          ctx.fill();
+          ctx.strokeStyle = "rgba(34,197,94,0.3)";
+          ctx.stroke();
+        }
+
+        // Determine cursor position mx, my in Phase 2/3/4
+        if (progress < 75) {
+          const wellIndex = Math.min(3, Math.floor((progress - 50) / 5));
+          const w = wells[wellIndex];
+          const startP = 50 + wellIndex * 5;
+          const ratio = (progress - startP) / 5;
+          const lastX = wellIndex === 0 ? points[points.length-1].x : wells[wellIndex-1].x;
+          const lastY = wellIndex === 0 ? points[points.length-1].y : wells[wellIndex-1].y;
+          
+          mx = lastX + (w.x - lastX) * ratio;
+          my = lastY + (w.y - lastY) * ratio;
+        } else if (progress < 92) {
+          // Phase 3: Paintbrush Stroke sweep (75 to 92)
+          const ratio = (progress - 75) / 17;
+          
+          const sweepX1 = cx - 110;
+          const sweepX2 = cx + 110;
+          const sweepX = sweepX1 + (sweepX2 - sweepX1) * ratio;
+          const sweepY = cy + 20 * Math.sin((sweepX - cx) * 0.035);
+          
+          mx = sweepX;
+          my = sweepY;
+
+          ctx.strokeStyle = "rgba(74, 222, 128, 0.75)";
+          ctx.lineWidth = 12;
+          ctx.lineCap = "round";
+          ctx.lineJoin = "round";
+          ctx.beginPath();
+          ctx.moveTo(sweepX1, cy + 20 * Math.sin((sweepX1 - cx) * 0.035));
+          for (let sx = sweepX1; sx <= sweepX; sx += 2) {
+            ctx.lineTo(sx, cy + 20 * Math.sin((sx - cx) * 0.035));
+          }
+          ctx.stroke();
+          ctx.lineWidth = 1;
+        } else {
+          mx = cx + 110;
+          my = cy + 20 * Math.sin(110 * 0.035);
+          
+          ctx.strokeStyle = "rgba(74, 222, 128, 0.75)";
+          ctx.lineWidth = 12;
+          ctx.lineCap = "round";
+          ctx.lineJoin = "round";
+          ctx.beginPath();
+          const sweepX1 = cx - 110;
+          const sweepX2 = cx + 110;
+          ctx.moveTo(sweepX1, cy + 20 * Math.sin((sweepX1 - cx) * 0.035));
+          for (let sx = sweepX1; sx <= sweepX2; sx += 2) {
+            ctx.lineTo(sx, cy + 20 * Math.sin((sx - cx) * 0.035));
+          }
+          ctx.stroke();
+          ctx.lineWidth = 1;
+        }
+      }
+
+      if (progress >= 85) {
+        ctx.fillStyle = "#22C55E";
+        ctx.strokeStyle = "#FFFFFF";
+        ctx.lineWidth = 1;
+        const nodePoints = [p0, p1, p2, p3];
+        nodePoints.forEach(node => {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, 4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        });
+      }
+
+      ctx.strokeStyle = "#4ADE80";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(mx - 8, my); ctx.lineTo(mx + 8, my);
+      ctx.moveTo(mx, my - 8); ctx.lineTo(mx, my + 8);
+      ctx.stroke();
+
+      ctx.fillStyle = "rgba(5, 8, 22, 0.85)";
+      ctx.strokeStyle = "rgba(34, 197, 94, 0.5)";
+      const tVal = `X: ${Math.round(mx)} Y: ${Math.round(my)}`;
+      const tw = ctx.measureText(tVal).width + 12;
+      ctx.beginPath();
+      ctx.roundRect(mx + 10, my + 10, tw, 18, 4);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#4ADE80";
+      ctx.font = "bold 8px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText(tVal, mx + 16, my + 22);
+
+      ctx.strokeStyle = "rgba(34, 197, 94, 0.2)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2, 3]);
+      const guideY = cy + 160;
+      ctx.beginPath();
+      ctx.moveTo(cx - 150, guideY);
+      ctx.lineTo(cx + 150, guideY);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(cx - 150, guideY - 4); ctx.lineTo(cx - 150, guideY + 4);
+      ctx.moveTo(cx + 150, guideY - 4); ctx.lineTo(cx + 150, guideY + 4);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = "rgba(34, 197, 94, 0.65)";
+      ctx.font = "bold 9px monospace";
+      ctx.textAlign = "center";
+
+      let phaseText = "INITIALIZING VECTOR PALETTE CANVAS";
+      if (progress >= 92) phaseText = "FINISHING CONTRAST CALIBRATION";
+      else if (progress >= 75) phaseText = "APPLYING BRUSH CHROMATIC SWEEP";
+      else if (progress >= 50) phaseText = "FILLING CAROUSEL PALETTE WELLS";
+      else if (progress >= 3) phaseText = "RENDERING VECTOR PATH CONTOURS";
+
+      ctx.fillText(`DESIGN SYSTEM ENGINE // ${phaseText} [${progress}%]`, cx, guideY - 4);
+
+      frameRef.current = requestAnimationFrame(draw);
+    }
+    frameRef.current = requestAnimationFrame(draw);
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(frameRef.current);
+    };
+  }, [progress]);
+
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => setExit(true), 1300);
+    const doneTimer = setTimeout(() => onDone?.(), 1500);
+    return () => { clearTimeout(fadeTimer); clearTimeout(doneTimer); };
+  }, [onDone]);
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 99999,
+        background: "#050816",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        opacity: exit ? 0 : 1,
+        transition: "opacity 0.28s cubic-bezier(0.4,0,0.2,1)",
+        pointerEvents: exit ? "none" : "all",
+        overflow: "hidden",
+      }}
+    >
+      {/* Ambient particle canvas */}
+      <canvas
+        ref={canvasRef}
+        style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+      />
+
+      {/* Ambient radial glow behind canvas */}
+      <div style={{
+        position: "absolute",
+        width: "clamp(320px,55vw,520px)",
+        height: "clamp(320px,55vw,520px)",
+        borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(34,197,94,0.18) 0%, rgba(22,163,74,0.08) 45%, transparent 70%)",
+        filter: "blur(40px)",
+        animation: "loaderPulse 1.6s ease-in-out infinite",
+        pointerEvents: "none",
+      }} />
+
+      {/* Artboard Corner Crop Marks */}
+      {/* Top Left Bracket */}
+      <div style={{ position: "absolute", top: "24px", left: "24px", display: "flex", flexDirection: "column", gap: "4px" }}>
+        <div style={{ width: "20px", height: "20px", borderLeft: "2px solid #22C55E", borderTop: "2px solid #22C55E" }} />
+        <span style={{ fontFamily: "monospace", fontSize: "9px", color: "rgba(34, 197, 94, 0.5)" }}>LOC // 00.00</span>
+      </div>
+      {/* Top Right Bracket */}
+      <div style={{ position: "absolute", top: "24px", right: "24px", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
+        <div style={{ width: "20px", height: "20px", borderRight: "2px solid #22C55E", borderTop: "2px solid #22C55E" }} />
+        <span style={{ fontFamily: "monospace", fontSize: "9px", color: "rgba(34, 197, 94, 0.5)" }}>SYS // STABLE</span>
+      </div>
+      {/* Bottom Left Bracket */}
+      <div style={{ position: "absolute", bottom: "24px", left: "24px", display: "flex", flexDirection: "column", gap: "4px" }}>
+        <span style={{ fontFamily: "monospace", fontSize: "9px", color: "rgba(34, 197, 94, 0.5)" }}>GRID // 45PX</span>
+        <div style={{ width: "20px", height: "20px", borderLeft: "2px solid #22C55E", borderBottom: "2px solid #22C55E" }} />
+      </div>
+      {/* Bottom Right Bracket */}
+      <div style={{ position: "absolute", bottom: "24px", right: "24px", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
+        <span style={{ fontFamily: "monospace", fontSize: "9px", color: "rgba(34, 197, 94, 0.5)" }}>SCALE // 1.0</span>
+        <div style={{ width: "20px", height: "20px", borderRight: "2px solid #22C55E", borderBottom: "2px solid #22C55E" }} />
+      </div>
+
+      {/* Central content */}
+      <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: "0", marginTop: "160px" }}>
+
+        {/* Title */}
+        <h1 style={{
+          fontFamily: "'Orbitron', sans-serif",
+          fontSize: "clamp(26px,5.5vw,48px)",
+          fontWeight: 900,
+          letterSpacing: "0.13em",
+          margin: 0,
+          lineHeight: 1,
+          textShadow: "0 0 40px rgba(34, 197, 94, 0.55), 0 0 80px rgba(34, 197, 94, 0.22)",
+          animation: "loaderGlow 1.1s ease-in-out infinite alternate",
+        }}>
+          <span style={{ color: "#FFFFFF" }}>DESIGN-A</span>
+          <span style={{ color: "#22C55E" }}>-THON</span>
+        </h1>
+
+        {/* Tag line */}
+        <p style={{
+          fontFamily: "'Orbitron', sans-serif",
+          fontSize: "clamp(9px,1.4vw,11px)",
+          fontWeight: 600,
+          letterSpacing: "0.26em",
+          textTransform: "uppercase",
+          color: "#7E89A8",
+          margin: "10px 0 0 0",
+        }}>
+          Rendering canvas
+        </p>
+
+        {/* Progress track */}
+        <div style={{
+          marginTop: "22px",
+          width: "clamp(180px,28vw,260px)",
+          height: "3px",
+          background: "rgba(34, 197, 94, 0.12)",
+          borderRadius: "3px",
+          overflow: "hidden",
+          position: "relative",
+        }}>
+          <div style={{
+            height: "100%",
+            width: `${progress}%`,
+            background: "linear-gradient(90deg, #16A34A, #22C55E, #4ADE80)",
+            borderRadius: "3px",
+            boxShadow: "0 0 12px rgba(34, 197, 94, 0.80)",
+            transition: "width 0.05s linear",
+            position: "relative",
+          }}>
+            {/* shimmer */}
+            <div style={{
+              position: "absolute",
+              top: 0, right: 0, bottom: 0,
+              width: "40px",
+              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)",
+              animation: "loaderShimmer 0.6s ease-in-out infinite",
+            }} />
+          </div>
+        </div>
+
+        {/* Pct label */}
+        <p style={{
+          fontFamily: "'Orbitron', sans-serif",
+          fontSize: "10px",
+          color: "rgba(34, 197, 94, 0.65)",
+          margin: "8px 0 0 0",
+          letterSpacing: "0.10em",
+        }}>
+          {progress}%
+        </p>
+      </div>
+
+      <style>{`
+        @keyframes loaderPulse {
+          0%,100% { opacity:0.75; transform:scale(1); }
+          50%      { opacity:1;   transform:scale(1.05); }
+        }
+        @keyframes loaderGlow {
+          from { text-shadow: 0 0 28px rgba(34,197,94,0.45), 0 0 60px rgba(34,197,94,0.18); }
+          to   { text-shadow: 0 0 52px rgba(34,197,94,0.85), 0 0 100px rgba(34,197,94,0.38); }
+        }
+        @keyframes loaderShimmer {
+          0%   { opacity:0; transform:translateX(-30px); }
+          50%  { opacity:1; }
+          100% { opacity:0; transform:translateX(10px); }
+        }
+      `}</style>
+    </div>
+  );
+}
 
 /* ═══════════════════════════════════════════════════════════
    MAIN PAGE COMPONENT
@@ -437,37 +1029,25 @@ export function DesignAThonPage() {
   const [entranceComplete, setEntranceComplete] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(t);
-  }, []);
-
   return (
     <div className="relative w-full max-w-[100vw] overflow-x-hidden flex flex-col font-inter bg-[#050816]">
-      <div className="fixed inset-0 pointer-events-none z-0">
-  {[...Array(60)].map((_, i) => (
-    <div
-      key={i}
-      className="absolute bg-white rounded-full"
-      style={{
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        width: "2px",
-        height: "2px",
-        opacity: 0.8,
-      }}
-    />
-  ))}
-</div>
-      <CursorTrail colorRgb={[34, 197, 94]} />
       {loading && (
-        <UniversalLoader
-          titleStart="DESIGN"
-          titleEnd="ATHON"
-          colorHex="#22C55E"
-          colorRgb="34,197,94"
-        />
+        <style>{`
+          nav { display: none !important; }
+        `}</style>
       )}
+      {!loading && (
+        <style>{`
+          nav { animation: navQuickIn 0.18s ease-out; }
+          @keyframes navQuickIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+        `}</style>
+      )}
+      <GreenFloatingParticlesBackground />
+      <CursorTrail colorRgb={[34, 197, 94]} />
+      {loading && <DesignAThonLoader onDone={() => setLoading(false)} />}
       <motion.div
         className="w-full flex flex-col"
         initial={{ opacity: 0, y: 20 }}
@@ -483,12 +1063,16 @@ export function DesignAThonPage() {
           <div className="bg-ambient-depth" />
         </div>
 
-        {/* Green ambient tint layered over the existing space bg */}
+        {/* Layered green and teal neon ambient glows all over the page background */}
         <div
-          className="fixed inset-0 overflow-hidden pointer-events-none -z-10"
+          className="fixed inset-0 pointer-events-none -z-10"
           style={{
-            background:
-              "radial-gradient(ellipse 80% 60% at 70% 30%, rgba(34,197,94,0.055) 0%, transparent 65%)",
+            background: [
+              "radial-gradient(ellipse 90% 65% at 50% 0%, rgba(34,197,94,0.18) 0%, transparent 65%)",
+              "radial-gradient(ellipse 70% 50% at 80% 80%, rgba(22,163,74,0.14) 0%, transparent 60%)",
+              "radial-gradient(ellipse 55% 40% at 20% 55%, rgba(20,184,166,0.11) 0%, transparent 55%)",
+              "radial-gradient(ellipse 40% 35% at 60% 30%, rgba(74,222,128,0.08) 0%, transparent 50%)",
+            ].join(", "),
           }}
         />
 
@@ -515,7 +1099,15 @@ export function DesignAThonPage() {
               text-align: center !important;
             }
             .hero-left p { text-align: center !important; }
-            .hero-btns { justify-content: center !important; }
+            .hero-btns {
+              justify-content: center !important;
+              flex-direction: column !important;
+              align-items: stretch !important;
+              width: 100% !important;
+              max-width: 280px !important;
+              margin: 0 auto !important;
+              gap: 0.75rem !important;
+            }
             .hero-portal-mobile {
               width: 85% !important;
               transform: none !important;
@@ -527,6 +1119,17 @@ export function DesignAThonPage() {
           }
           @media (min-width: 769px) {
             .hero-portal-mobile-slot { display: none !important; }
+          }
+          @keyframes greenTitleGlow {
+            0%, 100% {
+              filter: drop-shadow(0 0 20px rgba(34,197,94,0.45)) drop-shadow(0 0 50px rgba(34,197,94,0.20));
+            }
+            50% {
+              filter: drop-shadow(0 0 28px rgba(74,222,128,0.70)) drop-shadow(0 0 65px rgba(34,197,94,0.35));
+            }
+          }
+          .animate-title-glow-green {
+            animation: greenTitleGlow 4s ease-in-out infinite;
           }
         `}</style>
         <section
@@ -561,6 +1164,7 @@ export function DesignAThonPage() {
             onAnimationComplete={() => setEntranceComplete(true)}
           >
             <motion.h1
+              className={entranceComplete ? "animate-title-glow-green" : ""}
               style={{
                 fontFamily: "'Orbitron', sans-serif",
                 fontSize: "clamp(1.8rem, 4.2vw, 3.8rem)",
@@ -570,9 +1174,7 @@ export function DesignAThonPage() {
                 lineHeight: 1,
                 whiteSpace: "nowrap",
                 marginBottom: "0.5rem",
-                textShadow: entranceComplete
-                  ? "0 0 40px rgba(34,197,94,0.5), 0 0 80px rgba(34,197,94,0.2)"
-                  : "0 0 30px rgba(34,197,94,0.4)",
+                filter: "drop-shadow(0 0 20px rgba(34,197,94,0.45)) drop-shadow(0 0 50px rgba(34,197,94,0.20))",
               }}
               variants={slideUp}
             >
@@ -588,7 +1190,7 @@ export function DesignAThonPage() {
 
             {/* Tagline */}
             <motion.p
-              className="text-[#FFFFFF] text-[clamp(17px,3.2vw,26px)] font-extrabold leading-[1.35] tracking-[0.08em] mb-6 mt-0"
+              className="text-[#FFFFFF] text-[clamp(17px,3.2vw,26px)] font-extrabold leading-[1.35] tracking-[0.01em] mb-2 mt-0"
               variants={slideUp}
             >
               Design.{" "}
@@ -609,12 +1211,43 @@ export function DesignAThonPage() {
             <div className="hero-portal-mobile-slot" style={{
               width: "100%",
               justifyContent: "center",
+              alignItems: "center",
               marginBottom: "1.5rem",
             }}>
               <div style={{ width: "70%", aspectRatio: "1 / 1", position: "relative" }}>
                 <PortalVideo className="w-full h-full" />
               </div>
             </div>
+
+            {/* Date/Time Badge */}
+            <motion.div
+              className="flex justify-center lg:justify-start w-full mb-5"
+              variants={fadeIn}
+            >
+              <div
+                className="inline-flex flex-wrap items-center gap-x-4 gap-y-1.5 px-5 py-2.5 rounded-[14px]"
+                style={{
+                  background: "linear-gradient(135deg, rgba(6,26,14,0.85) 0%, rgba(10,28,20,0.85) 100%)",
+                  border: "1px solid rgba(34,197,94,0.28)",
+                  backdropFilter: "blur(14px)",
+                  WebkitBackdropFilter: "blur(14px)",
+                  boxShadow: "0 4px 20px rgba(34,197,94,0.16), inset 0 1px 0 rgba(34,197,94,0.14)",
+                }}
+              >
+                <span className="flex items-center gap-1.5 text-[#F8FAFC] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
+                  <Calendar size={14} color="#22C55E" />
+                  June 26–27, 2026
+                </span>
+                <span
+                  aria-hidden="true"
+                  style={{ width: "1px", height: "14px", background: "rgba(34,197,94,0.30)" }}
+                />
+                <span className="flex items-center gap-1.5 text-[#C8D3F5] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
+                  <Clock size={14} color="#22C55E" />
+                  9:00 AM – 4:00 PM
+                </span>
+              </div>
+            </motion.div>
 
             <motion.p
               className="text-[#C8D3F5] text-[clamp(13px,1.8vw,16px)] leading-[1.8] max-w-[500px] mb-6"
@@ -634,38 +1267,41 @@ export function DesignAThonPage() {
               {/* Primary CTA */}
               <Link
                 to="/design-a-thon/register"
-                className="flex items-center justify-center gap-2 px-7 py-3 rounded-[50px] text-[#0B1120] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline transition-transform hover:-translate-y-1"
+                className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline"
                 style={{
-                  background: "linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #14B8A6 100%)",
-                  boxShadow: "0 4px 30px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.15)",
+                  background: "linear-gradient(135deg, #22C55E, #16A34A)",
+                  boxShadow: "0 4px 24px rgba(34,197,94,0.40), inset 0 0 12px rgba(34,197,94,0.30)",
+                  transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.06)";
+                  e.currentTarget.style.boxShadow = "0 8px 36px rgba(34,197,94,0.60), inset 0 0 18px rgba(34,197,94,0.40)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "";
+                  e.currentTarget.style.boxShadow = "0 4px 24px rgba(34,197,94,0.40), inset 0 0 12px rgba(34,197,94,0.30)";
                 }}
               >
-                <Zap size={14} /> Enter Designathon
+                Register Now <ChevronRight size={13} />
               </Link>
 
-              {/* Submission CTA */}
+              {/* Secondary CTA — outline style */}
               <Link
                 to="/design-a-thon/submit"
-               className="flex items-center justify-center gap-2 px-7 py-3 rounded-[50px] text-[#0B1120] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline transition-transform hover:-translate-y-1"
+                className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline btn-outline-glow"
                 style={{
-                  background: "linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #14B8A6 100%)",
-                  boxShadow: "0 4px 30px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.15)",
+                  transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)",
                 }}
-               onMouseEnter={(e) => {
-                     e.currentTarget.style.transform = "translateY(-4px)";
-                      e.currentTarget.style.boxShadow =
-                     "0 8px 40px rgba(34,197,94,0.6)";
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.06)";
+                  e.currentTarget.style.boxShadow = "0 8px 28px rgba(34,197,94,0.35)";
                 }}
-
-               onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.background =
-                    "linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #14B8A6 100%)";
-                    e.currentTarget.style.boxShadow =
-                    "0 4px 30px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.15)";
-                   }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "";
+                  e.currentTarget.style.boxShadow = "";
+                }}
               >
-               <Paintbrush size={14} /> Submit Design
+                Submit Design <ChevronRight size={13} />
               </Link>
 
             </motion.div>
@@ -678,6 +1314,7 @@ export function DesignAThonPage() {
               width: "55%",
               display: "flex",
               justifyContent: "flex-end",
+              alignItems: "center",
               transform: "translateX(3rem) translateY(-2rem)",
               position: "relative",
             }}
@@ -685,7 +1322,7 @@ export function DesignAThonPage() {
             initial="hidden"
             animate="visible"
           >
-            <div className="w-[115%] lg:w-[130%] aspect-square relative">
+            <div className="w-[115%] lg:w-[130%] aspect-square relative" style={{ alignSelf: "center" }}>
               <PortalVideo className="w-full h-full" />
             </div>
           </motion.div>
@@ -700,15 +1337,16 @@ export function DesignAThonPage() {
               className="relative rounded-[28px] px-8 py-14 md:px-24 md:py-20 text-center overflow-hidden"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(6,26,14,0.88) 0%, rgba(10,28,20,0.82) 100%)",
-                border: "1px solid rgba(34,197,94,0.22)",
+                  "linear-gradient(135deg, rgba(6,26,14,0.94) 0%, rgba(10,28,20,0.90) 100%)",
+                border: "1.5px solid rgba(34,197,94,0.50)",
                 backdropFilter: "blur(28px)",
                 WebkitBackdropFilter: "blur(28px)",
                 boxShadow: [
-                  "0 0 0 1px rgba(34,197,94,0.08)",
-                  "0 12px 48px rgba(34,197,94,0.12)",
-                  "0 2px 8px rgba(20,184,166,0.06)",
-                  "inset 0 1px 0 rgba(34,197,94,0.14)",
+                  "0 0 0 1px rgba(34,197,94,0.25)",
+                  "0 16px 80px rgba(34,197,94,0.38)",
+                  "0 4px 20px rgba(20,184,166,0.22)",
+                  "inset 0 1px 0 rgba(34,197,94,0.35)",
+                  "0 0 50px rgba(34,197,94,0.26)",
                 ].join(", "),
               }}
             >
@@ -899,8 +1537,38 @@ export function DesignAThonPage() {
 
           <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-stretch max-w-[1100px] mx-auto">
             {/* Round 1 */}
-            <ScrollReveal className="flex-1">
-              <div className="glass-card rounded-[20px] p-10 h-full flex flex-col relative overflow-hidden group cursor-default" style={{ border: '1px solid rgba(34,197,94,0.2)', borderTop: '2px solid #22C55E' }}>
+            <ScrollReveal className="flex-1 relative">
+              {/* Background neon radiance blended with bg */}
+              <div
+                className="absolute inset-0 pointer-events-none rounded-[20px]"
+                style={{
+                  background: 'radial-gradient(circle at 50% 50%, rgba(34,197,94,0.15) 0%, transparent 75%)',
+                  filter: 'blur(20px)',
+                  zIndex: 0,
+                  transform: 'scale(1.1)',
+                }}
+              />
+              <div
+                className="glass-card rounded-[20px] p-10 h-full flex flex-col relative overflow-hidden group cursor-default"
+                style={{
+                  zIndex: 1,
+                  border: '1px solid rgba(34,197,94,0.35)',
+                  borderTop: '2.5px solid #22C55E',
+                  boxShadow: '0 0 20px rgba(34,197,94,0.18), 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(34,197,94,0.15)',
+                  transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease',
+                  willChange: 'transform',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-6px) scale(1.015)';
+                  e.currentTarget.style.boxShadow = '0 20px 50px rgba(34,197,94,0.28), inset 0 1px 0 rgba(34,197,94,0.20), 0 0 25px rgba(34,197,94,0.20)';
+                  e.currentTarget.style.borderColor = 'rgba(34,197,94,0.45)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = '';
+                  e.currentTarget.style.boxShadow = '0 0 20px rgba(34,197,94,0.18), 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(34,197,94,0.15)';
+                  e.currentTarget.style.borderColor = 'rgba(34,197,94,0.35)';
+                }}
+              >
                 <div className="absolute top-4 right-6 font-orbitron text-[5rem] font-black text-[#22C55E]/25 leading-none select-none transition-transform duration-500 group-hover:scale-110 group-hover:text-[#22C55E]/40">01</div>
                 <div className="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 mb-5 relative z-10" style={{ background: 'linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(34,197,94,0.1) 100%)', border: '1px solid rgba(34,197,94,0.4)' }}>
                   <Palette size={24} color="#22C55E" />
@@ -927,8 +1595,38 @@ export function DesignAThonPage() {
             </div>
 
             {/* Round 2 */}
-            <ScrollReveal className="flex-1" delay={0.15}>
-              <div className="glass-card rounded-[20px] p-10 h-full flex flex-col relative overflow-hidden group cursor-default" style={{ border: '1px solid rgba(34,197,94,0.2)', borderTop: '2px solid #22C55E' }}>
+            <ScrollReveal className="flex-1 relative" delay={0.15}>
+              {/* Background neon radiance blended with bg */}
+              <div
+                className="absolute inset-0 pointer-events-none rounded-[20px]"
+                style={{
+                  background: 'radial-gradient(circle at 50% 50%, rgba(34,197,94,0.15) 0%, transparent 75%)',
+                  filter: 'blur(20px)',
+                  zIndex: 0,
+                  transform: 'scale(1.1)',
+                }}
+              />
+              <div
+                className="glass-card rounded-[20px] p-10 h-full flex flex-col relative overflow-hidden group cursor-default"
+                style={{
+                  zIndex: 1,
+                  border: '1px solid rgba(34,197,94,0.35)',
+                  borderTop: '2.5px solid #22C55E',
+                  boxShadow: '0 0 20px rgba(34,197,94,0.18), 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(34,197,94,0.15)',
+                  transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease',
+                  willChange: 'transform',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-6px) scale(1.015)';
+                  e.currentTarget.style.boxShadow = '0 20px 50px rgba(34,197,94,0.28), inset 0 1px 0 rgba(34,197,94,0.20), 0 0 25px rgba(34,197,94,0.20)';
+                  e.currentTarget.style.borderColor = 'rgba(34,197,94,0.45)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = '';
+                  e.currentTarget.style.boxShadow = '0 0 20px rgba(34,197,94,0.18), 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(34,197,94,0.15)';
+                  e.currentTarget.style.borderColor = 'rgba(34,197,94,0.35)';
+                }}
+              >
                 <div className="absolute top-4 right-6 font-orbitron text-[5rem] font-black text-[#22C55E]/25 leading-none select-none transition-transform duration-500 group-hover:scale-110 group-hover:text-[#22C55E]/40">02</div>
                 <div className="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 mb-5 relative z-10" style={{ background: 'linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(34,197,94,0.1) 100%)', border: '1px solid rgba(34,197,94,0.4)' }}>
                   <Monitor size={24} color="#22C55E" />
@@ -1042,8 +1740,24 @@ export function DesignAThonPage() {
           className="relative z-10 w-full px-5 pb-16 md:pb-24"
           style={{ scrollMarginTop: "92px" }}
         >
-          <ScrollReveal variants={scaleUp}>
-            <div className="relative max-w-[900px] mx-auto rounded-[28px] overflow-hidden px-8 py-14 md:px-16 md:py-20 text-center">
+          <ScrollReveal variants={scaleUp} className="relative">
+            {/* Background neon radiance blended with bg */}
+            <div
+              className="absolute inset-0 pointer-events-none rounded-[28px]"
+              style={{
+                background: 'radial-gradient(circle at 50% 50%, rgba(34,197,94,0.18) 0%, transparent 75%)',
+                filter: 'blur(30px)',
+                zIndex: 0,
+                transform: 'scale(1.12)',
+              }}
+            />
+            <div
+              className="relative max-w-[900px] mx-auto rounded-[28px] overflow-hidden px-8 py-14 md:px-16 md:py-20 text-center"
+              style={{
+                zIndex: 1,
+                boxShadow: "0 0 25px rgba(34,197,94,0.15), 0 8px 32px rgba(34,197,94,0.12)",
+              }}
+            >
               <div className="absolute inset-0 bg-gradient-to-br from-[#061a0e] via-[#080f1a] to-[#050816]" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(34,197,94,0.22)_0%,transparent_70%)]" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_100%,rgba(20,184,166,0.10)_0%,transparent_65%)]" />
@@ -1091,22 +1805,47 @@ export function DesignAThonPage() {
                   </span>
                 </h2>
 
-                <p className="text-[#C8D3F5] text-[clamp(13px,1.8vw,17px)] leading-[1.7] max-w-[460px] mx-auto mb-8">
-                  Seats are limited. The studio opens June 26–27.
-                  Lock in your spot and let your designs speak.
+                <p className="text-[#C8D3F5] text-[clamp(13px,1.8vw,17px)] leading-[1.7] max-w-[520px] mx-auto mb-8">
+                  Seats are limited. The stage is live on FlashForte 2K26. Lock in your spot and let the best gamer win.
                 </p>
 
                 <div className="flex flex-wrap justify-center gap-3">
                   <Link
                     to="/design-a-thon/register"
-                    className="flex items-center justify-center gap-2 px-10 py-4 rounded-[50px] text-[#0B1120] text-[clamp(14px,1.8vw,16px)] font-bold tracking-[0.02em] cursor-pointer no-underline"
+                    className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline"
                     style={{
-                      background: "linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #14B8A6 100%)",
-                      boxShadow: "0 4px 30px rgba(34,197,94,0.45), 0 0 60px rgba(34,197,94,0.15)",
+                      background: "linear-gradient(135deg, #22C55E, #16A34A)",
+                      boxShadow: "0 4px 24px rgba(34,197,94,0.40), inset 0 0 12px rgba(34,197,94,0.30)",
+                      transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.06)";
+                      e.currentTarget.style.boxShadow = "0 8px 36px rgba(34,197,94,0.60), inset 0 0 18px rgba(34,197,94,0.40)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "";
+                      e.currentTarget.style.boxShadow = "0 4px 24px rgba(34,197,94,0.40), inset 0 0 12px rgba(34,197,94,0.30)";
                     }}
                   >
-                    <span className="text-[11px]">✦</span> Register Now{" "}
-                    <ChevronRight size={14} />
+                    Register Now <ChevronRight size={13} />
+                  </Link>
+
+                  <Link
+                    to="/design-a-thon/submit"
+                    className="flex items-center justify-center gap-1.5 px-7 py-3 rounded-[50px] text-[#FFFFFF] text-[clamp(13px,1.6vw,15px)] font-bold tracking-[0.02em] cursor-pointer no-underline btn-outline-glow"
+                    style={{
+                      transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.06)";
+                      e.currentTarget.style.boxShadow = "0 8px 28px rgba(34,197,94,0.35)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "";
+                      e.currentTarget.style.boxShadow = "";
+                    }}
+                  >
+                    Submit Design <ChevronRight size={13} />
                   </Link>
                 </div>
               </div>
