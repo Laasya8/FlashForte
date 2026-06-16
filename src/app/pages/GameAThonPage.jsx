@@ -457,13 +457,13 @@ function MagicBentoCard({
 }
 
 const BUTTERY_EASE = [0.16, 1, 0.3, 1];
-const PHASE_DURATION = 1.2;
+const PHASE_DURATION = 0.7;
 
 const staggerContainer = {
   hidden: { opacity: 1 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.18, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
   },
 };
 
@@ -515,7 +515,7 @@ function scrollToSection(id) {
 
 function ScrollReveal({ children, variants = fadeIn, className = "", delay = 0 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   const adjustedVariants = delay
     ? {
@@ -546,85 +546,47 @@ function PortalVideo({ className = "" }) {
     if (videoRef.current) videoRef.current.playbackRate = 0.6;
   }, []);
 
-  const MASK =
-    "radial-gradient(circle at center, black 30%, rgba(0,0,0,0.85) 48%, rgba(0,0,0,0.40) 62%, transparent 75%)";
-
   return (
     <div
-      className={`relative flex items-center justify-center aspect-square mx-auto w-full max-w-[clamp(312px,90vw,576px)] lg:max-w-none lg:w-full ${className}`}
+      className={`relative flex items-center justify-center aspect-square mx-auto w-full max-w-[clamp(360px,95vw,640px)] lg:max-w-none lg:w-full ${className}`}
     >
       <div
-        className="absolute pointer-events-none"
+        className="absolute rounded-full blur-[40px] mix-blend-screen z-0 inset-[-15%]"
         style={{
-          inset: "-30%",
-          zIndex: 0,
-          filter: "blur(80px)",
           background:
-            "radial-gradient(circle at center, rgba(168,85,247,0.26) 0%, rgba(147,51,234,0.14) 45%, rgba(107,33,168,0.06) 65%, transparent 80%)",
+            "radial-gradient(circle, rgba(107,33,168,0.42) 0%, rgba(76,29,149,0.22) 50%, transparent 75%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 rounded-full blur-[20px] mix-blend-screen z-0"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(124,58,237,0.24) 0%, rgba(107,33,168,0.12) 60%, transparent 100%)",
+        }}
+      />
+      <video
+        ref={videoRef}
+        src="/Portal Animation.webm"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 z-0 w-full h-full object-cover portal-mask"
+        style={{
+          filter:
+            "sepia(1) saturate(3.2) hue-rotate(236deg) brightness(0.95) contrast(1.08) drop-shadow(0 0 30px rgba(107,33,168,0.6))",
         }}
       />
 
+      {/* Completely solid black center */}
       <div
-        className="absolute"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          inset: 0,
           zIndex: 1,
-          maskImage: MASK,
-          WebkitMaskImage: MASK,
+          background:
+            "radial-gradient(circle at center, #000000 0%, #000000 14%, transparent 24%, transparent 100%)",
         }}
-      >
-        <video
-          ref={videoRef}
-          src="/Portal Animation.webm"
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            zIndex: 1,
-            filter: "grayscale(1) brightness(1.1) contrast(1.08)",
-          }}
-        />
-
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 2,
-            mixBlendMode: "color",
-            background:
-              "conic-gradient(from 180deg at 50% 50%, #A855F7 0deg, #9333EA 80deg, #7E22CE 160deg, #6B21A8 220deg, #7E22CE 280deg, #9333EA 330deg, #A855F7 360deg)",
-            opacity: 0.95,
-          }}
-        />
-
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 3,
-            mixBlendMode: "screen",
-            background:
-              "radial-gradient(ellipse at 55% 38%, rgba(168,85,247,0.35) 0%, rgba(147,51,234,0.18) 40%, transparent 65%)",
-          }}
-        />
-
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 4,
-            mixBlendMode: "multiply",
-            background:
-              "radial-gradient(circle at center, transparent 20%, rgba(5,8,22,0.55) 65%, rgba(5,8,22,0.96) 100%)",
-          }}
-        />
-      </div>
+      />
     </div>
   );
 }
@@ -750,7 +712,7 @@ function TalentGallery() {
   const isPausedRef = useRef(false);
   const posRef = useRef(0);
   const rafRef = useRef(null);
-  const speedPx = 2.2;
+  const speedPx = 3.2;
 
   useEffect(() => {
     const track = trackRef.current;
@@ -897,17 +859,17 @@ function TalentGallery() {
   );
 }
 
-// ─── COMPLETELY REDESIGNED LOADING SCREEN ────────────────────────────────────
+// ─── LOADING SCREEN ───────────────────────────────────────────────────────
 function GameAThonLoader({ onDone }) {
   const canvasRef = useRef(null);
   const frameRef  = useRef(null);
   const [exit, setExit] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  // Animate the progress bar
+  // Animate the progress bar — sped up
   useEffect(() => {
     const start = Date.now();
-    const duration = 1600;
+    const duration = 850;
     function tick() {
       const elapsed = Date.now() - start;
       const pct = Math.min(100, Math.round((elapsed / duration) * 100));
@@ -968,21 +930,21 @@ function GameAThonLoader({ onDone }) {
   }, []);
 
   useEffect(() => {
-    const fadeTimer = setTimeout(() => setExit(true),  1650);
-    const doneTimer = setTimeout(() => onDone?.(),     2000);
+    const fadeTimer = setTimeout(() => setExit(true),  900);
+    const doneTimer = setTimeout(() => onDone?.(),     1080);
     return () => { clearTimeout(fadeTimer); clearTimeout(doneTimer); };
   }, [onDone]);
 
   // Floating icon data: [Icon, x%, y%, size, animDelay, orbitRadius]
   const floatingIcons = [
-    { Icon: Joystick,  x: "14%", y: "18%", size: 22, delay: "0s",    dur: "3.8s" },
-    { Icon: Gamepad2,  x: "82%", y: "14%", size: 24, delay: "0.5s",  dur: "4.2s" },
-    { Icon: Trophy,    x: "8%",  y: "72%", size: 20, delay: "1.0s",  dur: "3.5s" },
-    { Icon: Zap,       x: "88%", y: "68%", size: 18, delay: "0.3s",  dur: "4.6s" },
-    { Icon: Sword,     x: "20%", y: "50%", size: 18, delay: "0.7s",  dur: "3.2s" },
-    { Icon: Brain,     x: "78%", y: "44%", size: 18, delay: "1.2s",  dur: "4.0s" },
-    { Icon: Users,     x: "50%", y: "8%",  size: 16, delay: "0.9s",  dur: "3.6s" },
-    { Icon: Trophy,    x: "50%", y: "88%", size: 16, delay: "0.2s",  dur: "4.4s" },
+    { Icon: Joystick,  x: "14%", y: "18%", size: 22, delay: "0s",    dur: "2.6s" },
+    { Icon: Gamepad2,  x: "82%", y: "14%", size: 24, delay: "0.3s",  dur: "2.9s" },
+    { Icon: Trophy,    x: "8%",  y: "72%", size: 20, delay: "0.7s",  dur: "2.4s" },
+    { Icon: Zap,       x: "88%", y: "68%", size: 18, delay: "0.2s",  dur: "3.1s" },
+    { Icon: Sword,     x: "20%", y: "50%", size: 18, delay: "0.5s",  dur: "2.2s" },
+    { Icon: Brain,     x: "78%", y: "44%", size: 18, delay: "0.8s",  dur: "2.8s" },
+    { Icon: Users,     x: "50%", y: "8%",  size: 16, delay: "0.6s",  dur: "2.5s" },
+    { Icon: Trophy,    x: "50%", y: "88%", size: 16, delay: "0.1s",  dur: "3.0s" },
   ];
 
   return (
@@ -997,7 +959,7 @@ function GameAThonLoader({ onDone }) {
         justifyContent: "center",
         flexDirection:  "column",
         opacity:        exit ? 0 : 1,
-        transition:     "opacity 0.42s cubic-bezier(0.4,0,0.2,1)",
+        transition:     "opacity 0.28s cubic-bezier(0.4,0,0.2,1)",
         pointerEvents:  exit ? "none" : "all",
         overflow:       "hidden",
       }}
@@ -1016,7 +978,7 @@ function GameAThonLoader({ onDone }) {
         borderRadius: "50%",
         background:   "radial-gradient(circle, rgba(168,85,247,0.18) 0%, rgba(147,51,234,0.08) 45%, transparent 70%)",
         filter:       "blur(40px)",
-        animation:    "loaderPulse 2.4s ease-in-out infinite",
+        animation:    "loaderPulse 1.6s ease-in-out infinite",
         pointerEvents:"none",
       }} />
 
@@ -1027,7 +989,7 @@ function GameAThonLoader({ onDone }) {
         height:       "clamp(240px,44vw,400px)",
         borderRadius: "50%",
         border:       "1px dashed rgba(168,85,247,0.22)",
-        animation:    "loaderSpin 12s linear infinite",
+        animation:    "loaderSpin 8s linear infinite",
         pointerEvents:"none",
       }} />
 
@@ -1039,7 +1001,7 @@ function GameAThonLoader({ onDone }) {
         borderRadius: "50%",
         border:       "1.5px solid rgba(168,85,247,0.30)",
         boxShadow:    "0 0 30px rgba(168,85,247,0.15), inset 0 0 30px rgba(168,85,247,0.07)",
-        animation:    "loaderSpin 5s linear infinite reverse",
+        animation:    "loaderSpin 3.2s linear infinite reverse",
         pointerEvents:"none",
       }}>
         {/* Bright dot on the ring */}
@@ -1122,7 +1084,7 @@ function GameAThonLoader({ onDone }) {
             "0 0 80px rgba(147,51,234,0.22)",
             "inset 0 1px 0 rgba(168,85,247,0.30)",
           ].join(", "),
-          animation:      "loaderPulse 1.8s ease-in-out infinite",
+          animation:      "loaderPulse 1.2s ease-in-out infinite",
           marginBottom:   "clamp(24px, 4vw, 36px)",
         }}>
           {/* Inner glow ring */}
@@ -1149,7 +1111,7 @@ function GameAThonLoader({ onDone }) {
                 background: c,
                 boxShadow: `0 0 5px ${c}`,
                 opacity: 0.8,
-                animation: `loaderDot 1.6s ease-in-out ${i*0.18}s infinite`,
+                animation: `loaderDot 1.0s ease-in-out ${i*0.12}s infinite`,
               }}/>
             ))}
           </div>
@@ -1164,7 +1126,7 @@ function GameAThonLoader({ onDone }) {
           margin:        0,
           lineHeight:    1,
           textShadow:    "0 0 40px rgba(168,85,247,0.55), 0 0 80px rgba(168,85,247,0.22)",
-          animation:     "loaderGlow 1.8s ease-in-out infinite alternate",
+          animation:     "loaderGlow 1.1s ease-in-out infinite alternate",
         }}>
           <span style={{ color: "#FFFFFF" }}>GAME-A</span>
           <span style={{ color: "#a855f7" }}>-THON</span>
@@ -1208,7 +1170,7 @@ function GameAThonLoader({ onDone }) {
               top:        0, right:0, bottom:0,
               width:      "40px",
               background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)",
-              animation:  "loaderShimmer 0.9s ease-in-out infinite",
+              animation:  "loaderShimmer 0.6s ease-in-out infinite",
             }}/>
           </div>
         </div>
@@ -1308,6 +1270,15 @@ export function GameAThonPage() {
     nav { display: none !important; }
   `}</style>
 )}
+{!loading && (
+  <style>{`
+    nav { animation: navQuickIn 0.18s ease-out; }
+    @keyframes navQuickIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  `}</style>
+)}
 <style>{`
   canvas[style*="z-index: 9999"],
   canvas[style*="z-index:9999"] {
@@ -1367,7 +1338,7 @@ export function GameAThonPage() {
           animate="visible"
           onAnimationComplete={() => setEntranceComplete(true)}
         >
-          {/* ── FIXED HERO TITLE: GAME-A white, THON violet ── */}
+          {/* ── HERO TITLE: GAME-A white, THON violet ── */}
           <motion.h1
             className={`font-orbitron text-[clamp(32px,8.5vw,68px)] font-black tracking-[0.05em] m-0 leading-[1.05] whitespace-nowrap ${entranceComplete ? "animate-title-glow" : ""}`}
             variants={slideUp}
@@ -1383,19 +1354,46 @@ export function GameAThonPage() {
             className="lg:hidden w-full flex justify-center my-3"
             variants={fadeIn}
           >
-            <PortalVideo className="w-[86%] max-w-[385px]" />
+            <PortalVideo className="w-[95%] max-w-[440px]" />
           </motion.div>
 
           <motion.p
             className="text-[#FFFFFF] text-[clamp(17px,3.2vw,26px)] font-extrabold leading-[1.35] tracking-[0.01em] mb-2 mt-0"
             variants={slideUp}
           >
-            Compete. Collaborate.{" "}
+            Where Screen Turn{" "}
             <span className="bg-gradient-to-r from-[#A855F7] to-[#9333EA] bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
-              Conquer.
+              Into Arenas.
             </span>
           </motion.p>
-
+            <motion.div
+            className="flex justify-center lg:justify-start w-full mb-5"
+            variants={fadeIn}
+          >
+            <div
+              className="inline-flex flex-wrap items-center gap-x-4 gap-y-1.5 px-5 py-2.5 rounded-[14px]"
+              style={{
+                background: "linear-gradient(135deg, rgba(30,12,60,0.85) 0%, rgba(16,10,40,0.85) 100%)",
+                border: "1px solid rgba(168,85,247,0.28)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                boxShadow: "0 4px 20px rgba(168,85,247,0.16), inset 0 1px 0 rgba(168,85,247,0.14)",
+              }}
+            >
+              <span className="flex items-center gap-1.5 text-[#F8FAFC] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
+                <Calendar size={14} color="#A855F7" />
+                June 27, 2026
+              </span>
+              <span
+                aria-hidden="true"
+                style={{ width: "1px", height: "14px", background: "rgba(168,85,247,0.30)" }}
+              />
+              <span className="flex items-center gap-1.5 text-[#C8D3F5] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
+                <Clock size={14} color="#A855F7" />
+                9:00 AM – 1:00 PM
+              </span>
+            </div>
+          </motion.div>
           <motion.p
             className="text-[#C8D3F5] text-[clamp(13px,1.8vw,16px)] leading-[1.7] max-w-[460px] mb-6"
             variants={slideUp}
@@ -1447,36 +1445,6 @@ export function GameAThonPage() {
               View Highlights <ChevronRight size={13} />
             </button>
           </motion.div>
-
-          {/* EVENT INFO CARD — preserved exactly */}
-          <motion.div
-            className="flex justify-center lg:justify-start w-full mt-4"
-            variants={fadeIn}
-          >
-            <div
-              className="inline-flex flex-wrap items-center gap-x-4 gap-y-1.5 px-5 py-2.5 rounded-[14px]"
-              style={{
-                background: "linear-gradient(135deg, rgba(30,12,60,0.85) 0%, rgba(16,10,40,0.85) 100%)",
-                border: "1px solid rgba(168,85,247,0.28)",
-                backdropFilter: "blur(14px)",
-                WebkitBackdropFilter: "blur(14px)",
-                boxShadow: "0 4px 20px rgba(168,85,247,0.16), inset 0 1px 0 rgba(168,85,247,0.14)",
-              }}
-            >
-              <span className="flex items-center gap-1.5 text-[#F8FAFC] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
-                <Calendar size={14} color="#A855F7" />
-                June 27, 2026
-              </span>
-              <span
-                aria-hidden="true"
-                style={{ width: "1px", height: "14px", background: "rgba(168,85,247,0.30)" }}
-              />
-              <span className="flex items-center gap-1.5 text-[#C8D3F5] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
-                <Clock size={14} color="#A855F7" />
-                9:00 AM – 1:00 PM
-              </span>
-            </div>
-          </motion.div>
         </motion.div>
 
         <motion.div
@@ -1486,7 +1454,7 @@ export function GameAThonPage() {
           animate="visible"
           style={{ willChange: "opacity" }}
         >
-          <PortalVideo className="w-[100%] lg:w-[141%]" />
+          <PortalVideo className="w-[115%] lg:w-[130%]" />
         </motion.div>
       </section>
 
@@ -1562,7 +1530,7 @@ export function GameAThonPage() {
 
             <div className="relative z-10">
               <p className="text-[#7E89A8] text-[10px] font-bold tracking-[0.18em] uppercase mb-7">
-                Game-A-Thon Manifesto
+                GameAThon Manifesto
               </p>
 
               <blockquote
@@ -1650,7 +1618,7 @@ export function GameAThonPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {ARENA_CARDS.map((card, i) => (
-            <GameArenaCard key={card.title} {...card} delay={i * 0.1} />
+            <GameArenaCard key={card.title} {...card} delay={i * 0.06} />
           ))}
         </div>
       </section>
@@ -1678,7 +1646,7 @@ export function GameAThonPage() {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
           {SKILL_CARDS.map((card, i) => (
-            <SkillCard key={card.title} {...card} delay={i * 0.07} />
+            <SkillCard key={card.title} {...card} delay={i * 0.04} />
           ))}
         </div>
       </section>
@@ -1697,7 +1665,7 @@ export function GameAThonPage() {
               Glimpse of Last Year's Talent
             </h2>
             <p className="text-[#7E89A8] text-[clamp(13px,1.8vw,16px)] leading-[1.7] max-w-[480px] mx-auto">
-              The moments that defined Game-A-Thon. Relive the intensity
+              The moments that defined GameAThon. Relive the intensity
               before you write your own chapter.
             </p>
           </ScrollReveal>
