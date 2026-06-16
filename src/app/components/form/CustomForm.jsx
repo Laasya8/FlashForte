@@ -72,7 +72,7 @@ export function CustomForm({
     { id: "ideathon", title: "Ideathon", link: "/ideathon", color: "#EAB308", desc: "Think. Ideate. Pitch." },
     { id: "designathon", title: "Design\u2011A\u2011Thon", link: "/design-a-thon", color: "#22C55E", desc: "Design. Create. Elevate." },
     { id: "speakathon", title: "Speak\u2011A\u2011Thon", link: "/speak-a-thon", color: "#F97316", desc: "Where confidence finds its voice." },
-    { id: "gameathon", title: "Game\u2011A\u2011Thon", link: "/game-a-thon", color: "#A855F7", desc: "Compete. Collaborate. Conquer." },
+    { id: "gameathon", title: "Game\u2011A\u2011Thon", link: "/game-a-thon", color: "#A855F7", desc: "Where Screens Turn Into Arenas." },
   ];
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState("idle"); // idle, loading, success, error

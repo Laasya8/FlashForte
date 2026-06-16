@@ -30,7 +30,7 @@ const events = [
   {
     id: "gameathon",
     title: "Game-A-Thon",
-    desc: "Compete. Collaborate. Conquer.",
+    desc: "Where Screens Turn Into Arenas.",
     color: "#A855F7", // Purple
     icon: Gamepad2,
     link: "/game-a-thon",

@@ -50,7 +50,7 @@ const highlightData = [
     id: "gameathon",
     title: "Game-A-Thon",
     year: "2025",
-    navDesc: "Compete. Collaborate. Conquer.",
+    navDesc: "Where Screens Turn Into Arenas.",
     color: "#A855F7", // Purple
     icon: Gamepad2,
     images: [gameathon1, gameathon2, gameathon4],
