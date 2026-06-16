@@ -15,7 +15,7 @@ const events = [
     id: "speakathon",
     title: "Speak-A-Thon",
     desc: "Where confidence finds its voice.",
-    color: "#F97316", // Orange
+    color: "#22C55E", // Green
     icon: Mic,
     link: "/speak-a-thon",
   },
@@ -23,7 +23,7 @@ const events = [
     id: "designathon",
     title: "Design-A-Thon",
     desc: "Design. Create. Elevate.",
-    color: "#22C55E", // Green
+    color: "#F97316", // Orange
     icon: Palette,
     link: "/design-a-thon",
   },
