@@ -1040,56 +1040,6 @@ export function SpeakAThonPage() {
         </motion.div>
       </section>
 
-      {/* Category nav cards */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.9 }}
-        className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-[1200px] px-5 mb-16 mx-auto"
-      >
-        {[
-          { id: "openmic", label: "Round 1", icon: Mic },
-          { id: "debates", label: "Round 2", icon: MessageSquare },
-          { id: "storytelling", label: "Round 3", icon: BookOpen },
-          { id: "highlights", label: "Highlights", icon: Sparkles },
-        ].map((tab) => {
-          const TabIcon = tab.icon;
-          return (
-            <div
-              key={tab.id}
-              onClick={() => scrollToSection(tab.id)}
-              className="group p-5 rounded-xl glass-panel orange-border-glow transition-all duration-300 cursor-pointer flex flex-col items-center justify-center text-center hover:-translate-y-1"
-            >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-orange-950/30 border border-orange-500/20 group-hover:border-orange-500/50 group-hover:bg-orange-500/10 mb-2 transition-colors duration-300">
-                <TabIcon size={16} className="text-orange-500 drop-shadow-[0_0_4px_rgba(249,115,22,0.4)]" />
-              </div>
-              <h3 className="font-orbitron font-semibold text-[11px] sm:text-xs text-[#BDBDBD] group-hover:text-white tracking-wide transition-colors">
-                {tab.label}
-              </h3>
-            </div>
-          );
-        })}
-      </motion.div>
-
-      {/* BOTTOM METADATA FLOATING BAR */}
-      <motion.section 
-        initial={{ opacity: 0, y: 25 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.8, ease: BUTTERY_EASE }}
-        className="w-full py-4 px-6 flex flex-row items-center justify-between text-xs sm:text-sm font-semibold tracking-wider font-orbitron text-[#BDBDBD] my-12 max-w-[1200px] mx-auto glass-panel rounded-xl relative overflow-hidden group"
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/3 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-        <div className="flex items-center gap-2 relative z-10">
-          <Calendar size={14} className="text-orange-500" />
-          <span>JUNE 2026</span>
-        </div>
-        <div className="w-1.5 h-1.5 rounded-full bg-orange-500/50 shadow-[0_0_4px_#F97316] relative z-10" />
-        <div className="flex items-center gap-2 relative z-10">
-          <MapPin size={14} className="text-orange-500" />
-          <span>VNR VJIET, HYDERABAD</span>
-        </div>
-      </motion.section>
 
       {/* Main content wrapper */}
       <div className="relative z-10 w-full max-w-[1200px] px-4 md:px-8 flex flex-col items-center mx-auto">
@@ -1138,24 +1088,24 @@ export function SpeakAThonPage() {
                   </motion.div>
                   <div>
                     <span className="text-[11px] font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2 py-1 rounded-md">Round 01</span>
-                    <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">"What If…?" Challenge</h3>
+                    <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">If I Were...</h3>
                     <div className="w-8 h-1 bg-gradient-to-r from-orange-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
                   </div>
                 </div>
 
                 <p className="text-[#C8D3F5] text-sm leading-relaxed mb-6 font-medium">
-                  Participants get a random "What if…?" question. 30 seconds prep, 1–2 minutes to speak. Top 8 advance.
+                  Participants are given certain roles and must speak from that perspective, defending their choices.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3 mt-auto relative z-10">
                 <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep: 30s</p>
-                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Gather thoughts & structure response</p>
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Assume role & formulate defense</p>
                 </div>
                 <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak: 1-2m</p>
-                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Deliver engaging creative response</p>
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Speak from perspective</p>
                 </div>
               </div>
             </motion.div>
@@ -1193,24 +1143,24 @@ export function SpeakAThonPage() {
                   </motion.div>
                   <div>
                     <span className="text-[11px] font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2 py-1 rounded-md">Round 02</span>
-                    <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">Buzzword Storytelling</h3>
+                    <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">60/60</h3>
                     <div className="w-8 h-1 bg-gradient-to-r from-orange-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
                   </div>
                 </div>
 
                 <p className="text-[#C8D3F5] text-sm leading-relaxed mb-6 font-medium">
-                  Draw 5 unrelated buzzwords, weave them into a story. 60 seconds prep, 1–2 minutes to deliver. Top 5 advance to finale.
+                  Theme: "Technology: Blessing or Curse?". Speak for 2 minutes: first 60s in favor, next 60s against the topic.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3 mt-auto relative z-10">
                 <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep: 60s</p>
-                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Plan narrative with buzzwords</p>
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Formulate both sides of argument</p>
                 </div>
                 <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak: 1-2m</p>
-                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Deliver coherent creative story</p>
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak: 2m</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">60s for / 60s against</p>
                 </div>
               </div>
             </motion.div>
@@ -1248,24 +1198,24 @@ export function SpeakAThonPage() {
                   </motion.div>
                   <div>
                     <span className="text-[11px] font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2 py-1 rounded-md">Round 03 - Finale</span>
-                    <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">Object Monologue</h3>
+                    <h3 className="text-xl font-bold text-white tracking-wide mt-3 mb-2">Behind the Frame</h3>
                     <div className="w-8 h-1 bg-gradient-to-r from-orange-500 to-transparent rounded-full mb-4 group-hover:w-16 transition-all duration-300"></div>
                   </div>
                 </div>
 
                 <p className="text-[#C8D3F5] text-sm leading-relaxed mb-6 font-medium">
-                  Speak as an everyday object. 60 seconds prep, 1–2 minutes to perform. Bring the object to life with emotion and personality.
+                  Shown an image, participants deliver a short speech imagining the story behind it, testing creativity and observation.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3 mt-auto relative z-10">
                 <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep: 60s</p>
-                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Plan object personification</p>
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Calendar size={12} className="text-orange-400"/> Prep</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Observe image & craft story</p>
                 </div>
                 <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-orange-500/15 group-hover:bg-orange-500/[0.02] transition-colors duration-300">
-                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak: 1-2m</p>
-                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Deliver emotional monologue</p>
+                  <p className="text-white text-[13px] font-bold mb-1 flex items-center gap-1.5"><Mic size={12} className="text-orange-400"/> Speak</p>
+                  <p className="text-[11px] text-[#BDBDBD]/80 leading-snug">Deliver short impromptu speech</p>
                 </div>
               </div>
             </motion.div>
@@ -1273,7 +1223,7 @@ export function SpeakAThonPage() {
           </div>
         </section>
 
-        {/* LAST YEAR RETROSPECTIVE */}
+        {/* HIGHLIGHTS - Scrolling Image Gallery */}
         <section id="highlights" className="w-full flex flex-col items-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -1290,7 +1240,6 @@ export function SpeakAThonPage() {
             </h2>
           </motion.div>
 
-          {/* Scrolling Marquee Gallery (Local Images) */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1352,13 +1301,31 @@ export function SpeakAThonPage() {
               </div>
             </div>
           </motion.div>
+        </section>
+
+        {/* EVENT DETAILS */}
+        <section id="details" className="w-full flex flex-col items-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.9, ease: BUTTERY_EASE }}
+            className="text-center mb-10"
+          >
+            <span className="font-orbitron text-xs font-bold text-orange-500 uppercase tracking-widest">
+              Glimpse of Rounds
+            </span>
+            <h2 className="font-orbitron text-[clamp(28px,4.8vw,46px)] font-black text-[#F8FAFC] tracking-[0.04em] mt-1" style={{ textShadow: "0 0 40px rgba(249,115,22,0.35)" }}>
+              Speak-A-Thon 2k25
+            </h2>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-120px" }}
             transition={{ duration: 1.0, ease: BUTTERY_EASE, delay: 0.1 }}
-            className="w-full max-w-[850px] grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-6 items-stretch mb-8"
+            className="w-full max-w-[500px] flex flex-col gap-6 items-stretch mb-8"
           >
             {/* Stats card */}
             <motion.div
@@ -1370,7 +1337,7 @@ export function SpeakAThonPage() {
               className="p-6 rounded-[20px] bg-gradient-to-b from-[#1C100B]/10 to-transparent border border-white/5 flex flex-col justify-between shadow-[0_0_20px_rgba(249,115,22,0.05)] hover:shadow-[0_0_30px_rgba(249,115,22,0.1)] transition-shadow duration-300"
             >
               <div>
-                <h3 className="font-orbitron text-sm sm:text-base font-bold text-white mb-2">Speak-A-Thon '25</h3>
+                <h3 className="font-orbitron text-sm sm:text-base font-bold text-white mb-2">Speak-A-Thon 2k25</h3>
                 <p className="text-xs text-[#BDBDBD] leading-relaxed mb-6">
                   A three-round speaking competition that challenged first-year students with spontaneous speaking, creative storytelling, and quick thinking.
                 </p>
@@ -1387,54 +1354,7 @@ export function SpeakAThonPage() {
                 </div>
               </div>
             </motion.div>
-
-            {/* Winners podium card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: BUTTERY_EASE, delay: 0.3 }}
-              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-              className="p-6 rounded-[20px] glass-panel flex flex-col justify-between shadow-[0_0_20px_rgba(249,115,22,0.05)] hover:shadow-[0_0_30px_rgba(249,115,22,0.1)] transition-shadow duration-300"
-            >
-              <div>
-                <h3 className="font-orbitron text-sm sm:text-base font-bold text-white mb-4 flex items-center gap-2">
-                  <Trophy size={16} className="text-orange-500" /> 2025 Podium
-                </h3>
-                
-                <div className="space-y-3">
-                  {[
-                    { rank: "1st Place", name: "Chakresh Sri Varma", details: "ECE-B • Roll No: 24071A04B8 • ₹2000", trophyColor: "text-amber-500" },
-                    { rank: "2nd Place", name: "Patha Sloka", details: "DS-A • Roll No: 24071A6751 • ₹1300", trophyColor: "text-slate-400" },
-                    { rank: "3rd Place", name: "M. Saanvika", details: "ECE-B • Roll No: 24071A04B3 • ₹700", trophyColor: "text-amber-800" },
-                  ].map((winner, idx) => (
-                    <div key={idx} className="p-3 rounded-lg border border-white/5 bg-white/[0.01] flex items-center gap-3">
-                      <Trophy size={14} className={`${winner.trophyColor} shrink-0`} />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="font-bold text-white">{winner.name}</span>
-                          <span className="font-orbitron text-[10px] text-orange-400 font-semibold">{winner.rank}</span>
-                        </div>
-                        <p className="text-[10px] text-[#BDBDBD]/70 mt-0.5">{winner.details}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-6 flex justify-center sm:justify-start">
-                <a
-                  href="https://www.vnrvjietcsi.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs text-orange-400 font-semibold hover:text-orange-300 transition-colors duration-200"
-                >
-                  View full retrospective archive <ExternalLink size={12} />
-                </a>
-              </div>
-            </motion.div>
           </motion.div>
-
         </section>
 
         {/* REGISTRATION SECTION */}
