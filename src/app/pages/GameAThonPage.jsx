@@ -14,6 +14,9 @@ import {
   MessageSquare,
   Zap,
   Trophy,
+  Calendar,
+  Clock,
+  Joystick,
 } from "lucide-react";
 import { StarField } from "../components/StarField.jsx";
 import { CursorTrail } from "../components/CursorTrail.jsx";
@@ -454,13 +457,13 @@ function MagicBentoCard({
 }
 
 const BUTTERY_EASE = [0.16, 1, 0.3, 1];
-const PHASE_DURATION = 1.2;
+const PHASE_DURATION = 0.7;
 
 const staggerContainer = {
   hidden: { opacity: 1 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.18, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
   },
 };
 
@@ -512,7 +515,7 @@ function scrollToSection(id) {
 
 function ScrollReveal({ children, variants = fadeIn, className = "", delay = 0 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   const adjustedVariants = delay
     ? {
@@ -543,85 +546,47 @@ function PortalVideo({ className = "" }) {
     if (videoRef.current) videoRef.current.playbackRate = 0.6;
   }, []);
 
-  const MASK =
-    "radial-gradient(circle at center, black 30%, rgba(0,0,0,0.85) 48%, rgba(0,0,0,0.40) 62%, transparent 75%)";
-
   return (
     <div
-      className={`relative flex items-center justify-center aspect-square mx-auto w-full max-w-[clamp(312px,90vw,576px)] lg:max-w-none lg:w-full ${className}`}
+      className={`relative flex items-center justify-center aspect-square mx-auto w-full max-w-[clamp(360px,95vw,640px)] lg:max-w-none lg:w-full ${className}`}
     >
       <div
-        className="absolute pointer-events-none"
+        className="absolute rounded-full blur-[40px] mix-blend-screen z-0 inset-[-15%]"
         style={{
-          inset: "-30%",
-          zIndex: 0,
-          filter: "blur(80px)",
           background:
-            "radial-gradient(circle at center, rgba(168,85,247,0.26) 0%, rgba(147,51,234,0.14) 45%, rgba(107,33,168,0.06) 65%, transparent 80%)",
+            "radial-gradient(circle, rgba(107,33,168,0.42) 0%, rgba(76,29,149,0.22) 50%, transparent 75%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 rounded-full blur-[20px] mix-blend-screen z-0"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(124,58,237,0.24) 0%, rgba(107,33,168,0.12) 60%, transparent 100%)",
+        }}
+      />
+      <video
+        ref={videoRef}
+        src="/Portal Animation.webm"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 z-0 w-full h-full object-cover portal-mask"
+        style={{
+          filter:
+            "sepia(1) saturate(3.2) hue-rotate(236deg) brightness(0.95) contrast(1.08) drop-shadow(0 0 30px rgba(107,33,168,0.6))",
         }}
       />
 
+      {/* Completely solid black center */}
       <div
-        className="absolute"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          inset: 0,
           zIndex: 1,
-          maskImage: MASK,
-          WebkitMaskImage: MASK,
+          background:
+            "radial-gradient(circle at center, #000000 0%, #000000 14%, transparent 24%, transparent 100%)",
         }}
-      >
-        <video
-          ref={videoRef}
-          src="/Portal Animation.webm"
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            zIndex: 1,
-            filter: "grayscale(1) brightness(1.1) contrast(1.08)",
-          }}
-        />
-
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 2,
-            mixBlendMode: "color",
-            background:
-              "conic-gradient(from 180deg at 50% 50%, #A855F7 0deg, #9333EA 80deg, #7E22CE 160deg, #6B21A8 220deg, #7E22CE 280deg, #9333EA 330deg, #A855F7 360deg)",
-            opacity: 0.95,
-          }}
-        />
-
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 3,
-            mixBlendMode: "screen",
-            background:
-              "radial-gradient(ellipse at 55% 38%, rgba(168,85,247,0.35) 0%, rgba(147,51,234,0.18) 40%, transparent 65%)",
-          }}
-        />
-
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 4,
-            mixBlendMode: "multiply",
-            background:
-              "radial-gradient(circle at center, transparent 20%, rgba(5,8,22,0.55) 65%, rgba(5,8,22,0.96) 100%)",
-          }}
-        />
-      </div>
+      />
     </div>
   );
 }
@@ -747,7 +712,7 @@ function TalentGallery() {
   const isPausedRef = useRef(false);
   const posRef = useRef(0);
   const rafRef = useRef(null);
-  const speedPx = 2.2;
+  const speedPx = 3.2;
 
   useEffect(() => {
     const track = trackRef.current;
@@ -894,11 +859,27 @@ function TalentGallery() {
   );
 }
 
+// ─── LOADING SCREEN ───────────────────────────────────────────────────────
 function GameAThonLoader({ onDone }) {
-  const canvasRef  = useRef(null);
-  const frameRef   = useRef(null);
+  const canvasRef = useRef(null);
+  const frameRef  = useRef(null);
   const [exit, setExit] = useState(false);
+  const [progress, setProgress] = useState(0);
 
+  // Animate the progress bar — sped up
+  useEffect(() => {
+    const start = Date.now();
+    const duration = 850;
+    function tick() {
+      const elapsed = Date.now() - start;
+      const pct = Math.min(100, Math.round((elapsed / duration) * 100));
+      setProgress(pct);
+      if (pct < 100) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }, []);
+
+  // Particle canvas — subtle ambient field
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -911,43 +892,33 @@ function GameAThonLoader({ onDone }) {
     resize();
     window.addEventListener("resize", resize);
 
-    const PURPLE_PALETTE = [
-      "rgba(168,85,247,",
-      "rgba(147,51,234,",
-      "rgba(192,132,252,",
-      "rgba(107,33,168,",
-      "rgba(216,180,254,",
-    ];
-    const particles = Array.from({ length: 80 }, () => {
-      const angle  = Math.random() * Math.PI * 2;
-      const dist   = 60 + Math.random() * 220;
-      const speed  = 0.3 + Math.random() * 0.9;
-      const size   = 1.2 + Math.random() * 3.5;
-      const color  = PURPLE_PALETTE[Math.floor(Math.random() * PURPLE_PALETTE.length)];
-      const alpha  = 0.35 + Math.random() * 0.65;
-      return { angle, dist, speed, size, color, alpha, baseAlpha: alpha };
-    });
+    const particles = Array.from({ length: 60 }, () => ({
+      x:     Math.random() * window.innerWidth,
+      y:     Math.random() * window.innerHeight,
+      r:     0.8 + Math.random() * 2,
+      vx:    (Math.random() - 0.5) * 0.25,
+      vy:    (Math.random() - 0.5) * 0.25 - 0.1,
+      alpha: 0.2 + Math.random() * 0.5,
+      phase: Math.random() * Math.PI * 2,
+    }));
 
     let t = 0;
     function draw() {
       t += 0.016;
-      const cx = canvas.width  / 2;
-      const cy = canvas.height / 2;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach((p) => {
-        p.angle += p.speed * 0.012;
-        const r  = p.dist + Math.sin(t * p.speed + p.angle) * 18;
-        const px = cx + r * Math.cos(p.angle);
-        const py = cy + r * Math.sin(p.angle) * 0.45;
-        const a  = p.baseAlpha * (0.7 + 0.3 * Math.sin(t * 2 + p.angle));
-
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+        const a = p.alpha * (0.6 + 0.4 * Math.sin(t * 1.2 + p.phase));
         ctx.beginPath();
-        ctx.arc(px, py, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + a + ")";
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(168,85,247,${a})`;
         ctx.fill();
       });
-
       frameRef.current = requestAnimationFrame(draw);
     }
     frameRef.current = requestAnimationFrame(draw);
@@ -959,179 +930,294 @@ function GameAThonLoader({ onDone }) {
   }, []);
 
   useEffect(() => {
-    const fadeTimer = setTimeout(() => setExit(true),  1550);
-    const doneTimer = setTimeout(() => onDone?.(),     1900);
+    const fadeTimer = setTimeout(() => setExit(true),  900);
+    const doneTimer = setTimeout(() => onDone?.(),     1080);
     return () => { clearTimeout(fadeTimer); clearTimeout(doneTimer); };
   }, [onDone]);
+
+  // Floating icon data: [Icon, x%, y%, size, animDelay, orbitRadius]
+  const floatingIcons = [
+    { Icon: Joystick,  x: "14%", y: "18%", size: 22, delay: "0s",    dur: "2.6s" },
+    { Icon: Gamepad2,  x: "82%", y: "14%", size: 24, delay: "0.3s",  dur: "2.9s" },
+    { Icon: Trophy,    x: "8%",  y: "72%", size: 20, delay: "0.7s",  dur: "2.4s" },
+    { Icon: Zap,       x: "88%", y: "68%", size: 18, delay: "0.2s",  dur: "3.1s" },
+    { Icon: Sword,     x: "20%", y: "50%", size: 18, delay: "0.5s",  dur: "2.2s" },
+    { Icon: Brain,     x: "78%", y: "44%", size: 18, delay: "0.8s",  dur: "2.8s" },
+    { Icon: Users,     x: "50%", y: "8%",  size: 16, delay: "0.6s",  dur: "2.5s" },
+    { Icon: Trophy,    x: "50%", y: "88%", size: 16, delay: "0.1s",  dur: "3.0s" },
+  ];
 
   return (
     <div
       style={{
-        position:        "fixed",
-        inset:           0,
-        zIndex:          99999,
-        background:      "#050816",
-        display:         "flex",
-        alignItems:      "center",
-        justifyContent:  "center",
-        flexDirection:   "column",
-        gap:             "0",
-        opacity:         exit ? 0 : 1,
-        transition:      "opacity 0.38s cubic-bezier(0.4,0,0.2,1)",
-        pointerEvents:   exit ? "none" : "all",
+        position:       "fixed",
+        inset:          0,
+        zIndex:         99999,
+        background:     "#050816",
+        display:        "flex",
+        alignItems:     "center",
+        justifyContent: "center",
+        flexDirection:  "column",
+        opacity:        exit ? 0 : 1,
+        transition:     "opacity 0.28s cubic-bezier(0.4,0,0.2,1)",
+        pointerEvents:  exit ? "none" : "all",
+        overflow:       "hidden",
       }}
     >
+      {/* Ambient particle canvas */}
       <canvas
         ref={canvasRef}
         style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
       />
 
-      <div
-        style={{
-          position:     "absolute",
-          width:        "clamp(260px,50vw,420px)",
-          height:       "clamp(260px,50vw,420px)",
-          borderRadius: "50%",
-          background:   "radial-gradient(circle, rgba(168,85,247,0.22) 0%, rgba(147,51,234,0.10) 40%, transparent 70%)",
-          filter:       "blur(32px)",
-          animation:    "gtPulse 2s ease-in-out infinite",
-        }}
-      />
-      <div
-        style={{
-          position:     "absolute",
-          width:        "clamp(180px,36vw,300px)",
-          height:       "clamp(180px,36vw,300px)",
-          borderRadius: "50%",
-          border:       "1.5px solid rgba(168,85,247,0.30)",
-          boxShadow:    "0 0 40px rgba(168,85,247,0.20), inset 0 0 40px rgba(168,85,247,0.10)",
-          animation:    "gtSpin 3s linear infinite",
-        }}
-      />
-      <div
-        style={{
-          position:     "absolute",
-          width:        "clamp(220px,42vw,360px)",
-          height:       "clamp(220px,42vw,360px)",
-          borderRadius: "50%",
-          border:       "1px solid rgba(147,51,234,0.18)",
-          animation:    "gtSpin 5s linear infinite reverse",
-        }}
-      />
+      {/* Ambient radial glow behind controller */}
+      <div style={{
+        position:     "absolute",
+        width:        "clamp(320px,55vw,520px)",
+        height:       "clamp(320px,55vw,520px)",
+        borderRadius: "50%",
+        background:   "radial-gradient(circle, rgba(168,85,247,0.18) 0%, rgba(147,51,234,0.08) 45%, transparent 70%)",
+        filter:       "blur(40px)",
+        animation:    "loaderPulse 1.6s ease-in-out infinite",
+        pointerEvents:"none",
+      }} />
 
-      <div
-        style={{
+      {/* Outer slow-spin ring */}
+      <div style={{
+        position:     "absolute",
+        width:        "clamp(240px,44vw,400px)",
+        height:       "clamp(240px,44vw,400px)",
+        borderRadius: "50%",
+        border:       "1px dashed rgba(168,85,247,0.22)",
+        animation:    "loaderSpin 8s linear infinite",
+        pointerEvents:"none",
+      }} />
+
+      {/* Inner faster ring with dots at cardinal points */}
+      <div style={{
+        position:     "absolute",
+        width:        "clamp(170px,32vw,290px)",
+        height:       "clamp(170px,32vw,290px)",
+        borderRadius: "50%",
+        border:       "1.5px solid rgba(168,85,247,0.30)",
+        boxShadow:    "0 0 30px rgba(168,85,247,0.15), inset 0 0 30px rgba(168,85,247,0.07)",
+        animation:    "loaderSpin 3.2s linear infinite reverse",
+        pointerEvents:"none",
+      }}>
+        {/* Bright dot on the ring */}
+        <div style={{
           position:     "absolute",
-          width:        "10px",
-          height:       "10px",
+          top:          "-4px",
+          left:         "50%",
+          transform:    "translateX(-50%)",
+          width:        "8px",
+          height:       "8px",
           borderRadius: "50%",
           background:   "#A855F7",
-          boxShadow:    "0 0 24px 8px rgba(168,85,247,0.60)",
-          animation:    "gtPulse 1.2s ease-in-out infinite",
-        }}
-      />
+          boxShadow:    "0 0 12px 4px rgba(168,85,247,0.7)",
+        }} />
+        <div style={{
+          position:     "absolute",
+          bottom:       "-4px",
+          left:         "50%",
+          transform:    "translateX(-50%)",
+          width:        "6px",
+          height:       "6px",
+          borderRadius: "50%",
+          background:   "#9333EA",
+          boxShadow:    "0 0 10px 3px rgba(147,51,234,0.6)",
+        }} />
+      </div>
 
-      <div style={{ position: "relative", textAlign: "center", zIndex: 2, marginTop: "0" }}>
-        <h1
-          style={{
-            fontFamily:    "'Orbitron', sans-serif",
-            fontSize:      "clamp(28px,6vw,52px)",
-            fontWeight:    900,
-            letterSpacing: "0.12em",
-            color:         "#F8FAFC",
-            margin:        0,
-            textShadow:    "0 0 40px rgba(168,85,247,0.60), 0 0 80px rgba(168,85,247,0.25)",
-            animation:     "gtGlow 1.6s ease-in-out infinite alternate",
-          }}
-        >
-          GAME-A-THON
-        </h1>
-
+      {/* Floating gaming icons */}
+      {floatingIcons.map(({ Icon, x, y, size, delay, dur }, i) => (
         <div
+          key={i}
+          aria-hidden="true"
           style={{
-            marginTop:     "20px",
-            display:       "flex",
-            alignItems:    "center",
-            justifyContent:"center",
-            gap:           "8px",
+            position:      "absolute",
+            left:          x,
+            top:           y,
+            transform:     "translate(-50%, -50%)",
+            animation:     `loaderFloat ${dur} ease-in-out ${delay} infinite`,
+            pointerEvents: "none",
           }}
         >
-          <span
-            style={{
-              fontFamily:    "'Orbitron', sans-serif",
-              fontSize:      "11px",
-              fontWeight:    600,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color:         "#7E89A8",
-            }}
-          >
-            Loading Reality
-          </span>
-          {[0, 1, 2].map((i) => (
-            <span
-              key={i}
-              style={{
-                display:       "inline-block",
-                width:         "5px",
-                height:        "5px",
-                borderRadius:  "50%",
-                background:    "#A855F7",
-                boxShadow:     "0 0 8px rgba(168,85,247,0.8)",
-                animation:     `gtDot 1.2s ease-in-out ${i * 0.2}s infinite`,
-              }}
+          <div style={{
+            width:          `${size + 20}px`,
+            height:         `${size + 20}px`,
+            borderRadius:   "50%",
+            display:        "flex",
+            alignItems:     "center",
+            justifyContent: "center",
+            background:     "rgba(168,85,247,0.08)",
+            border:         "1px solid rgba(168,85,247,0.20)",
+            backdropFilter: "blur(4px)",
+            boxShadow:      "0 0 18px rgba(168,85,247,0.20)",
+          }}>
+            <Icon
+              size={size}
+              color="#A855F7"
+              style={{ filter: "drop-shadow(0 0 6px rgba(168,85,247,0.70))", opacity: 0.75 }}
             />
-          ))}
+          </div>
         </div>
+      ))}
 
-        <div
-          style={{
-            marginTop:    "28px",
-            width:        "clamp(160px,30vw,240px)",
-            height:       "2px",
-            background:   "rgba(168,85,247,0.15)",
-            borderRadius: "2px",
-            overflow:     "hidden",
-            marginInline: "auto",
-          }}
-        >
-          <div
+      {/* ── Central controller badge ── */}
+      <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: "0" }}>
+
+        {/* Hexagonal controller mount */}
+        <div style={{
+          position:       "relative",
+          width:          "clamp(90px,14vw,120px)",
+          height:         "clamp(90px,14vw,120px)",
+          borderRadius:   "28% 72% 28% 72% / 72% 28% 72% 28%",
+          background:     "linear-gradient(135deg, rgba(30,12,60,0.95) 0%, rgba(16,8,38,0.98) 100%)",
+          border:         "1.5px solid rgba(168,85,247,0.55)",
+          display:        "flex",
+          alignItems:     "center",
+          justifyContent: "center",
+          boxShadow:      [
+            "0 0 0 6px rgba(168,85,247,0.08)",
+            "0 0 40px rgba(168,85,247,0.45)",
+            "0 0 80px rgba(147,51,234,0.22)",
+            "inset 0 1px 0 rgba(168,85,247,0.30)",
+          ].join(", "),
+          animation:      "loaderPulse 1.2s ease-in-out infinite",
+          marginBottom:   "clamp(24px, 4vw, 36px)",
+        }}>
+          {/* Inner glow ring */}
+          <div style={{
+            position:     "absolute",
+            inset:        "8px",
+            borderRadius: "inherit",
+            background:   "radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%)",
+          }} />
+          <Gamepad2
+            size={42}
+            color="#F8FAFC"
             style={{
-              height:     "100%",
-              borderRadius: "2px",
-              background: "linear-gradient(90deg, #A855F7, #9333EA)",
-              boxShadow:  "0 0 10px rgba(168,85,247,0.8)",
-              animation:  "gtBar 1.7s cubic-bezier(0.4,0,0.2,1) forwards",
+              position: "relative",
+              zIndex:   1,
+              filter:   "drop-shadow(0 0 14px rgba(168,85,247,0.95)) drop-shadow(0 0 28px rgba(168,85,247,0.55))",
             }}
           />
+          {/* Button pixels on controller — purely decorative */}
+          <div style={{ position:"absolute", top:"18%", right:"16%", display:"flex", gap:"3px" }}>
+            {["#A855F7","#9333EA","#7E22CE","#C084FC"].map((c,i)=>(
+              <div key={i} style={{
+                width:"5px", height:"5px", borderRadius:"50%",
+                background: c,
+                boxShadow: `0 0 5px ${c}`,
+                opacity: 0.8,
+                animation: `loaderDot 1.0s ease-in-out ${i*0.12}s infinite`,
+              }}/>
+            ))}
+          </div>
         </div>
+
+        {/* Title */}
+        <h1 style={{
+          fontFamily:    "'Orbitron', sans-serif",
+          fontSize:      "clamp(26px,5.5vw,48px)",
+          fontWeight:    900,
+          letterSpacing: "0.13em",
+          margin:        0,
+          lineHeight:    1,
+          textShadow:    "0 0 40px rgba(168,85,247,0.55), 0 0 80px rgba(168,85,247,0.22)",
+          animation:     "loaderGlow 1.1s ease-in-out infinite alternate",
+        }}>
+          <span style={{ color: "#FFFFFF" }}>GAME-A</span>
+          <span style={{ color: "#a855f7" }}>-THON</span>
+        </h1>
+
+        {/* Tag line */}
+        <p style={{
+          fontFamily:    "'Orbitron', sans-serif",
+          fontSize:      "clamp(9px,1.4vw,11px)",
+          fontWeight:    600,
+          letterSpacing: "0.26em",
+          textTransform: "uppercase",
+          color:         "#7E89A8",
+          margin:        "10px 0 0 0",
+        }}>
+          Entering the arena
+        </p>
+
+        {/* Progress track */}
+        <div style={{
+          marginTop:    "22px",
+          width:        "clamp(180px,28vw,260px)",
+          height:       "3px",
+          background:   "rgba(168,85,247,0.12)",
+          borderRadius: "3px",
+          overflow:     "hidden",
+          position:     "relative",
+        }}>
+          <div style={{
+            height:       "100%",
+            width:        `${progress}%`,
+            background:   "linear-gradient(90deg, #7C3AED, #A855F7, #C084FC)",
+            borderRadius: "3px",
+            boxShadow:    "0 0 12px rgba(168,85,247,0.80)",
+            transition:   "width 0.05s linear",
+            position:     "relative",
+          }}>
+            {/* shimmer */}
+            <div style={{
+              position:   "absolute",
+              top:        0, right:0, bottom:0,
+              width:      "40px",
+              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)",
+              animation:  "loaderShimmer 0.6s ease-in-out infinite",
+            }}/>
+          </div>
+        </div>
+
+        {/* Pct label */}
+        <p style={{
+          fontFamily:    "'Orbitron', sans-serif",
+          fontSize:      "10px",
+          color:         "rgba(168,85,247,0.65)",
+          margin:        "8px 0 0 0",
+          letterSpacing: "0.10em",
+        }}>
+          {progress}%
+        </p>
       </div>
 
       <style>{`
-        @keyframes gtPulse {
-          0%,100% { opacity:0.7; transform:scale(1); }
-          50%      { opacity:1;   transform:scale(1.06); }
+        @keyframes loaderPulse {
+          0%,100% { opacity:0.75; transform:scale(1); }
+          50%      { opacity:1;   transform:scale(1.05); }
         }
-        @keyframes gtSpin {
+        @keyframes loaderSpin {
           from { transform:rotate(0deg); }
           to   { transform:rotate(360deg); }
         }
-        @keyframes gtGlow {
-          from { text-shadow: 0 0 30px rgba(168,85,247,0.50), 0 0 60px rgba(168,85,247,0.20); }
-          to   { text-shadow: 0 0 55px rgba(168,85,247,0.85), 0 0 100px rgba(168,85,247,0.40); }
+        @keyframes loaderGlow {
+          from { text-shadow: 0 0 28px rgba(168,85,247,0.45), 0 0 60px rgba(168,85,247,0.18); }
+          to   { text-shadow: 0 0 52px rgba(168,85,247,0.85), 0 0 100px rgba(168,85,247,0.38); }
         }
-        @keyframes gtDot {
-          0%,80%,100% { transform:scale(0.6); opacity:0.4; }
+        @keyframes loaderFloat {
+          0%,100% { transform: translate(-50%,-50%) translateY(0px);   opacity:0.65; }
+          50%     { transform: translate(-50%,-50%) translateY(-10px);  opacity:1;   }
+        }
+        @keyframes loaderDot {
+          0%,80%,100% { transform:scale(0.7); opacity:0.4; }
           40%          { transform:scale(1.3); opacity:1; }
         }
-        @keyframes gtBar {
-          from { width:0%; }
-          to   { width:100%; }
+        @keyframes loaderShimmer {
+          0%   { opacity:0; transform:translateX(-30px); }
+          50%  { opacity:1; }
+          100% { opacity:0; transform:translateX(10px); }
         }
       `}</style>
     </div>
   );
 }
+// ─────────────────────────────────────────────────────────────────────────────
 
 const ARENA_CARDS = [
   {
@@ -1182,6 +1268,15 @@ export function GameAThonPage() {
       {loading && (
   <style>{`
     nav { display: none !important; }
+  `}</style>
+)}
+{!loading && (
+  <style>{`
+    nav { animation: navQuickIn 0.18s ease-out; }
+    @keyframes navQuickIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
   `}</style>
 )}
 <style>{`
@@ -1243,30 +1338,62 @@ export function GameAThonPage() {
           animate="visible"
           onAnimationComplete={() => setEntranceComplete(true)}
         >
+          {/* ── HERO TITLE: GAME-A white, THON violet ── */}
           <motion.h1
-            className={`font-orbitron text-[clamp(32px,8.5vw,68px)] font-black text-[#F8FAFC] tracking-[0.05em] m-0 leading-[1.05] whitespace-nowrap ${entranceComplete ? "animate-title-glow" : "text-glow"}`}
+            className={`font-orbitron text-[clamp(32px,8.5vw,68px)] font-black tracking-[0.05em] m-0 leading-[1.05] whitespace-nowrap ${entranceComplete ? "animate-title-glow" : ""}`}
             variants={slideUp}
+            style={{
+              filter: "drop-shadow(0 0 28px rgba(168,85,247,0.45)) drop-shadow(0 0 60px rgba(168,85,247,0.20))",
+            }}
           >
-            GAME-A-THON
+            <span style={{ color: "#FFFFFF" }}>GAME-A</span>
+            <span style={{ color: "#a855f7" }}>-THON</span>
           </motion.h1>
 
           <motion.div
             className="lg:hidden w-full flex justify-center my-3"
             variants={fadeIn}
           >
-            <PortalVideo className="w-[86%] max-w-[385px]" />
+            <PortalVideo className="w-[95%] max-w-[440px]" />
           </motion.div>
 
           <motion.p
             className="text-[#FFFFFF] text-[clamp(17px,3.2vw,26px)] font-extrabold leading-[1.35] tracking-[0.01em] mb-2 mt-0"
             variants={slideUp}
           >
-            Compete. Collaborate.{" "}
+            Where Screen Turn{" "}
             <span className="bg-gradient-to-r from-[#A855F7] to-[#9333EA] bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
-              Conquer.
+              Into Arenas.
             </span>
           </motion.p>
-
+            <motion.div
+            className="flex justify-center lg:justify-start w-full mb-5"
+            variants={fadeIn}
+          >
+            <div
+              className="inline-flex flex-wrap items-center gap-x-4 gap-y-1.5 px-5 py-2.5 rounded-[14px]"
+              style={{
+                background: "linear-gradient(135deg, rgba(30,12,60,0.85) 0%, rgba(16,10,40,0.85) 100%)",
+                border: "1px solid rgba(168,85,247,0.28)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                boxShadow: "0 4px 20px rgba(168,85,247,0.16), inset 0 1px 0 rgba(168,85,247,0.14)",
+              }}
+            >
+              <span className="flex items-center gap-1.5 text-[#F8FAFC] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
+                <Calendar size={14} color="#A855F7" />
+                June 27, 2026
+              </span>
+              <span
+                aria-hidden="true"
+                style={{ width: "1px", height: "14px", background: "rgba(168,85,247,0.30)" }}
+              />
+              <span className="flex items-center gap-1.5 text-[#C8D3F5] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
+                <Clock size={14} color="#A855F7" />
+                9:00 AM – 1:00 PM
+              </span>
+            </div>
+          </motion.div>
           <motion.p
             className="text-[#C8D3F5] text-[clamp(13px,1.8vw,16px)] leading-[1.7] max-w-[460px] mb-6"
             variants={slideUp}
@@ -1327,7 +1454,7 @@ export function GameAThonPage() {
           animate="visible"
           style={{ willChange: "opacity" }}
         >
-          <PortalVideo className="w-[100%] lg:w-[141%]" />
+          <PortalVideo className="w-[115%] lg:w-[130%]" />
         </motion.div>
       </section>
 
@@ -1403,7 +1530,7 @@ export function GameAThonPage() {
 
             <div className="relative z-10">
               <p className="text-[#7E89A8] text-[10px] font-bold tracking-[0.18em] uppercase mb-7">
-                GameAThon Manifesto
+                Game-A-Thon Manifesto
               </p>
 
               <blockquote
@@ -1491,7 +1618,7 @@ export function GameAThonPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {ARENA_CARDS.map((card, i) => (
-            <GameArenaCard key={card.title} {...card} delay={i * 0.1} />
+            <GameArenaCard key={card.title} {...card} delay={i * 0.06} />
           ))}
         </div>
       </section>
@@ -1519,7 +1646,7 @@ export function GameAThonPage() {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
           {SKILL_CARDS.map((card, i) => (
-            <SkillCard key={card.title} {...card} delay={i * 0.07} />
+            <SkillCard key={card.title} {...card} delay={i * 0.04} />
           ))}
         </div>
       </section>
@@ -1538,7 +1665,7 @@ export function GameAThonPage() {
               Glimpse of Last Year's Talent
             </h2>
             <p className="text-[#7E89A8] text-[clamp(13px,1.8vw,16px)] leading-[1.7] max-w-[480px] mx-auto">
-              The moments that defined GameAThon. Relive the intensity
+              The moments that defined Game-A-Thon. Relive the intensity
               before you write your own chapter.
             </p>
           </ScrollReveal>
