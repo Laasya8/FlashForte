@@ -564,13 +564,13 @@ export function IdeaThonPage() {
 
                 {/* Mobile portal */}
                 <div className="hero-portal-mobile-slot" style={{ width: "100%", justifyContent: "center", marginBottom: "1.5rem" }}>
-                  <div style={{ width: "70%", aspectRatio: "1 / 1", position: "relative" }}>
+                  <div style={{ width: "52%", aspectRatio: "1 / 1", position: "relative" }}>
                     <TiltedCard containerHeight="100%" containerWidth="100%" imageHeight="100%" imageWidth="100%" rotateAmplitude={0} scaleOnHover={1} showMobileWarning={false} showTooltip={false} displayOverlayContent={true} overlayContent={<PortalVideo className="w-full h-full" />} />
                   </div>
                 </div>
 
                 <FadeSection delay={180}>
-                  <p style={{ color: "rgba(245,230,192,0.85)", fontSize: "clamp(0.9rem, 1.5vw, 1.05rem)", lineHeight: 1.75, maxWidth: 460, marginBottom: "2.4rem", fontFamily: "'Rajdhani', sans-serif", fontWeight: 400, letterSpacing: "0.02em" }}>
+                  <p className="hero-desc" style={{ color: "rgba(245,230,192,0.85)", fontSize: "clamp(0.9rem, 1.5vw, 1.05rem)", lineHeight: 1.75, maxWidth: 460, marginBottom: "2.4rem", fontFamily: "'Rajdhani', sans-serif", fontWeight: 400, letterSpacing: "0.02em" }}>
                     Brainstorm, innovate, and present groundbreaking ideas that address real-world problems and create lasting change.
                   </p>
                 </FadeSection>
@@ -829,7 +829,8 @@ export function IdeaThonPage() {
           {/* Scroll Indicator */}
           <style>{`
             .scroll-indicator { width: 3.5rem; height: 3.5rem; }
-            @media (max-width: 768px) { .scroll-indicator { width: 2.5rem !important; height: 2.5rem !important; bottom: 1.5rem !important; right: 1.5rem !important; } .scroll-indicator svg { width: 20px; height: 20px; } }
+            @media (max-width: 768px) { .scroll-indicator { width: 2.5rem !important; height: 2.5rem !important; bottom: 1.5rem !important; right: 1.5rem !important; } .scroll-indicator svg { width: 20px; height: 20px; } .hero-desc { margin-bottom: 1.2rem !important; }
+            .hero-portal-mobile-slot { margin-bottom: 0.75rem !important; }}
           `}</style>
           <button
             className="scroll-indicator"
