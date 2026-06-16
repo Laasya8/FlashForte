@@ -1361,7 +1361,7 @@ export function GameAThonPage() {
             className="text-[#FFFFFF] text-[clamp(17px,3.2vw,26px)] font-extrabold leading-[1.35] tracking-[0.01em] mb-2 mt-0"
             variants={slideUp}
           >
-            Where Screen Turn{" "}
+            Where Screens Turn{" "}
             <span className="bg-gradient-to-r from-[#A855F7] to-[#9333EA] bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
               Into Arenas.
             </span>

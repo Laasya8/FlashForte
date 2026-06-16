@@ -16,7 +16,7 @@ export const gameathonConfig = {
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
     titleNode: () => <>{titleNode()} Registration</>,
-    subtitle: "Compete. Collaborate. Conquer.",
+    subtitle: "Where Screens Turn Into Arenas.",
     submitText: "Register Now",
     successTitle: "Registration Confirmed.",
     successSubtitle: "Player one ready.",
