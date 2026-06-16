@@ -27,7 +27,6 @@ const highlightData = [
     navDesc: "Think. Ideate. Pitch.",
     color: "#EAB308", // Gold
     icon: Lightbulb,
-    participants: "90+",
     images: [
       ideathon1,
       ideathon2,
@@ -54,7 +53,6 @@ const highlightData = [
     navDesc: "Compete. Collaborate. Conquer.",
     color: "#A855F7", // Purple
     icon: Gamepad2,
-    participants: "120+",
     images: [gameathon1, gameathon2, gameathon4],
     highlights: [
       "Strategic thinking",
@@ -77,7 +75,6 @@ const highlightData = [
     navDesc: "Design. Create. Elevate.",
     color: "#22C55E", // Green
     icon: Palette,
-    participants: "70+",
     images: [designathon2, designathon3, designathon10],
     highlights: [
       "Design thinking",
@@ -100,7 +97,6 @@ const highlightData = [
     navDesc: "Where confidence finds its voice.",
     color: "#F97316", // Orange
     icon: Mic,
-    participants: "40+",
     images: [speakathon1, speakathon2, speakathon3],
     highlights: [
       "Public speaking and presentation skills",
@@ -360,16 +356,12 @@ export function PreviousYearHighlights() {
               }}
             >
               {/* Header */}
-              <div className="flex justify-between items-start mb-6 lg:mb-8 border-b border-white/10 pb-4 lg:pb-6">
+              <div className="flex items-start mb-6 lg:mb-8 border-b border-white/10 pb-4 lg:pb-6">
                 <div className="flex items-center gap-3 lg:gap-4">
                   <activeEvent.icon size={isMobile ? 24 : 32} color={activeEvent.color} style={{ filter: `drop-shadow(0 0 10px ${activeEvent.color}80)` }} />
                   <h3 className="font-orbitron font-black uppercase tracking-[0.05em] text-[16px] sm:text-[24px] lg:text-[28px] text-[#F8FAFC] text-glow">
                     {activeEvent.title} {activeEvent.year}
                   </h3>
-                </div>
-                <div className="text-right shrink-0 ml-4">
-                  <div className="text-white font-bold text-[18px] sm:text-[20px] lg:text-[24px]">{activeEvent.participants}</div>
-                  <div className="text-[#94A3B8] text-[10px] sm:text-[12px] uppercase tracking-wider">Participants</div>
                 </div>
               </div>
 
