@@ -76,9 +76,9 @@
   justify-content: center;
   flex-grow: 1;
   width: 100%;
-  max-width: 520px;
+  max-width: 600px;
   gap: 2rem;
-  padding: 2rem 1rem;
+  padding: 2rem 1.5rem;
 }
 
 /* ── Branding Header ───────────────────────────────────── */
@@ -120,12 +120,18 @@
   box-shadow:
     0 0 30px rgba(var(--theme-color-rgb), 0.06),
     0 20px 40px rgba(0, 0, 0, 0.5);
-  padding: 2.5rem 2rem;
+  padding: 2.5rem 1.5rem;
 }
 
 @media (min-width: 640px) {
   .neon-card {
     padding: 3rem 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .neon-card {
+    padding: 3rem 3.5rem;
   }
 }
 
@@ -137,16 +143,9 @@
 
 .neon-card__event-title {
   font-family: 'Outfit', sans-serif;
-  font-size: clamp(1.4rem, 4vw, 1.75rem);
   font-weight: 700;
   color: #F8FAFC;
-  letter-spacing: 0.04em;
   margin: 0 0 0.5rem 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
 }
 
 .neon-card__subtitle {

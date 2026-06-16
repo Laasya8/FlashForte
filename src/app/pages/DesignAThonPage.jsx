@@ -588,7 +588,7 @@ export function DesignAThonPage() {
 
             {/* Tagline */}
             <motion.p
-              className="text-[#FFFFFF] text-[clamp(17px,3.2vw,26px)] font-extrabold leading-[1.35] tracking-[0.08em] mb-6 mt-0 capitalize"
+              className="text-[#FFFFFF] text-[clamp(17px,3.2vw,26px)] font-extrabold leading-[1.35] tracking-[0.08em] mb-6 mt-0"
               variants={slideUp}
             >
               Design.{" "}

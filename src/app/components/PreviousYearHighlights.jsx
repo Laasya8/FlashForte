@@ -24,7 +24,7 @@ const highlightData = [
     id: "ideathon",
     title: "IdeaThon",
     year: "2025",
-    navDesc: "Ignite Ideas. Inspire Change.",
+    navDesc: "Think. Ideate. Pitch.",
     color: "#EAB308", // Gold
     icon: Lightbulb,
     participants: "90+",
@@ -51,7 +51,7 @@ const highlightData = [
     id: "gameathon",
     title: "Game-A-Thon",
     year: "2025",
-    navDesc: "Don't Just Play the Game. Own It.",
+    navDesc: "Compete. Collaborate. Conquer.",
     color: "#A855F7", // Purple
     icon: Gamepad2,
     participants: "120+",
@@ -74,7 +74,7 @@ const highlightData = [
     id: "designathon",
     title: "Design-A-Thon",
     year: "2025",
-    navDesc: "Unleash Your Creativity.",
+    navDesc: "Design. Create. Elevate.",
     color: "#22C55E", // Green
     icon: Palette,
     participants: "70+",
@@ -97,7 +97,7 @@ const highlightData = [
     id: "speakathon",
     title: "Speak-A-Thon",
     year: "2025",
-    navDesc: "Find Your Voice. Shape Your Story.",
+    navDesc: "Where confidence finds its voice.",
     color: "#F97316", // Orange
     icon: Mic,
     participants: "40+",

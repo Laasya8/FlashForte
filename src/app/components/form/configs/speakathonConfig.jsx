@@ -22,7 +22,7 @@ export const speakathonConfig = {
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
     titleNode: () => <>{titleNode()} Registration</>,
-    subtitle: "Where Confidence Finds its Voice",
+    subtitle: "Where confidence finds its voice.",
     submitText: "Register Now",
     successTitle: "Registration Confirmed.",
     successSubtitle: "Your voice will be heard.",

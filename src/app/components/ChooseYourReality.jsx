@@ -6,7 +6,7 @@ const events = [
   {
     id: "ideathon",
     title: "IdeaThon",
-    desc: "THINK . IDEATE . PITCH",
+    desc: "Think. Ideate. Pitch.",
     color: "#EAB308", // Gold
     icon: Lightbulb,
     link: "/ideathon",
@@ -14,7 +14,7 @@ const events = [
   {
     id: "speakathon",
     title: "Speak-A-Thon",
-    desc: "WHERE CONFIDENCE FINDS ITS VOICE",
+    desc: "Where confidence finds its voice.",
     color: "#F97316", // Orange
     icon: Mic,
     link: "/speak-a-thon",

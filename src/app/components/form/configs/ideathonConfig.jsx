@@ -17,7 +17,7 @@ export const ideathonConfig = {
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
     titleNode: () => <>{titleNode()} Registration</>,
-    subtitle: "Ignite ideas. Inspire change.",
+    subtitle: "Think. Ideate. Pitch.",
     submitText: "Register Now",
     successTitle: "Registration Confirmed.",
     successSubtitle: "Your innovation journey begins.",

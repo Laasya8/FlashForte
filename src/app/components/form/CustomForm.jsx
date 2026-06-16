@@ -69,10 +69,10 @@ export function CustomForm({
   const [formData, setFormData] = useState({});
 
   const ALL_EVENTS = [
-    { id: "ideathon", title: "Ideathon", link: "/ideathon", color: "#EAB308", desc: "Ignite ideas. Inspire change." },
-    { id: "designathon", title: "Design\u2011A\u2011Thon", link: "/design-a-thon", color: "#22C55E", desc: "Where creativity meets impact." },
-    { id: "speakathon", title: "Speak\u2011A\u2011Thon", link: "/speak-a-thon", color: "#F97316", desc: "Find your voice. Shape your story." },
-    { id: "gameathon", title: "Game\u2011A\u2011Thon", link: "/game-a-thon", color: "#A855F7", desc: "Think fast. Adapt faster." },
+    { id: "ideathon", title: "Ideathon", link: "/ideathon", color: "#EAB308", desc: "Think. Ideate. Pitch." },
+    { id: "designathon", title: "Design\u2011A\u2011Thon", link: "/design-a-thon", color: "#22C55E", desc: "Design. Create. Elevate." },
+    { id: "speakathon", title: "Speak\u2011A\u2011Thon", link: "/speak-a-thon", color: "#F97316", desc: "Where confidence finds its voice." },
+    { id: "gameathon", title: "Game\u2011A\u2011Thon", link: "/game-a-thon", color: "#A855F7", desc: "Compete. Collaborate. Conquer." },
   ];
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState("idle"); // idle, loading, success, error
@@ -174,10 +174,10 @@ export function CustomForm({
     <motion.div className="neon-card" variants={cardVariants} initial="hidden" animate="visible">
       {/* ── Card Header ────────────────────────── */}
       <div className="neon-card__header">
-        <h2 className="neon-card__event-title">
+        <h2 className="neon-card__event-title flex flex-row justify-center items-center flex-wrap md:flex-nowrap gap-2 text-xl sm:text-2xl md:text-3xl tracking-tight md:tracking-normal md:whitespace-nowrap">
           {titleNode ? titleNode() : title}
         </h2>
-        {subtitle && <p className="neon-card__subtitle">{subtitle}</p>}
+        {subtitle && <p className="neon-card__subtitle mt-1 md:mt-2">{subtitle}</p>}
       </div>
 
       {/* ── Card Body ──────────────────────────── */}
