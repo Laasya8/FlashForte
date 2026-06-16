@@ -534,6 +534,34 @@ export function IdeaThonPage() {
                   </p>
                 </FadeSection>
 
+                <FadeSection delay={160}>
+                  <div style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "1.2rem",
+                    background: "rgba(245,197,24,0.08)",
+                    border: "1px solid rgba(245,197,24,0.25)",
+                    borderRadius: "999px",
+                    padding: "0.45rem 1.1rem",
+                    marginBottom: "1.4rem",
+                    flexWrap: "wrap",
+                  }}>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "clamp(0.8rem, 1.2vw, 0.95rem)", fontWeight: 600, color: "rgba(245,230,192,0.9)", letterSpacing: "0.06em" }}>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f5c518" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+                      </svg>
+                      June 30, 2026
+                    </span>
+                    <span style={{ color: "rgba(245,197,24,0.4)", fontSize: "0.75rem" }}>|</span>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "clamp(0.8rem, 1.2vw, 0.95rem)", fontWeight: 600, color: "rgba(245,230,192,0.9)", letterSpacing: "0.06em" }}>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f5c518" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                      </svg>
+                      2:00 PM – 5:00 PM
+                    </span>
+                  </div>
+                </FadeSection>
+
                 {/* Mobile portal */}
                 <div className="hero-portal-mobile-slot" style={{ width: "100%", justifyContent: "center", marginBottom: "1.5rem" }}>
                   <div style={{ width: "70%", aspectRatio: "1 / 1", position: "relative" }}>
@@ -616,10 +644,16 @@ export function IdeaThonPage() {
                     <p style={{ color: "rgba(245,230,192,0.85)", fontSize: "0.98rem", lineHeight: 1.75, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
                       Present your idea as a structured deck. Cover the problem, your solution, market scope, and a rough implementation plan. Selected teams advance to Round 2.
                     </p>
-                    <div style={{ marginTop: "1.4rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                      <div style={{ width: 24, height: 1, background: "#f5c518" }} />
-                      <span style={{ fontFamily: "'Rajdhani'", fontSize: "0.85rem", letterSpacing: "0.2em", color: "#f5c518", textTransform: "uppercase", fontWeight: 700 }}>Online Submission</span>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", marginTop: "1.2rem" }}>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "#f5c518", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f5c518" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      Deadline: 27 June 2026, 5:00 PM
                     </div>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "rgba(245,197,24,0.6)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                      <span style={{ width: "1.8rem", height: "1.5px", background: "rgba(245,197,24,0.6)", display: "inline-block" }} />
+                      Online Submission
+                    </div>
+                  </div>
                   </RoundCard>
                 </FadeSection>
 
@@ -644,10 +678,16 @@ export function IdeaThonPage() {
                     <p style={{ color: "rgba(245,230,192,0.85)", fontSize: "0.98rem", lineHeight: 1.75, fontFamily: "'Rajdhani'", fontWeight: 400 }}>
                       Take the stage. Present your solution live to a panel of judges. Defend your idea, answer questions, and demonstrate its real-world potential.
                     </p>
-                    <div style={{ marginTop: "1.4rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                      <div style={{ width: 24, height: 1, background: "#f5c518" }} />
-                      <span style={{ fontFamily: "'Rajdhani'", fontSize: "0.8rem", letterSpacing: "0.2em", color: "#f5c518", textTransform: "uppercase", fontWeight: 600 }}>Live Judging</span>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", marginTop: "1.2rem" }}>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "#f5c518", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f5c518" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      Date: 30 June 2026
                     </div>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "'Rajdhani', sans-serif", fontSize: "0.78rem", fontWeight: 700, color: "rgba(245,197,24,0.6)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                      <span style={{ width: "1.8rem", height: "1.5px", background: "rgba(245,197,24,0.6)", display: "inline-block" }} />
+                      Live Judging
+                    </div>
+                  </div>
                   </RoundCard>
                 </FadeSection>
 

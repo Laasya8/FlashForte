@@ -46,14 +46,6 @@ export const ideathonConfig = {
       ),
 
       {
-        name: "rollNo",
-        label: "Roll Number",
-        type: "text",
-        required: true,
-        placeholder: "Enter your roll number"
-      },
-
-      {
         name: "domain",
         label: "Select Domain",
         type: "select",
