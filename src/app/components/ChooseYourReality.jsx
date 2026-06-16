@@ -6,7 +6,7 @@ const events = [
   {
     id: "ideathon",
     title: "IdeaThon",
-    desc: "Ignite Ideas. Inspire Change.",
+    desc: "THINK . IDEATE . PITCH",
     color: "#EAB308", // Gold
     icon: Lightbulb,
     link: "/ideathon",
@@ -14,7 +14,7 @@ const events = [
   {
     id: "speakathon",
     title: "Speak-A-Thon",
-    desc: "Find Your Voice. Shape Your Story.",
+    desc: "WHERE CONFIDENCE FINDS ITS VOICE",
     color: "#F97316", // Orange
     icon: Mic,
     link: "/speak-a-thon",
@@ -22,7 +22,7 @@ const events = [
   {
     id: "designathon",
     title: "Design-A-Thon",
-    desc: "Unleash Your Creativity.",
+    desc: "Design. Create. Elevate.",
     color: "#22C55E", // Green
     icon: Palette,
     link: "/design-a-thon",
@@ -30,7 +30,7 @@ const events = [
   {
     id: "gameathon",
     title: "Game-A-Thon",
-    desc: "Don't Just Play the Game. Own It.",
+    desc: "Compete. Collaborate. Conquer.",
     color: "#A855F7", // Purple
     icon: Gamepad2,
     link: "/game-a-thon",
