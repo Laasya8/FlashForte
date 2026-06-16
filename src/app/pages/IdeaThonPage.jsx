@@ -621,6 +621,57 @@ export function IdeaThonPage() {
           </section>
 
           {/* ════════════════════════
+              SECTION 3 — DOMAINS
+          ════════════════════════ */}
+          <section style={{ padding: "5rem 1.5rem" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+              <FadeSection>
+                <SectionHeading label="What You Can Build" title="EXPLORE DOMAINS" />
+              </FadeSection>
+
+              <style>{`
+                .domain-card-v2 { position: relative; background: linear-gradient(145deg, rgba(245,197,24,0.04) 0%, rgba(10,10,12,0.95) 100%); border: 1px solid rgba(245,197,24,0.14); padding: 2rem 1.8rem 1.8rem; cursor: default; transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; border-radius: 24px; box-shadow: inset 0 0 12px rgba(255,255,255,0.02), 0 0 18px rgba(245,197,24,0.08); }
+                .domain-card-v2::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(245,197,24,0.42), transparent); opacity: 0; transition: opacity 0.3s ease; }
+                .domain-card-v2:hover { border-color: rgba(245,197,24,0.28); background: linear-gradient(145deg, rgba(245,197,24,0.06) 0%, rgba(12,12,14,0.98) 100%); transform: translateY(-3px); box-shadow: inset 0 0 16px rgba(255,255,255,0.02), 0 0 22px rgba(245,197,24,0.12); }
+                .domain-card-v2:hover::before { opacity: 1; }
+                .domain-card-v2:hover .domain-num { opacity: 0.1; }
+                .domain-card-v2:hover .domain-name { color: #f5c518; text-shadow: none; }
+                .domain-num { position: absolute; bottom: 14px; right: 18px; font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 900; color: rgba(245,197,24,1); opacity: 0.08; line-height: 1; letter-spacing: -0.02em; transition: opacity 0.3s ease; pointer-events: none; user-select: none; }
+                .domain-name { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 800; color: #fff8de; margin-bottom: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase; transition: color 0.3s ease; line-height: 1.2; }
+                @media (max-width: 700px) { .domains-grid-v2 { grid-template-columns: 1fr !important; } }
+                .domain-icon-v2 { width: 58px; height: 58px; margin-bottom: 1.4rem; position: relative; display: flex; align-items: center; justify-content: center; transition: filter 0.3s ease, transform 0.3s ease; }
+                .domain-icon-v2 svg { width: 100%; height: 100%; }
+                .domain-icon-v2 svg circle, .domain-icon-v2 svg ellipse { transition: stroke 0.3s ease, fill 0.3s ease; fill: rgba(245,197,24,0.04); stroke: rgba(245,197,24,0.48); }
+                .domain-icon-v2 .icon-glyph { color: #f5c518; font-size: 1.3rem; position: absolute; display: flex; align-items: center; justify-content: center; filter: none; transition: color 0.3s ease, transform 0.3s ease; }
+                .domain-card-v2:hover .domain-icon-v2 svg circle, .domain-card-v2:hover .domain-icon-v2 svg ellipse { stroke: rgba(245,197,24,0.72); fill: rgba(245,197,24,0.08); }
+                .domain-card-v2:hover .domain-icon-v2 .icon-glyph { color: #f5c518; filter: drop-shadow(0 0 6px rgba(245,197,24,0.95)) drop-shadow(0 0 16px rgba(245,197,24,0.55)); }
+              `}</style>
+
+              <div className="domains-grid-v2" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
+                {DOMAINS.map((domain, i) => (
+                  <FadeSection key={i} delay={i * 70}>
+                    <div className="domain-card-v2" style={{ height: "100%" }}>
+                      <div className="domain-num">0{i + 1}</div>
+                      <div className="domain-icon-v2">
+                        <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="36" cy="36" r="22" strokeWidth="1.5" />
+                          <ellipse cx="36" cy="36" rx="24" ry="22" transform="rotate(-18 36 36)" strokeWidth="1.2" fill="none" opacity="0.45" />
+                        </svg>
+                        <span className="icon-glyph">{DOMAIN_ICONS[i]}</span>
+                      </div>
+                      <div className="domain-name">{domain.name}</div>
+                      <div style={{ width: 36, height: 1, background: "linear-gradient(90deg, #f5c518, rgba(245,197,24,0.2))", marginBottom: "0.75rem" }} />
+                      <p style={{ color: "rgba(245,230,192,0.95)", fontSize: "0.95rem", lineHeight: 1.6, fontFamily: "'Inter', sans-serif", fontWeight: 400, letterSpacing: "0.01em", margin: 0 }}>{domain.desc}</p>
+                    </div>
+                  </FadeSection>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <div className="divider" />
+
+          {/* ════════════════════════
               SECTION 2 — ROUNDS
           ════════════════════════ */}
           <section style={{ padding: "5rem 1.5rem" }}>
@@ -691,57 +742,6 @@ export function IdeaThonPage() {
                   </RoundCard>
                 </FadeSection>
 
-              </div>
-            </div>
-          </section>
-
-          <div className="divider" />
-
-          {/* ════════════════════════
-              SECTION 3 — DOMAINS
-          ════════════════════════ */}
-          <section style={{ padding: "5rem 1.5rem" }}>
-            <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-              <FadeSection>
-                <SectionHeading label="What You Can Build" title="EXPLORE DOMAINS" />
-              </FadeSection>
-
-              <style>{`
-                .domain-card-v2 { position: relative; background: linear-gradient(145deg, rgba(245,197,24,0.04) 0%, rgba(10,10,12,0.95) 100%); border: 1px solid rgba(245,197,24,0.14); padding: 2rem 1.8rem 1.8rem; cursor: default; transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; border-radius: 24px; box-shadow: inset 0 0 12px rgba(255,255,255,0.02), 0 0 18px rgba(245,197,24,0.08); }
-                .domain-card-v2::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(245,197,24,0.42), transparent); opacity: 0; transition: opacity 0.3s ease; }
-                .domain-card-v2:hover { border-color: rgba(245,197,24,0.28); background: linear-gradient(145deg, rgba(245,197,24,0.06) 0%, rgba(12,12,14,0.98) 100%); transform: translateY(-3px); box-shadow: inset 0 0 16px rgba(255,255,255,0.02), 0 0 22px rgba(245,197,24,0.12); }
-                .domain-card-v2:hover::before { opacity: 1; }
-                .domain-card-v2:hover .domain-num { opacity: 0.1; }
-                .domain-card-v2:hover .domain-name { color: #f5c518; text-shadow: none; }
-                .domain-num { position: absolute; bottom: 14px; right: 18px; font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 900; color: rgba(245,197,24,1); opacity: 0.08; line-height: 1; letter-spacing: -0.02em; transition: opacity 0.3s ease; pointer-events: none; user-select: none; }
-                .domain-name { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 800; color: #fff8de; margin-bottom: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase; transition: color 0.3s ease; line-height: 1.2; }
-                @media (max-width: 700px) { .domains-grid-v2 { grid-template-columns: 1fr !important; } }
-                .domain-icon-v2 { width: 58px; height: 58px; margin-bottom: 1.4rem; position: relative; display: flex; align-items: center; justify-content: center; transition: filter 0.3s ease, transform 0.3s ease; }
-                .domain-icon-v2 svg { width: 100%; height: 100%; }
-                .domain-icon-v2 svg circle, .domain-icon-v2 svg ellipse { transition: stroke 0.3s ease, fill 0.3s ease; fill: rgba(245,197,24,0.04); stroke: rgba(245,197,24,0.48); }
-                .domain-icon-v2 .icon-glyph { color: #f5c518; font-size: 1.3rem; position: absolute; display: flex; align-items: center; justify-content: center; filter: none; transition: color 0.3s ease, transform 0.3s ease; }
-                .domain-card-v2:hover .domain-icon-v2 svg circle, .domain-card-v2:hover .domain-icon-v2 svg ellipse { stroke: rgba(245,197,24,0.72); fill: rgba(245,197,24,0.08); }
-                .domain-card-v2:hover .domain-icon-v2 .icon-glyph { color: #f5c518; filter: drop-shadow(0 0 6px rgba(245,197,24,0.95)) drop-shadow(0 0 16px rgba(245,197,24,0.55)); }
-              `}</style>
-
-              <div className="domains-grid-v2" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
-                {DOMAINS.map((domain, i) => (
-                  <FadeSection key={i} delay={i * 70}>
-                    <div className="domain-card-v2" style={{ height: "100%" }}>
-                      <div className="domain-num">0{i + 1}</div>
-                      <div className="domain-icon-v2">
-                        <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="36" cy="36" r="22" strokeWidth="1.5" />
-                          <ellipse cx="36" cy="36" rx="24" ry="22" transform="rotate(-18 36 36)" strokeWidth="1.2" fill="none" opacity="0.45" />
-                        </svg>
-                        <span className="icon-glyph">{DOMAIN_ICONS[i]}</span>
-                      </div>
-                      <div className="domain-name">{domain.name}</div>
-                      <div style={{ width: 36, height: 1, background: "linear-gradient(90deg, #f5c518, rgba(245,197,24,0.2))", marginBottom: "0.75rem" }} />
-                      <p style={{ color: "rgba(245,230,192,0.95)", fontSize: "0.95rem", lineHeight: 1.6, fontFamily: "'Inter', sans-serif", fontWeight: 400, letterSpacing: "0.01em", margin: 0 }}>{domain.desc}</p>
-                    </div>
-                  </FadeSection>
-                ))}
               </div>
             </div>
           </section>
