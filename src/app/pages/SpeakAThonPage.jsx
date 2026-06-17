@@ -976,6 +976,18 @@ export function SpeakAThonPage() {
             </span>
           </motion.h2>
 
+          {/* Portal Animation — mobile only */}
+          <motion.div
+            className="hero-portal-mobile-slot lg:hidden flex w-full justify-center my-3"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: BUTTERY_EASE }}
+          >
+            <div className="w-[90%] max-w-[420px] aspect-square relative">
+              <MicPortal className="w-full h-full" />
+            </div>
+          </motion.div>
+
           {/* Date & Time Box */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -995,7 +1007,7 @@ export function SpeakAThonPage() {
             >
               <span className="flex items-center gap-1.5 text-white text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
                 <Calendar size={14} color="#22C55E" />
-                June 27, 2026
+                June 29, 2026
               </span>
               <span
                 aria-hidden="true"
@@ -1003,20 +1015,8 @@ export function SpeakAThonPage() {
               />
               <span className="flex items-center gap-1.5 text-white text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
                 <Clock size={14} color="#22C55E" />
-                2:00 PM – 5:00 PM
+                9:00 AM – 1:00 PM
               </span>
-            </div>
-          </motion.div>
-
-          {/* Portal Animation — mobile only */}
-          <motion.div
-            className="hero-portal-mobile-slot lg:hidden flex w-full justify-center my-3"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: BUTTERY_EASE }}
-          >
-            <div className="w-[90%] max-w-[420px] aspect-square relative">
-              <MicPortal className="w-full h-full" />
             </div>
           </motion.div>
 
