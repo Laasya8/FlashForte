@@ -4,7 +4,7 @@ import { Clock, Mic, Gamepad2, Palette, Lightbulb } from "lucide-react";
 const SCHEDULE_DATA = [
   {
     day: "Day 1",
-    date: "June 26",
+    date: "June 29",
     events: [
       { name: "Speak-A-Thon", time: "9:00 AM - 1:00 PM", icon: Mic, color: "#22C55E" },
       { name: "Game-A-Thon", time: "2:00 PM - 5:00 PM", icon: Gamepad2, color: "#A855F7" },
@@ -12,7 +12,7 @@ const SCHEDULE_DATA = [
   },
   {
     day: "Day 2",
-    date: "June 27",
+    date: "June 30",
     events: [
       { name: "Design-A-Thon", time: "9:00 AM - 1:00 PM", icon: Palette, color: "#F97316" },
       { name: "IdeaThon", time: "2:00 PM - 5:00 PM", icon: Lightbulb, color: "#EAB308" },

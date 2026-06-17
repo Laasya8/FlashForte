@@ -21,29 +21,25 @@ import speakathon3 from "../../images/Speakathon/speakathon3.webp";
 
 const highlightData = [
   {
-    id: "ideathon",
-    title: "IdeaThon",
+    id: "speakathon",
+    title: "Speak-A-Thon",
     year: "2025",
-    navDesc: "Think. Ideate. Pitch.",
-    color: "#EAB308", // Gold
-    icon: Lightbulb,
-    images: [
-      ideathon1,
-      ideathon2,
-      ideathon3,
-    ],
+    navDesc: "Where confidence finds its voice.",
+    color: "#22C55E", // Green
+    icon: Mic,
+    images: [speakathon1, speakathon2, speakathon3],
     highlights: [
-      "Innovation and creative problem solving",
-      "Critical and analytical thinking",
-      "Entrepreneurial mindset",
-      "Idea validation and feasibility analysis",
-      "Structured thinking",
-      "Pitching and communication skills",
+      "Public speaking and presentation skills",
+      "Creative storytelling",
+      "Quick thinking and improvisation",
+      "Audience engagement",
+      "Confidence and self-expression",
+      "Verbal communication and persuasion",
     ],
     winners: [
-      "1st Place - Chatradhara Reddy",
-      "2nd Place - Sachin Tripathi",
-      "3rd Place - M. Jithendar Reddy",
+      "1st Place - Chakresh Sri Varma",
+      "2nd Place - Patha Sloka",
+      "3rd Place - M. Saanvika",
     ]
   },
   {
@@ -91,25 +87,29 @@ const highlightData = [
     ]
   },
   {
-    id: "speakathon",
-    title: "Speak-A-Thon",
+    id: "ideathon",
+    title: "IdeaThon",
     year: "2025",
-    navDesc: "Where confidence finds its voice.",
-    color: "#22C55E", // Green
-    icon: Mic,
-    images: [speakathon1, speakathon2, speakathon3],
+    navDesc: "Think. Ideate. Pitch.",
+    color: "#EAB308", // Gold
+    icon: Lightbulb,
+    images: [
+      ideathon1,
+      ideathon2,
+      ideathon3,
+    ],
     highlights: [
-      "Public speaking and presentation skills",
-      "Creative storytelling",
-      "Quick thinking and improvisation",
-      "Audience engagement",
-      "Confidence and self-expression",
-      "Verbal communication and persuasion",
+      "Innovation and creative problem solving",
+      "Critical and analytical thinking",
+      "Entrepreneurial mindset",
+      "Idea validation and feasibility analysis",
+      "Structured thinking",
+      "Pitching and communication skills",
     ],
     winners: [
-      "1st Place - Chakresh Sri Varma",
-      "2nd Place - Patha Sloka",
-      "3rd Place - M. Saanvika",
+      "1st Place - Chatradhara Reddy",
+      "2nd Place - Sachin Tripathi",
+      "3rd Place - M. Jithendar Reddy",
     ]
   }
 ];

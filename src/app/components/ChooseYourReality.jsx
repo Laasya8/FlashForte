@@ -4,20 +4,20 @@ import { motion } from "framer-motion";
 
 const events = [
   {
-    id: "ideathon",
-    title: "IdeaThon",
-    desc: "Think. Ideate. Pitch.",
-    color: "#EAB308", // Gold
-    icon: Lightbulb,
-    link: "/ideathon",
-  },
-  {
     id: "speakathon",
     title: "Speak-A-Thon",
     desc: "Where confidence finds its voice.",
     color: "#22C55E", // Green
     icon: Mic,
     link: "/speak-a-thon",
+  },
+  {
+    id: "gameathon",
+    title: "Game-A-Thon",
+    desc: "Where Screens Turn Into Arenas.",
+    color: "#A855F7", // Purple
+    icon: Gamepad2,
+    link: "/game-a-thon",
   },
   {
     id: "designathon",
@@ -28,12 +28,12 @@ const events = [
     link: "/design-a-thon",
   },
   {
-    id: "gameathon",
-    title: "Game-A-Thon",
-    desc: "Where Screens Turn Into Arenas.",
-    color: "#A855F7", // Purple
-    icon: Gamepad2,
-    link: "/game-a-thon",
+    id: "ideathon",
+    title: "IdeaThon",
+    desc: "Think. Ideate. Pitch.",
+    color: "#EAB308", // Gold
+    icon: Lightbulb,
+    link: "/ideathon",
   },
 ];
 

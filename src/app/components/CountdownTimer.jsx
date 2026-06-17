@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
  * Standalone inline element that complements the date pill.
  */
 export function CountdownTimer() {
-  const TARGET_DATE = new Date("2026-06-26T09:00:00+05:30").getTime();
+  const TARGET_DATE = new Date("2026-06-29T09:00:00+05:30").getTime();
 
   const calculateTimeLeft = () => {
     const now = Date.now();
