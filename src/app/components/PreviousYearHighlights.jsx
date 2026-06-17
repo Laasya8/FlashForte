@@ -117,24 +117,36 @@ const highlightData = [
 function MobileImageGallery({ activeEvent, onImageClick, onInteract }) {
   const carouselRef = useRef(null);
   const [activeImgIndex, setActiveImgIndex] = useState(0);
+  const scrollTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
+  }, []);
 
   const handleScroll = () => {
-    if (onInteract) onInteract();
     if (!carouselRef.current) return;
-    const container = carouselRef.current;
-    const scrollCenter = container.scrollLeft + container.clientWidth / 2;
-    let closestIndex = 0;
-    let minDistance = Infinity;
-    const items = container.querySelectorAll('.gallery-carousel-item');
-    items.forEach((item, index) => {
-      const itemCenter = item.offsetLeft + item.clientWidth / 2;
-      const distance = Math.abs(scrollCenter - itemCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIndex = index;
-      }
-    });
-    if (closestIndex !== activeImgIndex) setActiveImgIndex(closestIndex);
+
+    // Debounce: only update active index after scroll settles
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      if (!carouselRef.current) return;
+      const container = carouselRef.current;
+      const scrollCenter = container.scrollLeft + container.clientWidth / 2;
+      let closestIndex = 0;
+      let minDistance = Infinity;
+      const items = container.querySelectorAll('.gallery-carousel-item');
+      items.forEach((item, index) => {
+        const itemCenter = item.offsetLeft + item.clientWidth / 2;
+        const distance = Math.abs(scrollCenter - itemCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIndex = index;
+        }
+      });
+      if (closestIndex !== activeImgIndex) setActiveImgIndex(closestIndex);
+    }, 100);
   };
 
   return (
@@ -148,7 +160,6 @@ function MobileImageGallery({ activeEvent, onImageClick, onInteract }) {
         style={{
           paddingLeft: "calc(50% - 100px)",
           paddingRight: "calc(50% - 100px)",
-          scrollBehavior: "smooth"
         }}
       >
         {(activeEvent.images.length > 0 ? activeEvent.images : [null, null, null]).map((img, index) => {
@@ -189,7 +200,7 @@ export function PreviousYearHighlights() {
   const navCarouselRef = useRef(null);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-  const programmaticScroll = useRef(false);
+  const isUserSwiping = useRef(false);
   const [zoomedImage, setZoomedImage] = useState(null);
   
   const activeEvent = highlightData[activeIndex];
@@ -201,17 +212,14 @@ export function PreviousYearHighlights() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Programmatic scroll — only runs for autoplay/click, NOT for user swipes
   useEffect(() => {
-    if (isMobile && navCarouselRef.current) {
+    if (isMobile && navCarouselRef.current && !isUserSwiping.current) {
       const container = navCarouselRef.current;
       const items = container.querySelectorAll('.nav-carousel-item');
       if (items[activeIndex]) {
-        programmaticScroll.current = true;
         const scrollLeft = items[activeIndex].offsetLeft - container.clientWidth / 2 + items[activeIndex].clientWidth / 2;
         container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
-        setTimeout(() => {
-          programmaticScroll.current = false;
-        }, 500);
       }
     }
   }, [activeIndex, isMobile]);
@@ -224,9 +232,9 @@ export function PreviousYearHighlights() {
     return () => clearInterval(interval);
   }, [isAutoPlaying, isInView]);
 
+  // Direct scroll detection — matches RealitiesArchive pattern (no debounce)
   const handleNavScroll = () => {
-    if (!navCarouselRef.current || !isMobile || programmaticScroll.current) return;
-    setIsAutoPlaying(false);
+    if (!navCarouselRef.current || !isMobile || !isUserSwiping.current) return;
     const container = navCarouselRef.current;
     const scrollCenter = container.scrollLeft + container.clientWidth / 2;
     let closestIndex = 0;
@@ -242,8 +250,19 @@ export function PreviousYearHighlights() {
     });
     if (closestIndex !== activeIndex) {
       setActiveIndex(closestIndex);
-      setIsAutoPlaying(false);
     }
+  };
+
+  const handleNavTouchStart = () => {
+    isUserSwiping.current = true;
+    setIsAutoPlaying(false);
+  };
+
+  const handleNavTouchEnd = () => {
+    // Small delay to let the final scroll event fire before disabling swipe mode
+    setTimeout(() => {
+      isUserSwiping.current = false;
+    }, 300);
   };
 
   const handleTabClick = (index) => {
@@ -284,13 +303,14 @@ export function PreviousYearHighlights() {
           <div 
             ref={navCarouselRef}
             onScroll={handleNavScroll}
-            onTouchStart={() => setIsAutoPlaying(false)}
-            onMouseDown={() => setIsAutoPlaying(false)}
+            onTouchStart={handleNavTouchStart}
+            onTouchEnd={handleNavTouchEnd}
+            onMouseDown={handleNavTouchStart}
+            onMouseUp={handleNavTouchEnd}
             className={`flex lg:flex-col gap-4 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 hide-scrollbar perspective-1000 ${isMobile ? "snap-x snap-mandatory" : ""}`}
             style={{
                paddingLeft: isMobile ? "calc(50% - 120px)" : undefined,
                paddingRight: isMobile ? "calc(50% - 120px)" : undefined,
-               scrollBehavior: "smooth"
             }}
           >
             {highlightData.map((event, index) => {
