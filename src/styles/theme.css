@@ -191,17 +191,15 @@
 
   0%,
   100% {
-    text-shadow:
-      0 0 20px rgba(143, 107, 255, 0.35),
-      0 0 50px rgba(143, 107, 255, 0.15),
-      0 0 80px rgba(143, 107, 255, 0.05);
+    filter:
+      drop-shadow(0 0 20px rgba(143, 107, 255, 0.35))
+      drop-shadow(0 0 50px rgba(143, 107, 255, 0.15));
   }
 
   50% {
-    text-shadow:
-      0 0 20px rgba(0, 168, 232, 0.35),
-      0 0 50px rgba(0, 168, 232, 0.15),
-      0 0 80px rgba(0, 168, 232, 0.05);
+    filter:
+      drop-shadow(0 0 20px rgba(0, 168, 232, 0.35))
+      drop-shadow(0 0 50px rgba(0, 168, 232, 0.15));
   }
 }
 
@@ -312,6 +310,7 @@
 /* Utility classes for ambient loops */
 .animate-title-glow {
   animation: titleGlowPulse 6s ease-in-out infinite;
+  will-change: filter;
 }
 
 .animate-cta-gradient {
@@ -327,6 +326,7 @@
     100% 100%;
   background-repeat: no-repeat;
   animation: randomBlueFlowCTA 12s infinite ease-in-out;
+  will-change: background-position;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -340,6 +340,7 @@
 
 .animate-card-levitate {
   animation: cardLevitate 8s ease-in-out infinite;
+  will-change: transform;
 }
 
 @layer components {
@@ -387,6 +388,13 @@
     box-shadow: 0 0 30px rgba(143, 107, 255, 0.05);
   }
 
+  @media (max-width: 768px) {
+    .glass-card {
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+  }
+
   .glass-timer-card {
     background: rgba(10, 10, 15, 0.4);
     backdrop-filter: blur(16px);
@@ -394,6 +402,13 @@
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 4px 24px rgba(0, 168, 232, 0.08), 0 0 40px rgba(143, 107, 255, 0.04);
+  }
+
+  @media (max-width: 768px) {
+    .glass-timer-card {
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
   }
 
   .preserve-3d {
@@ -508,6 +523,7 @@
     background-clip: text;
     color: transparent;
     animation: randomBlueFlow 12s infinite ease-in-out;
+    will-change: background-position;
   }
 
   /* Portal Video */
@@ -534,4 +550,14 @@
   }
 
   /* Registration form styles moved to neon-form.css */
+}
+
+/* Accessibility: disable continuous animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-title-glow,
+  .animate-text-gradient,
+  .animate-cta-gradient,
+  .animate-card-levitate {
+    animation: none !important;
+  }
 }

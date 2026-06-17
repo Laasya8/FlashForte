@@ -21,8 +21,8 @@ function PortalVideo({ children, className = "" }) {
     <div
       className={`relative flex items-center justify-center aspect-square mx-auto my-0 md:my-4 w-full max-w-[clamp(340px,85vw,600px)] lg:max-w-none lg:w-full ${className}`}
     >
-      <div className="absolute rounded-full blur-[40px] mix-blend-screen z-0 inset-[-15%] bg-portal-glow-outer" />
-      <div className="absolute inset-0 rounded-full blur-[20px] mix-blend-screen z-0 bg-portal-glow-inner" />
+      <div className="absolute rounded-full blur-[20px] md:blur-[40px] mix-blend-screen z-0 inset-[-15%] bg-portal-glow-outer" />
+      <div className="absolute inset-0 rounded-full blur-[10px] md:blur-[20px] mix-blend-screen z-0 bg-portal-glow-inner" />
       <video
         ref={videoRef}
         src="/Portal Animation.webm"
@@ -122,11 +122,11 @@ export function HeroSection() {
         {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             Ambient Particle System (Responsive Outer Edge bounds)
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-        <div className="order-0 absolute inset-0 pointer-events-none z-[0] lg:z-[-1] opacity-100">
+        <div className="order-0 absolute inset-0 pointer-events-none z-[0] lg:z-[-1] opacity-100" style={{ contain: 'layout' }}>
           {/* Purple Orb - Upper Left on Mobile / Mid Left (Close) on Desktop */}
           <motion.div
             className="absolute top-[20%] left-[10%] lg:top-[70%] lg:left-[10%] rounded-full bg-[#FFFFFF]"
-            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #A855F7, 0 0 30px 8px #A855F7" }}
+            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #A855F7, 0 0 30px 8px #A855F7", willChange: "transform" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, x: [0, 20, 0, -20, 0], y: [0, -15, 0, 15, 0] }}
             transition={{ opacity: { duration: 2, delay: 0.2 }, default: { duration: 25, repeat: Infinity, ease: "linear" } }}
@@ -134,7 +134,7 @@ export function HeroSection() {
           {/* Gold Orb - Upper Right on Mobile / Top Right on Desktop */}
           <motion.div
             className="absolute top-[18%] right-[10%] lg:top-[35%] lg:right-[10%] rounded-full bg-[#FFFFFF]"
-            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #EAB308, 0 0 30px 8px #EAB308" }}
+            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #EAB308, 0 0 30px 8px #EAB308", willChange: "transform" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, x: [0, -25, 0, 25, 0], y: [0, 20, 0, -20, 0] }}
             transition={{ opacity: { duration: 2, delay: 0.4 }, default: { duration: 28, repeat: Infinity, ease: "linear" } }}
@@ -142,7 +142,7 @@ export function HeroSection() {
           {/* Green Orb - Lower Left on Mobile / Bottom Right on Desktop */}
           <motion.div
             className="absolute bottom-[42%] left-[10%] lg:bottom-[20%] lg:left-auto lg:right-[15%] rounded-full bg-[#FFFFFF]"
-            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #22C55E, 0 0 30px 8px #22C55E" }}
+            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #22C55E, 0 0 30px 8px #22C55E", willChange: "transform" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, x: [0, 15, 0, -15, 0], y: [0, 25, 0, -25, 0] }}
             transition={{ opacity: { duration: 2, delay: 0.6 }, default: { duration: 30, repeat: Infinity, ease: "linear" } }}
@@ -150,7 +150,7 @@ export function HeroSection() {
           {/* Orange Orb - Lower Right on Mobile / Mid Left (Far) on Desktop */}
           <motion.div
             className="absolute bottom-[40%] right-[10%] lg:bottom-auto lg:top-[40%] lg:right-auto lg:left-[5%] rounded-full bg-[#FFFFFF]"
-            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #F97316, 0 0 30px 8px #F97316" }}
+            style={{ width: "4px", height: "4px", boxShadow: "0 0 15px 4px #F97316, 0 0 30px 8px #F97316", willChange: "transform" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, x: [0, -20, 0, 20, 0], y: [0, -20, 0, 20, 0] }}
             transition={{ opacity: { duration: 2, delay: 0.8 }, default: { duration: 26, repeat: Infinity, ease: "linear" } }}

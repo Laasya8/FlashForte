@@ -22,7 +22,7 @@ export function StarField() {
   ];
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-5]">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-5]" style={{ contain: 'strict' }}>
       {stableStars.map((star) => (
         <div
           key={star.id}
@@ -35,14 +35,16 @@ export function StarField() {
             borderRadius: "50%",
             background: "white",
             opacity: star.opacity,
-            animation: `pulse ${2 + star.id % 3}s infinite alternate`
+            willChange: "opacity",
+            animation: `starPulse ${2 + star.id % 3}s infinite alternate`,
+            contain: 'layout style'
           }}
         />
       ))}
       <style>{`
-        @keyframes pulse {
-          0% { opacity: 0.2; transform: scale(0.8); }
-          100% { opacity: 0.8; transform: scale(1.2); }
+        @keyframes starPulse {
+          0% { opacity: 0.2; }
+          100% { opacity: 0.8; }
         }
       `}</style>
     </div>

@@ -90,11 +90,11 @@ export function ChooseYourReality() {
                 {/* Hexagon Icon Container */}
                 <div className="relative shrink-0 flex items-center justify-center w-16 h-16 sm:w-24 sm:h-24">
                   {/* Hexagon SVG Background */}
-                  <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full drop-shadow-[0_0_15px_var(--event-color)] opacity-80 group-hover:opacity-100 transition-opacity duration-500">
-                    <polygon points="50 3 93 25 93 75 50 97 7 75 7 25" fill="none" stroke={event.color} strokeWidth="1" strokeDasharray="4 4" className="animate-[spin_20s_linear_infinite]" />
+                  <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                    <polygon points="50 3 93 25 93 75 50 97 7 75 7 25" fill="none" stroke={event.color} strokeWidth="1" strokeDasharray="4 4" className="animate-[spin_20s_linear_infinite]" style={{ willChange: 'transform', transformOrigin: '50px 50px' }} />
                     <polygon points="50 8 88 28 88 72 50 92 12 72 12 28" fill={`${event.color}10`} stroke={event.color} strokeWidth="1.5" />
                   </svg>
-                  <Icon color={event.color} className="relative z-10 drop-shadow-[0_0_8px_var(--event-color)] group-hover:scale-110 transition-transform duration-500 w-7 h-7 sm:w-8 sm:h-8" />
+                  <Icon color={event.color} className="relative z-10 group-hover:scale-110 transition-transform duration-500 w-7 h-7 sm:w-8 sm:h-8" />
                 </div>
 
                 <div className="flex flex-col text-left z-10 flex-1 justify-center">
