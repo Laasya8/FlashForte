@@ -117,36 +117,25 @@ const highlightData = [
 function MobileImageGallery({ activeEvent, onImageClick, onInteract }) {
   const carouselRef = useRef(null);
   const [activeImgIndex, setActiveImgIndex] = useState(0);
-  const scrollTimeoutRef = useRef(null);
-
-  useEffect(() => {
-    return () => {
-      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-    };
-  }, []);
 
   const handleScroll = () => {
     if (!carouselRef.current) return;
-
-    // Debounce: only update active index after scroll settles
-    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-    scrollTimeoutRef.current = setTimeout(() => {
-      if (!carouselRef.current) return;
-      const container = carouselRef.current;
-      const scrollCenter = container.scrollLeft + container.clientWidth / 2;
-      let closestIndex = 0;
-      let minDistance = Infinity;
-      const items = container.querySelectorAll('.gallery-carousel-item');
-      items.forEach((item, index) => {
-        const itemCenter = item.offsetLeft + item.clientWidth / 2;
-        const distance = Math.abs(scrollCenter - itemCenter);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestIndex = index;
-        }
-      });
-      if (closestIndex !== activeImgIndex) setActiveImgIndex(closestIndex);
-    }, 100);
+    const container = carouselRef.current;
+    const scrollCenter = container.scrollLeft + container.clientWidth / 2;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+    const items = container.querySelectorAll('.gallery-carousel-item');
+    items.forEach((item, index) => {
+      const itemCenter = item.offsetLeft + item.clientWidth / 2;
+      const distance = Math.abs(scrollCenter - itemCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = index;
+      }
+    });
+    if (closestIndex !== activeImgIndex) {
+      setActiveImgIndex(closestIndex);
+    }
   };
 
   return (
