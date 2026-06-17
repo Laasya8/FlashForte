@@ -1236,7 +1236,7 @@ export function DesignAThonPage() {
               >
                 <span className="flex items-center gap-1.5 text-white text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
                   <Calendar size={14} color="#F97316" />
-                  June 26–27, 2026
+                  June 30, 2026
                 </span>
                 <span
                   aria-hidden="true"
@@ -1244,7 +1244,7 @@ export function DesignAThonPage() {
                 />
                 <span className="flex items-center gap-1.5 text-white text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
                   <Clock size={14} color="#F97316" />
-                  9:00 AM – 4:00 PM
+                  9:00 AM - 1:00 PM
                 </span>
               </div>
             </motion.div>
