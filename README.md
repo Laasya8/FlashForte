@@ -36,6 +36,8 @@ Combines entertainment, strategy, and competition. Through interactive challenge
 * Tailwind CSS
 * Framer Motion
 * Vite
+* React Router
+* Lucide React
 * Vercel
 
 ## Getting Started
@@ -72,23 +74,26 @@ Build the application:
 npm run build
 ```
 
-Run the production build:
+To preview the production build locally:
 ```bash
-npm start
+npx vite preview
 ```
 
 ## Project Structure
 
 ```text
 FlashForte/
-├── app/            # Next.js app router and pages
-├── components/     # Reusable React components
-├── public/         # Static assets (images, fonts)
-├── styles/         # Global styles and Tailwind config
-├── lib/            # Utility functions and helpers
-├── hooks/          # Custom React hooks
-├── data/           # Static data and constants
-└── assets/         # Additional project assets
+├── public/           # Static public assets
+├── src/
+│   ├── app/          # App root, pages, and components
+│   │   ├── components/ # Reusable React components
+│   │   └── pages/      # Page components for routing
+│   ├── images/       # Image assets
+│   ├── styles/       # Global CSS styles
+│   └── main.jsx      # React entry point
+├── package.json      # Dependencies and scripts
+├── vite.config.js    # Vite configuration
+└── vercel.json       # Vercel deployment configuration
 ```
 
 ## Organization
