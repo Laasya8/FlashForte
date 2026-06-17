@@ -1508,7 +1508,7 @@ export function GameAThonPage() {
             >
               <span className="flex items-center gap-1.5 text-[#F8FAFC] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
                 <Calendar size={14} color="#A855F7" />
-                June 27, 2026
+                June 29, 2026
               </span>
               <span
                 aria-hidden="true"
@@ -1520,7 +1520,7 @@ export function GameAThonPage() {
               />
               <span className="flex items-center gap-1.5 text-[#FFFFFF] text-[12px] sm:text-[13px] font-semibold tracking-[0.01em]">
                 <Clock size={14} color="#A855F7" />
-                9:00 AM – 1:00 PM
+                2:00 PM – 5:00 PM
               </span>
             </div>
           </motion.div>
