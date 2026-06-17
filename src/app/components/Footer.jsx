@@ -17,9 +17,9 @@ export function Footer() {
       >
         {/* Branding */}
         <h2
-          className="font-orbitron text-[clamp(20px,3vw,32px)] font-black text-[#F8FAFC] tracking-[0.08em] uppercase text-glow m-0 leading-none text-center"
+          className="font-orbitron text-[clamp(20px,3vw,32px)] font-black text-[#F8FAFC] tracking-[0.08em] text-glow m-0 leading-none text-center"
         >
-          FLASHFORTE 2K26
+          FLASHFORTE 2k26
         </h2>
 
         {/* Subtext */}

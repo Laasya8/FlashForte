@@ -1331,7 +1331,7 @@ export function SpeakAThonPage() {
           </div>
         </section>
 
-        {/* SPEAKATHON 2K26 DETAILS */}
+        {/* SPEAKATHON 2k26 DETAILS */}
         <section className="w-full flex flex-col items-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.95 }}

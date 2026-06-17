@@ -1841,7 +1841,7 @@ export function GameAThonPage() {
               </h2>
 
               <p className="text-[#C8D3F5] text-[clamp(13px,1.8vw,17px)] leading-[1.7] max-w-[460px] mx-auto mb-8">
-                Seats are limited. The stage is live on FlashForte 2K26. Lock in
+                Seats are limited. The stage is live on FlashForte 2k26. Lock in
                 your spot and let the best gamer win.
               </p>
 

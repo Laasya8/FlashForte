@@ -41,7 +41,7 @@ export function ForteFormPage({ config, themeColor }) {
         {/* Branding Header */}
         <header className="neon-branding">
           <h1 className="neon-branding__logo">
-            FLASH<span className="neon-branding__accent">FORTE</span> 2K26
+            FLASH<span className="neon-branding__accent">FORTE</span> 2k26
           </h1>
         </header>
 

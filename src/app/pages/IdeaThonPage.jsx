@@ -10,7 +10,7 @@ import ideathon4 from "../../images/Ideathon/ideathon4.webp";
 import ideathon5 from "../../images/Ideathon/ideathon5.webp";
 
 /* ─────────────────────────────────────────────
-   IDEATHON PAGE — FlashForte 2K26
+   IDEATHON PAGE — FlashForte 2k26
    ───────────────────────────────────────────── */
 
 const DOMAINS = [
@@ -895,7 +895,7 @@ export function IdeaThonPage() {
                     Ready to <span style={{ color: "#f5c518" }}>Ideate?</span>
                   </h2>
                   <p style={{ color: "rgba(245,230,192,0.75)", fontSize: "clamp(0.95rem, 1.8vw, 1.05rem)", lineHeight: 1.75, maxWidth: 520, margin: "0 auto 2.5rem", fontFamily: "'Rajdhani', sans-serif", fontWeight: 400, letterSpacing: "0.02em", position: "relative", zIndex: 1 }}>
-                    Seats are limited. The stage is live on <strong style={{ color: "#edd067" }}>FlashForte 2K26</strong>. Lock in your idea and let the best innovator win.
+                    Seats are limited. The stage is live on <strong style={{ color: "#edd067" }}>FlashForte 2k26</strong>. Lock in your idea and let the best innovator win.
                   </p>
                   <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", position: "relative", zIndex: 1 }}>
                     <Link to="/ideathon/register" className="no-underline">
