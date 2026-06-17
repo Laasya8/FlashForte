@@ -55,7 +55,7 @@ export const designathonConfig = {
         label: "Select Domain",
         type: "select",
         required: true,
-        options: ["Domain 1", "Domain 2", "Domain 3", "Domain 4", "Domain 5"]
+        options: ["A World Through Different Eyes", "Mind Over Machine", "Borrowed Earth", "Digital Detox", "Gaming Beyond Entertainment"]
       }
     ],
     isAccepting: IS_ACCEPTING,
