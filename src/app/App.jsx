@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router";
 import { ScrollToTop } from "./components/ScrollToTop.jsx";
-import { LandingPage } from "./components/LandingPage.jsx";
+import { LandingPage } from "./pages/LandingPage.jsx";
 import { IdeaThonPage } from "./pages/IdeaThonPage.jsx";
 import { GameAThonPage } from "./pages/GameAThonPage.jsx";
 import { SpeakAThonPage } from "./pages/SpeakAThonPage.jsx";

@@ -1,11 +1,11 @@
-import { StarField } from "./StarField.jsx";
-import { HeroSection } from "./HeroSection.jsx";
-import { CursorTrail } from "./CursorTrail.jsx";
-import { ChooseYourReality } from "./ChooseYourReality.jsx";
-import { RealitiesArchive } from "./RealitiesArchive.jsx";
-import { PreviousYearHighlights } from "./PreviousYearHighlights.jsx";
-import { ScheduleCards } from "./ScheduleCards.jsx";
-import { Footer } from "./Footer.jsx";
+import { StarField } from "../components/StarField.jsx";
+import { HeroSection } from "../components/HeroSection.jsx";
+import { CursorTrail } from "../components/CursorTrail.jsx";
+import { ChooseYourReality } from "../components/ChooseYourReality.jsx";
+import { RealitiesArchive } from "../components/RealitiesArchive.jsx";
+import { PreviousYearHighlights } from "../components/PreviousYearHighlights.jsx";
+import { ScheduleCards } from "../components/ScheduleCards.jsx";
+import { Footer } from "../components/Footer.jsx";
 
 export function LandingPage() {
   return (
