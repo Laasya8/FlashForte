@@ -186,7 +186,7 @@ export function HeroSection() {
             className="text-transparent bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] animate-text-gradient"
             style={{ animationPlayState: entranceComplete ? 'running' : 'paused' }}
           >
-            2K26
+            2k26
           </motion.span>
 
           <div className="flex items-center gap-[6px]">
