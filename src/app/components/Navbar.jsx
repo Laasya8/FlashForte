@@ -29,10 +29,10 @@ const navbarVariants = {
 
 const NAV_LINKS = [
   { path: "/", label: "Home", color: "#4EBBFF" },
-  { path: "/ideathon", label: "IdeaThon", color: "#EAB308" },
-  { path: "/game-a-thon", label: "Game-A-Thon", color: "#A855F7" },
   { path: "/speak-a-thon", label: "Speak-A-Thon", color: "#22C55E" },
+  { path: "/game-a-thon", label: "Game-A-Thon", color: "#A855F7" },
   { path: "/design-a-thon", label: "Design-A-Thon", color: "#F97316" },
+  { path: "/ideathon", label: "IdeaThon", color: "#EAB308" },
 ];
 
 export function Navbar() {
@@ -129,10 +129,10 @@ export function Navbar() {
                   className="absolute right-0 top-full mt-2 w-48 py-2 rounded-xl border border-white/10 overflow-hidden shadow-2xl flex flex-col"
                   style={{ background: "linear-gradient(135deg, rgba(15,15,20,0.95), rgba(10,10,15,0.98))", backdropFilter: "blur(16px)" }}
                 >
-                  <Link to="/ideathon/register" className="px-4 py-2.5 text-[13px] font-semibold text-white/70 hover:text-[#EAB308] hover:bg-white/5 transition-colors no-underline">Ideathon</Link>
-                  <Link to="/design-a-thon/register" className="px-4 py-2.5 text-[13px] font-semibold text-white/70 hover:text-[#F97316] hover:bg-white/5 transition-colors no-underline">Design-A-Thon</Link>
                   <Link to="/speak-a-thon/register" className="px-4 py-2.5 text-[13px] font-semibold text-white/70 hover:text-[#22C55E] hover:bg-white/5 transition-colors no-underline">Speak-A-Thon</Link>
                   <Link to="/game-a-thon/register" className="px-4 py-2.5 text-[13px] font-semibold text-white/70 hover:text-[#A855F7] hover:bg-white/5 transition-colors no-underline">Game-A-Thon</Link>
+                  <Link to="/design-a-thon/register" className="px-4 py-2.5 text-[13px] font-semibold text-white/70 hover:text-[#F97316] hover:bg-white/5 transition-colors no-underline">Design-A-Thon</Link>
+                  <Link to="/ideathon/register" className="px-4 py-2.5 text-[13px] font-semibold text-white/70 hover:text-[#EAB308] hover:bg-white/5 transition-colors no-underline">Ideathon</Link>
                 </motion.div>
               )}
             </AnimatePresence>

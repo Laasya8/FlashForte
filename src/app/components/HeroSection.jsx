@@ -265,10 +265,10 @@ export function HeroSection() {
             <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
               <div className="flex flex-col text-right">
                 <span className="font-orbitron text-glow text-[#F8FAFC] text-[12px] sm:text-[14px] lg:text-[18px] font-black uppercase whitespace-nowrap tracking-[0.05em] leading-tight">
-                  June 26 – 27, 2026
+                  June 29 – 30, 2026
                 </span>
                 <span className="text-2k26-gradient text-[9px] sm:text-[11px] lg:text-[13px] font-semibold uppercase whitespace-nowrap tracking-[0.06em] leading-tight mt-[4px]">
-                  Friday & Saturday
+                  Monday & Tuesday
                 </span>
               </div>
               <div className="flex items-center justify-center w-7 h-7 sm:w-9 sm:h-9 lg:w-12 lg:h-12 rounded-full bg-gradient-to-br from-[#60A5FA]/20 to-[#22D3EE]/20 border border-[#22D3EE]/40 shrink-0">

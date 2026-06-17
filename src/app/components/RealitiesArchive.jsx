@@ -5,20 +5,20 @@ import { ImageModal } from "./ImageModal.jsx";
 
 const archivePosters = [
   {
-    id: "ideathon",
-    color: "#EAB308", // Gold
+    id: "speakathon",
+    color: "#22C55E", // Green
   },
   {
     id: "gameathon",
     color: "#A855F7", // Purple
   },
   {
-    id: "speakathon",
-    color: "#22C55E", // Green
-  },
-  {
     id: "designathon",
     color: "#F97316", // Orange
+  },
+  {
+    id: "ideathon",
+    color: "#EAB308", // Gold
   },
 ];
 
