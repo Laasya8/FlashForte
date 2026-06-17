@@ -32,9 +32,6 @@ export function ImageModal({ isOpen, onClose, children }) {
           className="fixed inset-0 z-[1000] flex items-center justify-center bg-[#050816]/95 backdrop-blur-md p-4"
           onClick={onClose}
         >
-          <div className="absolute top-8 left-0 w-full text-center text-[#94A3B8] text-[10px] sm:text-xs tracking-[0.2em] uppercase font-orbitron pointer-events-none z-[1001]">
-            Click anywhere outside to close
-          </div>
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

@@ -1,24 +1,32 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { ArrowRight, ArrowLeft, X } from "lucide-react";
 import { ImageModal } from "./ImageModal.jsx";
+import speakathonImg from "../../images/Posters/SPEAK-A-THON.webp";
+import gameathonImg from "../../images/Posters/GAME-A-THON.webp";
+import designathonImg from "../../images/Posters/DESIGN-A-THON.webp";
+import ideathonImg from "../../images/Posters/IDEATHON.webp";
 
 const archivePosters = [
   {
     id: "speakathon",
     color: "#22C55E", // Green
+    image: speakathonImg,
   },
   {
     id: "gameathon",
     color: "#A855F7", // Purple
+    image: gameathonImg,
   },
   {
     id: "designathon",
     color: "#F97316", // Orange
+    image: designathonImg,
   },
   {
     id: "ideathon",
     color: "#EAB308", // Gold
+    image: ideathonImg,
   },
 ];
 
@@ -111,15 +119,15 @@ export function RealitiesArchive() {
                 onClick={() => setZoomedImage(poster)}
                 className={`archive-carousel-item shrink-0 lg:w-[320px] aspect-[297/420] rounded-[20px] relative group cursor-pointer preserve-3d ${isMobile ? "snap-center w-[240px]" : "w-[280px]"}`}
               >
-                {/* Holographic Panel Background / Image Placeholder */}
+                {/* Poster Image Container */}
                 <div 
-                  className="absolute inset-0 rounded-[20px] glass-card overflow-hidden transition-all duration-500 lg:group-hover:scale-[1.02] lg:group-hover:-translate-y-2 flex items-center justify-center"
+                  className="absolute inset-0 rounded-[20px] glass-card overflow-hidden transition-all duration-500 lg:group-hover:scale-[1.02] lg:group-hover:-translate-y-2 flex items-center justify-center bg-[#050816]"
                   style={{
                     borderColor: `${poster.color}40`,
                     boxShadow: `0 10px 40px -10px ${poster.color}30, inset 0 0 20px ${poster.color}10`,
                   }}
                 >
-                  <span className="text-[#94A3B8]/40 font-orbitron text-sm tracking-widest uppercase">Poster Image</span>
+                  <img src={poster.image} alt={`${poster.id} poster`} className="w-full h-full object-cover" />
                   {/* Glowing Overlay */}
                   <div 
                     className="absolute inset-0 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
@@ -136,20 +144,29 @@ export function RealitiesArchive() {
 
       <ImageModal isOpen={!!zoomedImage} onClose={() => setZoomedImage(null)}>
         {zoomedImage && (
-          <div 
-            className="w-full max-w-[400px] aspect-[297/420] rounded-[20px] glass-card overflow-hidden flex items-center justify-center relative"
-            style={{
-              borderColor: `${zoomedImage.color}40`,
-              boxShadow: `0 10px 40px -10px ${zoomedImage.color}30, inset 0 0 20px ${zoomedImage.color}10`,
-            }}
-          >
-            <span className="text-[#94A3B8]/40 font-orbitron text-lg tracking-widest uppercase">Poster Image</span>
+          <div className="relative w-full max-w-[400px]">
+            <button
+              onClick={() => setZoomedImage(null)}
+              className="absolute -top-12 right-0 z-50 text-white/70 hover:text-white bg-[#050816]/50 hover:bg-[#050816]/80 rounded-full p-2 transition-all backdrop-blur-sm cursor-pointer"
+              aria-label="Close zoomed image"
+            >
+              <X size={24} />
+            </button>
             <div 
-              className="absolute inset-0 pointer-events-none"
+              className="w-full aspect-[297/420] rounded-[20px] glass-card overflow-hidden flex items-center justify-center relative bg-[#050816]"
               style={{
-                background: `linear-gradient(180deg, transparent 0%, ${zoomedImage.color}20 100%)`
+                borderColor: `${zoomedImage.color}40`,
+                boxShadow: `0 10px 40px -10px ${zoomedImage.color}30, inset 0 0 20px ${zoomedImage.color}10`,
               }}
-            />
+            >
+              <img src={zoomedImage.image} alt={`${zoomedImage.id} poster`} className="w-full h-full object-cover" />
+              <div 
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: `linear-gradient(180deg, transparent 0%, ${zoomedImage.color}20 100%)`
+                }}
+              />
+            </div>
           </div>
         )}
       </ImageModal>

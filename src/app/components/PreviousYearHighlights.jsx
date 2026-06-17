@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { CheckCircle2, Trophy, Lightbulb, Gamepad2, Palette, Mic, ChevronRight, ArrowRight, ArrowLeft } from "lucide-react";
+import { CheckCircle2, Trophy, Lightbulb, Gamepad2, Palette, Mic, ChevronRight, ArrowRight, ArrowLeft, X } from "lucide-react";
 import { ImageModal } from "./ImageModal.jsx";
 
 import ideathon1 from "../../images/Ideathon/ideathon1.webp";
@@ -432,15 +432,24 @@ export function PreviousYearHighlights() {
       
       <ImageModal isOpen={!!zoomedImage} onClose={() => setZoomedImage(null)}>
         {zoomedImage && (
-          <div className="w-full max-w-[800px] aspect-video rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden glass-card">
-             {zoomedImage.event.images && zoomedImage.event.images[zoomedImage.index] ? (
-               <img src={zoomedImage.event.images[zoomedImage.index]} alt="Zoomed highlight" className="w-full h-full object-cover" />
-             ) : (
-               <div className="absolute inset-0 flex items-center justify-center opacity-40">
-                  <zoomedImage.event.icon size={80} color={zoomedImage.event.color} />
-               </div>
-             )}
-             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+          <div className="relative w-full max-w-[800px]">
+            <button
+              onClick={() => setZoomedImage(null)}
+              className="absolute -top-12 right-0 z-50 text-white/70 hover:text-white bg-[#050816]/50 hover:bg-[#050816]/80 rounded-full p-2 transition-all backdrop-blur-sm cursor-pointer"
+              aria-label="Close zoomed image"
+            >
+              <X size={24} />
+            </button>
+            <div className="w-full aspect-video rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden glass-card">
+               {zoomedImage.event.images && zoomedImage.event.images[zoomedImage.index] ? (
+                 <img src={zoomedImage.event.images[zoomedImage.index]} alt="Zoomed highlight" className="w-full h-full object-cover" />
+               ) : (
+                 <div className="absolute inset-0 flex items-center justify-center opacity-40">
+                    <zoomedImage.event.icon size={80} color={zoomedImage.event.color} />
+                 </div>
+               )}
+               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+            </div>
           </div>
         )}
       </ImageModal>
