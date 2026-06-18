@@ -124,17 +124,10 @@ export function RealitiesArchive() {
                   className="absolute inset-0 rounded-[20px] glass-card overflow-hidden transition-all duration-500 lg:group-hover:scale-[1.02] lg:group-hover:-translate-y-2 flex items-center justify-center bg-[#050816]"
                   style={{
                     borderColor: `${poster.color}40`,
-                    boxShadow: `0 10px 40px -10px ${poster.color}30, inset 0 0 20px ${poster.color}10`,
+                    boxShadow: `0 10px 40px -10px ${poster.color}30`,
                   }}
                 >
                   <img src={poster.image} alt={`${poster.id} poster`} className="w-full h-full object-cover" />
-                  {/* Glowing Overlay */}
-                  <div 
-                    className="absolute inset-0 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                    style={{
-                      background: `linear-gradient(180deg, transparent 0%, ${poster.color}20 100%)`
-                    }}
-                  />
                 </div>
               </motion.div>
             );
@@ -156,16 +149,10 @@ export function RealitiesArchive() {
               className="w-full aspect-[297/420] rounded-[20px] glass-card overflow-hidden flex items-center justify-center relative bg-[#050816]"
               style={{
                 borderColor: `${zoomedImage.color}40`,
-                boxShadow: `0 10px 40px -10px ${zoomedImage.color}30, inset 0 0 20px ${zoomedImage.color}10`,
+                boxShadow: `0 10px 40px -10px ${zoomedImage.color}30`,
               }}
             >
               <img src={zoomedImage.image} alt={`${zoomedImage.id} poster`} className="w-full h-full object-cover" />
-              <div 
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: `linear-gradient(180deg, transparent 0%, ${zoomedImage.color}20 100%)`
-                }}
-              />
             </div>
           </div>
         )}
