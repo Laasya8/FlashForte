@@ -79,7 +79,7 @@ export const FileUpload = memo(function FileUpload({ file, setFile, acceptedType
 
   return (
     <div className="reg-field">
-      <label className="reg-label">Project Upload (Optional)</label>
+      <label className="reg-label">File Upload</label>
       <div
         className={`reg-dropzone ${isDragOver ? "reg-dropzone--active" : ""} ${file ? "reg-dropzone--has-file" : ""} ${isSubmitting ? "reg-dropzone--disabled" : ""}`}
         onDragOver={onDragOver}
