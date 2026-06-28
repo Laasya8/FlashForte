@@ -262,15 +262,20 @@ export function CustomForm({
           </motion.div>
         ) : (
           <motion.form key="form" className="neon-form" onSubmit={handleSubmit} variants={formContentVariants} initial="visible" exit="exit" autoComplete="off">
-            {fields.map((field) => (
-              <FieldRenderer
-                key={field.name}
-                field={field}
-                value={formData[field.name]}
-                onChange={handleFieldChange}
-                disabled={status === "loading"}
-              />
-            ))}
+            {fields.map((field) => {
+              if (field.condition && formData[field.condition.field] !== field.condition.value) {
+                return null;
+              }
+              return (
+                <FieldRenderer
+                  key={field.name}
+                  field={field}
+                  value={formData[field.name]}
+                  onChange={handleFieldChange}
+                  disabled={status === "loading"}
+                />
+              );
+            })}
 
             {allowFileUpload && (
               <FileUpload

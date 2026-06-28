@@ -82,7 +82,154 @@ export const ideathonConfig = {
     successTitle: "Feedback Received.",
     successSubtitle: "Thank you for sharing your thoughts.",
     allowFileUpload: false,
-    fields: FEEDBACK_FIELDS,
+    fields: [
+      {
+        name: "timeAllotted",
+        label: "1. How would you rate the time allotted for presenting your idea to the judges/mentors?",
+        type: "select",
+        required: true,
+        options: [
+          "⭐⭐⭐⭐⭐ Excellent",
+          "⭐⭐⭐⭐ Good",
+          "⭐⭐⭐ Average",
+          "⭐⭐ Needs Improvement",
+          "⭐ Poor"
+        ]
+      },
+      {
+        name: "durationAppropriate",
+        label: "2. Was the duration of the ideathon appropriate for completing your tasks?",
+        type: "select",
+        required: true,
+        options: [
+          "Strongly Agree",
+          "Agree",
+          "Neutral",
+          "Disagree",
+          "Strongly Disagree"
+        ]
+      },
+      {
+        name: "usefulness",
+        label: "3. How useful was this ideathon for your learning and overall experience?",
+        type: "select",
+        required: true,
+        options: [
+          "Extremely Useful",
+          "Very Useful",
+          "Moderately Useful",
+          "Slightly Useful",
+          "Not Useful"
+        ]
+      },
+      {
+        name: "feedbackSatisfaction",
+        label: "4. How satisfied are you with the feedback provided by the judges/mentors?",
+        type: "select",
+        required: true,
+        options: [
+          "Very Satisfied",
+          "Satisfied",
+          "Neutral",
+          "Dissatisfied",
+          "Very Dissatisfied"
+        ]
+      },
+      {
+        name: "overallExperience",
+        label: "5. How would you rate your overall experience at FlashForte 2K26 – Ideathon?",
+        type: "select",
+        required: true,
+        options: [
+          "⭐⭐⭐⭐⭐ Excellent",
+          "⭐⭐⭐⭐ Good",
+          "⭐⭐⭐ Average",
+          "⭐⭐ Fair",
+          "⭐ Poor"
+        ]
+      },
+      {
+        name: "futureEvents",
+        label: "6. Which types of events would you like CSI to organize in the future?",
+        type: "text",
+        required: true,
+        placeholder: "e.g., Hackathons, Workshops, etc."
+      },
+      {
+        name: "improvements",
+        label: "7. What improvements would you suggest for future ideathons?",
+        type: "textarea",
+        required: false,
+        placeholder: "Share any suggestions regarding event structure, judging, timelines, communication, platform, etc."
+      },
+      {
+        name: "favoritePart",
+        label: "8. What was your favorite part of the event?",
+        type: "text",
+        required: false,
+        placeholder: "Tell us what you enjoyed the most."
+      },
+      {
+        name: "recommendFriends",
+        label: "9. Would you recommend this event to your friends?",
+        type: "select",
+        required: true,
+        options: [
+          "Definitely",
+          "Probably",
+          "Not Sure",
+          "Probably Not",
+          "Definitely Not"
+        ]
+      },
+      {
+        name: "futureCsiEvents",
+        label: "10. Are you interested in participating in future CSI events?",
+        type: "select",
+        required: true,
+        options: [
+          "Yes",
+          "Maybe",
+          "No"
+        ]
+      },
+      {
+        name: "csiMembership",
+        label: "11. CSI Membership Interest",
+        type: "select",
+        required: true,
+        description: "CSI members get exclusive access to: Industry exposure, Technical workshops, Hackathons, Mentorship and guidance, Leadership and volunteering opportunities, Event organizing experience, Networking with peers and professionals.\n\nWould you be interested in joining CSI?",
+        options: [
+          "Yes",
+          "Maybe",
+          "No"
+        ]
+      },
+      {
+        name: "csiFullName",
+        label: "Full Name",
+        type: "text",
+        required: false,
+        condition: { field: "csiMembership", value: "Yes" },
+        placeholder: "Enter your full name"
+      },
+      {
+        name: "csiBranchYear",
+        label: "Branch & Year",
+        type: "text",
+        required: false,
+        condition: { field: "csiMembership", value: "Yes" },
+        placeholder: "e.g. CSE 2nd Year"
+      },
+      {
+        name: "csiContactNumber",
+        label: "Contact Number",
+        type: "text",
+        required: false,
+        condition: { field: "csiMembership", value: "Yes" },
+        placeholder: "Enter your contact number"
+      }
+    ],
     get isAccepting() { return checkDeadline(DEADLINES.feedback); },
   }
 };

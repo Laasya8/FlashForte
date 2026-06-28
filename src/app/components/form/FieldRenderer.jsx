@@ -66,6 +66,34 @@ export const FieldRenderer = memo(function FieldRenderer({ field, value, onChang
       );
     }
 
+    if (field.type === "checkbox-group") {
+      const selectedValues = Array.isArray(value) ? value : [];
+      return (
+        <div className="flex flex-col gap-3 py-2 px-1">
+          {field.options?.map((opt, i) => (
+            <label key={i} className="flex items-start gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                name={field.name}
+                value={opt}
+                checked={selectedValues.includes(opt)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    onChange(field.name, [...selectedValues, opt]);
+                  } else {
+                    onChange(field.name, selectedValues.filter((v) => v !== opt));
+                  }
+                }}
+                disabled={disabled}
+                className="mt-1 w-4 h-4 rounded border-white/20 bg-black/40 text-current focus:ring-1 focus:ring-current focus:ring-offset-0 focus:ring-offset-transparent cursor-pointer"
+              />
+              <span className="text-sm text-white/80 group-hover:text-white transition-colors leading-snug">{opt}</span>
+            </label>
+          ))}
+        </div>
+      );
+    }
+
     return <input type={field.type || "text"} {...commonProps} />;
   };
 
@@ -74,8 +102,13 @@ export const FieldRenderer = memo(function FieldRenderer({ field, value, onChang
       <label htmlFor={commonProps.id} className="neon-label">
         {field.label}
       </label>
-      <div className={`neon-field-wrapper ${field.type === "textarea" ? "neon-field-wrapper--textarea" : ""}`}>
-        {IconComponent && (
+      {field.description && (
+        <p className="text-white/60 text-[13px] mt-1 mb-2 whitespace-pre-line leading-relaxed">
+          {field.description}
+        </p>
+      )}
+      <div className={`neon-field-wrapper ${field.type === "textarea" ? "neon-field-wrapper--textarea" : ""} ${field.type === "checkbox-group" ? "!bg-transparent !border-none !p-0" : ""}`}>
+        {IconComponent && field.type !== "checkbox-group" && (
           <IconComponent
             size={18}
             className="neon-field-icon"
