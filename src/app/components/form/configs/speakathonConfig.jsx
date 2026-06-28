@@ -31,6 +31,7 @@ export const speakathonConfig = {
   themeColor: "#22C55E",
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
+    closedTitle: "Registration Closed",
     titleNode: () => <>{titleNode()} Registration</>,
     subtitle: "Where confidence finds its voice.",
     submitText: "Register Now",

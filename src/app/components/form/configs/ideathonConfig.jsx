@@ -27,6 +27,7 @@ export const ideathonConfig = {
   themeColor: "#EAB308",
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
+    closedTitle: "Registration Closed",
     titleNode: () => <>{titleNode()} Registration</>,
     subtitle: "Think. Ideate. Pitch.",
     submitText: "Register Now",

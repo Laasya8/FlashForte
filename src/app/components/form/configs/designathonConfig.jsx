@@ -34,6 +34,7 @@ export const designathonConfig = {
   themeColor: "#F97316",
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
+    closedTitle: "Registration Closed",
     titleNode: () => <>{titleNode()} Registration</>,
     subtitle: "Design. Create. Elevate.",
     submitText: "Register Now",

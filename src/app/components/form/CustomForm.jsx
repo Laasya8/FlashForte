@@ -65,6 +65,7 @@ export function CustomForm({
   showOtherEventsOnSuccess = false,
   forteId = "",
   infoText = "",
+  closedTitle = "Submission closed",
 }) {
   const [formData, setFormData] = useState({});
 
@@ -197,7 +198,7 @@ export function CustomForm({
               <span style={{ fontSize: '24px' }}>✨</span>
             </div>
             <h3 className="neon-closed__title">
-              Submissions Closed
+              {closedTitle}
             </h3>
             <p className="neon-closed__text">
               We are currently not accepting responses for this form. <br />

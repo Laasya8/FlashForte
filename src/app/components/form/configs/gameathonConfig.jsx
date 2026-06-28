@@ -25,6 +25,7 @@ export const gameathonConfig = {
   themeColor: "#A855F7",
   register: {
     appScriptUrl: APP_SCRIPT_REGISTER,
+    closedTitle: "Registration Closed",
     titleNode: () => <>{titleNode()} Registration</>,
     subtitle: "Where Screens Turn Into Arenas.",
     submitText: "Register Now",
