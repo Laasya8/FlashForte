@@ -13,7 +13,7 @@ const checkDeadline = (deadlineStr) => {
 // Leave empty to accept indefinitely.
 const DEADLINES = {
   register: "2026-06-27T23:59:59+05:30",
-  submit: "2026-06-27T23:59:59+05:30",
+  submit: "2026-06-28T23:59:59+05:30",
   feedback: ""
 };
 
