@@ -1,7 +1,7 @@
 import { REGISTRATION_FIELDS } from "./commonFields.js";
 
 const APP_SCRIPT_REGISTER = "https://script.google.com/macros/s/AKfycbyxzRq8MUpd7vjoBFGuSF3t_jcHC6Tqsl0T-RBcKdUzDIKjZFEdKwexe6omGP4C7DT63A/exec"
-const APP_SCRIPT_FEEDBACK = "https://script.google.com/macros/s/AKfycbw5UAvau86THf7T_kOS-iNw0LOv6ZYsuPiyrYX8nmizUyZoljp3IdQW7lXmL8aTN24/exec";
+const APP_SCRIPT_FEEDBACK = "https://script.google.com/macros/s/AKfycbyjl1vXgV642A3fmK_WSeAU126tdBYnCZsYg2EIOLgoYAHG2GiZ9l2Ls2J8E4xoUhSW/exec";
 
 const checkDeadline = (deadlineStr) => {
   if (!deadlineStr) return true;
@@ -54,20 +54,6 @@ export const speakathonConfig = {
     allowFileUpload: false,
 
     fields: [
-      {
-        name: "name",
-        label: "Name (Optional)",
-        type: "text",
-        required: false,
-        placeholder: "Enter your name"
-      },
-      {
-        name: "email",
-        label: "Email (Optional)",
-        type: "email",
-        required: false,
-        placeholder: "Enter your email"
-      },
       {
         name: "overallRating",
         label: "1. How would you rate your overall Speakathon experience?",
@@ -206,6 +192,14 @@ export const speakathonConfig = {
         ]
       },
       {
+        name: "csiName",
+        label: "Full Name",
+        type: "text",
+        required: false,
+        condition: { field: "csiMembership", value: "Yes" },
+        placeholder: "Enter your full name"
+      },
+      {
         name: "csiBranchYear",
         label: "Branch & Year",
         type: "text",
@@ -220,16 +214,11 @@ export const speakathonConfig = {
         required: false,
         condition: { field: "csiMembership", value: "Yes" },
         placeholder: "Enter your contact number"
-      },
-      {
-        name: "additionalComments",
-        label: "14. Any additional comments or suggestions?",
-        type: "textarea",
-        required: false,
-        placeholder: "Anything else you'd like to share?"
       }
     ],
 
-    get isAccepting() { return checkDeadline(DEADLINES.feedback); },
+    get isAccepting() {
+      return checkDeadline(DEADLINES.feedback);
+    },
   }
 };
