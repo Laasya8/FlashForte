@@ -11,7 +11,7 @@ const checkDeadline = (deadlineStr) => {
 // Set your deadlines here (ISO format, e.g., "2026-06-25T23:59:59+05:30"). 
 // Leave empty to accept indefinitely.
 const DEADLINES = {
-  register: "2026-06-28T20:00:00+05:30",
+  register: "2026-06-28T20:15:00+05:30",
   feedback: ""
 };
 
