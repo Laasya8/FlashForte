@@ -85,7 +85,7 @@ export const ideathonConfig = {
     fields: [
       {
         name: "timeAllotted",
-        label: "1. How would you rate the time allotted for presenting your idea to the judges/mentors?",
+        label: "1. How would you rate the time allotted for presenting your idea to the judges?",
         type: "select",
         required: true,
         options: [
@@ -98,7 +98,7 @@ export const ideathonConfig = {
       },
       {
         name: "durationAppropriate",
-        label: "2. Was the duration of the ideathon appropriate for completing your tasks?",
+        label: "2. Was the duration of the ideathon appropriate?",
         type: "select",
         required: true,
         options: [
@@ -124,7 +124,7 @@ export const ideathonConfig = {
       },
       {
         name: "feedbackSatisfaction",
-        label: "4. How satisfied are you with the feedback provided by the judges/mentors?",
+        label: "4. How satisfied are you with the feedback provided by the judges?",
         type: "select",
         required: true,
         options: [
@@ -137,7 +137,7 @@ export const ideathonConfig = {
       },
       {
         name: "overallExperience",
-        label: "5. How would you rate your overall experience at FlashForte 2K26 – Ideathon?",
+        label: "5. How would you rate your overall experience at FlashForte 2k26 – Ideathon?",
         type: "select",
         required: true,
         options: [
