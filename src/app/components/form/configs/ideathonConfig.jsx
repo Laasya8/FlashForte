@@ -225,7 +225,8 @@ export const ideathonConfig = {
         type: "text",
         required: false,
         condition: { field: "csiMembership", value: "Yes" },
-        placeholder: "Enter your contact number"
+        placeholder: "Enter your contact number",
+        pattern: "^[0-9]{10}$"
       }
     ],
     get isAccepting() { return checkDeadline(DEADLINES.feedback); },
