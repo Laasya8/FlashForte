@@ -2,7 +2,7 @@ import { REGISTRATION_FIELDS, SUBMISSION_FIELDS, FEEDBACK_FIELDS } from "./commo
 
 const APP_SCRIPT_REGISTER = "https://script.google.com/macros/s/AKfycbyQzqL2dVc5IrtM7UCFzrVy2gMOBVX68e1lpQVk_5QW53yERAvhObQetGYDiHTmhRAU/exec";
 const APP_SCRIPT_SUBMIT = "https://script.google.com/macros/s/AKfycbxVb2MJMOpjQ-Cc_y7h2CK1dE0U39bCQk9El7xgKap_Eoo9T2y0LUPdrJmmWTvtN6A/exec";
-const APP_SCRIPT_FEEDBACK = "URL_PLACEHOLDER_DESIGNATHON_FEEDBACK";
+const APP_SCRIPT_FEEDBACK = "https://script.google.com/macros/s/AKfycbwp7Tu-yASF5cp3h4tIQC6d-eOdA3KDX8vvTdNw2ZRw70hjAALpcWpCQt51Fq-qDndbYw/exec";
 
 const checkDeadline = (deadlineStr) => {
   if (!deadlineStr) return true;
@@ -80,7 +80,85 @@ export const designathonConfig = {
     successTitle: "Feedback Received.",
     successSubtitle: "Thank you for sharing your thoughts.",
     allowFileUpload: false,
-    fields: FEEDBACK_FIELDS,
+    fields: [
+  {
+    name: "overallExperience",
+    label: "1. How would you rate your overall experience at Design-A-Thon?",
+    type: "select",
+    required: true,
+    options: [
+      "⭐⭐⭐⭐⭐ Excellent",
+      "⭐⭐⭐⭐ Good",
+      "⭐⭐⭐ Average",
+      "⭐⭐ Fair",
+      "⭐ Poor"
+    ]
+  },
+  {
+    name: "posterThemes",
+    label: "2. How inspiring and relevant were the poster themes?",
+    type: "select",
+    required: true,
+    options: [
+      "⭐⭐⭐⭐⭐ Excellent",
+      "⭐⭐⭐⭐ Good",
+      "⭐⭐⭐ Average",
+      "⭐⭐ Fair",
+      "⭐ Poor"
+    ]
+  },
+  {
+    name: "anyDifficulties",
+    label: "3. Did you encounter any difficulties during the event or submission process?",
+    type: "select",
+    required: true,
+    options: [
+      "Yes",
+      "No"
+    ]
+  },
+  {
+    name: "issue",
+    label: "4. If yes, please describe the issue you faced.",
+    type: "text",
+    required: false,
+    placeholder: "Describe the issue (leave blank if not applicable)"
+  },
+  {
+    name: "managementSupport",
+    label: "5. How satisfied were you with the event management and support provided by the organizers?",
+    type: "select",
+    required: true,
+    options: [
+      "⭐⭐⭐⭐⭐ Excellent",
+      "⭐⭐⭐⭐ Good",
+      "⭐⭐⭐ Average",
+      "⭐⭐ Fair",
+      "⭐ Poor"
+    ]
+  },
+  {
+    name: "highlight",
+    label: "6. What was the highlight of Design-A-Thon for you?",
+    type: "text",
+    required: true,
+    placeholder: "Share your favorite part of the event"
+  },
+  {
+    name: "suggestions",
+    label: "7. What suggestions do you have for improving future editions of Design-A-Thon?",
+    type: "textarea",
+    required: true,
+    placeholder: "Your suggestions are valuable to us"
+  },
+  {
+    name: "otherEvents",
+    label: "8. What other creative, technical, or fun events would you like CSI to organize?",
+    type: "textarea",
+    required: true,
+    placeholder: "Hackathons, UI/UX Workshops, Coding Contests, Gaming Events, etc."
+  }
+],
     get isAccepting() { return checkDeadline(DEADLINES.feedback); },
   }
 };
