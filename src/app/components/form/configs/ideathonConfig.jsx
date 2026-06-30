@@ -14,7 +14,7 @@ const checkDeadline = (deadlineStr) => {
 const DEADLINES = {
   register: "2026-06-27T23:59:59+05:30",
   submit: "2026-06-27T23:59:59+05:30",
-  feedback: ""
+  feedback: "2026-06-30T21:00:00+05:30",
 };
 
 const titleNode = () => (
