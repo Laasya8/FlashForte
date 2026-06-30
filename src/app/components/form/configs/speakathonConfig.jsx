@@ -12,7 +12,7 @@ const checkDeadline = (deadlineStr) => {
 // Leave empty to accept indefinitely.
 const DEADLINES = {
   register: "2026-06-28T20:15:00+05:30",
-  feedback: ""
+  feedback: "2026-06-30T22:00:00+05:30"
 };
 
 const titleNode = () => (
